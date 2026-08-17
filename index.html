@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EXAMOS AI</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f2f5f8;
+    color:#17202a;
+}
+
+.app{
+    max-width:430px;
+    min-height:100vh;
+    margin:auto;
+    background:white;
+}
+
+.header{
+    background:#174b7a;
+    color:white;
+    padding:20px;
+}
+
+.logo{
+    font-size:30px;
+    font-weight:bold;
+}
+
+.tagline{
+    font-size:14px;
+    margin-top:5px;
+}
+
+.page{
+    padding:18px;
+}
+
+.hide{
+    display:none !important;
+}
+
+.center{
+    text-align:center;
+}
+
+.card{
+    background:white;
+    border:1px solid #ddd;
+    border-radius:14px;
+    padding:17px;
+    margin:14px 0;
+}
+
+.mainBtn{
+    width:100%;
+    padding:15px;
+    border:0;
+    border-radius:10px;
+    background:#1769aa;
+    color:white;
+    font-size:17px;
+    font-weight:bold;
+    margin-top:12px;
+}
+
+.mainBtn:disabled{
+    background:#aeb8c2;
+}
+
+.backBtn{
+    border:0;
+    background:white;
+    color:#1769aa;
+    font-size:16px;
+    padding:5px 0;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.choice{
+    padding:17px 8px;
+    border:2px solid #ddd;
+    border-radius:12px;
+    background:white;
+    font-size:16px;
+    font-weight:bold;
+}
+
+.badge{
+    display:inline-block;
+    background:#e8f3ff;
+    color:#1769aa;
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:13px;
+    margin:3px;
+}
+
+.icon{
+    font-size:48px;
+}
+
+.dashboardCard{
+    background:#f5f8fb;
+    border-radius:14px;
+    padding:17px;
+    margin:13px 0;
+}
+
+.feature{
+    padding:11px 0;
+    border-bottom:1px solid #eee;
+}
+
+.progressBg{
+    height:8px;
+    background:#ddd;
+    border-radius:10px;
+    margin:15px 0;
+}
+
+.progress{
+    height:8px;
+    background:#1769aa;
+    border-radius:10px;
+    width:0%;
+}
+
+.option{
+    display:block;
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:14px;
+    margin:10px 0;
+}
+
+.option input{
+    margin-right:8px;
+}
+
+.score{
+    font-size:44px;
+    font-weight:bold;
+    text-align:center;
+    color:#1769aa;
+}
+
+.topicBox{
+    background:#f5f8fb;
+    padding:13px;
+    border-radius:10px;
+    margin:9px 0;
+}
+
+.correct{
+    color:green;
+    font-weight:bold;
+}
+
+.wrong{
+    color:red;
+    font-weight:bold;
+}
+
+.average{
+    color:#d88900;
+    font-weight:bold;
+}
+
+.questionBox{
+    background:#f5f8fb;
+    padding:16px;
+    border-radius:10px;
+    line-height:1.6;
+}
+
+.uploadBox{
+    border:2px dashed #1769aa;
+    border-radius:14px;
+    padding:25px 15px;
+    text-align:center;
+    background:#f7fbff;
+    margin-top:15px;
+}
+
+.uploadIcon{
+    font-size:48px;
+}
+
+#solutionPhoto{
+    display:none;
+}
+
+.preview{
+    width:100%;
+    max-height:350px;
+    object-fit:contain;
+    border-radius:10px;
+    margin-top:15px;
+    display:none;
+    border:1px solid #ddd;
+}
+
+.loading{
+    text-align:center;
+    padding:25px;
+}
+
+.spinner{
+    width:42px;
+    height:42px;
+    border:5px solid #ddd;
+    border-top:5px solid #1769aa;
+    border-radius:50%;
+    margin:auto;
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+.resultBox{
+    padding:15px;
+    border-radius:10px;
+    margin-top:12px;
+}
+
+.errorBox{
+    background:#fff0f0;
+    border-left:5px solid red;
+}
+
+.infoBox{
+    background:#f5f8fb;
+    border-left:5px solid #1769aa;
+}
+
+.correctBox{
+    background:#eaf8ee;
+    border-left:5px solid green;
+}
+
+.tipBox{
+    background:#fff7df;
+    border:1px solid #efd37b;
+    padding:14px;
+    border-radius:10px;
+    margin-top:12px;
+}
+
+.smallNote{
+    font-size:13px;
+    color:#666;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- HEADER -->
+
+<div class="header">
+    <div class="logo">EXAMOS</div>
+    <div class="tagline">AI-Powered Personal Learning</div>
+</div>
+
+
+<!-- HOME -->
+
+<div id="home" class="page">
+
+    <div class="center">
+
+        <div class="icon">🎯</div>
+
+        <h1>Learn Smarter With EXAMOS</h1>
+
+        <p>
+            अपनी कमजोरी पहचानें, गलती समझें
+            और targeted practice करें।
+        </p>
+
+    </div>
+
+    <div class="card">
+
+        <h3>EXAMOS में क्या मिलेगा?</h3>
+
+        <div class="feature">🧠 Mistake Analysis</div>
+        <div class="feature">📷 Solution Photo Analysis</div>
+        <div class="feature">🎯 Weak Topic Detection</div>
+        <div class="feature">📝 Personalized Practice</div>
+        <div class="feature">📊 Progress Tracking</div>
+
+    </div>
+
+    <button class="mainBtn" id="startBtn">
+        Start Learning
+    </button>
+
+</div>
+
+
+<!-- CLASS -->
+
+<div id="classPage" class="page hide">
+
+    <button class="backBtn" id="classBack">
+        ← Back
+    </button>
+
+    <h2>Select Your Class</h2>
+
+    <div class="grid">
+
+        <button class="choice classBtn" data-class="9">
+            Class 9
+        </button>
+
+        <button class="choice classBtn" data-class="10">
+            Class 10
+        </button>
+
+        <button class="choice classBtn" data-class="11">
+            Class 11
+        </button>
+
+        <button class="choice classBtn" data-class="12">
+            Class 12
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- SUBJECT -->
+
+<div id="subjectPage" class="page hide">
+
+    <button class="backBtn" id="subjectBack">
+        ← Back
+    </button>
+
+    <h2>Select Subject</h2>
+
+    <p id="classText"></p>
+
+    <div class="grid">
+
+        <button class="choice subjectBtn" data-subject="Mathematics">
+            📐 Mathematics
+        </button>
+
+        <button class="choice subjectBtn" data-subject="Physics">
+            ⚡ Physics
+        </button>
+
+        <button class="choice subjectBtn" data-subject="Chemistry">
+            🧪 Chemistry
+        </button>
+
+        <button class="choice subjectBtn" data-subject="English">
+            📖 English
+        </button>
+
+        <button class="choice subjectBtn" data-subject="Hindi">
+            📚 Hindi
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- DASHBOARD -->
+
+<div id="dashboard" class="page hide">
+
+    <div class="center">
+
+        <div class="icon">🚀</div>
+
+        <h2>EXAMOS Dashboard</h2>
+
+        <div id="studentInfo"></div>
+
+    </div>
+
+
+    <div class="dashboardCard">
+
+        <h3>🎯 Diagnostic Test</h3>
+
+        <p>
+            अपनी understanding check करें
+            और weak topics खोजें।
+        </p>
+
+        <button class="mainBtn" id="diagnosticBtn">
+            Start Diagnostic Test
+        </button>
+
+    </div>
+
+
+    <div class="dashboardCard">
+
+        <h3>🧠 AI Mistake Analysis</h3>
+
+        <p>
+            अपने handwritten solution की photo
+            upload करके गलती पहचानें।
+        </p>
+
+        <button class="mainBtn" id="mistakeBtn">
+            Analyze Solution Photo
+        </button>
+
+    </div>
+
+
+    <div class="dashboardCard">
+
+        <h3>📝 Personalized Practice</h3>
+
+        <p>
+            अपने weak topic पर practice करें।
+        </p>
+
+        <button class="mainBtn" id="practiceBtn">
+            Practice
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- TEST -->
+
+<div id="testPage" class="page hide">
+
+    <button class="backBtn" id="testBack">
+        ← Exit Test
+    </button>
+
+    <h2>Diagnostic Test</h2>
+
+    <div id="testInfo"></div>
+
+    <div id="counter"></div>
+
+    <div class="progressBg">
+        <div id="progress" class="progress"></div>
+    </div>
+
+    <div class="card">
+
+        <h3 id="question"></h3>
+
+        <div id="options"></div>
+
+        <button class="mainBtn" id="nextBtn">
+            Next
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- RESULT -->
+
+<div id="resultPage" class="page hide">
+
+    <h2>Diagnostic Result 📊</h2>
+
+    <div class="card">
+
+        <div id="score" class="score">
+            0%
+        </div>
+
+        <p id="scoreText" class="center"></p>
+
+    </div>
+
+    <div class="card">
+
+        <h3>🎯 Topic Performance</h3>
+
+        <div id="topicResult"></div>
+
+    </div>
+
+    <div class="card">
+
+        <h3>🧠 EXAMOS Analysis</h3>
+
+        <div id="weakMessage"></div>
+
+    </div>
+
+    <button class="mainBtn" id="resultBack">
+        Back to Dashboard
+    </button>
+
+</div>
+
+
+<!-- PHOTO ANALYSIS -->
+
+<div id="photoPage" class="page hide">
+
+    <button class="backBtn" id="photoBack">
+        ← Back
+    </button>
+
+    <h2>🧠 AI Mistake Analysis</h2>
+
+    <div>
+
+        <span class="badge" id="photoClass">
+            Class
+        </span>
+
+        <span class="badge" id="photoSubject">
+            Subject
+        </span>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>1️⃣ Question</h3>
+
+        <div class="questionBox">
+
+            <b>
+                यदि y = (2x + 1)³ है,
+                तो dy/dx ज्ञात करें।
+            </b>
+
+        </div>
+
+        <p>
+            Question को अपनी copy में solve करें।
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>2️⃣ Solution की Photo दें</h3>
+
+        <div class="uploadBox">
+
+            <div class="uploadIcon">📷</div>
+
+            <h3>Handwritten Solution</h3>
+
+            <p>
+                अपनी copy के solution की साफ photo चुनें।
+            </p>
+
+            <input
+                type="file"
+                id="solutionPhoto"
+                accept="image/*"
+            >
+
+            <button
+                type="button"
+                class="mainBtn"
+                id="uploadBtn">
+
+                📷 Upload Solution Photo
+
+            </button>
+
+            <img
+                id="preview"
+                class="preview"
+                alt="Solution Preview"
+            >
+
+        </div>
+
+        <button
+            type="button"
+            class="mainBtn"
+            id="analyzePhotoBtn"
+            disabled>
+
+            🔍 Analyze My Solution
+
+        </button>
+
+    </div>
+
+
+    <div id="photoLoading" class="card hide">
+
+        <div class="loading">
+
+            <div class="spinner"></div>
+
+            <h3>EXAMOS AI is analyzing...</h3>
+
+            <p>
+                Solution के steps check किए जा रहे हैं।
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div id="analysisResult" class="hide">
+
+        <div class="card">
+
+            <h2>📊 Analysis Result</h2>
+
+            <div class="resultBox errorBox">
+
+                <h3>❌ Mistake Type</h3>
+
+                <p id="mistakeType"></p>
+
+            </div>
+
+            <div class="resultBox infoBox">
+
+                <h3>📍 कहाँ गलती हुई?</h3>
+
+                <p id="mistakeLocation"></p>
+
+            </div>
+
+            <div class="resultBox infoBox">
+
+                <h3>🧠 Concept Check</h3>
+
+                <p id="conceptCheck"></p>
+
+            </div>
+
+            <div class="resultBox correctBox">
+
+                <h3>✅ सही तरीका</h3>
+
+                <p id="correctMethod"></p>
+
+            </div>
+
+            <div class="tipBox">
+
+                <h3>🎯 Weak Topic</h3>
+
+                <p id="weakTopic"></p>
+
+            </div>
+
+        </div>
+
+        <button class="mainBtn" id="practiceTopic">
+            Practice This Topic
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =================================
+   VARIABLES
+================================= */
+
+var selectedClass = "";
+var selectedSubject = "";
+
+var currentQuestion = 0;
+var userAnswers = [];
+var score = 0;
+
+var activeQuestions = [];
+
+
+/* =================================
+   QUESTION BANK
+================================= */
+
+var class9Math = [
+
+{
+    q:"यदि x + 5 = 12 है, तो x का मान क्या होगा?",
+    o:["5","7","17","-7"],
+    a:1,
+    topic:"Linear Equation"
+},
+
+{
+    q:"2x = 10 है, तो x का मान क्या होगा?",
+    o:["2","5","10","20"],
+    a:1,
+    topic:"Linear Equation"
+},
+
+{
+    q:"एक त्रिभुज के कोणों का योग कितना होता है?",
+    o:["90°","180°","270°","360°"],
+    a:1,
+    topic:"Geometry"
+},
+
+{
+    q:"वर्ग की भुजा 5 cm है। क्षेत्रफल?",
+    o:["10","20","25","30"],
+    a:2,
+    topic:"Mensuration"
+},
+
+{
+    q:"√49 का मान क्या है?",
+    o:["6","7","8","9"],
+    a:1,
+    topic:"Number System"
+},
+
+{
+    q:"3² का मान क्या है?",
+    o:["6","9","12","18"],
+    a:1,
+    topic:"Number System"
+}
+
+];
+
+
+var class10Math = [
+
+{
+    q:"x² - 5x + 6 = 0 के roots?",
+    o:["1,6","2,3","-2,-3","0,6"],
+    a:1,
+    topic:"Quadratic Equation"
+},
+
+{
+    q:"sin 30° का मान?",
+    o:["0","1/2","1","2"],
+    a:1,
+    topic:"Trigonometry"
+},
+
+{
+    q:"AP का प्रथम पद 3 और d=2 है। दूसरा पद?",
+    o:["3","4","5","6"],
+    a:2,
+    topic:"Arithmetic Progression"
+},
+
+{
+    q:"x+y=10 और x=4 है। y?",
+    o:["4","5","6","7"],
+    a:2,
+    topic:"Linear Equation"
+},
+
+{
+    q:"cos 0° का मान?",
+    o:["0","1","-1","2"],
+    a:1,
+    topic:"Trigonometry"
+},
+
+{
+    q:"2x+3=9 है। x?",
+    o:["2","3","4","6"],
+    a:1,
+    topic:"Linear Equation"
+}
+
+];
+
+
+var class11Math = [
+
+{
+    q:"f(x)=x²+3x है। f'(x)?",
+    o:["x+3","2x+3","x²+3","2x"],
+    a:1,
+    topic:"Differentiation"
+},
+
+{
+    q:"lim(x→0) sin x/x?",
+    o:["0","1","∞","-1"],
+    a:1,
+    topic:"Limits"
+},
+
+{
+    q:"A.P. का nth term?",
+    o:["a+nd","a+(n-1)d","an+d","a-d"],
+    a:1,
+    topic:"Arithmetic Progression"
+},
+
+{
+    q:"Perpendicular vectors का dot product?",
+    o:["1","-1","0","∞"],
+    a:2,
+    topic:"Vectors"
+},
+
+{
+    q:"A × A?",
+    o:["A","1","0","A²"],
+    a:2,
+    topic:"Vectors"
+},
+
+{
+    q:"y=x² है तो dy/dx?",
+    o:["x","2x","x²","2"],
+    a:1,
+    topic:"Differentiation"
+}
+
+];
+
+
+var class12Math = [
+
+{
+    q:"यदि f(x)=x²+3x है, तो f'(x)?",
+    o:["x+3","2x+3","x²+3","2x"],
+    a:1,
+    topic:"Differentiation"
+},
+
+{
+    q:"y=(2x+1)³ है। dy/dx?",
+    o:[
+        "3(2x+1)²",
+        "6(2x+1)²",
+        "3(2x+1)³",
+        "6(2x+1)³"
+    ],
+    a:1,
+    topic:"Chain Rule"
+},
+
+{
+    q:"y=x sin x है। dy/dx?",
+    o:[
+        "x cos x",
+        "sin x+x cos x",
+        "cos x+x sin x",
+        "sin x"
+    ],
+    a:1,
+    topic:"Product Rule"
+},
+
+{
+    q:"lim(x→0) sin x/x?",
+    o:["0","1","∞","-1"],
+    a:1,
+    topic:"Limits"
+},
+
+{
+    q:"y=sin(x²) है। dy/dx?",
+    o:[
+        "cos(x²)",
+        "2x cos(x²)",
+        "2x sin(x²)",
+        "x cos x"
+    ],
+    a:1,
+    topic:"Chain Rule"
+},
+
+{
+    q:"∫x² dx?",
+    o:[
+        "x³+C",
+        "x³/3+C",
+        "2x+C",
+        "x²/2+C"
+    ],
+    a:1,
+    topic:"Integration"
+},
+
+{
+    q:"∫cos x dx?",
+    o:[
+        "-sin x+C",
+        "sin x+C",
+        "cos x+C",
+        "-cos x+C"
+    ],
+    a:1,
+    topic:"Integration"
+},
+
+{
+    q:"Perpendicular vectors का dot product?",
+    o:["1","-1","0","∞"],
+    a:2,
+    topic:"Vectors"
+},
+
+{
+    q:"A × A?",
+    o:["A","1","0","A²"],
+    a:2,
+    topic:"Cross Product"
+},
+
+{
+    q:"d²y/dx² + dy/dx=0 का order?",
+    o:["1","2","3","0"],
+    a:1,
+    topic:"Differential Equation"
+}
+
+];
+
+
+/* =================================
+   GET QUESTIONS
+================================= */
+
+function getQuestions(){
+
+    if(selectedSubject !== "Mathematics"){
+        return [];
+    }
+
+    if(selectedClass === "9"){
+        return class9Math;
+    }
+
+    if(selectedClass === "10"){
+        return class10Math;
+    }
+
+    if(selectedClass === "11"){
+        return class11Math;
+    }
+
+    if(selectedClass === "12"){
+        return class12Math;
+    }
+
+    return [];
+}
+
+
+/* =================================
+   PAGE HELPER
+================================= */
+
+function showPage(pageId){
+
+    var pages = document.querySelectorAll(".page");
+
+    for(var i=0;i<pages.length;i++){
+        pages[i].classList.add("hide");
+    }
+
+    document.getElementById(pageId).classList.remove("hide");
+
+    window.scrollTo(0,0);
+}
+
+
+/* =================================
+   START
+================================= */
+
+document.getElementById("startBtn").onclick = function(){
+
+    showPage("classPage");
+
+};
+
+
+/* =================================
+   CLASS BUTTONS
+================================= */
+
+var classBtns =
+document.getElementsByClassName("classBtn");
+
+for(var i=0;i<classBtns.length;i++){
+
+    classBtns[i].onclick = function(){
+
+        selectedClass =
+        this.getAttribute("data-class");
+
+        document.getElementById("classText").innerHTML =
+        "Selected Class: Class " + selectedClass;
+
+        showPage("subjectPage");
+
+    };
+
+}
+
+
+/* =================================
+   CLASS BACK
+================================= */
+
+document.getElementById("classBack").onclick =
+function(){
+
+    showPage("home");
+
+};
+
+
+/* =================================
+   SUBJECT BUTTONS
+================================= */
+
+var subjectBtns =
+document.getElementsByClassName("subjectBtn");
+
+for(var i=0;i<subjectBtns.length;i++){
+
+    subjectBtns[i].onclick = function(){
+
+        selectedSubject =
+        this.getAttribute("data-subject");
+
+        document.getElementById("studentInfo").innerHTML =
+        '<span class="badge">Class ' +
+        selectedClass +
+        '</span>' +
+        '<span class="badge">' +
+        selectedSubject +
+        '</span>';
+
+        showPage("dashboard");
+
+    };
+
+}
+
+
+/* =================================
+   SUBJECT BACK
+================================= */
+
+document.getElementById("subjectBack").onclick =
+function(){
+
+    showPage("classPage");
+
+};
+
+
+/* =================================
+   DIAGNOSTIC TEST
+================================= */
+
+document.getElementById("diagnosticBtn").onclick =
+function(){
+
+    activeQuestions = getQuestions();
+
+    if(activeQuestions.length === 0){
+
+        alert(
+        "अभी Diagnostic Test केवल Mathematics के लिए उपलब्ध है।"
+        );
+
+        return;
+    }
+
+    currentQuestion = 0;
+    userAnswers = [];
+    score = 0;
+
+    document.getElementById("testInfo").innerHTML =
+    '<span class="badge">Class ' +
+    selectedClass +
+    '</span>' +
+    '<span class="badge">' +
+    selectedSubject +
+    '</span>';
+
+    showPage("testPage");
+
+    showQuestion();
+
+};
+
+
+/* =================================
+   SHOW QUESTION
+================================= */
+
+function showQuestion(){
+
+    var q =
+    activeQuestions[currentQuestion];
+
+    document.getElementById("counter").innerHTML =
+    "Question " +
+    (currentQuestion + 1) +
+    " / " +
+    activeQuestions.length;
+
+    document.getElementById("progress").style.width =
+    (
+        ((currentQuestion + 1) /
+        activeQuestions.length) * 100
+    ) + "%";
+
+    document.getElementById("question").innerHTML =
+    q.q;
+
+    var html = "";
+
+    for(var i=0;i<q.o.length;i++){
+
+        html +=
+        '<label class="option">' +
+        '<input type="radio" name="answer" value="' +
+        i +
+        '">' +
+        q.o[i] +
+        '</label>';
+
+    }
+
+    document.getElementById("options").innerHTML =
+    html;
+
+    document.getElementById("nextBtn").innerHTML =
+    currentQuestion === activeQuestions.length - 1
+    ? "Submit Test"
+    : "Next";
+
+}
+
+
+/* =================================
+   NEXT
+================================= */
+
+document.getElementById("nextBtn").onclick =
+function(){
+
+    var selected =
+    document.querySelector(
+        'input[name="answer"]:checked'
+    );
+
+    if(!selected){
+
+        alert("पहले answer select करें।");
+        return;
+
+    }
+
+    userAnswers[currentQuestion] =
+    parseInt(selected.value,10);
+
+    if(
+        userAnswers[currentQuestion] ===
+        activeQuestions[currentQuestion].a
+    ){
+
+        score++;
+
+    }
+
+    if(
+        currentQuestion <
+        activeQuestions.length - 1
+    ){
+
+        currentQuestion++;
+        showQuestion();
+
+    }else{
+
+        showResult();
+
+    }
+
+};
+
+
+/* =================================
+   RESULT
+================================= */
+
+function showResult(){
+
+    showPage("resultPage");
+
+    var percentage =
+    Math.round(
+        (score / activeQuestions.length) * 100
+    );
+
+    document.getElementById("score").innerHTML =
+    percentage + "%";
+
+    document.getElementById("scoreText").innerHTML =
+    "आपने " +
+    activeQuestions.length +
+    " में से " +
+    score +
+    " questions सही किए।";
+
+    var topics = {};
+
+    for(var i=0;i<activeQuestions.length;i++){
+
+        var topic =
+        activeQuestions[i].topic;
+
+        if(!topics[topic]){
+
+            topics[topic] = {
+                total:0,
+                correct:0
+            };
+
+        }
+
+        topics[topic].total++;
+
+        if(
+            userAnswers[i] ===
+            activeQuestions[i].a
+        ){
+
+            topics[topic].correct++;
+
+        }
+
+    }
+
+    var html = "";
+    var weak = [];
+
+    for(var topic in topics){
+
+        var data = topics[topic];
+
+        var percent =
+        Math.round(
+            (data.correct / data.total) * 100
+        );
+
+        var status;
+
+        if(percent < 50){
+
+            status =
+            '<span class="wrong">Weak 🔴</span>';
+
+            weak.push(topic);
+
+        }else if(percent < 75){
+
+            status =
+            '<span class="average">Needs Practice 🟡</span>';
+
+        }else{
+
+            status =
+            '<span class="correct">Strong 🟢</span>';
+
+        }
+
+        html +=
+        '<div class="topicBox">' +
+        '<b>' + topic + '</b><br>' +
+        status +
+        ' — ' +
+        percent +
+        '%' +
+        '</div>';
+
+    }
+
+    document.getElementById("topicResult").innerHTML =
+    html;
+
+    if(weak.length > 0){
+
+        document.getElementById("weakMessage").innerHTML =
+        "इन topics पर ज्यादा practice करें:<br><br>" +
+        "<b>" +
+        weak.join(", ") +
+        "</b>";
+
+    }else{
+
+        document.getElementById("weakMessage").innerHTML =
+        "🎉 कोई बहुत weak topic नहीं मिला।";
+
+    }
+
+}
+
+
+/* =================================
+   TEST BACK
+================================= */
+
+document.getElementById("testBack").onclick =
+function(){
+
+    showPage("dashboard");
+
+};
+
+
+/* =================================
+   RESULT BACK
+================================= */
+
+document.getElementById("resultBack").onclick =
+function(){
+
+    showPage("dashboard");
+
+};
+
+
+/* =================================
+   OPEN PHOTO PAGE
+================================= */
+
+document.getElementById("mistakeBtn").onclick =
+function(){
+
+    document.getElementById("photoClass").innerHTML =
+    "Class " + selectedClass;
+
+    document.getElementById("photoSubject").innerHTML =
+    selectedSubject;
+
+    resetPhotoAnalysis();
+
+    showPage("photoPage");
+
+};
+
+
+/* =================================
+   PHOTO BACK
+================================= */
+
+document.getElementById("photoBack").onclick =
+function(){
+
+    showPage("dashboard");
+
+};
+
+
+/* =================================
+   PHOTO UPLOAD
+================================= */
+
+var uploadBtn =
+document.getElementById("uploadBtn");
+
+var photoInput =
+document.getElementById("solutionPhoto");
+
+var preview =
+document.getElementById("preview");
+
+var analyzePhotoBtn =
+document.getElementById("analyzePhotoBtn");
+
+
+uploadBtn.onclick = function(){
+
+    photoInput.click();
+
+};
+
+
+/* =================================
+   PHOTO SELECTED
+================================= */
+
+photoInput.onchange = function(){
+
+    var file = photoInput.files[0];
+
+    if(!file){
+        return;
+    }
+
+    if(file.type.indexOf("image/") !== 0){
+
+        alert("कृपया केवल photo चुनें।");
+
+        photoInput.value = "";
+
+        return;
+    }
+
+    var reader = new FileReader();
+
+    reader.onload = function(e){
+
+        preview.src = e.target.result;
+
+        preview.style.display = "block";
+
+        analyzePhotoBtn.disabled = false;
+
+        uploadBtn.innerHTML =
+        "✅ Photo Selected";
+
+    };
+
+    reader.readAsDataURL(file);
+
+};
+
+
+/* =================================
+   ANALYZE PHOTO
+================================= */
+
+analyzePhotoBtn.onclick = function(){
+
+    if(!photoInput.files[0]){
+
+        alert(
+        "पहले solution की photo upload करें।"
+        );
+
+        return;
+
+    }
+
+    document.getElementById("photoLoading")
+    .classList.remove("hide");
+
+    document.getElementById("analysisResult")
+    .classList.add("hide");
+
+    setTimeout(function(){
+
+        document.getElementById("photoLoading")
+        .classList.add("hide");
+
+        document.getElementById("analysisResult")
+        .classList.remove("hide");
+
+
+        document.getElementById("mistakeType").innerHTML =
+        "Chain Rule / Concept Error";
+
+
+        document.getElementById("mistakeLocation").innerHTML =
+        "Demo analysis के अनुसार inner function " +
+        "<b>(2x + 1)</b> का derivative " +
+        "<b>2</b> multiply करना जरूरी है।";
+
+
+        document.getElementById("conceptCheck").innerHTML =
+        "Basic differentiation समझ में है, लेकिन " +
+        "Chain Rule के application में सुधार चाहिए।";
+
+
+        document.getElementById("correctMethod").innerHTML =
+        "y = (2x + 1)³<br><br>" +
+        "dy/dx = 3(2x + 1)² × 2<br><br>" +
+        "<b>dy/dx = 6(2x + 1)²</b>";
+
+
+        document.getElementById("weakTopic").innerHTML =
+        "<b>Chain Rule</b><br><br>" +
+        "इसी topic पर personalized practice की जाएगी।";
+
+    },1500);
+
+};
+
+
+/* =================================
+   RESET PHOTO
+================================= */
+
+function resetPhotoAnalysis(){
+
+    photoInput.value = "";
+
+    preview.src = "";
+
+    preview.style.display = "none";
+
+    analyzePhotoBtn.disabled = true;
+
+    uploadBtn.innerHTML =
+    "📷 Upload Solution Photo";
+
+    document.getElementById("analysisResult")
+    .classList.add("hide");
+
+    document.getElementById("photoLoading")
+    .classList.add("hide");
+
+}
+
+
+/* =================================
+   PRACTICE TOPIC
+================================= */
+
+document.getElementById("practiceTopic").onclick =
+function(){
+
+    alert(
+    "🎯 Chain Rule Practice अगले version में शुरू होगा।"
+    );
+
+};
+
+
+/* =================================
+   PRACTICE BUTTON
+================================= */
+
+document.getElementById("practiceBtn").onclick =
+function(){
+
+    alert(
+    "🎯 Personalized Practice अगले version में बनेगा।"
+    );
+
+};
+
+</script>
+
+</body>
+</html>
