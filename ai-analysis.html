@@ -3,158 +3,176 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>EXAMOS AI Analysis</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f2f5f8;
-  color:#17202a;
+margin:0;
+font-family:Arial,sans-serif;
+background:#f2f5f8;
+color:#17202a
 }
 
 .app{
-  max-width:430px;
-  min-height:100vh;
-  margin:auto;
-  background:white;
+max-width:430px;
+min-height:100vh;
+margin:auto;
+background:#fff
 }
 
 .header{
-  background:#174b7a;
-  color:white;
-  padding:22px 18px;
+background:#174b7a;
+color:white;
+padding:22px 18px
 }
 
 .logo{
-  font-size:28px;
-  font-weight:bold;
+font-size:28px;
+font-weight:bold
 }
 
 .tagline{
-  font-size:14px;
-  margin-top:5px;
+font-size:14px;
+margin-top:5px
 }
 
 .page{
-  padding:18px;
+padding:18px
 }
 
 .card{
-  background:white;
-  border:1px solid #ddd;
-  border-radius:14px;
-  padding:17px;
-  margin:14px 0;
+background:#fff;
+border:1px solid #ddd;
+border-radius:14px;
+padding:17px;
+margin:14px 0
+}
+
+.badge{
+display:inline-block;
+background:#e8f3ff;
+color:#1769aa;
+padding:6px 10px;
+border-radius:20px;
+font-size:13px;
+margin:3px
+}
+
+.questionBox{
+background:#f5f8fb;
+padding:16px;
+border-radius:10px;
+line-height:1.6;
+font-size:17px
 }
 
 .uploadBox{
-  border:2px dashed #1769aa;
-  border-radius:14px;
-  padding:25px 15px;
-  text-align:center;
-  background:#f7fbff;
+border:2px dashed #1769aa;
+border-radius:14px;
+padding:25px 15px;
+text-align:center;
+background:#f7fbff
 }
 
 .uploadIcon{
-  font-size:50px;
+font-size:50px
 }
 
 .fileInput{
-  display:none;
+display:none
 }
 
 .mainBtn{
-  width:100%;
-  padding:15px;
-  border:0;
-  border-radius:10px;
-  background:#1769aa;
-  color:white;
-  font-size:17px;
-  font-weight:bold;
-  margin-top:12px;
+width:100%;
+padding:15px;
+border:0;
+border-radius:10px;
+background:#1769aa;
+color:white;
+font-size:17px;
+font-weight:bold;
+margin-top:12px
 }
 
 .mainBtn:disabled{
-  background:#aeb8c2;
+background:#aeb8c2
 }
 
 .preview{
-  width:100%;
-  max-height:350px;
-  object-fit:contain;
-  border-radius:10px;
-  margin-top:15px;
-  display:none;
-  border:1px solid #ddd;
-}
-
-.loading{
-  text-align:center;
-  padding:20px;
-}
-
-.spinner{
-  width:42px;
-  height:42px;
-  border:5px solid #ddd;
-  border-top:5px solid #1769aa;
-  border-radius:50%;
-  margin:auto;
-  animation:spin 1s linear infinite;
-}
-
-@keyframes spin{
-  to{
-    transform:rotate(360deg);
-  }
-}
-
-.resultBox{
-  padding:15px;
-  border-radius:10px;
-  margin-top:12px;
-}
-
-.errorBox{
-  background:#fff0f0;
-  border-left:5px solid red;
-}
-
-.infoBox{
-  background:#f5f8fb;
-  border-left:5px solid #1769aa;
-}
-
-.correctBox{
-  background:#eaf8ee;
-  border-left:5px solid green;
-}
-
-.tipBox{
-  background:#fff7df;
-  border:1px solid #efd37b;
-  padding:14px;
-  border-radius:10px;
-  margin-top:12px;
+width:100%;
+max-height:350px;
+object-fit:contain;
+border-radius:10px;
+margin-top:15px;
+display:none;
+border:1px solid #ddd
 }
 
 .hide{
-  display:none;
+display:none!important
+}
+
+.loading{
+text-align:center;
+padding:20px
+}
+
+.spinner{
+width:42px;
+height:42px;
+border:5px solid #ddd;
+border-top:5px solid #1769aa;
+border-radius:50%;
+margin:auto;
+animation:spin 1s linear infinite
+}
+
+@keyframes spin{
+to{transform:rotate(360deg)}
+}
+
+.resultBox{
+padding:15px;
+border-radius:10px;
+margin-top:12px
+}
+
+.errorBox{
+background:#fff0f0;
+border-left:5px solid red
+}
+
+.infoBox{
+background:#f5f8fb;
+border-left:5px solid #1769aa
+}
+
+.correctBox{
+background:#eaf8ee;
+border-left:5px solid green
+}
+
+.tipBox{
+background:#fff7df;
+border:1px solid #efd37b;
+padding:14px;
+border-radius:10px;
+margin-top:12px
 }
 
 .back{
-  display:inline-block;
-  margin-bottom:10px;
-  color:#1769aa;
-  text-decoration:none;
-  font-weight:bold;
+display:inline-block;
+margin-bottom:10px;
+color:#1769aa;
+text-decoration:none;
+font-weight:bold
+}
+
+.small{
+font-size:13px;
+color:#666
 }
 </style>
 </head>
@@ -164,8 +182,8 @@ body{
 <div class="app">
 
 <div class="header">
-  <div class="logo">EXAMOS</div>
-  <div class="tagline">AI-Powered Personal Learning</div>
+<div class="logo">EXAMOS</div>
+<div class="tagline">AI-Powered Personal Learning</div>
 </div>
 
 <div class="page">
@@ -176,14 +194,38 @@ body{
 
 <div class="card">
 
-<h3>1️⃣ Question</h3>
+<h3>Student Information</h3>
 
-<p>
-यदि <b>y = (2x + 1)³</b> है,
-तो <b>dy/dx</b> ज्ञात करें।
-</p>
+<span class="badge" id="classBadge">Class 9</span>
+<span class="badge">Mathematics</span>
 
 </div>
+
+
+<div class="card">
+
+<h3>1️⃣ Solve This Question</h3>
+
+<div class="questionBox" id="questionBox">
+Loading question...
+</div>
+
+<p class="small">
+Question को अपनी copy में step-by-step solve करें।
+फिर अपने पूरे solution की साफ photo upload करें।
+</p>
+
+<button
+class="mainBtn"
+id="newQuestionBtn"
+type="button">
+
+🔄 New Question
+
+</button>
+
+</div>
+
 
 <div class="card">
 
@@ -200,32 +242,32 @@ body{
 </p>
 
 <input
-  type="file"
-  id="solutionPhoto"
-  class="fileInput"
-  accept="image/*">
+type="file"
+id="solutionPhoto"
+class="fileInput"
+accept="image/*">
 
 <button
-  class="mainBtn"
-  id="uploadBtn"
-  type="button">
+class="mainBtn"
+id="uploadBtn"
+type="button">
 
 📷 Choose Solution Photo
 
 </button>
 
 <img
-  id="preview"
-  class="preview"
-  alt="Solution Preview">
+id="preview"
+class="preview"
+alt="Solution Preview">
 
 </div>
 
 <button
-  class="mainBtn"
-  id="analyzeBtn"
-  type="button"
-  disabled>
+class="mainBtn"
+id="analyzeBtn"
+type="button"
+disabled>
 
 🔍 Analyze My Solution
 
@@ -233,9 +275,10 @@ body{
 
 </div>
 
+
 <div
-  id="loadingBox"
-  class="card hide">
+id="loadingBox"
+class="card hide">
 
 <div class="loading">
 
@@ -251,9 +294,10 @@ Solution के steps check किए जा रहे हैं।
 
 </div>
 
+
 <div
-  id="result"
-  class="card hide">
+id="result"
+class="card hide">
 
 <h2>📊 Analysis Result</h2>
 
@@ -261,8 +305,7 @@ Solution के steps check किए जा रहे हैं।
 
 <h3>❌ Mistake Type</h3>
 
-<p id="mistakeType">
-</p>
+<p id="mistakeType"></p>
 
 </div>
 
@@ -270,8 +313,7 @@ Solution के steps check किए जा रहे हैं।
 
 <h3>📍 कहाँ गलती हुई?</h3>
 
-<p id="mistakeLocation">
-</p>
+<p id="mistakeLocation"></p>
 
 </div>
 
@@ -279,8 +321,7 @@ Solution के steps check किए जा रहे हैं।
 
 <h3>🧠 Concept Check</h3>
 
-<p id="conceptCheck">
-</p>
+<p id="conceptCheck"></p>
 
 </div>
 
@@ -288,8 +329,7 @@ Solution के steps check किए जा रहे हैं।
 
 <h3>✅ सही तरीका</h3>
 
-<p id="correctMethod">
-</p>
+<p id="correctMethod"></p>
 
 </div>
 
@@ -297,15 +337,14 @@ Solution के steps check किए जा रहे हैं।
 
 <h3>🎯 Weak Topic</h3>
 
-<p id="weakTopic">
-</p>
+<p id="weakTopic"></p>
 
 </div>
 
 <button
-  class="mainBtn"
-  id="practiceBtn"
-  type="button">
+class="mainBtn"
+id="practiceBtn"
+type="button">
 
 📝 Practice This Topic
 
@@ -317,7 +356,228 @@ Solution के steps check किए जा रहे हैं।
 
 </div>
 
+
 <script>
+
+/* =================================
+   CLASS
+================================= */
+
+/*
+URL में class भेज सकते हैं:
+
+ai-analysis.html?class=9
+ai-analysis.html?class=10
+ai-analysis.html?class=11
+ai-analysis.html?class=12
+
+अगर class नहीं मिलेगी तो Class 9 रहेगा।
+*/
+
+var params =
+new URLSearchParams(window.location.search);
+
+var selectedClass =
+params.get("class") || "9";
+
+document.getElementById("classBadge").innerHTML =
+"Class " + selectedClass;
+
+
+/* =================================
+   QUESTION BANK
+================================= */
+
+var questions = {
+
+"9":[
+
+{
+q:"यदि x + 7 = 15 है, तो x का मान ज्ञात करें।",
+answer:"x = 8",
+topic:"Linear Equation"
+},
+
+{
+q:"√144 का मान ज्ञात करें।",
+answer:"12",
+topic:"Number System"
+},
+
+{
+q:"एक वर्ग की भुजा 6 cm है। उसका क्षेत्रफल ज्ञात करें।",
+answer:"36 cm²",
+topic:"Mensuration"
+}
+
+],
+
+
+"10":[
+
+{
+q:"x² - 5x + 6 = 0 को हल करें।",
+answer:"x = 2, 3",
+topic:"Quadratic Equation"
+},
+
+{
+q:"sin 30° का मान ज्ञात करें।",
+answer:"1/2",
+topic:"Trigonometry"
+},
+
+{
+q:"2x + 3 = 9 को हल करें।",
+answer:"x = 3",
+topic:"Linear Equation"
+}
+
+],
+
+
+"11":[
+
+{
+q:"यदि f(x) = x² + 3x है, तो f'(x) ज्ञात करें।",
+answer:"2x + 3",
+topic:"Differentiation"
+},
+
+{
+q:"lim(x→0) sin x/x का मान ज्ञात करें।",
+answer:"1",
+topic:"Limits"
+},
+
+{
+q:"A.P. का प्रथम पद 3 और common difference 2 है। दूसरा पद ज्ञात करें।",
+answer:"5",
+topic:"Sequence and Series"
+}
+
+],
+
+
+"12":[
+
+{
+q:"यदि y = (2x + 1)³ है, तो dy/dx ज्ञात करें।",
+answer:"6(2x + 1)²",
+topic:"Chain Rule"
+},
+
+{
+q:"यदि y = x sin x है, तो dy/dx ज्ञात करें।",
+answer:"sin x + x cos x",
+topic:"Product Rule"
+},
+
+{
+q:"∫x² dx ज्ञात करें।",
+answer:"x³/3 + C",
+topic:"Integration"
+},
+
+{
+q:"यदि y = sin(x²) है, तो dy/dx ज्ञात करें।",
+answer:"2x cos(x²)",
+topic:"Chain Rule"
+}
+
+]
+
+};
+
+
+/* =================================
+   QUESTION SELECT
+================================= */
+
+var classQuestions =
+questions[selectedClass] || questions["9"];
+
+var currentQuestionIndex = 0;
+
+var currentQuestion;
+
+
+/* =================================
+   SHOW QUESTION
+================================= */
+
+function showQuestion(){
+
+currentQuestion =
+classQuestions[currentQuestionIndex];
+
+document.getElementById(
+"questionBox"
+).innerHTML =
+"<b>" +
+currentQuestion.q +
+"</b>";
+
+/* reset photo */
+
+document.getElementById(
+"solutionPhoto"
+).value = "";
+
+document.getElementById(
+"preview"
+).style.display = "none";
+
+document.getElementById(
+"analyzeBtn"
+).disabled = true;
+
+document.getElementById(
+"uploadBtn"
+).innerHTML =
+"📷 Choose Solution Photo";
+
+document.getElementById(
+"result"
+).classList.add("hide");
+
+}
+
+
+/* =================================
+   NEW QUESTION
+================================= */
+
+document.getElementById(
+"newQuestionBtn"
+).onclick = function(){
+
+currentQuestionIndex++;
+
+if(
+currentQuestionIndex >=
+classQuestions.length
+){
+
+currentQuestionIndex = 0;
+
+}
+
+showQuestion();
+
+};
+
+
+/* =================================
+   INITIAL QUESTION
+================================= */
+
+showQuestion();
+
+
+/* =================================
+   UPLOAD
+================================= */
 
 var photoInput =
 document.getElementById("solutionPhoto");
@@ -331,135 +591,181 @@ document.getElementById("preview");
 var analyzeBtn =
 document.getElementById("analyzeBtn");
 
-var loadingBox =
-document.getElementById("loadingBox");
-
-var result =
-document.getElementById("result");
-
-
-/* =========================
-   OPEN FILE SELECTOR
-========================= */
 
 uploadBtn.onclick = function(){
 
-  photoInput.click();
+photoInput.click();
 
 };
 
 
-/* =========================
+/* =================================
    PHOTO SELECTED
-========================= */
+================================= */
 
 photoInput.onchange = function(){
 
-  var file = photoInput.files[0];
+var file =
+photoInput.files[0];
 
-  if(!file){
-    return;
-  }
+if(!file){
 
-  if(file.type.indexOf("image/") !== 0){
+return;
 
-    alert("कृपया केवल image/photo चुनें।");
+}
 
-    photoInput.value = "";
+if(
+file.type.indexOf("image/") !== 0
+){
 
-    return;
-  }
+alert(
+"कृपया केवल image/photo चुनें।"
+);
 
-  var reader = new FileReader();
+photoInput.value = "";
 
-  reader.onload = function(event){
+return;
 
-    preview.src = event.target.result;
+}
 
-    preview.style.display = "block";
+var reader =
+new FileReader();
 
-    analyzeBtn.disabled = false;
+reader.onload =
+function(event){
 
-    uploadBtn.innerHTML =
-    "✅ Photo Selected";
+preview.src =
+event.target.result;
 
-  };
+preview.style.display =
+"block";
 
-  reader.readAsDataURL(file);
+analyzeBtn.disabled =
+false;
+
+uploadBtn.innerHTML =
+"✅ Photo Selected";
+
+};
+
+reader.readAsDataURL(file);
 
 };
 
 
-/* =========================
+/* =================================
    ANALYZE
-========================= */
+================================= */
 
-analyzeBtn.onclick = function(){
-
-  if(!photoInput.files[0]){
-
-    alert("पहले solution की photo चुनें।");
-
-    return;
-  }
-
-  result.classList.add("hide");
-
-  loadingBox.classList.remove("hide");
-
-  setTimeout(function(){
-
-    loadingBox.classList.add("hide");
-
-    result.classList.remove("hide");
-
-    /*
-      अभी यह DEMO analysis है।
-      Real AI backend बाद में जोड़ा जाएगा।
-    */
-
-    document.getElementById("mistakeType").innerHTML =
-    "<b>Concept / Chain Rule Error</b><br>" +
-    "Student ने inner function का derivative apply नहीं किया।";
-
-    document.getElementById("mistakeLocation").innerHTML =
-    "गलती उस step में हुई जहाँ " +
-    "<b>(2x + 1)</b> का derivative लिया गया। " +
-    "यहाँ <b>2</b> से multiply करना जरूरी था।";
-
-    document.getElementById("conceptCheck").innerHTML =
-    "Basic differentiation की समझ है, " +
-    "लेकिन <b>Chain Rule</b> के application में सुधार चाहिए।";
-
-    document.getElementById("correctMethod").innerHTML =
-    "y = (2x + 1)³<br><br>" +
-    "dy/dx = 3(2x + 1)² × 2<br><br>" +
-    "<b>dy/dx = 6(2x + 1)²</b>";
-
-    document.getElementById("weakTopic").innerHTML =
-    "<b>Chain Rule</b><br><br>" +
-    "इस topic पर ज्यादा practice करने की जरूरत है।";
-
-    window.scrollTo({
-      top: document.body.scrollHeight,
-      behavior: "smooth"
-    });
-
-  },1800);
-
-};
-
-
-/* =========================
-   PRACTICE
-========================= */
-
-document.getElementById("practiceBtn").onclick =
+analyzeBtn.onclick =
 function(){
 
-  alert(
-    "🎯 Chain Rule Practice अगले version में खुलेगा।"
-  );
+if(!photoInput.files[0]){
+
+alert(
+"पहले solution की photo चुनें।"
+);
+
+return;
+
+}
+
+document.getElementById(
+"result"
+).classList.add("hide");
+
+document.getElementById(
+"loadingBox"
+).classList.remove("hide");
+
+
+setTimeout(function(){
+
+document.getElementById(
+"loadingBox"
+).classList.add("hide");
+
+document.getElementById(
+"result"
+).classList.remove("hide");
+
+
+/*
+====================================
+DEMO ANALYSIS
+
+अभी Real AI connected नहीं है।
+
+यह सिर्फ prototype result है।
+====================================
+*/
+
+
+document.getElementById(
+"mistakeType"
+).innerHTML =
+"<b>Demo Analysis</b><br>" +
+"अभी EXAMOS AI वास्तविक handwriting को analyze नहीं कर रहा है।";
+
+
+document.getElementById(
+"mistakeLocation"
+).innerHTML =
+"Real AI connection के बाद EXAMOS बताएगा " +
+"कि solution के किस step में गलती हुई।";
+
+
+document.getElementById(
+"conceptCheck"
+).innerHTML =
+"AI calculation, formula और concept को अलग-अलग check करेगा।";
+
+
+document.getElementById(
+"correctMethod"
+).innerHTML =
+"<b>Expected Answer:</b><br><br>" +
+currentQuestion.answer;
+
+
+document.getElementById(
+"weakTopic"
+).innerHTML =
+"<b>" +
+currentQuestion.topic +
+"</b><br><br>" +
+"Real AI analysis के बाद student की कमजोरी के आधार पर topic automatically चुना जाएगा।";
+
+
+window.scrollTo({
+
+top:
+document.body.scrollHeight,
+
+behavior:
+"smooth"
+
+});
+
+},1800);
+
+};
+
+
+/* =================================
+   PRACTICE
+================================= */
+
+document.getElementById(
+"practiceBtn"
+).onclick =
+function(){
+
+alert(
+"🎯 " +
+currentQuestion.topic +
+" Practice जल्द जोड़ा जाएगा।"
+);
 
 };
 
