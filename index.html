@@ -2,271 +2,620 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>EXAMOS AI</title>
 
 <style>
 *{
     box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#f2f5f8;
-    color:#17202a;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f7f8ff;
+    color:#151936;
+}
+
+button{
+    font-family:inherit;
+    cursor:pointer;
 }
 
 .app{
-    max-width:430px;
-    min-height:100vh;
+    max-width:1200px;
     margin:auto;
-    background:white;
+    min-height:100vh;
+    background:#fff;
 }
+
+/* ================= HEADER ================= */
 
 .header{
-    background:#174b7a;
-    color:white;
-    padding:20px;
-}
-
-.logo{
-    font-size:30px;
-    font-weight:bold;
-}
-
-.tagline{
-    font-size:14px;
-    margin-top:5px;
-}
-
-.page{
-    padding:18px;
-}
-
-.hide{
-    display:none !important;
-}
-
-.center{
-    text-align:center;
-}
-
-.card{
+    height:78px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 32px;
+    border-bottom:1px solid #eee;
     background:white;
-    border:1px solid #ddd;
-    border-radius:14px;
-    padding:17px;
-    margin:14px 0;
+    position:sticky;
+    top:0;
+    z-index:100;
 }
 
-.mainBtn{
-    width:100%;
-    padding:15px;
-    border:0;
-    border-radius:10px;
-    background:#1769aa;
-    color:white;
-    font-size:17px;
-    font-weight:bold;
-    margin-top:12px;
-}
-
-.mainBtn:disabled{
-    background:#aeb8c2;
-}
-
-.backBtn{
-    border:0;
-    background:white;
-    color:#1769aa;
-    font-size:16px;
-    padding:5px 0;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
+.brand{
+    display:flex;
+    align-items:center;
     gap:12px;
 }
 
-.choice{
-    padding:17px 8px;
-    border:2px solid #ddd;
-    border-radius:12px;
+.brandIcon{
+    width:45px;
+    height:45px;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+    background:linear-gradient(135deg,#6250ff,#b44bdf);
+    color:white;
+}
+
+.brandName{
+    font-size:25px;
+    font-weight:800;
+}
+
+.brandSub{
+    font-size:12px;
+    color:#666;
+    margin-top:2px;
+}
+
+.nav{
+    display:flex;
+    gap:10px;
+}
+
+.nav button{
+    border:0;
     background:white;
+    padding:12px 18px;
+    border-radius:12px;
+    font-size:15px;
+    color:#222;
+}
+
+.nav button.active{
+    background:#f0edff;
+    color:#5038df;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.profileIcon{
+    width:43px;
+    height:43px;
+    border-radius:50%;
+    background:#eee9ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:23px;
+}
+
+.profileText{
+    font-size:13px;
+}
+
+.profileText b{
+    font-size:15px;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    padding:22px 28px 90px;
+}
+
+/* ================= HERO ================= */
+
+.hero{
+    min-height:360px;
+    border-radius:22px;
+    padding:42px;
+    background:linear-gradient(120deg,#f0efff,#e8e9ff,#f5efff);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    overflow:hidden;
+    position:relative;
+}
+
+.heroContent{
+    width:52%;
+    z-index:2;
+}
+
+.heroTitle{
+    font-size:48px;
+    line-height:1.08;
+    margin-bottom:18px;
+}
+
+.gradientText{
+    background:linear-gradient(90deg,#4835e8,#d13cb0);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.heroText{
+    color:#4d5266;
+    font-size:17px;
+    line-height:1.7;
+    max-width:540px;
+}
+
+.heroButtons{
+    display:flex;
+    gap:14px;
+    margin-top:25px;
+}
+
+.primary{
+    border:0;
+    background:linear-gradient(135deg,#4d32e9,#673bf4);
+    color:white;
+    padding:14px 24px;
+    border-radius:11px;
+    font-size:16px;
+    font-weight:bold;
+    box-shadow:0 8px 20px rgba(79,53,230,.25);
+}
+
+.secondary{
+    border:1px solid #ddd;
+    background:white;
+    padding:14px 22px;
+    border-radius:11px;
     font-size:16px;
     font-weight:bold;
 }
 
-.badge{
-    display:inline-block;
-    background:#e8f3ff;
-    color:#1769aa;
-    padding:6px 10px;
-    border-radius:20px;
-    font-size:13px;
-    margin:3px;
+/* student illustration */
+
+.heroVisual{
+    width:43%;
+    min-height:300px;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
-.icon{
-    font-size:48px;
+.student{
+    width:210px;
+    height:210px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#a9c8ff,#d6b9ff);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:125px;
+    box-shadow:0 20px 40px rgba(90,60,200,.15);
 }
 
-.dashboardCard{
-    background:#f5f8fb;
+.aiCard{
+    position:absolute;
+    background:white;
+    padding:13px 17px;
     border-radius:14px;
-    padding:17px;
-    margin:13px 0;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+    font-size:14px;
+    font-weight:bold;
+}
+
+.ai1{
+    top:20px;
+    left:5px;
+}
+
+.ai2{
+    top:25px;
+    right:0;
+}
+
+.ai3{
+    bottom:20px;
+    left:20px;
+}
+
+.ai4{
+    bottom:30px;
+    right:5px;
+}
+
+/* ================= FEATURE CARDS ================= */
+
+.features{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    margin-top:25px;
+    border:1px solid #eee;
+    border-radius:17px;
+    overflow:hidden;
+    background:white;
 }
 
 .feature{
-    padding:11px 0;
-    border-bottom:1px solid #eee;
-}
-
-.progressBg{
-    height:8px;
-    background:#ddd;
-    border-radius:10px;
-    margin:15px 0;
-}
-
-.progress{
-    height:8px;
-    background:#1769aa;
-    border-radius:10px;
-    width:0%;
-}
-
-.option{
-    display:block;
-    border:1px solid #ddd;
-    border-radius:10px;
-    padding:14px;
-    margin:10px 0;
-}
-
-.option input{
-    margin-right:8px;
-}
-
-.score{
-    font-size:44px;
-    font-weight:bold;
+    padding:25px 20px;
     text-align:center;
-    color:#1769aa;
+    border-right:1px solid #eee;
 }
 
-.topicBox{
-    background:#f5f8fb;
-    padding:13px;
-    border-radius:10px;
-    margin:9px 0;
+.feature:last-child{
+    border-right:0;
 }
 
-.correct{
-    color:green;
-    font-weight:bold;
-}
-
-.wrong{
-    color:red;
-    font-weight:bold;
-}
-
-.average{
-    color:#d88900;
-    font-weight:bold;
-}
-
-.questionBox{
-    background:#f5f8fb;
-    padding:16px;
-    border-radius:10px;
-    line-height:1.6;
-}
-
-.uploadBox{
-    border:2px dashed #1769aa;
+.featureIcon{
+    width:50px;
+    height:50px;
     border-radius:14px;
-    padding:25px 15px;
-    text-align:center;
-    background:#f7fbff;
+    margin:0 auto 15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+}
+
+.purple{background:#eee8ff;}
+.blue{background:#e5f2ff;}
+.green{background:#e3f8ed;}
+.orange{background:#fff0d8;}
+
+.feature h3{
+    margin-bottom:10px;
+    font-size:17px;
+}
+
+.feature p{
+    color:#666;
+    line-height:1.5;
+    font-size:14px;
+    min-height:43px;
+}
+
+.featureBtn{
     margin-top:15px;
+    border:0;
+    background:white;
+    font-weight:bold;
+    font-size:14px;
 }
 
-.uploadIcon{
-    font-size:48px;
-}
+.purpleText{color:#5138df;}
+.blueText{color:#1484e8;}
+.greenText{color:#12a964;}
+.orangeText{color:#e98a00;}
 
-#solutionPhoto{
-    display:none;
-}
+/* ================= SECTION ================= */
 
-.preview{
-    width:100%;
-    max-height:350px;
-    object-fit:contain;
-    border-radius:10px;
-    margin-top:15px;
-    display:none;
-    border:1px solid #ddd;
-}
-
-.loading{
-    text-align:center;
+.section{
+    background:white;
+    border-radius:17px;
     padding:25px;
+    margin-top:25px;
+    border:1px solid #eee;
 }
 
-.spinner{
-    width:42px;
-    height:42px;
-    border:5px solid #ddd;
-    border-top:5px solid #1769aa;
+.sectionTitle{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:22px;
+    margin-bottom:8px;
+}
+
+.sectionSub{
+    color:#666;
+    margin-bottom:20px;
+}
+
+/* ================= CLASSES ================= */
+
+.classes{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.classCard{
+    border:1px solid #e5e5e5;
+    border-radius:14px;
+    padding:24px 15px;
+    background:white;
+    text-align:center;
+    transition:.2s;
+}
+
+.classCard:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.classNumber{
+    font-size:42px;
+    font-weight:bold;
+    color:#5038df;
+}
+
+.classCard:nth-child(2) .classNumber{
+    color:#1484e8;
+}
+
+.classCard:nth-child(3) .classNumber{
+    color:#10a765;
+}
+
+.classCard:nth-child(4) .classNumber{
+    color:#e88900;
+}
+
+.classCard h3{
+    margin-top:8px;
+}
+
+/* ================= SUBJECTS ================= */
+
+.subjects{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:15px;
+}
+
+.subjectCard{
+    border:1px solid #eee;
+    border-radius:14px;
+    padding:25px 10px;
+    text-align:center;
+    background:white;
+    transition:.2s;
+}
+
+.subjectCard:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 20px rgba(0,0,0,.07);
+}
+
+.subjectIcon{
+    font-size:40px;
+    margin-bottom:12px;
+}
+
+.subjectCard h3{
+    font-size:15px;
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:500;
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modalBox{
+    background:white;
+    width:100%;
+    max-width:500px;
+    border-radius:20px;
+    padding:25px;
+    max-height:85vh;
+    overflow:auto;
+}
+
+.modalHeader{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.close{
+    border:0;
+    background:#f2f2f2;
+    width:35px;
+    height:35px;
     border-radius:50%;
-    margin:auto;
-    animation:spin 1s linear infinite;
+    font-size:20px;
 }
 
-@keyframes spin{
-    to{
-        transform:rotate(360deg);
+.chapter{
+    width:100%;
+    text-align:left;
+    padding:15px;
+    border:1px solid #ddd;
+    background:white;
+    border-radius:11px;
+    margin:8px 0;
+    font-size:15px;
+}
+
+.chapter:hover{
+    background:#f3f0ff;
+    border-color:#684cff;
+}
+
+/* ================= BOTTOM ================= */
+
+.bottomNav{
+    position:fixed;
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:min(1200px,100%);
+    height:70px;
+    background:white;
+    border-top:1px solid #eee;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    z-index:200;
+}
+
+.bottomNav button{
+    border:0;
+    background:white;
+    font-size:12px;
+    color:#333;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+}
+
+.bottomIcon{
+    font-size:22px;
+}
+
+.bottomNav .active{
+    color:#5038df;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:800px){
+
+    .header{
+        height:65px;
+        padding:0 15px;
+    }
+
+    .brandName{
+        font-size:20px;
+    }
+
+    .brandSub{
+        display:none;
+    }
+
+    .nav{
+        display:none;
+    }
+
+    .profileText{
+        display:none;
+    }
+
+    .main{
+        padding:15px 12px 85px;
+    }
+
+    .hero{
+        padding:25px 20px;
+        min-height:520px;
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .heroContent{
+        width:100%;
+    }
+
+    .heroTitle{
+        font-size:37px;
+    }
+
+    .heroText{
+        font-size:15px;
+    }
+
+    .heroVisual{
+        width:100%;
+        min-height:220px;
+        margin-top:10px;
+    }
+
+    .student{
+        width:150px;
+        height:150px;
+        font-size:85px;
+    }
+
+    .aiCard{
+        font-size:11px;
+        padding:9px 11px;
+    }
+
+    .features{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .feature{
+        border-bottom:1px solid #eee;
+        border-right:1px solid #eee;
+        padding:20px 10px;
+    }
+
+    .feature:nth-child(2){
+        border-right:0;
+    }
+
+    .feature:nth-child(3),
+    .feature:nth-child(4){
+        border-bottom:0;
+    }
+
+    .classes{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .subjects{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .subjectCard:last-child{
+        grid-column:1 / 3;
+    }
+
+    .section{
+        padding:18px;
     }
 }
 
-.resultBox{
-    padding:15px;
-    border-radius:10px;
-    margin-top:12px;
-}
+@media(max-width:420px){
 
-.errorBox{
-    background:#fff0f0;
-    border-left:5px solid red;
-}
+    .heroTitle{
+        font-size:32px;
+    }
 
-.infoBox{
-    background:#f5f8fb;
-    border-left:5px solid #1769aa;
-}
+    .heroButtons{
+        flex-direction:column;
+    }
 
-.correctBox{
-    background:#eaf8ee;
-    border-left:5px solid green;
-}
+    .primary,
+    .secondary{
+        width:100%;
+    }
 
-.tipBox{
-    background:#fff7df;
-    border:1px solid #efd37b;
-    padding:14px;
-    border-radius:10px;
-    margin-top:12px;
-}
-
-.smallNote{
-    font-size:13px;
-    color:#666;
+    .features{
+        grid-template-columns:1fr 1fr;
+    }
 }
 </style>
 </head>
@@ -277,1305 +626,695 @@ body{
 
 <!-- HEADER -->
 
-<div class="header">
-    <div class="logo">EXAMOS</div>
-    <div class="tagline">AI-Powered Personal Learning</div>
-</div>
+<header class="header">
+
+    <div class="brand">
+
+        <div class="brandIcon">🎓</div>
+
+        <div>
+            <div class="brandName">EXAMOS</div>
+            <div class="brandSub">AI Powered Learning</div>
+        </div>
+
+    </div>
+
+    <nav class="nav">
+
+        <button class="active">⌂ Home</button>
+        <button onclick="scrollToSection('features')">▥ Dashboard</button>
+        <button onclick="scrollToSection('subjects')">↗ Progress</button>
+
+    </nav>
+
+    <div class="profile">
+
+        <div class="profileIcon">👤</div>
+
+        <div class="profileText">
+            Welcome<br>
+            <b>Student</b>
+        </div>
+
+    </div>
+
+</header>
 
 
-<!-- HOME -->
+<main class="main">
 
-<div id="home" class="page">
+<!-- HERO -->
 
-    <div class="center">
+<section class="hero">
 
-        <div class="icon">🎯</div>
+    <div class="heroContent">
 
-        <h1>Learn Smarter With EXAMOS</h1>
+        <h1 class="heroTitle">
+            Learn <span class="gradientText">Smarter</span><br>
+            Not <span class="gradientText">Harder</span>
+        </h1>
 
-        <p>
-            अपनी कमजोरी पहचानें, गलती समझें
-            और targeted practice करें।
+        <p class="heroText">
+            EXAMOS uses AI to analyze your mistakes,
+            find weak topics and help you improve
+            faster with personalized practice.
         </p>
 
+        <div class="heroButtons">
+
+            <button class="primary"
+                onclick="startLearning()">
+                Start Learning →
+            </button>
+
+            <button class="secondary"
+                onclick="showHowItWorks()">
+                ▶ How It Works
+            </button>
+
+        </div>
+
     </div>
 
-    <div class="card">
 
-        <h3>EXAMOS में क्या मिलेगा?</h3>
+    <div class="heroVisual">
 
-        <div class="feature">🧠 Mistake Analysis</div>
-        <div class="feature">📷 Solution Photo Analysis</div>
-        <div class="feature">🎯 Weak Topic Detection</div>
-        <div class="feature">📝 Personalized Practice</div>
-        <div class="feature">📊 Progress Tracking</div>
+        <div class="aiCard ai1">
+            🧠 AI Mistake Analysis
+        </div>
+
+        <div class="aiCard ai2">
+            🎯 Weak Topic Detection
+        </div>
+
+        <div class="student">
+            🧑‍🎓
+        </div>
+
+        <div class="aiCard ai3">
+            📚 Personalized Practice
+        </div>
+
+        <div class="aiCard ai4">
+            📊 Progress Tracking
+        </div>
 
     </div>
 
-    <button class="mainBtn" id="startBtn">
-        Start Learning
-    </button>
+</section>
 
-</div>
+
+<!-- FEATURES -->
+
+<section id="features" class="features">
+
+    <div class="feature">
+
+        <div class="featureIcon purple">
+            📋
+        </div>
+
+        <h3>Diagnostic Test</h3>
+
+        <p>
+            Take a test and get
+            AI powered analysis
+        </p>
+
+        <button
+            class="featureBtn purpleText"
+            onclick="startLearning()">
+            Start Test →
+        </button>
+
+    </div>
+
+
+    <div class="feature">
+
+        <div class="featureIcon blue">
+            📷
+        </div>
+
+        <h3>Solution Photo Analysis</h3>
+
+        <p>
+            Upload handwritten solution
+            & get detailed feedback
+        </p>
+
+        <button
+            class="featureBtn blueText"
+            onclick="photoAnalysis()">
+            Analyze Now →
+        </button>
+
+    </div>
+
+
+    <div class="feature">
+
+        <div class="featureIcon green">
+            🎯
+        </div>
+
+        <h3>Weak Topic Detection</h3>
+
+        <p>
+            Find your weak topics
+            automatically
+        </p>
+
+        <button
+            class="featureBtn greenText"
+            onclick="showMessage('Weak Topic Detection')">
+            View Weak Topics →
+        </button>
+
+    </div>
+
+
+    <div class="feature">
+
+        <div class="featureIcon orange">
+            ✏️
+        </div>
+
+        <h3>Personalized Practice</h3>
+
+        <p>
+            Practice weak topics with
+            AI recommended questions
+        </p>
+
+        <button
+            class="featureBtn orangeText"
+            onclick="showMessage('Personalized Practice')">
+            Start Practice →
+        </button>
+
+    </div>
+
+</section>
 
 
 <!-- CLASS -->
 
-<div id="classPage" class="page hide">
+<section class="section">
 
-    <button class="backBtn" id="classBack">
-        ← Back
-    </button>
+    <h2 class="sectionTitle">
+        🎓 Select Your Class
+    </h2>
 
-    <h2>Select Your Class</h2>
+    <p class="sectionSub">
+        अपनी class चुनें और learning शुरू करें।
+    </p>
 
-    <div class="grid">
-
-        <button class="choice classBtn" data-class="9">
-            Class 9
-        </button>
-
-        <button class="choice classBtn" data-class="10">
-            Class 10
-        </button>
-
-        <button class="choice classBtn" data-class="11">
-            Class 11
-        </button>
-
-        <button class="choice classBtn" data-class="12">
-            Class 12
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- SUBJECT -->
-
-<div id="subjectPage" class="page hide">
-
-    <button class="backBtn" id="subjectBack">
-        ← Back
-    </button>
-
-    <h2>Select Subject</h2>
-
-    <p id="classText"></p>
-
-    <div class="grid">
-
-        <button class="choice subjectBtn" data-subject="Mathematics">
-            📐 Mathematics
-        </button>
-
-        <button class="choice subjectBtn" data-subject="Physics">
-            ⚡ Physics
-        </button>
-
-        <button class="choice subjectBtn" data-subject="Chemistry">
-            🧪 Chemistry
-        </button>
-
-        <button class="choice subjectBtn" data-subject="English">
-            📖 English
-        </button>
-
-        <button class="choice subjectBtn" data-subject="Hindi">
-            📚 Hindi
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- DASHBOARD -->
-
-<div id="dashboard" class="page hide">
-
-    <div class="center">
-
-        <div class="icon">🚀</div>
-
-        <h2>EXAMOS Dashboard</h2>
-
-        <div id="studentInfo"></div>
-
-    </div>
-
-
-    <div class="dashboardCard">
-
-        <h3>🎯 Diagnostic Test</h3>
-
-        <p>
-            अपनी understanding check करें
-            और weak topics खोजें।
-        </p>
-
-        <button class="mainBtn" id="diagnosticBtn">
-            Start Diagnostic Test
-        </button>
-
-    </div>
-
-
-    <div class="dashboardCard">
-
-        <h3>🧠 AI Mistake Analysis</h3>
-
-        <p>
-            अपने handwritten solution की photo
-            upload करके गलती पहचानें।
-        </p>
-
-        <button class="mainBtn" id="mistakeBtn">
-            Analyze Solution Photo
-        </button>
-
-    </div>
-
-
-    <div class="dashboardCard">
-
-        <h3>📝 Personalized Practice</h3>
-
-        <p>
-            अपने weak topic पर practice करें।
-        </p>
-
-        <button class="mainBtn" id="practiceBtn">
-            Practice
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- TEST -->
-
-<div id="testPage" class="page hide">
-
-    <button class="backBtn" id="testBack">
-        ← Exit Test
-    </button>
-
-    <h2>Diagnostic Test</h2>
-
-    <div id="testInfo"></div>
-
-    <div id="counter"></div>
-
-    <div class="progressBg">
-        <div id="progress" class="progress"></div>
-    </div>
-
-    <div class="card">
-
-        <h3 id="question"></h3>
-
-        <div id="options"></div>
-
-        <button class="mainBtn" id="nextBtn">
-            Next
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- RESULT -->
-
-<div id="resultPage" class="page hide">
-
-    <h2>Diagnostic Result 📊</h2>
-
-    <div class="card">
-
-        <div id="score" class="score">
-            0%
-        </div>
-
-        <p id="scoreText" class="center"></p>
-
-    </div>
-
-    <div class="card">
-
-        <h3>🎯 Topic Performance</h3>
-
-        <div id="topicResult"></div>
-
-    </div>
-
-    <div class="card">
-
-        <h3>🧠 EXAMOS Analysis</h3>
-
-        <div id="weakMessage"></div>
-
-    </div>
-
-    <button class="mainBtn" id="resultBack">
-        Back to Dashboard
-    </button>
-
-</div>
-
-
-<!-- PHOTO ANALYSIS -->
-
-<div id="photoPage" class="page hide">
-
-    <button class="backBtn" id="photoBack">
-        ← Back
-    </button>
-
-    <h2>🧠 AI Mistake Analysis</h2>
-
-    <div>
-
-        <span class="badge" id="photoClass">
-            Class
-        </span>
-
-        <span class="badge" id="photoSubject">
-            Subject
-        </span>
-
-    </div>
-
-
-    <div class="card">
-
-        <h3>1️⃣ Question</h3>
-
-        <div class="questionBox">
-
-            <b>
-                यदि y = (2x + 1)³ है,
-                तो dy/dx ज्ञात करें।
-            </b>
-
-        </div>
-
-        <p>
-            Question को अपनी copy में solve करें।
-        </p>
-
-    </div>
-
-
-    <div class="card">
-
-        <h3>2️⃣ Solution की Photo दें</h3>
-
-        <div class="uploadBox">
-
-            <div class="uploadIcon">📷</div>
-
-            <h3>Handwritten Solution</h3>
-
-            <p>
-                अपनी copy के solution की साफ photo चुनें।
-            </p>
-
-            <input
-                type="file"
-                id="solutionPhoto"
-                accept="image/*"
-            >
-
-            <button
-                type="button"
-                class="mainBtn"
-                id="uploadBtn">
-
-                📷 Upload Solution Photo
-
-            </button>
-
-            <img
-                id="preview"
-                class="preview"
-                alt="Solution Preview"
-            >
-
-        </div>
+    <div class="classes">
 
         <button
-            type="button"
-            class="mainBtn"
-            id="analyzePhotoBtn"
-            disabled>
+            class="classCard"
+            onclick="selectClass(9)">
 
-            🔍 Analyze My Solution
+            <div class="classNumber">9</div>
+            <h3>Class 9</h3>
+
+        </button>
+
+
+        <button
+            class="classCard"
+            onclick="selectClass(10)">
+
+            <div class="classNumber">10</div>
+            <h3>Class 10</h3>
+
+        </button>
+
+
+        <button
+            class="classCard"
+            onclick="selectClass(11)">
+
+            <div class="classNumber">11</div>
+            <h3>Class 11</h3>
+
+        </button>
+
+
+        <button
+            class="classCard"
+            onclick="selectClass(12)">
+
+            <div class="classNumber">12</div>
+            <h3>Class 12</h3>
 
         </button>
 
     </div>
 
-
-    <div id="photoLoading" class="card hide">
-
-        <div class="loading">
-
-            <div class="spinner"></div>
-
-            <h3>EXAMOS AI is analyzing...</h3>
-
-            <p>
-                Solution के steps check किए जा रहे हैं।
-            </p>
-
-        </div>
-
-    </div>
+</section>
 
 
-    <div id="analysisResult" class="hide">
+<!-- SUBJECTS -->
 
-        <div class="card">
+<section id="subjects" class="section">
 
-            <h2>📊 Analysis Result</h2>
+    <h2 class="sectionTitle">
+        📚 Subjects
+    </h2>
 
-            <div class="resultBox errorBox">
+    <p class="sectionSub">
+        Choose a subject to explore chapters and start learning
+    </p>
 
-                <h3>❌ Mistake Type</h3>
+    <div class="subjects">
 
-                <p id="mistakeType"></p>
+        <button
+            class="subjectCard"
+            onclick="selectSubject('Mathematics')">
 
-            </div>
+            <div class="subjectIcon">√x</div>
+            <h3>Mathematics</h3>
 
-            <div class="resultBox infoBox">
+        </button>
 
-                <h3>📍 कहाँ गलती हुई?</h3>
 
-                <p id="mistakeLocation"></p>
+        <button
+            class="subjectCard"
+            onclick="selectSubject('Physics')">
 
-            </div>
+            <div class="subjectIcon">⚛️</div>
+            <h3>Physics</h3>
 
-            <div class="resultBox infoBox">
+        </button>
 
-                <h3>🧠 Concept Check</h3>
 
-                <p id="conceptCheck"></p>
+        <button
+            class="subjectCard"
+            onclick="selectSubject('Chemistry')">
 
-            </div>
+            <div class="subjectIcon">🧪</div>
+            <h3>Chemistry</h3>
 
-            <div class="resultBox correctBox">
+        </button>
 
-                <h3>✅ सही तरीका</h3>
 
-                <p id="correctMethod"></p>
+        <button
+            class="subjectCard"
+            onclick="selectSubject('English')">
 
-            </div>
+            <div class="subjectIcon">📖</div>
+            <h3>English</h3>
 
-            <div class="tipBox">
+        </button>
 
-                <h3>🎯 Weak Topic</h3>
 
-                <p id="weakTopic"></p>
+        <button
+            class="subjectCard"
+            onclick="selectSubject('Hindi')">
 
-            </div>
+            <div class="subjectIcon">अ</div>
+            <h3>Hindi</h3>
 
-        </div>
-
-        <button class="mainBtn" id="practiceTopic">
-            Practice This Topic
         </button>
 
     </div>
+
+</section>
+
+</main>
+
+
+<!-- BOTTOM NAV -->
+
+<nav class="bottomNav">
+
+    <button class="active"
+        onclick="scrollToSection('features')">
+
+        <span class="bottomIcon">⌂</span>
+        Home
+
+    </button>
+
+
+    <button
+        onclick="scrollToSection('subjects')">
+
+        <span class="bottomIcon">🎓</span>
+        Classes
+
+    </button>
+
+
+    <button
+        onclick="showMessage('AI Assistant')">
+
+        <span class="bottomIcon">🤖</span>
+        AI Assistant
+
+    </button>
+
+
+    <button
+        onclick="showMessage('Practice')">
+
+        <span class="bottomIcon">✏️</span>
+        Practice
+
+    </button>
+
+
+    <button
+        onclick="showMessage('Profile')">
+
+        <span class="bottomIcon">👤</span>
+        Profile
+
+    </button>
+
+</nav>
 
 </div>
+
+
+<!-- MODAL -->
+
+<div id="modal" class="modal">
+
+    <div class="modalBox">
+
+        <div class="modalHeader">
+
+            <h2 id="modalTitle">
+                Select
+            </h2>
+
+            <button
+                class="close"
+                onclick="closeModal()">
+                ×
+            </button>
+
+        </div>
+
+        <div id="modalContent"></div>
+
+    </div>
 
 </div>
 
 
 <script>
 
-/* =================================
-   VARIABLES
-================================= */
+/* ============================
+   DATA
+============================ */
 
 var selectedClass = "";
-var selectedSubject = "";
 
-var currentQuestion = 0;
-var userAnswers = [];
-var score = 0;
+var chapters = {
 
-var activeQuestions = [];
-
-
-/* =================================
-   QUESTION BANK
-================================= */
-
-var class9Math = [
-
-{
-    q:"यदि x + 5 = 12 है, तो x का मान क्या होगा?",
-    o:["5","7","17","-7"],
-    a:1,
-    topic:"Linear Equation"
-},
-
-{
-    q:"2x = 10 है, तो x का मान क्या होगा?",
-    o:["2","5","10","20"],
-    a:1,
-    topic:"Linear Equation"
-},
-
-{
-    q:"एक त्रिभुज के कोणों का योग कितना होता है?",
-    o:["90°","180°","270°","360°"],
-    a:1,
-    topic:"Geometry"
-},
-
-{
-    q:"वर्ग की भुजा 5 cm है। क्षेत्रफल?",
-    o:["10","20","25","30"],
-    a:2,
-    topic:"Mensuration"
-},
-
-{
-    q:"√49 का मान क्या है?",
-    o:["6","7","8","9"],
-    a:1,
-    topic:"Number System"
-},
-
-{
-    q:"3² का मान क्या है?",
-    o:["6","9","12","18"],
-    a:1,
-    topic:"Number System"
-}
-
-];
-
-
-var class10Math = [
-
-{
-    q:"x² - 5x + 6 = 0 के roots?",
-    o:["1,6","2,3","-2,-3","0,6"],
-    a:1,
-    topic:"Quadratic Equation"
-},
-
-{
-    q:"sin 30° का मान?",
-    o:["0","1/2","1","2"],
-    a:1,
-    topic:"Trigonometry"
-},
-
-{
-    q:"AP का प्रथम पद 3 और d=2 है। दूसरा पद?",
-    o:["3","4","5","6"],
-    a:2,
-    topic:"Arithmetic Progression"
-},
-
-{
-    q:"x+y=10 और x=4 है। y?",
-    o:["4","5","6","7"],
-    a:2,
-    topic:"Linear Equation"
-},
-
-{
-    q:"cos 0° का मान?",
-    o:["0","1","-1","2"],
-    a:1,
-    topic:"Trigonometry"
-},
-
-{
-    q:"2x+3=9 है। x?",
-    o:["2","3","4","6"],
-    a:1,
-    topic:"Linear Equation"
-}
-
-];
-
-
-var class11Math = [
-
-{
-    q:"f(x)=x²+3x है। f'(x)?",
-    o:["x+3","2x+3","x²+3","2x"],
-    a:1,
-    topic:"Differentiation"
-},
-
-{
-    q:"lim(x→0) sin x/x?",
-    o:["0","1","∞","-1"],
-    a:1,
-    topic:"Limits"
-},
-
-{
-    q:"A.P. का nth term?",
-    o:["a+nd","a+(n-1)d","an+d","a-d"],
-    a:1,
-    topic:"Arithmetic Progression"
-},
-
-{
-    q:"Perpendicular vectors का dot product?",
-    o:["1","-1","0","∞"],
-    a:2,
-    topic:"Vectors"
-},
-
-{
-    q:"A × A?",
-    o:["A","1","0","A²"],
-    a:2,
-    topic:"Vectors"
-},
-
-{
-    q:"y=x² है तो dy/dx?",
-    o:["x","2x","x²","2"],
-    a:1,
-    topic:"Differentiation"
-}
-
-];
-
-
-var class12Math = [
-
-{
-    q:"यदि f(x)=x²+3x है, तो f'(x)?",
-    o:["x+3","2x+3","x²+3","2x"],
-    a:1,
-    topic:"Differentiation"
-},
-
-{
-    q:"y=(2x+1)³ है। dy/dx?",
-    o:[
-        "3(2x+1)²",
-        "6(2x+1)²",
-        "3(2x+1)³",
-        "6(2x+1)³"
+    "Mathematics":[
+        "Real Numbers",
+        "Polynomials",
+        "Linear Equations",
+        "Quadratic Equations",
+        "Arithmetic Progression",
+        "Trigonometry",
+        "Differentiation",
+        "Integration",
+        "Vectors",
+        "Differential Equations"
     ],
-    a:1,
-    topic:"Chain Rule"
-},
 
-{
-    q:"y=x sin x है। dy/dx?",
-    o:[
-        "x cos x",
-        "sin x+x cos x",
-        "cos x+x sin x",
-        "sin x"
+    "Physics":[
+        "Units and Measurements",
+        "Motion",
+        "Laws of Motion",
+        "Work Energy and Power",
+        "Gravitation",
+        "Electricity",
+        "Magnetism",
+        "Optics"
     ],
-    a:1,
-    topic:"Product Rule"
-},
 
-{
-    q:"lim(x→0) sin x/x?",
-    o:["0","1","∞","-1"],
-    a:1,
-    topic:"Limits"
-},
-
-{
-    q:"y=sin(x²) है। dy/dx?",
-    o:[
-        "cos(x²)",
-        "2x cos(x²)",
-        "2x sin(x²)",
-        "x cos x"
+    "Chemistry":[
+        "Some Basic Concepts",
+        "Structure of Atom",
+        "Chemical Bonding",
+        "Thermodynamics",
+        "Equilibrium",
+        "Organic Chemistry",
+        "Electrochemistry"
     ],
-    a:1,
-    topic:"Chain Rule"
-},
 
-{
-    q:"∫x² dx?",
-    o:[
-        "x³+C",
-        "x³/3+C",
-        "2x+C",
-        "x²/2+C"
+    "English":[
+        "Reading Comprehension",
+        "Grammar",
+        "Writing",
+        "Literature",
+        "Vocabulary"
     ],
-    a:1,
-    topic:"Integration"
-},
 
-{
-    q:"∫cos x dx?",
-    o:[
-        "-sin x+C",
-        "sin x+C",
-        "cos x+C",
-        "-cos x+C"
-    ],
-    a:1,
-    topic:"Integration"
-},
-
-{
-    q:"Perpendicular vectors का dot product?",
-    o:["1","-1","0","∞"],
-    a:2,
-    topic:"Vectors"
-},
-
-{
-    q:"A × A?",
-    o:["A","1","0","A²"],
-    a:2,
-    topic:"Cross Product"
-},
-
-{
-    q:"d²y/dx² + dy/dx=0 का order?",
-    o:["1","2","3","0"],
-    a:1,
-    topic:"Differential Equation"
-}
-
-];
-
-
-/* =================================
-   GET QUESTIONS
-================================= */
-
-function getQuestions(){
-
-    if(selectedSubject !== "Mathematics"){
-        return [];
-    }
-
-    if(selectedClass === "9"){
-        return class9Math;
-    }
-
-    if(selectedClass === "10"){
-        return class10Math;
-    }
-
-    if(selectedClass === "11"){
-        return class11Math;
-    }
-
-    if(selectedClass === "12"){
-        return class12Math;
-    }
-
-    return [];
-}
-
-
-/* =================================
-   PAGE HELPER
-================================= */
-
-function showPage(pageId){
-
-    var pages = document.querySelectorAll(".page");
-
-    for(var i=0;i<pages.length;i++){
-        pages[i].classList.add("hide");
-    }
-
-    document.getElementById(pageId).classList.remove("hide");
-
-    window.scrollTo(0,0);
-}
-
-
-/* =================================
-   START
-================================= */
-
-document.getElementById("startBtn").onclick = function(){
-
-    showPage("classPage");
+    "Hindi":[
+        "गद्य खंड",
+        "पद्य खंड",
+        "व्याकरण",
+        "निबंध",
+        "पत्र लेखन"
+    ]
 
 };
 
 
-/* =================================
-   CLASS BUTTONS
-================================= */
+/* ============================
+   FUNCTIONS
+============================ */
 
-var classBtns =
-document.getElementsByClassName("classBtn");
+function startLearning(){
 
-for(var i=0;i<classBtns.length;i++){
-
-    classBtns[i].onclick = function(){
-
-        selectedClass =
-        this.getAttribute("data-class");
-
-        document.getElementById("classText").innerHTML =
-        "Selected Class: Class " + selectedClass;
-
-        showPage("subjectPage");
-
-    };
+    document.querySelector(".section").scrollIntoView({
+        behavior:"smooth"
+    });
 
 }
 
 
-/* =================================
-   CLASS BACK
-================================= */
+function scrollToSection(id){
 
-document.getElementById("classBack").onclick =
-function(){
+    var el=document.getElementById(id);
 
-    showPage("home");
+    if(el){
 
-};
+        el.scrollIntoView({
+            behavior:"smooth"
+        });
 
-
-/* =================================
-   SUBJECT BUTTONS
-================================= */
-
-var subjectBtns =
-document.getElementsByClassName("subjectBtn");
-
-for(var i=0;i<subjectBtns.length;i++){
-
-    subjectBtns[i].onclick = function(){
-
-        selectedSubject =
-        this.getAttribute("data-subject");
-
-        document.getElementById("studentInfo").innerHTML =
-        '<span class="badge">Class ' +
-        selectedClass +
-        '</span>' +
-        '<span class="badge">' +
-        selectedSubject +
-        '</span>';
-
-        showPage("dashboard");
-
-    };
-
-}
-
-
-/* =================================
-   SUBJECT BACK
-================================= */
-
-document.getElementById("subjectBack").onclick =
-function(){
-
-    showPage("classPage");
-
-};
-
-
-/* =================================
-   DIAGNOSTIC TEST
-================================= */
-
-document.getElementById("diagnosticBtn").onclick =
-function(){
-
-    activeQuestions = getQuestions();
-
-    if(activeQuestions.length === 0){
-
-        alert(
-        "अभी Diagnostic Test केवल Mathematics के लिए उपलब्ध है।"
-        );
-
-        return;
     }
 
-    currentQuestion = 0;
-    userAnswers = [];
-    score = 0;
-
-    document.getElementById("testInfo").innerHTML =
-    '<span class="badge">Class ' +
-    selectedClass +
-    '</span>' +
-    '<span class="badge">' +
-    selectedSubject +
-    '</span>';
-
-    showPage("testPage");
-
-    showQuestion();
-
-};
+}
 
 
-/* =================================
-   SHOW QUESTION
-================================= */
+function selectClass(cls){
 
-function showQuestion(){
+    selectedClass=cls;
 
-    var q =
-    activeQuestions[currentQuestion];
+    document.getElementById("modalTitle").innerHTML =
+        "Class " + cls + " Selected";
 
-    document.getElementById("counter").innerHTML =
-    "Question " +
-    (currentQuestion + 1) +
-    " / " +
-    activeQuestions.length;
+    var html="";
 
-    document.getElementById("progress").style.width =
-    (
-        ((currentQuestion + 1) /
-        activeQuestions.length) * 100
-    ) + "%";
+    html +=
+        '<p style="color:#666;margin-bottom:15px;">' +
+        'अब अपना subject चुनें:</p>';
 
-    document.getElementById("question").innerHTML =
-    q.q;
+    var subjects=[
+        "Mathematics",
+        "Physics",
+        "Chemistry",
+        "English",
+        "Hindi"
+    ];
 
-    var html = "";
-
-    for(var i=0;i<q.o.length;i++){
+    for(var i=0;i<subjects.length;i++){
 
         html +=
-        '<label class="option">' +
-        '<input type="radio" name="answer" value="' +
-        i +
-        '">' +
-        q.o[i] +
-        '</label>';
+        '<button class="chapter" onclick="selectSubject(\''+
+        subjects[i]+'\')">'+
+        subjects[i]+
+        ' →</button>';
 
     }
 
-    document.getElementById("options").innerHTML =
-    html;
+    document.getElementById("modalContent").innerHTML=html;
 
-    document.getElementById("nextBtn").innerHTML =
-    currentQuestion === activeQuestions.length - 1
-    ? "Submit Test"
-    : "Next";
+    document.getElementById("modal").classList.add("show");
 
 }
 
 
-/* =================================
-   NEXT
-================================= */
+function selectSubject(subject){
 
-document.getElementById("nextBtn").onclick =
-function(){
+    if(!selectedClass){
 
-    var selected =
-    document.querySelector(
-        'input[name="answer"]:checked'
-    );
-
-    if(!selected){
-
-        alert("पहले answer select करें।");
-        return;
+        selectedClass="9";
 
     }
 
-    userAnswers[currentQuestion] =
-    parseInt(selected.value,10);
+    document.getElementById("modalTitle").innerHTML =
+        "Class " + selectedClass +
+        " • " + subject;
 
-    if(
-        userAnswers[currentQuestion] ===
-        activeQuestions[currentQuestion].a
-    ){
+    var list=chapters[subject] || [];
 
-        score++;
+    var html=
+        '<p style="color:#666;margin-bottom:12px;">' +
+        'Chapter चुनें:</p>';
 
-    }
-
-    if(
-        currentQuestion <
-        activeQuestions.length - 1
-    ){
-
-        currentQuestion++;
-        showQuestion();
-
-    }else{
-
-        showResult();
-
-    }
-
-};
-
-
-/* =================================
-   RESULT
-================================= */
-
-function showResult(){
-
-    showPage("resultPage");
-
-    var percentage =
-    Math.round(
-        (score / activeQuestions.length) * 100
-    );
-
-    document.getElementById("score").innerHTML =
-    percentage + "%";
-
-    document.getElementById("scoreText").innerHTML =
-    "आपने " +
-    activeQuestions.length +
-    " में से " +
-    score +
-    " questions सही किए।";
-
-    var topics = {};
-
-    for(var i=0;i<activeQuestions.length;i++){
-
-        var topic =
-        activeQuestions[i].topic;
-
-        if(!topics[topic]){
-
-            topics[topic] = {
-                total:0,
-                correct:0
-            };
-
-        }
-
-        topics[topic].total++;
-
-        if(
-            userAnswers[i] ===
-            activeQuestions[i].a
-        ){
-
-            topics[topic].correct++;
-
-        }
-
-    }
-
-    var html = "";
-    var weak = [];
-
-    for(var topic in topics){
-
-        var data = topics[topic];
-
-        var percent =
-        Math.round(
-            (data.correct / data.total) * 100
-        );
-
-        var status;
-
-        if(percent < 50){
-
-            status =
-            '<span class="wrong">Weak 🔴</span>';
-
-            weak.push(topic);
-
-        }else if(percent < 75){
-
-            status =
-            '<span class="average">Needs Practice 🟡</span>';
-
-        }else{
-
-            status =
-            '<span class="correct">Strong 🟢</span>';
-
-        }
+    for(var i=0;i<list.length;i++){
 
         html +=
-        '<div class="topicBox">' +
-        '<b>' + topic + '</b><br>' +
-        status +
-        ' — ' +
-        percent +
-        '%' +
+        '<button class="chapter" onclick="openChapter(\''+
+        subject+'\',\''+
+        list[i]+'\')">'+
+        (i+1)+'. '+list[i]+
+        ' →</button>';
+
+    }
+
+    document.getElementById("modalContent").innerHTML=html;
+
+    document.getElementById("modal").classList.add("show");
+
+}
+
+
+function openChapter(subject,chapter){
+
+    document.getElementById("modalTitle").innerHTML =
+        chapter;
+
+    document.getElementById("modalContent").innerHTML=
+
+        '<div style="text-align:center;padding:15px;">'+
+
+        '<div style="font-size:50px;">🎯</div>'+
+
+        '<h3>Class '+selectedClass+
+        ' • '+subject+'</h3>'+
+
+        '<p style="color:#666;margin:12px 0 20px;">'+
+        'इस chapter के लिए क्या करना चाहते हैं?'+
+        '</p>'+
+
+        '<button class="primary" style="width:100%;margin-bottom:10px;" '+
+        'onclick="startTest(\''+
+        subject+'\',\''+
+        chapter+'\')">'+
+        '📋 Diagnostic Test'+
+        '</button>'+
+
+        '<button class="secondary" style="width:100%;" '+
+        'onclick="showMessage(\'Personalized Practice\')">'+
+        '✏️ Personalized Practice'+
+        '</button>'+
+
         '</div>';
 
-    }
+}
 
-    document.getElementById("topicResult").innerHTML =
-    html;
 
-    if(weak.length > 0){
+function startTest(subject,chapter){
 
-        document.getElementById("weakMessage").innerHTML =
-        "इन topics पर ज्यादा practice करें:<br><br>" +
-        "<b>" +
-        weak.join(", ") +
-        "</b>";
+    closeModal();
 
-    }else{
-
-        document.getElementById("weakMessage").innerHTML =
-        "🎉 कोई बहुत weak topic नहीं मिला।";
-
-    }
+    alert(
+        "Diagnostic Test तैयार होगा।\\n\\n"+
+        "Class: "+selectedClass+
+        "\\nSubject: "+subject+
+        "\\nChapter: "+chapter+
+        "\\n\\nअगले version में यहाँ random questions आएँगे।"
+    );
 
 }
 
 
-/* =================================
-   TEST BACK
-================================= */
-
-document.getElementById("testBack").onclick =
-function(){
-
-    showPage("dashboard");
-
-};
-
-
-/* =================================
-   RESULT BACK
-================================= */
-
-document.getElementById("resultBack").onclick =
-function(){
-
-    showPage("dashboard");
-
-};
-
-
-/* =================================
-   OPEN PHOTO PAGE
-================================= */
-
-document.getElementById("mistakeBtn").onclick =
-function(){
-
-    document.getElementById("photoClass").innerHTML =
-    "Class " + selectedClass;
-
-    document.getElementById("photoSubject").innerHTML =
-    selectedSubject;
-
-    resetPhotoAnalysis();
-
-    showPage("photoPage");
-
-};
-
-
-/* =================================
-   PHOTO BACK
-================================= */
-
-document.getElementById("photoBack").onclick =
-function(){
-
-    showPage("dashboard");
-
-};
-
-
-/* =================================
-   PHOTO UPLOAD
-================================= */
-
-var uploadBtn =
-document.getElementById("uploadBtn");
-
-var photoInput =
-document.getElementById("solutionPhoto");
-
-var preview =
-document.getElementById("preview");
-
-var analyzePhotoBtn =
-document.getElementById("analyzePhotoBtn");
-
-
-uploadBtn.onclick = function(){
-
-    photoInput.click();
-
-};
-
-
-/* =================================
-   PHOTO SELECTED
-================================= */
-
-photoInput.onchange = function(){
-
-    var file = photoInput.files[0];
-
-    if(!file){
-        return;
-    }
-
-    if(file.type.indexOf("image/") !== 0){
-
-        alert("कृपया केवल photo चुनें।");
-
-        photoInput.value = "";
-
-        return;
-    }
-
-    var reader = new FileReader();
-
-    reader.onload = function(e){
-
-        preview.src = e.target.result;
-
-        preview.style.display = "block";
-
-        analyzePhotoBtn.disabled = false;
-
-        uploadBtn.innerHTML =
-        "✅ Photo Selected";
-
-    };
-
-    reader.readAsDataURL(file);
-
-};
-
-
-/* =================================
-   ANALYZE PHOTO
-================================= */
-
-analyzePhotoBtn.onclick = function(){
-
-    if(!photoInput.files[0]){
-
-        alert(
-        "पहले solution की photo upload करें।"
-        );
-
-        return;
-
-    }
-
-    document.getElementById("photoLoading")
-    .classList.remove("hide");
-
-    document.getElementById("analysisResult")
-    .classList.add("hide");
-
-    setTimeout(function(){
-
-        document.getElementById("photoLoading")
-        .classList.add("hide");
-
-        document.getElementById("analysisResult")
-        .classList.remove("hide");
-
-
-        document.getElementById("mistakeType").innerHTML =
-        "Chain Rule / Concept Error";
-
-
-        document.getElementById("mistakeLocation").innerHTML =
-        "Demo analysis के अनुसार inner function " +
-        "<b>(2x + 1)</b> का derivative " +
-        "<b>2</b> multiply करना जरूरी है।";
-
-
-        document.getElementById("conceptCheck").innerHTML =
-        "Basic differentiation समझ में है, लेकिन " +
-        "Chain Rule के application में सुधार चाहिए।";
-
-
-        document.getElementById("correctMethod").innerHTML =
-        "y = (2x + 1)³<br><br>" +
-        "dy/dx = 3(2x + 1)² × 2<br><br>" +
-        "<b>dy/dx = 6(2x + 1)²</b>";
-
-
-        document.getElementById("weakTopic").innerHTML =
-        "<b>Chain Rule</b><br><br>" +
-        "इसी topic पर personalized practice की जाएगी।";
-
-    },1500);
-
-};
-
-
-/* =================================
-   RESET PHOTO
-================================= */
-
-function resetPhotoAnalysis(){
-
-    photoInput.value = "";
-
-    preview.src = "";
-
-    preview.style.display = "none";
-
-    analyzePhotoBtn.disabled = true;
-
-    uploadBtn.innerHTML =
-    "📷 Upload Solution Photo";
-
-    document.getElementById("analysisResult")
-    .classList.add("hide");
-
-    document.getElementById("photoLoading")
-    .classList.add("hide");
+function photoAnalysis(){
+
+    showMessage(
+        "Solution Photo Analysis"
+    );
 
 }
 
 
-/* =================================
-   PRACTICE TOPIC
-================================= */
+function showHowItWorks(){
 
-document.getElementById("practiceTopic").onclick =
-function(){
+    document.getElementById("modalTitle").innerHTML=
+        "How EXAMOS Works";
 
-    alert(
-    "🎯 Chain Rule Practice अगले version में शुरू होगा।"
-    );
+    document.getElementById("modalContent").innerHTML=
 
-};
+        '<div style="line-height:1.8;">'+
+
+        '<p>1️⃣ अपना Class चुनें</p>'+
+        '<p>2️⃣ Subject चुनें</p>'+
+        '<p>3️⃣ Chapter चुनें</p>'+
+        '<p>4️⃣ Diagnostic Test दें</p>'+
+        '<p>5️⃣ EXAMOS आपकी weak topics पहचानता है</p>'+
+        '<p>6️⃣ फिर Personalized Practice करें</p>'+
+        '<p>7️⃣ चाहें तो handwritten solution की photo भी analyze करें</p>'+
+
+        '</div>';
+
+    document.getElementById("modal").classList.add("show");
+
+}
 
 
-/* =================================
-   PRACTICE BUTTON
-================================= */
+function showMessage(name){
 
-document.getElementById("practiceBtn").onclick =
-function(){
+    document.getElementById("modalTitle").innerHTML=
+        name;
 
-    alert(
-    "🎯 Personalized Practice अगले version में बनेगा।"
-    );
+    document.getElementById("modalContent").innerHTML=
+
+        '<div style="text-align:center;padding:20px;">'+
+
+        '<div style="font-size:55px;">🚀</div>'+
+
+        '<h3>'+name+'</h3>'+
+
+        '<p style="color:#666;margin-top:10px;">'+
+        'यह feature EXAMOS के अगले version में पूरी तरह functional होगा।'+
+        '</p>'+
+
+        '</div>';
+
+    document.getElementById("modal").classList.add("show");
+
+}
+
+
+function closeModal(){
+
+    document.getElementById("modal")
+        .classList.remove("show");
+
+}
+
+
+/* बाहर click करने पर modal बंद */
+
+document.getElementById("modal").onclick=function(e){
+
+    if(e.target===this){
+
+        closeModal();
+
+    }
 
 };
 
