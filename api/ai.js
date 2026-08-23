@@ -1,5 +1,4 @@
 export default async function handler(req, res) {
-    // केवल POST request
     if (req.method !== "POST") {
         return res.status(405).json({
             error: "Only POST requests are allowed"
@@ -9,14 +8,12 @@ export default async function handler(req, res) {
     try {
         const { prompt } = req.body || {};
 
-        // सवाल की जाँच
         if (!prompt || typeof prompt !== "string" || !prompt.trim()) {
             return res.status(400).json({
                 error: "Prompt is required"
             });
         }
 
-        // Gemini API Key
         const apiKey = process.env.GEMINI_API_KEY;
 
         if (!apiKey) {
@@ -25,107 +22,51 @@ export default async function handler(req, res) {
             });
         }
 
-        /*
-         * EXAMOS AI Teacher Prompt
-         */
-        const instruction = `
+        const response = await fetch(
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-goog-api-key": apiKey
+                },
+
+                body: JSON.stringify({
+                    contents: [
+                        {
+                            parts: [
+                                {
+                                    text: `
 तुम EXAMOS AI के शिक्षक हो।
 
-छात्र के सवाल का जवाब सरल हिंदी में दो।
+छात्र को सरल हिंदी में समझाओ।
 
-बहुत जरूरी नियम:
-
-1. केवल अंतिम उत्तर देकर मत छोड़ो।
-2. छात्र को समझाओ कि उत्तर कैसे आया।
-3. गणित के सवाल में:
-   - पहले छोटा Concept बताओ
-   - फिर Step 1
-   - फिर Step 2
-   - जरूरत हो तो Step 3
-   - अंत में साफ Final Answer दो
-4. कठिन शब्दों को आसान हिंदी में समझाओ।
-5. जरूरत होने पर छोटा उदाहरण दो।
-6. बहुत लंबी भूमिका मत लिखो।
-7. सवाल छोटा हो तो जवाब भी छोटा रखो।
-8. लेकिन उत्तर समझने के लिए जरूरी steps कभी मत छोड़ो।
-9. छात्र अगर "समझ नहीं आया" कहे तो उसी चीज को और आसान तरीके से समझाओ।
-10. सीधे जवाब देना शुरू करो। "अगर चाहो तो..." कहकर explanation को मत छोड़ो।
-
-जवाब का अच्छा format:
-
-उत्तर:
-[सीधा उत्तर]
-
-समझें:
-[आसान explanation]
-
-Step 1:
-[पहला जरूरी step]
-
-Step 2:
-[दूसरा जरूरी step]
-
-Final Answer:
-[अंतिम उत्तर]
+जरूरी नियम:
+- सिर्फ उत्तर मत दो, समझाओ भी।
+- गणित में calculation step-by-step दिखाओ।
+- पहले concept, फिर steps, फिर final answer दो।
+- कठिन बात को आसान भाषा में समझाओ।
+- जरूरत हो तो छोटा उदाहरण दो।
+- बेवजह लंबा जवाब मत दो।
+- छात्र अगर "समझ नहीं आया" कहे तो और आसान तरीके से समझाओ।
+- "अगर चाहो तो समझा सकता हूँ" जैसे वाक्य से explanation को अधूरा मत छोड़ो।
 
 छात्र का सवाल:
 ${prompt.trim()}
-`;
-
-        /*
-         * Gemini API
-         */
-        const controller = new AbortController();
-
-        // अधिकतम 25 सेकंड
-        const timeout = setTimeout(() => {
-            controller.abort();
-        }, 25000);
-
-        let response;
-
-        try {
-            response = await fetch(
-                "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type": "application/json",
-                        "x-goog-api-key": apiKey
-                    },
-
-                    body: JSON.stringify({
-                        contents: [
-                            {
-                                parts: [
-                                    {
-                                        text: instruction
-                                    }
-                                ]
-                            }
-                        ],
-
-                        generationConfig: {
-                            temperature: 0.3,
-                            maxOutputTokens: 500
+`
+                                }
+                            ]
                         }
-                    }),
-
-                    signal: controller.signal
-                }
-            );
-        } finally {
-            clearTimeout(timeout);
-        }
+                    ]
+                })
+            }
+        );
 
         const data = await response.json();
 
-        /*
-         * Gemini error
-         */
         if (!response.ok) {
-            console.error("Gemini API Error:", data);
+            console.error("Gemini Error:", data);
 
             return res.status(response.status).json({
                 error:
@@ -134,16 +75,11 @@ ${prompt.trim()}
             });
         }
 
-        /*
-         * AI response निकालना
-         */
-        const parts =
-            data?.candidates?.[0]?.content?.parts || [];
-
-        const answer = parts
-            .map(part => part?.text || "")
-            .join("")
-            .trim();
+        const answer =
+            data?.candidates?.[0]?.content?.parts
+                ?.map(part => part?.text || "")
+                .join("")
+                .trim();
 
         if (!answer) {
             return res.status(502).json({
@@ -151,23 +87,13 @@ ${prompt.trim()}
             });
         }
 
-        /*
-         * Frontend को जवाब
-         */
         return res.status(200).json({
-            answer: answer
+            answer
         });
 
     } catch (error) {
 
         console.error("EXAMOS AI Error:", error);
-
-        if (error?.name === "AbortError") {
-            return res.status(504).json({
-                error:
-                    "AI को जवाब देने में बहुत समय लग रहा है। कृपया दोबारा कोशिश करें।"
-            });
-        }
 
         return res.status(500).json({
             error:
