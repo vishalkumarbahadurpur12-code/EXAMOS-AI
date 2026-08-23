@@ -1341,7 +1341,8 @@ async function askEXAMOSAI(prompt) {
         console.error("EXAMOS AI Error:", error);
         return "AI से connection नहीं हो पाया: " + error.message;
     }
-}async function testEXAMOSAI() {
+}
+    async function testEXAMOSAI() {
 
     const answer = await askEXAMOSAI(
         "तुम EXAMOS AI के teacher हो। छात्र को सरल हिंदी में बताओ कि Chain Rule क्या होता है और एक छोटा उदाहरण दो।"
