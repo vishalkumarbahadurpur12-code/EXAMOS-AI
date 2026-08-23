@@ -1,5 +1,4 @@
 export default async function handler(req, res) {
-  // CORS
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -19,54 +18,54 @@ export default async function handler(req, res) {
 
     if (!apiKey) {
       return res.status(500).json({
-        error: "GEMINI_API_KEY is not configured in Vercel"
+        error: "GEMINI_API_KEY is missing"
       });
     }
 
-    const { prompt, question, answer, subject, className, chapter } =
-      req.body || {};
+    const {
+      prompt,
+      imageBase64,
+      mimeType
+    } = req.body || {};
 
-    const userPrompt = prompt || `
-You are the AI teacher of EXAMOS AI.
+    if (!prompt && !imageBase64) {
+      return res.status(400).json({
+        error: "Prompt or image is required"
+      });
+    }
 
-Student Class: ${className || "Not specified"}
-Subject: ${subject || "Not specified"}
-Chapter: ${chapter || "Not specified"}
+    const parts = [];
 
-Question:
-${question || "No question provided"}
+    if (imageBase64) {
+      parts.push({
+        inlineData: {
+          mimeType: mimeType || "image/jpeg",
+          data: imageBase64
+        }
+      });
+    }
 
-Student Answer:
-${answer || "No answer provided"}
-
-Help the student clearly.
-If the student answer is wrong, identify the mistake and explain the correct method.
-If it is correct, explain why it is correct.
-
-Return a useful educational response in simple Hindi.
-`;
+    parts.push({
+      text: prompt || "Analyze this image for a student."
+    });
 
     const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" +
-        encodeURIComponent(apiKey),
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "x-goog-api-key": apiKey
         },
         body: JSON.stringify({
           contents: [
             {
-              parts: [
-                {
-                  text: userPrompt
-                }
-              ]
+              parts: parts
             }
           ],
           generationConfig: {
             temperature: 0.7,
-            maxOutputTokens: 1500
+            maxOutputTokens: 2500
           }
         })
       }
@@ -76,18 +75,21 @@ Return a useful educational response in simple Hindi.
 
     if (!response.ok) {
       return res.status(response.status).json({
-        error: data?.error?.message || "Gemini API request failed"
+        error:
+          data?.error?.message ||
+          "Gemini API request failed"
       });
     }
 
-    const text =
+    const answer =
       data?.candidates?.[0]?.content?.parts
-        ?.map(part => part.text || "")
-        .join("") || "AI ने कोई उत्तर नहीं दिया।";
+        ?.map(p => p.text || "")
+        .join("") ||
+      "AI ने कोई उत्तर नहीं दिया।";
 
     return res.status(200).json({
       success: true,
-      answer: text
+      answer: answer
     });
 
   } catch (error) {
