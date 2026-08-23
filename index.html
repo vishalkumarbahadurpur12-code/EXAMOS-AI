@@ -1317,7 +1317,38 @@ document.getElementById("modal").onclick=function(e){
     }
 
 };
+async function askEXAMOSAI(prompt) {
+    try {
+        const response = await fetch("/api/ai", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                prompt: prompt
+            })
+        });
 
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "AI request failed");
+        }
+
+        return data.answer;
+
+    } catch (error) {
+        console.error("EXAMOS AI Error:", error);
+        return "AI से connection नहीं हो पाया: " + error.message;
+    }
+}async function testEXAMOSAI() {
+
+    const answer = await askEXAMOSAI(
+        "तुम EXAMOS AI के teacher हो। छात्र को सरल हिंदी में बताओ कि Chain Rule क्या होता है और एक छोटा उदाहरण दो।"
+    );
+
+    alert(answer);
+}
 </script>
 
 </body>
