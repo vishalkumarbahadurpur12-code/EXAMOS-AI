@@ -1,5 +1,4 @@
 export default async function handler(req, res) {
-
     // केवल POST request
     if (req.method !== "POST") {
         return res.status(405).json({
@@ -8,10 +7,9 @@ export default async function handler(req, res) {
     }
 
     try {
-
         const { prompt } = req.body || {};
 
-        // सवाल check
+        // सवाल की जाँच
         if (!prompt || typeof prompt !== "string" || !prompt.trim()) {
             return res.status(400).json({
                 error: "Prompt is required"
@@ -23,45 +21,70 @@ export default async function handler(req, res) {
 
         if (!apiKey) {
             return res.status(500).json({
-                error: "GEMINI_API_KEY is not configured in Vercel"
+                error: "GEMINI_API_KEY is not configured"
             });
         }
 
         /*
-         * EXAMOS AI instruction
-         * जवाब छोटा, आसान और step-by-step रहेगा।
+         * EXAMOS AI Teacher Prompt
          */
-        const systemPrompt = `
+        const instruction = `
 तुम EXAMOS AI के शिक्षक हो।
 
-छात्र को हिंदी में बहुत आसान भाषा में समझाओ।
+छात्र के सवाल का जवाब सरल हिंदी में दो।
 
-नियम:
-1. पहले सीधे सवाल का उत्तर दो।
-2. फिर जरूरत हो तो 2 से 5 छोटे steps में समझाओ।
-3. कठिन शब्दों को आसान भाषा में समझाओ।
-4. गणित के सवाल में calculation साफ-साफ दिखाओ।
+बहुत जरूरी नियम:
+
+1. केवल अंतिम उत्तर देकर मत छोड़ो।
+2. छात्र को समझाओ कि उत्तर कैसे आया।
+3. गणित के सवाल में:
+   - पहले छोटा Concept बताओ
+   - फिर Step 1
+   - फिर Step 2
+   - जरूरत हो तो Step 3
+   - अंत में साफ Final Answer दो
+4. कठिन शब्दों को आसान हिंदी में समझाओ।
 5. जरूरत होने पर छोटा उदाहरण दो।
-6. बहुत लंबा जवाब मत दो।
-7. छात्र अगर दोबारा सवाल पूछे तो पिछले सवाल के संदर्भ को ध्यान में रखकर जवाब दो।
-8. अगर छात्र का सवाल स्पष्ट नहीं है तो छोटा clarification पूछो।
+6. बहुत लंबी भूमिका मत लिखो।
+7. सवाल छोटा हो तो जवाब भी छोटा रखो।
+8. लेकिन उत्तर समझने के लिए जरूरी steps कभी मत छोड़ो।
+9. छात्र अगर "समझ नहीं आया" कहे तो उसी चीज को और आसान तरीके से समझाओ।
+10. सीधे जवाब देना शुरू करो। "अगर चाहो तो..." कहकर explanation को मत छोड़ो।
+
+जवाब का अच्छा format:
+
+उत्तर:
+[सीधा उत्तर]
+
+समझें:
+[आसान explanation]
+
+Step 1:
+[पहला जरूरी step]
+
+Step 2:
+[दूसरा जरूरी step]
+
+Final Answer:
+[अंतिम उत्तर]
 
 छात्र का सवाल:
 ${prompt.trim()}
 `;
 
-        // Gemini request
+        /*
+         * Gemini API
+         */
         const controller = new AbortController();
 
-        // अधिकतम 30 सेकंड
+        // अधिकतम 25 सेकंड
         const timeout = setTimeout(() => {
             controller.abort();
-        }, 30000);
+        }, 25000);
 
         let response;
 
         try {
-
             response = await fetch(
                 "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent",
                 {
@@ -77,34 +100,32 @@ ${prompt.trim()}
                             {
                                 parts: [
                                     {
-                                        text: systemPrompt
+                                        text: instruction
                                     }
                                 ]
                             }
                         ],
 
                         generationConfig: {
-                            temperature: 0.4,
-                            maxOutputTokens: 700
+                            temperature: 0.3,
+                            maxOutputTokens: 500
                         }
                     }),
 
                     signal: controller.signal
                 }
             );
-
         } finally {
-
             clearTimeout(timeout);
-
         }
 
         const data = await response.json();
 
-        // Gemini error
+        /*
+         * Gemini error
+         */
         if (!response.ok) {
-
-            console.error("Gemini Error:", data);
+            console.error("Gemini API Error:", data);
 
             return res.status(response.status).json({
                 error:
@@ -113,42 +134,45 @@ ${prompt.trim()}
             });
         }
 
-        // AI answer
-        const answer =
-            data?.candidates?.[0]?.content?.parts
-                ?.map(part => part.text || "")
-                .join("")
-                .trim();
+        /*
+         * AI response निकालना
+         */
+        const parts =
+            data?.candidates?.[0]?.content?.parts || [];
+
+        const answer = parts
+            .map(part => part?.text || "")
+            .join("")
+            .trim();
 
         if (!answer) {
-
             return res.status(502).json({
                 error: "AI ने कोई जवाब नहीं दिया।"
             });
         }
 
-        // सफल response
+        /*
+         * Frontend को जवाब
+         */
         return res.status(200).json({
             answer: answer
         });
 
     } catch (error) {
 
-        console.error("EXAMOS AI Server Error:", error);
+        console.error("EXAMOS AI Error:", error);
 
-        // Timeout
-        if (error.name === "AbortError") {
-
+        if (error?.name === "AbortError") {
             return res.status(504).json({
                 error:
-                    "AI को जवाब देने में ज्यादा समय लग रहा है। कृपया दोबारा कोशिश करें।"
+                    "AI को जवाब देने में बहुत समय लग रहा है। कृपया दोबारा कोशिश करें।"
             });
         }
 
         return res.status(500).json({
             error:
                 "AI server error: " +
-                (error.message || "Unknown error")
+                (error?.message || "Unknown error")
         });
     }
 }
