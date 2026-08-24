@@ -6,7 +6,11 @@
 <title>EXAMOS AI</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
 body{
     font-family:Arial,Helvetica,sans-serif;
@@ -14,8 +18,13 @@ body{
     color:#151936;
 }
 
-button,input,textarea{font-family:inherit}
-button{cursor:pointer}
+button,input,textarea{
+    font-family:inherit;
+}
+
+button{
+    cursor:pointer;
+}
 
 .app{
     max-width:1200px;
@@ -24,7 +33,8 @@ button{cursor:pointer}
     background:#fff;
 }
 
-/* HEADER */
+/* ================= HEADER ================= */
+
 .header{
     height:78px;
     display:flex;
@@ -56,10 +66,21 @@ button{cursor:pointer}
     color:#fff;
 }
 
-.brandName{font-size:25px;font-weight:800}
-.brandSub{font-size:12px;color:#666;margin-top:2px}
+.brandName{
+    font-size:25px;
+    font-weight:800;
+}
 
-.nav{display:flex;gap:10px}
+.brandSub{
+    font-size:12px;
+    color:#666;
+    margin-top:2px;
+}
+
+.nav{
+    display:flex;
+    gap:10px;
+}
 
 .nav button{
     border:0;
@@ -91,13 +112,22 @@ button{cursor:pointer}
     font-size:23px;
 }
 
-.profileText{font-size:13px}
-.profileText b{font-size:15px}
+.profileText{
+    font-size:13px;
+}
 
-/* MAIN */
-.main{padding:22px 28px 90px}
+.profileText b{
+    font-size:15px;
+}
 
-/* HERO */
+/* ================= MAIN ================= */
+
+.main{
+    padding:22px 28px 90px;
+}
+
+/* ================= HERO ================= */
+
 .hero{
     min-height:360px;
     border-radius:22px;
@@ -109,7 +139,9 @@ button{cursor:pointer}
     overflow:hidden;
 }
 
-.heroContent{width:52%}
+.heroContent{
+    width:52%;
+}
 
 .heroTitle{
     font-size:48px;
@@ -156,7 +188,8 @@ button{cursor:pointer}
     font-weight:bold;
 }
 
-/* HERO VISUAL */
+/* ================= HERO VISUAL ================= */
+
 .heroVisual{
     width:43%;
     min-height:300px;
@@ -192,7 +225,8 @@ button{cursor:pointer}
 .ai3{bottom:20px;left:20px}
 .ai4{bottom:30px;right:5px}
 
-/* FEATURES */
+/* ================= FEATURES ================= */
+
 .features{
     display:grid;
     grid-template-columns:repeat(4,1fr);
@@ -208,7 +242,9 @@ button{cursor:pointer}
     border-right:1px solid #eee;
 }
 
-.feature:last-child{border-right:0}
+.feature:last-child{
+    border-right:0;
+}
 
 .featureIcon{
     width:50px;
@@ -226,7 +262,10 @@ button{cursor:pointer}
 .green{background:#e3f8ed}
 .orange{background:#fff0d8}
 
-.feature h3{margin-bottom:10px;font-size:17px}
+.feature h3{
+    margin-bottom:10px;
+    font-size:17px;
+}
 
 .feature p{
     color:#666;
@@ -248,7 +287,8 @@ button{cursor:pointer}
 .greenText{color:#12a964}
 .orangeText{color:#e98a00}
 
-/* SECTION */
+/* ================= SECTION ================= */
+
 .section{
     background:#fff;
     border-radius:17px;
@@ -270,7 +310,8 @@ button{cursor:pointer}
     margin-bottom:20px;
 }
 
-/* CLASSES */
+/* ================= CLASSES ================= */
+
 .classes{
     display:grid;
     grid-template-columns:repeat(4,1fr);
@@ -300,7 +341,8 @@ button{cursor:pointer}
 .classCard:nth-child(3) .classNumber{color:#10a765}
 .classCard:nth-child(4) .classNumber{color:#e88900}
 
-/* SUBJECTS */
+/* ================= SUBJECTS ================= */
+
 .subjects{
     display:grid;
     grid-template-columns:repeat(5,1fr);
@@ -325,9 +367,12 @@ button{cursor:pointer}
     margin-bottom:12px;
 }
 
-.subjectCard h3{font-size:15px}
+.subjectCard h3{
+    font-size:15px;
+}
 
-/* MODAL */
+/* ================= MODAL ================= */
+
 .modal{
     position:fixed;
     inset:0;
@@ -339,15 +384,17 @@ button{cursor:pointer}
     padding:15px;
 }
 
-.modal.show{display:flex}
+.modal.show{
+    display:flex;
+}
 
 .modalBox{
     background:#fff;
     width:100%;
-    max-width:620px;
+    max-width:700px;
     border-radius:20px;
     padding:25px;
-    max-height:90vh;
+    max-height:92vh;
     overflow:auto;
 }
 
@@ -367,6 +414,8 @@ button{cursor:pointer}
     font-size:20px;
 }
 
+/* ================= CHAPTER ================= */
+
 .chapter{
     width:100%;
     text-align:left;
@@ -383,10 +432,11 @@ button{cursor:pointer}
     border-color:#684cff;
 }
 
-/* LOADING */
+/* ================= LOADING ================= */
+
 .loading{
     text-align:center;
-    padding:35px 15px;
+    padding:45px 15px;
 }
 
 .spinner{
@@ -403,7 +453,8 @@ button{cursor:pointer}
     to{transform:rotate(360deg)}
 }
 
-/* TEST */
+/* ================= TEST ================= */
+
 .testTop{
     background:#f5f2ff;
     padding:15px;
@@ -429,33 +480,38 @@ button{cursor:pointer}
 .questionBox{
     border:1px solid #eee;
     border-radius:16px;
-    padding:20px;
+    padding:22px;
+    background:#fff;
 }
 
 .questionNumber{
     color:#5939e8;
     font-weight:bold;
-    margin-bottom:12px;
+    margin-bottom:14px;
 }
 
 .questionText{
-    font-size:20px;
-    line-height:1.65;
+    font-size:21px;
+    line-height:1.75;
     font-weight:600;
-    margin-bottom:20px;
+    margin-bottom:22px;
+    color:#11152e;
     white-space:pre-wrap;
+    overflow-wrap:anywhere;
 }
 
 .option{
     width:100%;
     text-align:left;
-    padding:15px;
+    padding:17px;
     margin:9px 0;
-    border:1px solid #ddd;
+    border:2px solid #e1e1e8;
     background:#fff;
-    border-radius:12px;
-    font-size:16px;
-    line-height:1.5;
+    border-radius:13px;
+    font-size:17px;
+    line-height:1.55;
+    color:#17182c;
+    transition:.15s;
 }
 
 .option:hover{
@@ -468,12 +524,31 @@ button{cursor:pointer}
     background:#eeeaff;
 }
 
+.optionLetter{
+    display:inline-flex;
+    width:32px;
+    height:32px;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:#f0edff;
+    color:#5038df;
+    font-weight:bold;
+    margin-right:8px;
+}
+
 .nextBtn{
     width:100%;
     margin-top:15px;
 }
 
-/* RESULT */
+.nextBtn:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+}
+
+/* ================= RESULT ================= */
+
 .result{
     text-align:center;
     padding:20px 5px;
@@ -495,30 +570,89 @@ button{cursor:pointer}
     line-height:1.7;
 }
 
-/* CONCEPT */
+/* ================= CONCEPT ================= */
+
 .concept{
     background:#faf9ff;
     border:1px solid #e9e5ff;
     border-radius:15px;
     padding:20px;
-    line-height:1.75;
+    line-height:1.8;
+}
+
+.conceptSection{
+    background:#fff;
+    border:1px solid #eee;
+    border-radius:13px;
+    padding:16px;
+    margin:12px 0;
 }
 
 .concept h3{
     color:#5038df;
-    margin:15px 0 8px;
+    margin-bottom:8px;
 }
 
 .concept p{
-    margin-bottom:10px;
+    margin-bottom:8px;
     white-space:pre-wrap;
+    overflow-wrap:anywhere;
 }
 
-/* CHAT */
+/* ================= FORMATTED AI ================= */
+
+.aiFormatted{
+    font-size:16px;
+    line-height:1.8;
+    color:#202238;
+    overflow-wrap:anywhere;
+}
+
+.aiFormatted h3{
+    color:#5038df;
+    font-size:18px;
+    margin:18px 0 8px;
+}
+
+.aiFormatted h4{
+    color:#333;
+    margin:14px 0 6px;
+}
+
+.aiFormatted p{
+    margin:8px 0;
+}
+
+.aiFormatted .step{
+    background:#fff;
+    border-left:4px solid #6345ed;
+    padding:10px 12px;
+    margin:8px 0;
+    border-radius:8px;
+}
+
+.aiFormatted .formula{
+    background:#f3f1ff;
+    border:1px solid #ddd7ff;
+    padding:12px;
+    border-radius:10px;
+    margin:10px 0;
+    font-family:Arial,sans-serif;
+    font-weight:bold;
+    font-size:17px;
+    overflow-x:auto;
+}
+
+.aiFormatted strong{
+    color:#3727a7;
+}
+
+/* ================= CHAT ================= */
+
 .chat{
     display:flex;
     flex-direction:column;
-    height:70vh;
+    height:72vh;
     min-height:500px;
 }
 
@@ -529,13 +663,13 @@ button{cursor:pointer}
 }
 
 .chatBubble{
-    max-width:85%;
-    padding:13px 15px;
+    max-width:88%;
+    padding:14px 16px;
     border-radius:16px;
     margin:8px 0;
-    line-height:1.6;
-    white-space:pre-wrap;
+    line-height:1.7;
     word-wrap:break-word;
+    overflow-wrap:anywhere;
 }
 
 .userBubble{
@@ -552,6 +686,35 @@ button{cursor:pointer}
     border-bottom-left-radius:5px;
 }
 
+.aiChatFormatted{
+    font-size:15px;
+    line-height:1.75;
+}
+
+.aiChatFormatted .chatHeading{
+    color:#432ec2;
+    font-weight:bold;
+    font-size:16px;
+    margin:12px 0 5px;
+}
+
+.aiChatFormatted .chatStep{
+    background:#fff;
+    border-left:3px solid #684cff;
+    padding:8px 10px;
+    margin:6px 0;
+    border-radius:7px;
+}
+
+.aiChatFormatted .chatFormula{
+    background:#e9e6ff;
+    padding:9px 11px;
+    border-radius:8px;
+    font-weight:bold;
+    margin:8px 0;
+    overflow-x:auto;
+}
+
 .thinking{
     display:inline-flex;
     gap:5px;
@@ -566,12 +729,23 @@ button{cursor:pointer}
     animation:bounce 1s infinite;
 }
 
-.dot:nth-child(2){animation-delay:.15s}
-.dot:nth-child(3){animation-delay:.3s}
+.dot:nth-child(2){
+    animation-delay:.15s;
+}
+
+.dot:nth-child(3){
+    animation-delay:.3s;
+}
 
 @keyframes bounce{
-    0%,100%{transform:translateY(0);opacity:.4}
-    50%{transform:translateY(-4px);opacity:1}
+    0%,100%{
+        transform:translateY(0);
+        opacity:.4;
+    }
+    50%{
+        transform:translateY(-4px);
+        opacity:1;
+    }
 }
 
 .chatInputArea{
@@ -614,7 +788,8 @@ button{cursor:pointer}
     font-weight:bold;
 }
 
-/* BOTTOM */
+/* ================= BOTTOM ================= */
+
 .bottomNav{
     position:fixed;
     bottom:0;
@@ -641,10 +816,16 @@ button{cursor:pointer}
     gap:4px;
 }
 
-.bottomIcon{font-size:22px}
-.bottomNav .active{color:#5038df}
+.bottomIcon{
+    font-size:22px;
+}
 
-/* MOBILE */
+.bottomNav .active{
+    color:#5038df;
+}
+
+/* ================= MOBILE ================= */
+
 @media(max-width:800px){
 
     .header{
@@ -652,10 +833,19 @@ button{cursor:pointer}
         padding:0 15px;
     }
 
-    .brandName{font-size:20px}
-    .brandSub,.nav,.profileText{display:none}
+    .brandName{
+        font-size:20px;
+    }
 
-    .main{padding:15px 12px 85px}
+    .brandSub,
+    .nav,
+    .profileText{
+        display:none;
+    }
+
+    .main{
+        padding:15px 12px 85px;
+    }
 
     .hero{
         padding:25px 20px;
@@ -664,9 +854,17 @@ button{cursor:pointer}
         align-items:flex-start;
     }
 
-    .heroContent{width:100%}
-    .heroTitle{font-size:37px}
-    .heroText{font-size:15px}
+    .heroContent{
+        width:100%;
+    }
+
+    .heroTitle{
+        font-size:37px;
+    }
+
+    .heroText{
+        font-size:15px;
+    }
 
     .heroVisual{
         width:100%;
@@ -685,7 +883,9 @@ button{cursor:pointer}
         padding:9px 11px;
     }
 
-    .features{grid-template-columns:1fr 1fr}
+    .features{
+        grid-template-columns:1fr 1fr;
+    }
 
     .feature{
         border-bottom:1px solid #eee;
@@ -693,37 +893,56 @@ button{cursor:pointer}
         padding:20px 10px;
     }
 
-    .classes{grid-template-columns:1fr 1fr}
-    .subjects{grid-template-columns:1fr 1fr}
+    .classes{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .subjects{
+        grid-template-columns:1fr 1fr;
+    }
 
     .subjectCard:last-child{
         grid-column:1 / 3;
     }
 
-    .section{padding:18px}
+    .section{
+        padding:18px;
+    }
 
-    .modalBox{padding:18px}
+    .modalBox{
+        padding:18px;
+        max-height:94vh;
+    }
 
     .questionText{
         font-size:18px;
+        line-height:1.7;
+    }
+
+    .option{
+        font-size:16px;
+        padding:15px;
     }
 
     .chat{
-        height:72vh;
-        min-height:480px;
+        height:74vh;
+        min-height:470px;
     }
 }
 
 @media(max-width:420px){
 
-    .heroTitle{font-size:32px}
+    .heroTitle{
+        font-size:32px;
+    }
 
     .heroButtons{
         flex-direction:column;
         width:100%;
     }
 
-    .primary,.secondary{
+    .primary,
+    .secondary{
         width:100%;
     }
 
@@ -741,27 +960,43 @@ button{cursor:pointer}
 <header class="header">
 
     <div class="brand">
+
         <div class="brandIcon">🎓</div>
 
         <div>
             <div class="brandName">EXAMOS</div>
             <div class="brandSub">AI Powered Learning</div>
         </div>
+
     </div>
 
     <nav class="nav">
-        <button class="active" onclick="goHome()">⌂ Home</button>
-        <button onclick="openAIChat()">🤖 AI Assistant</button>
-        <button onclick="scrollToSection('subjects')">📚 Subjects</button>
+
+        <button class="active" onclick="goHome()">
+            ⌂ Home
+        </button>
+
+        <button onclick="openAIChat()">
+            🤖 AI Assistant
+        </button>
+
+        <button onclick="scrollToSection('subjects')">
+            📚 Subjects
+        </button>
+
     </nav>
 
     <div class="profile">
-        <div class="profileIcon">👤</div>
+
+        <div class="profileIcon">
+            👤
+        </div>
 
         <div class="profileText">
             Welcome<br>
             <b>Student</b>
         </div>
+
     </div>
 
 </header>
@@ -785,11 +1020,13 @@ button{cursor:pointer}
 
         <div class="heroButtons">
 
-            <button class="primary" onclick="startLearning()">
+            <button class="primary"
+                    onclick="startLearning()">
                 Start Learning →
             </button>
 
-            <button class="secondary" onclick="showHowItWorks()">
+            <button class="secondary"
+                    onclick="showHowItWorks()">
                 ▶ How It Works
             </button>
 
@@ -799,13 +1036,25 @@ button{cursor:pointer}
 
     <div class="heroVisual">
 
-        <div class="aiCard ai1">🧠 AI Mistake Analysis</div>
-        <div class="aiCard ai2">🎯 Weak Topic Detection</div>
+        <div class="aiCard ai1">
+            🧠 AI Mistake Analysis
+        </div>
 
-        <div class="student">🧑‍🎓</div>
+        <div class="aiCard ai2">
+            🎯 Weak Topic Detection
+        </div>
 
-        <div class="aiCard ai3">📚 Personalized Practice</div>
-        <div class="aiCard ai4">📊 Progress Tracking</div>
+        <div class="student">
+            🧑‍🎓
+        </div>
+
+        <div class="aiCard ai3">
+            📚 Personalized Practice
+        </div>
+
+        <div class="aiCard ai4">
+            📊 Progress Tracking
+        </div>
 
     </div>
 
@@ -815,9 +1064,13 @@ button{cursor:pointer}
 
     <div class="feature">
 
-        <div class="featureIcon purple">📋</div>
+        <div class="featureIcon purple">
+            📋
+        </div>
 
-        <h3>Diagnostic Test</h3>
+        <h3>
+            Diagnostic Test
+        </h3>
 
         <p>
             AI से नया test बनवाएँ और अपनी
@@ -833,9 +1086,13 @@ button{cursor:pointer}
 
     <div class="feature">
 
-        <div class="featureIcon blue">🤖</div>
+        <div class="featureIcon blue">
+            🤖
+        </div>
 
-        <h3>AI Assistant</h3>
+        <h3>
+            AI Assistant
+        </h3>
 
         <p>
             कोई भी सवाल पूछें और आसान
@@ -851,9 +1108,13 @@ button{cursor:pointer}
 
     <div class="feature">
 
-        <div class="featureIcon green">🎯</div>
+        <div class="featureIcon green">
+            🎯
+        </div>
 
-        <h3>Weak Topic Detection</h3>
+        <h3>
+            Weak Topic Detection
+        </h3>
 
         <p>
             Test के बाद AI आपके weak
@@ -869,9 +1130,13 @@ button{cursor:pointer}
 
     <div class="feature">
 
-        <div class="featureIcon orange">✏️</div>
+        <div class="featureIcon orange">
+            ✏️
+        </div>
 
-        <h3>Personalized Practice</h3>
+        <h3>
+            Personalized Practice
+        </h3>
 
         <p>
             पहले concept सीखें, फिर उसी
@@ -899,24 +1164,56 @@ button{cursor:pointer}
 
     <div class="classes">
 
-        <button class="classCard" onclick="selectClass(9)">
-            <div class="classNumber">9</div>
-            <h3>Class 9</h3>
+        <button class="classCard"
+                onclick="selectClass(9)">
+
+            <div class="classNumber">
+                9
+            </div>
+
+            <h3>
+                Class 9
+            </h3>
+
         </button>
 
-        <button class="classCard" onclick="selectClass(10)">
-            <div class="classNumber">10</div>
-            <h3>Class 10</h3>
+        <button class="classCard"
+                onclick="selectClass(10)">
+
+            <div class="classNumber">
+                10
+            </div>
+
+            <h3>
+                Class 10
+            </h3>
+
         </button>
 
-        <button class="classCard" onclick="selectClass(11)">
-            <div class="classNumber">11</div>
-            <h3>Class 11</h3>
+        <button class="classCard"
+                onclick="selectClass(11)">
+
+            <div class="classNumber">
+                11
+            </div>
+
+            <h3>
+                Class 11
+            </h3>
+
         </button>
 
-        <button class="classCard" onclick="selectClass(12)">
-            <div class="classNumber">12</div>
-            <h3>Class 12</h3>
+        <button class="classCard"
+                onclick="selectClass(12)">
+
+            <div class="classNumber">
+                12
+            </div>
+
+            <h3>
+                Class 12
+            </h3>
+
         </button>
 
     </div>
@@ -937,32 +1234,67 @@ button{cursor:pointer}
 
         <button class="subjectCard"
                 onclick="selectSubject('Mathematics')">
-            <div class="subjectIcon">√x</div>
-            <h3>Mathematics</h3>
+
+            <div class="subjectIcon">
+                √x
+            </div>
+
+            <h3>
+                Mathematics
+            </h3>
+
         </button>
 
         <button class="subjectCard"
                 onclick="selectSubject('Physics')">
-            <div class="subjectIcon">⚛️</div>
-            <h3>Physics</h3>
+
+            <div class="subjectIcon">
+                ⚛️
+            </div>
+
+            <h3>
+                Physics
+            </h3>
+
         </button>
 
         <button class="subjectCard"
                 onclick="selectSubject('Chemistry')">
-            <div class="subjectIcon">🧪</div>
-            <h3>Chemistry</h3>
+
+            <div class="subjectIcon">
+                🧪
+            </div>
+
+            <h3>
+                Chemistry
+            </h3>
+
         </button>
 
         <button class="subjectCard"
                 onclick="selectSubject('English')">
-            <div class="subjectIcon">📖</div>
-            <h3>English</h3>
+
+            <div class="subjectIcon">
+                📖
+            </div>
+
+            <h3>
+                English
+            </h3>
+
         </button>
 
         <button class="subjectCard"
                 onclick="selectSubject('Hindi')">
-            <div class="subjectIcon">अ</div>
-            <h3>Hindi</h3>
+
+            <div class="subjectIcon">
+                अ
+            </div>
+
+            <h3>
+                Hindi
+            </h3>
+
         </button>
 
     </div>
@@ -973,46 +1305,76 @@ button{cursor:pointer}
 
 <nav class="bottomNav">
 
-    <button class="active" onclick="goHome()">
-        <span class="bottomIcon">⌂</span>
+    <button class="active"
+            onclick="goHome()">
+
+        <span class="bottomIcon">
+            ⌂
+        </span>
+
         Home
+
     </button>
 
     <button onclick="scrollToSection('subjects')">
-        <span class="bottomIcon">🎓</span>
+
+        <span class="bottomIcon">
+            🎓
+        </span>
+
         Classes
+
     </button>
 
     <button onclick="openAIChat()">
-        <span class="bottomIcon">🤖</span>
+
+        <span class="bottomIcon">
+            🤖
+        </span>
+
         AI
+
     </button>
 
     <button onclick="startPractice()">
-        <span class="bottomIcon">✏️</span>
+
+        <span class="bottomIcon">
+            ✏️
+        </span>
+
         Practice
+
     </button>
 
     <button onclick="showMessage('Profile')">
-        <span class="bottomIcon">👤</span>
+
+        <span class="bottomIcon">
+            👤
+        </span>
+
         Profile
+
     </button>
 
 </nav>
 
 </div>
 
-<!-- MODAL -->
+<!-- ================= MODAL ================= -->
 
-<div id="modal" class="modal">
+<div id="modal"
+     class="modal">
 
     <div class="modalBox">
 
         <div class="modalHeader">
 
-            <h2 id="modalTitle">EXAMOS</h2>
+            <h2 id="modalTitle">
+                EXAMOS
+            </h2>
 
-            <button class="close" onclick="closeModal()">
+            <button class="close"
+                    onclick="closeModal()">
                 ×
             </button>
 
@@ -1040,8 +1402,9 @@ let userAnswers = [];
 let testMode = "";
 
 let chatHistory = [];
+let practiceRawAnswer = "";
 
-/* ================= DATA ================= */
+/* ================= CHAPTER DATA ================= */
 
 const chapters = {
 
@@ -1097,30 +1460,41 @@ const chapters = {
 
 };
 
-/* ================= BASIC FUNCTIONS ================= */
+/* =====================================================
+   MODAL
+===================================================== */
 
 function openModal(title,content){
 
-    document.getElementById("modalTitle").innerHTML = title;
-    document.getElementById("modalContent").innerHTML = content;
-    document.getElementById("modal").classList.add("show");
+    document.getElementById("modalTitle").innerHTML =
+        title;
 
+    document.getElementById("modalContent").innerHTML =
+        content;
+
+    document.getElementById("modal").classList.add("show");
 }
 
 function closeModal(){
 
-    document.getElementById("modal").classList.remove("show");
+    document.getElementById("modal")
+        .classList.remove("show");
 
 }
+
+/* =====================================================
+   BASIC
+===================================================== */
 
 function scrollToSection(id){
 
     const el=document.getElementById(id);
 
     if(el){
-        el.scrollIntoView({behavior:"smooth"});
+        el.scrollIntoView({
+            behavior:"smooth"
+        });
     }
-
 }
 
 function goHome(){
@@ -1129,13 +1503,11 @@ function goHome(){
         top:0,
         behavior:"smooth"
     });
-
 }
 
 function startLearning(){
 
     scrollToSection("features");
-
 }
 
 function showMessage(name){
@@ -1144,15 +1516,20 @@ function showMessage(name){
         name,
         `
         <div style="text-align:center;padding:30px 10px">
-            <div style="font-size:55px">🚀</div>
-            <h3>${name}</h3>
+
+            <div style="font-size:55px">
+                🚀
+            </div>
+
+            <h3>${escapeHTML(name)}</h3>
+
             <p style="color:#666;margin-top:10px">
                 यह feature जल्द और बेहतर बनाया जाएगा।
             </p>
+
         </div>
         `
     );
-
 }
 
 function showHowItWorks(){
@@ -1174,16 +1551,17 @@ function showHowItWorks(){
         </div>
         `
     );
-
 }
 
-/* ================= CLASS ================= */
+/* =====================================================
+   CLASS
+===================================================== */
 
 function selectClass(cls){
 
-    selectedClass = cls;
+    selectedClass=cls;
 
-    let html = `
+    let html=`
         <p style="color:#666;margin-bottom:15px">
             Class ${cls} के लिए Subject चुनें:
         </p>
@@ -1199,7 +1577,7 @@ function selectClass(cls){
 
     subjects.forEach(subject=>{
 
-        html += `
+        html+=`
             <button class="chapter"
                     onclick="selectSubject('${subject}')">
                 ${subject} →
@@ -1208,11 +1586,15 @@ function selectClass(cls){
 
     });
 
-    openModal("Class " + cls,html);
-
+    openModal(
+        "Class "+cls,
+        html
+    );
 }
 
-/* ================= SUBJECT ================= */
+/* =====================================================
+   SUBJECT
+===================================================== */
 
 function selectSubject(subject){
 
@@ -1226,16 +1608,16 @@ function selectSubject(subject){
 
     let html=`
         <p style="color:#666;margin-bottom:12px">
-            ${subject} का Chapter चुनें:
+            ${escapeHTML(subject)} का Chapter चुनें:
         </p>
     `;
 
     list.forEach((chapter,index)=>{
 
-        html += `
+        html+=`
             <button class="chapter"
-                    onclick="openChapter('${subject}','${chapter.replace(/'/g,"\\'")}')">
-                ${index+1}. ${chapter} →
+                    onclick="openChapter(${JSON.stringify(subject)},${JSON.stringify(chapter)})">
+                ${index+1}. ${escapeHTML(chapter)} →
             </button>
         `;
 
@@ -1245,10 +1627,11 @@ function selectSubject(subject){
         "Class "+selectedClass+" • "+subject,
         html
     );
-
 }
 
-/* ================= CHAPTER ================= */
+/* =====================================================
+   CHAPTER
+===================================================== */
 
 function openChapter(subject,chapter){
 
@@ -1260,10 +1643,12 @@ function openChapter(subject,chapter){
         `
         <div style="text-align:center;padding:10px">
 
-            <div style="font-size:50px">🎯</div>
+            <div style="font-size:50px">
+                🎯
+            </div>
 
             <h3>
-                Class ${selectedClass} • ${subject}
+                Class ${selectedClass} • ${escapeHTML(subject)}
             </h3>
 
             <p style="color:#666;margin:12px 0 20px">
@@ -1285,57 +1670,89 @@ function openChapter(subject,chapter){
         </div>
         `
     );
-
 }
 
-/* ================= API CALL ================= */
-
-/*
-   यह function तुम्हारे existing /api/ai को call करता है।
-*/
+/* =====================================================
+   API
+===================================================== */
 
 async function askEXAMOSAI(prompt){
 
-    const response = await fetch("/api/ai",{
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-            prompt:prompt
-        })
-    });
+    const controller=
+        new AbortController();
 
-    let data;
+    const timeout=
+        setTimeout(
+            ()=>controller.abort(),
+            60000
+        );
 
     try{
-        data=await response.json();
-    }catch(e){
-        throw new Error("Server ने valid response नहीं दिया।");
+
+        const response=
+            await fetch(
+                "/api/ai",
+                {
+                    method:"POST",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body:JSON.stringify({
+                        prompt:prompt
+                    }),
+                    signal:controller.signal
+                }
+            );
+
+        let data;
+
+        try{
+            data=await response.json();
+        }catch(e){
+            throw new Error(
+                "Server ने valid response नहीं दिया।"
+            );
+        }
+
+        if(!response.ok){
+
+            throw new Error(
+                data?.error ||
+                "AI request failed"
+            );
+        }
+
+        if(!data.answer){
+
+            throw new Error(
+                "AI ने कोई answer नहीं भेजा।"
+            );
+        }
+
+        return data.answer;
+
+    }catch(error){
+
+        if(error.name==="AbortError"){
+
+            throw new Error(
+                "AI को जवाब देने में बहुत समय लग रहा है। फिर कोशिश करें।"
+            );
+
+        }
+
+        throw error;
+
+    }finally{
+
+        clearTimeout(timeout);
+
     }
-
-    if(!response.ok){
-
-        throw new Error(
-            data?.error ||
-            "AI request failed"
-        );
-
-    }
-
-    if(!data.answer){
-
-        throw new Error(
-            "AI ने कोई answer नहीं भेजा।"
-        );
-
-    }
-
-    return data.answer;
-
 }
 
-/* ================= LOADING ================= */
+/* =====================================================
+   LOADING
+===================================================== */
 
 function showLoading(text="AI सोच रहा है…"){
 
@@ -1346,40 +1763,36 @@ function showLoading(text="AI सोच रहा है…"){
 
             <div class="spinner"></div>
 
-            <h3>${text}</h3>
+            <h3>
+                ${escapeHTML(text)}
+            </h3>
 
             <p style="color:#777;margin-top:8px">
-                थोड़ा समय लग सकता है।
+                AI जवाब तैयार कर रहा है…
             </p>
 
         </div>
         `
     );
-
 }
 
 /* =====================================================
-   DIAGNOSTIC TEST
+   DIAGNOSTIC
 ===================================================== */
 
 async function startDiagnostic(){
 
     if(!selectedClass){
-
         selectClass(10);
         return;
-
     }
 
     if(!selectedSubject){
-
         selectSubject("Mathematics");
         return;
-
     }
 
     await generateDiagnosticTest();
-
 }
 
 async function beginDiagnosticForChapter(){
@@ -1387,78 +1800,81 @@ async function beginDiagnosticForChapter(){
     closeModal();
 
     await generateDiagnosticTest();
-
 }
 
 async function generateDiagnosticTest(){
 
     testMode="diagnostic";
 
-    showLoading("AI आपके लिए Diagnostic Test तैयार कर रहा है…");
+    showLoading(
+        "AI आपके लिए Diagnostic Test तैयार कर रहा है…"
+    );
 
-    const prompt = `
+    const prompt=`
 
 तुम EXAMOS AI के expert school teacher हो।
 
-Student:
 Class: ${selectedClass}
 Subject: ${selectedSubject}
 Chapter: ${selectedChapter || "पूरे subject के महत्वपूर्ण concepts"}
 
-एक Diagnostic Test बनाओ।
+5 नए Diagnostic MCQ questions बनाओ।
 
-महत्वपूर्ण नियम:
+बहुत जरूरी:
 
-1. प्रश्न तुम खुद नए बनाओ।
-2. Code में दिए हुए fixed questions का उपयोग मत मानो।
-3. प्रश्न Class ${selectedClass} के स्तर के होने चाहिए।
-4. कुल 5 MCQ questions बनाओ।
-5. हर question के 4 options हों।
-6. केवल एक option सही हो।
-7. Questions concept-based और अच्छे quality के हों।
-8. केवल बहुत आसान सवाल मत बनाना।
-9. हर question अलग concept को test करे।
-10. अंत में answer key भी दो।
+- सभी questions तुम खुद नए बनाओ।
+- कोई fixed question मत दो।
+- Class level के अनुसार बनाओ।
+- Questions concept-based हों।
+- हर question के 4 options हों।
+- केवल एक सही answer हो।
+- Question और options छोटे, साफ और पढ़ने योग्य हों।
+- अनावश्यक explanation मत देना।
+- Markdown table मत बनाना।
+- LaTeX मत इस्तेमाल करना।
+- Mathematical expressions plain text में लिखना।
+- उदाहरण: x², 2x + 3, √x, sin x, F = ma जैसे साफ format में लिखना।
 
-Output EXACTLY इस format में दो:
+सिर्फ यह format follow करो:
 
 QUESTION 1:
-प्रश्न
+[question]
 
-A) option
-B) option
-C) option
-D) option
+A) [option]
+B) [option]
+C) [option]
+D) [option]
 
 ANSWER: A
 
 QUESTION 2:
-प्रश्न
+[question]
 
-A) option
-B) option
-C) option
-D) option
+A) [option]
+B) [option]
+C) [option]
+D) [option]
 
 ANSWER: B
 
 इसी तरह QUESTION 5 तक।
 
-कोई अतिरिक्त explanation मत देना।
+कोई extra text नहीं।
 `;
 
     try{
 
-        const answer=await askEXAMOSAI(prompt);
+        const answer=
+            await askEXAMOSAI(prompt);
 
-        currentTest=parseTestQuestions(answer);
+        currentTest=
+            parseTestQuestions(answer);
 
-        if(currentTest.length===0){
+        if(currentTest.length<1){
 
             throw new Error(
                 "AI ने questions सही format में नहीं भेजे।"
             );
-
         }
 
         currentQuestion=0;
@@ -1473,9 +1889,13 @@ ANSWER: B
             `
             <div style="padding:20px;text-align:center">
 
-                <div style="font-size:45px">⚠️</div>
+                <div style="font-size:45px">
+                    ⚠️
+                </div>
 
-                <h3>Test तैयार नहीं हो पाया</h3>
+                <h3>
+                    Test तैयार नहीं हो पाया
+                </h3>
 
                 <p style="color:#666;margin:12px 0">
                     ${escapeHTML(error.message)}
@@ -1489,66 +1909,104 @@ ANSWER: B
             </div>
             `
         );
-
     }
-
 }
 
-/* ================= PARSE TEST ================= */
+/* =====================================================
+   ROBUST QUESTION PARSER
+===================================================== */
 
 function parseTestQuestions(text){
 
-    let result=[];
+    if(!text) return [];
 
-    const blocks=text.split(/QUESTION\s+\d+\s*:/i);
+    text=
+        String(text)
+        .replace(/\r/g,"")
+        .replace(/```/g,"")
+        .trim();
 
-    blocks.forEach(block=>{
+    const blocks=
+        text.split(
+            /QUESTION\s*\d+\s*:/gi
+        );
 
-        if(!block.trim()) return;
+    const result=[];
+
+    for(let i=1;i<blocks.length;i++){
+
+        const block=blocks[i].trim();
 
         const answerMatch=
-            block.match(/ANSWER\s*:\s*([ABCD])/i);
+            block.match(
+                /ANSWER\s*:\s*([ABCD])/i
+            );
 
-        if(!answerMatch) return;
+        if(!answerMatch) continue;
 
-        const answer=answerMatch[1].toUpperCase();
+        const answer=
+            answerMatch[1].toUpperCase();
 
-        const optionMatches=[
-            block.match(/A\)\s*([\s\S]*?)(?=\nB\))/i),
-            block.match(/B\)\s*([\s\S]*?)(?=\nC\))/i),
-            block.match(/C\)\s*([\s\S]*?)(?=\nD\))/i),
-            block.match(/D\)\s*([\s\S]*?)(?=\nANSWER)/i)
-        ];
+        const aMatch=
+            block.match(
+                /(?:^|\n)\s*A[\)\.\:]\s*([\s\S]*?)(?=\n\s*B[\)\.\:])/i
+            );
 
-        if(optionMatches.some(x=>!x)) return;
+        const bMatch=
+            block.match(
+                /(?:^|\n)\s*B[\)\.\:]\s*([\s\S]*?)(?=\n\s*C[\)\.\:])/i
+            );
 
-        let questionText=
-            block.split(/A\)\s*/i)[0].trim();
+        const cMatch=
+            block.match(
+                /(?:^|\n)\s*C[\)\.\:]\s*([\s\S]*?)(?=\n\s*D[\)\.\:])/i
+            );
 
-        if(!questionText) return;
+        const dMatch=
+            block.match(
+                /(?:^|\n)\s*D[\)\.\:]\s*([\s\S]*?)(?=\n\s*ANSWER)/i
+            );
+
+        if(
+            !aMatch ||
+            !bMatch ||
+            !cMatch ||
+            !dMatch
+        ){
+            continue;
+        }
+
+        const question=
+            block
+            .split(
+                /(?:^|\n)\s*A[\)\.\:]\s*/i
+            )[0]
+            .trim();
+
+        if(!question) continue;
 
         result.push({
 
-            question:questionText,
+            question:cleanAIText(question),
 
             options:[
-                optionMatches[0][1].trim(),
-                optionMatches[1][1].trim(),
-                optionMatches[2][1].trim(),
-                optionMatches[3][1].trim()
+                cleanAIText(aMatch[1]),
+                cleanAIText(bMatch[1]),
+                cleanAIText(cMatch[1]),
+                cleanAIText(dMatch[1])
             ],
 
             answer:answer
 
         });
-
-    });
+    }
 
     return result;
-
 }
 
-/* ================= SHOW QUESTION ================= */
+/* =====================================================
+   SHOW QUESTION
+===================================================== */
 
 function showTestQuestion(){
 
@@ -1556,31 +2014,44 @@ function showTestQuestion(){
 
         finishTest();
         return;
-
     }
 
-    const q=currentTest[currentQuestion];
+    const q=
+        currentTest[currentQuestion];
 
     let options="";
 
-    q.options.forEach((option,index)=>{
+    q.options.forEach(
+        (option,index)=>{
 
-        const letter=["A","B","C","D"][index];
+            const letter=
+                ["A","B","C","D"][index];
 
-        options += `
-            <button class="option"
-                    onclick="selectTestAnswer('${letter}')">
-                <b>${letter})</b> ${escapeHTML(option)}
-            </button>
-        `;
+            options+=`
+                <button class="option"
+                        onclick="selectTestAnswer('${letter}')">
 
-    });
+                    <span class="optionLetter">
+                        ${letter}
+                    </span>
+
+                    <span>
+                        ${formatSimpleText(option)}
+                    </span>
+
+                </button>
+            `;
+
+        }
+    );
 
     const percent=
-        ((currentQuestion)/currentTest.length)*100;
+        Math.round(
+            (currentQuestion/currentTest.length)*100
+        );
 
     openModal(
-        "Diagnostic Test",
+        "📋 Diagnostic Test",
         `
         <div class="testTop">
 
@@ -1590,9 +2061,11 @@ function showTestQuestion(){
             </b>
 
             <div class="progressBar">
+
                 <div class="progressFill"
                      style="width:${percent}%">
                 </div>
+
             </div>
 
         </div>
@@ -1604,7 +2077,7 @@ function showTestQuestion(){
             </div>
 
             <div class="questionText">
-                ${escapeHTML(q.question)}
+                ${formatSimpleText(q.question)}
             </div>
 
             <div>
@@ -1615,36 +2088,48 @@ function showTestQuestion(){
                     class="primary nextBtn"
                     disabled
                     onclick="nextTestQuestion()">
-                Next Question →
+
+                ${
+                    currentQuestion===currentTest.length-1
+                    ? "Finish Test ✓"
+                    : "Next Question →"
+                }
+
             </button>
 
         </div>
         `
     );
-
 }
 
 function selectTestAnswer(letter){
 
     userAnswers[currentQuestion]=letter;
 
-    document.querySelectorAll(".option")
-        .forEach(btn=>btn.classList.remove("selected"));
+    document
+        .querySelectorAll(".option")
+        .forEach(
+            btn=>btn.classList.remove("selected")
+        );
 
-    const buttons=document.querySelectorAll(".option");
+    const buttons=
+        document.querySelectorAll(".option");
 
-    const index=["A","B","C","D"].indexOf(letter);
+    const index=
+        ["A","B","C","D"].indexOf(letter);
 
     if(buttons[index]){
         buttons[index].classList.add("selected");
     }
 
-    const next=document.getElementById("nextQuestionBtn");
+    const next=
+        document.getElementById(
+            "nextQuestionBtn"
+        );
 
     if(next){
         next.disabled=false;
     }
-
 }
 
 function nextTestQuestion(){
@@ -1656,25 +2141,35 @@ function nextTestQuestion(){
     currentQuestion++;
 
     showTestQuestion();
-
 }
 
-/* ================= FINISH TEST ================= */
+/* =====================================================
+   FINISH TEST
+===================================================== */
 
 function finishTest(){
 
     let score=0;
 
-    currentTest.forEach((q,index)=>{
+    currentTest.forEach(
+        (q,index)=>{
 
-        if(userAnswers[index]===q.answer){
-            score++;
+            if(
+                userAnswers[index]===
+                q.answer
+            ){
+                score++;
+            }
+
         }
-
-    });
+    );
 
     const percentage=
-        Math.round((score/currentTest.length)*100);
+        currentTest.length
+        ? Math.round(
+            (score/currentTest.length)*100
+        )
+        : 0;
 
     let level="";
 
@@ -1685,31 +2180,40 @@ function finishTest(){
     }else if(percentage>=40){
         level="सुधार की जरूरत";
     }else{
-        level="Topic को फिर से समझना चाहिए";
+        level="Concept को दोबारा समझना चाहिए";
     }
 
     openModal(
-        "Test Result",
+        "📊 Test Result",
         `
         <div class="result">
 
-            <div style="font-size:50px">📊</div>
+            <div style="font-size:50px">
+                📊
+            </div>
 
-            <h2>Your Result</h2>
+            <h2>
+                Your Result
+            </h2>
 
             <div class="score">
                 ${score}/${currentTest.length}
             </div>
 
-            <h3>${percentage}% — ${level}</h3>
+            <h3>
+                ${percentage}% — ${level}
+            </h3>
 
             <div class="resultBox">
 
-                <b>AI का अगला सुझाव:</b>
+                <b>
+                    AI का अगला सुझाव:
+                </b>
 
                 <p style="margin-top:8px">
-                    अब अपने weak concepts को दोबारा समझें
-                    और फिर Personalized Practice करें।
+                    अब अपने weak concepts को समझें
+                    और फिर उसी concept पर
+                    Personalized Practice करें।
                 </p>
 
             </div>
@@ -1717,13 +2221,14 @@ function finishTest(){
             <button class="primary"
                     style="width:100%;margin-top:15px"
                     onclick="startPractice()">
+
                 🎯 Start Personalized Practice
+
             </button>
 
         </div>
         `
     );
-
 }
 
 /* =====================================================
@@ -1733,21 +2238,16 @@ function finishTest(){
 async function startPractice(){
 
     if(!selectedClass){
-
         selectClass(10);
         return;
-
     }
 
     if(!selectedSubject){
-
         selectSubject("Mathematics");
         return;
-
     }
 
     await createWeakTopicLesson();
-
 }
 
 async function beginPracticeForChapter(){
@@ -1755,92 +2255,81 @@ async function beginPracticeForChapter(){
     closeModal();
 
     await createWeakTopicLesson();
-
 }
-
-/*
-   Practice का मुख्य flow:
-   1. AI weak topic चुनेगा
-   2. Concept समझाएगा
-   3. Example देगा
-   4. फिर उसी concept के questions
-*/
 
 async function createWeakTopicLesson(){
 
     testMode="practice";
 
     showLoading(
-        "AI आपके weak topic को पहचानकर concept तैयार कर रहा है…"
+        "AI concept तैयार कर रहा है…"
     );
 
-    const prompt = `
+    const prompt=`
 
 तुम EXAMOS AI के personalized teacher हो।
 
-Student:
 Class: ${selectedClass}
 Subject: ${selectedSubject}
 Chapter: ${selectedChapter || "महत्वपूर्ण topics"}
 
-Student को Personalized Practice देनी है।
+Student के लिए Personalized Practice lesson बनाओ।
 
-सबसे पहले इस chapter/subject में एक ऐसा IMPORTANT concept चुनो
-जिसे student को अच्छी तरह समझना चाहिए।
+सबसे पहले एक IMPORTANT concept चुनो।
 
-फिर:
-
-1. Weak/important topic का नाम बताओ।
-2. बताओ कि यह topic क्यों important है।
-3. Concept को बहुत आसान हिंदी में समझाओ।
-4. Step-by-step explanation दो।
-5. एक आसान example solve करके दिखाओ।
-6. फिर एक थोड़ा बेहतर example दो।
-7. अंत में उसी concept पर 5 MCQ questions बनाओ।
-8. हर question के 4 options हों।
-9. केवल एक answer सही हो।
-10. Questions उसी concept से होने चाहिए।
-11. Questions concept समझने के बाद solve करने लायक हों।
-
-Output EXACTLY:
+फिर इस क्रम में जवाब दो:
 
 WEAK TOPIC:
-topic name
+topic का नाम
 
 WHY IMPORTANT:
-reason
+यह क्यों जरूरी है
 
 CONCEPT:
-easy explanation
+बहुत आसान हिंदी में concept समझाओ।
 
 STEP BY STEP:
-step 1...
-step 2...
-step 3...
+Step 1:
+Step 2:
+Step 3:
+Step 4:
 
 EXAMPLE:
-example और solution
+एक आसान example और पूरा solution दो।
 
 PRACTICE QUESTIONS:
+इसी concept पर 5 नए MCQ बनाओ।
+
+हर question:
 
 QUESTION 1:
 question
+
 A) option
 B) option
 C) option
 D) option
+
 ANSWER: A
 
-QUESTION 2:
-...
+बहुत जरूरी:
 
-QUESTION 5 तक।
-
+- Concept पहले अच्छी तरह समझाओ।
+- Steps छोटे और साफ रखो।
+- Math formula plain text में लिखो।
+- उदाहरण: x², √x, 2x + 3, sin x।
+- LaTeX मत इस्तेमाल करो।
+- Markdown table मत बनाओ।
+- बहुत लंबा paragraph मत बनाओ।
+- Questions नए होने चाहिए।
 `;
 
     try{
 
-        const answer=await askEXAMOSAI(prompt);
+        const answer=
+            await askEXAMOSAI(prompt);
+
+        practiceRawAnswer=answer;
 
         showPracticeConcept(answer);
 
@@ -1851,9 +2340,13 @@ QUESTION 5 तक।
             `
             <div style="text-align:center;padding:25px">
 
-                <div style="font-size:45px">⚠️</div>
+                <div style="font-size:45px">
+                    ⚠️
+                </div>
 
-                <h3>Practice तैयार नहीं हो पाई</h3>
+                <h3>
+                    Practice तैयार नहीं हो पाई
+                </h3>
 
                 <p style="color:#666;margin:12px 0">
                     ${escapeHTML(error.message)}
@@ -1861,113 +2354,167 @@ QUESTION 5 तक।
 
                 <button class="primary"
                         onclick="createWeakTopicLesson()">
+
                     🔄 फिर कोशिश करें
+
                 </button>
 
             </div>
             `
         );
-
     }
-
 }
 
-/* ================= CONCEPT SCREEN ================= */
+/* =====================================================
+   CONCEPT SCREEN
+===================================================== */
 
 function showPracticeConcept(answer){
 
     const weakTopic=
-        extractSection(answer,"WEAK TOPIC:");
+        extractSection(
+            answer,
+            "WEAK TOPIC:"
+        );
 
     const why=
-        extractSection(answer,"WHY IMPORTANT:");
+        extractSection(
+            answer,
+            "WHY IMPORTANT:"
+        );
 
     const concept=
-        extractSection(answer,"CONCEPT:");
+        extractSection(
+            answer,
+            "CONCEPT:"
+        );
 
     const steps=
-        extractSection(answer,"STEP BY STEP:");
+        extractSection(
+            answer,
+            "STEP BY STEP:"
+        );
 
     const example=
-        extractSection(answer,"EXAMPLE:");
+        extractSection(
+            answer,
+            "EXAMPLE:"
+        );
 
     openModal(
-        "📚 Weak Topic Concept",
+        "📚 Learn Before Practice",
         `
         <div class="concept">
 
-            <h3>🎯 Weak / Important Topic</h3>
+            <div class="conceptSection">
 
-            <p>
-                ${escapeHTML(weakTopic || "Important Concept")}
-            </p>
+                <h3>
+                    🎯 Topic
+                </h3>
 
-            <h3>💡 यह क्यों जरूरी है?</h3>
+                <p>
+                    ${formatSimpleText(
+                        weakTopic ||
+                        "Important Concept"
+                    )}
+                </p>
 
-            <p>
-                ${escapeHTML(why)}
-            </p>
+            </div>
 
-            <h3>🧠 Concept आसान भाषा में</h3>
+            <div class="conceptSection">
 
-            <p>
-                ${escapeHTML(concept)}
-            </p>
+                <h3>
+                    💡 यह क्यों जरूरी है?
+                </h3>
 
-            <h3>🪜 Step-by-Step</h3>
+                <p>
+                    ${formatSimpleText(why)}
+                </p>
 
-            <p>
-                ${escapeHTML(steps)}
-            </p>
+            </div>
 
-            <h3>✏️ Example</h3>
+            <div class="conceptSection">
 
-            <p>
-                ${escapeHTML(example)}
-            </p>
+                <h3>
+                    🧠 Concept आसान भाषा में
+                </h3>
+
+                <p>
+                    ${formatSimpleText(concept)}
+                </p>
+
+            </div>
+
+            <div class="conceptSection">
+
+                <h3>
+                    🪜 Step-by-Step
+                </h3>
+
+                <div class="aiFormatted">
+                    ${formatAIText(steps)}
+                </div>
+
+            </div>
+
+            <div class="conceptSection">
+
+                <h3>
+                    ✏️ Example
+                </h3>
+
+                <div class="aiFormatted">
+                    ${formatAIText(example)}
+                </div>
+
+            </div>
 
             <button class="primary"
                     style="width:100%;margin-top:15px"
                     onclick="startPracticeQuestions()">
+
                 📝 अब इसी Concept का Test दें →
+
             </button>
 
         </div>
         `
     );
-
-    window.practiceRawAnswer=answer;
-
 }
 
-/* ================= PRACTICE QUESTIONS ================= */
+/* =====================================================
+   PRACTICE QUESTIONS
+===================================================== */
 
 async function startPracticeQuestions(){
 
-    const source=window.practiceRawAnswer || "";
+    const source=
+        practiceRawAnswer || "";
 
     showLoading(
-        "उसी Concept से नए Practice Questions बनाए जा रहे हैं…"
+        "उसी Concept से Practice Questions बनाए जा रहे हैं…"
     );
 
-    const prompt = `
+    const prompt=`
 
 तुम EXAMOS AI teacher हो।
 
-नीचे एक concept lesson है।
-
-इस lesson में बताए गए EXACT concept से
+नीचे दिए गए lesson के EXACT concept से
 5 नए practice MCQ questions बनाओ।
 
 Rules:
 
 - केवल इसी concept से questions बनाओ।
-- Questions नए होने चाहिए।
-- 4 options A/B/C/D हों।
-- केवल एक सही answer हो।
-- Class ${selectedClass} level के हों।
-- Questions concept समझने के बाद solve करने योग्य हों।
-- पहले question बहुत आसान, फिर धीरे-धीरे कठिन करो।
+- Questions नए हों।
+- पहले आसान।
+- फिर धीरे-धीरे कठिन।
+- 4 options A/B/C/D।
+- केवल एक सही answer।
+- Class ${selectedClass} level।
+- Question साफ और छोटा हो।
+- Formula plain text में हो।
+- LaTeX नहीं।
+- Markdown table नहीं।
 
 LESSON:
 
@@ -1976,26 +2523,44 @@ ${source}
 Output केवल:
 
 QUESTION 1:
-...
-A) ...
-B) ...
-C) ...
-D) ...
+question
+A) option
+B) option
+C) option
+D) option
 ANSWER: A
 
 QUESTION 2:
+question
+A) option
+B) option
+C) option
+D) option
+ANSWER: B
+
+QUESTION 3:
 ...
-QUESTION 5 तक।
+
+QUESTION 4:
+...
+
+QUESTION 5:
+...
 `;
 
     try{
 
-        const answer=await askEXAMOSAI(prompt);
+        const answer=
+            await askEXAMOSAI(prompt);
 
-        currentTest=parseTestQuestions(answer);
+        currentTest=
+            parseTestQuestions(answer);
 
         if(!currentTest.length){
-            throw new Error("Questions सही format में नहीं मिले।");
+
+            throw new Error(
+                "Questions सही format में नहीं मिले।"
+            );
         }
 
         currentQuestion=0;
@@ -2010,7 +2575,9 @@ QUESTION 5 तक।
             `
             <div style="text-align:center;padding:25px">
 
-                <h3>Questions नहीं बन पाए</h3>
+                <h3>
+                    Questions नहीं बन पाए
+                </h3>
 
                 <p style="color:#666;margin:12px 0">
                     ${escapeHTML(error.message)}
@@ -2018,15 +2585,15 @@ QUESTION 5 तक।
 
                 <button class="primary"
                         onclick="startPracticeQuestions()">
+
                     🔄 फिर कोशिश करें
+
                 </button>
 
             </div>
             `
         );
-
     }
-
 }
 
 /* =====================================================
@@ -2041,35 +2608,44 @@ function openAIChat(){
             {
                 role:"ai",
                 text:
-                "नमस्ते! मैं EXAMOS AI हूँ। 😊\n\n" +
-                "तुम मुझसे कोई भी पढ़ाई का सवाल पूछ सकते हो। " +
-                "मैं आसान भाषा में step-by-step समझाऊँगा।"
+                "नमस्ते! मैं EXAMOS AI हूँ। 😊\n\n"+
+                "तुम मुझसे कोई भी पढ़ाई का सवाल पूछ सकते हो।\n\n"+
+                "मैं पहले आसान concept समझाऊँगा, फिर step-by-step example दूँगा।"
             }
         ];
-
     }
 
     renderChat();
-
 }
 
 function renderChat(){
 
     let messages="";
 
-    chatHistory.forEach(message=>{
+    chatHistory.forEach(
+        message=>{
 
-        messages += `
-            <div class="chatBubble ${
-                message.role==="user"
-                ?"userBubble"
-                :"aiBubble"
-            }">
-                ${escapeHTML(message.text)}
-            </div>
-        `;
+            if(message.role==="user"){
 
-    });
+                messages+=`
+                    <div class="chatBubble userBubble">
+                        ${escapeHTML(message.text)}
+                    </div>
+                `;
+
+            }else{
+
+                messages+=`
+                    <div class="chatBubble aiBubble">
+                        <div class="aiChatFormatted">
+                            ${formatAIText(message.text)}
+                        </div>
+                    </div>
+                `;
+            }
+
+        }
+    );
 
     openModal(
         "🤖 EXAMOS AI Assistant",
@@ -2081,15 +2657,21 @@ function renderChat(){
                 justify-content:flex-end;
                 margin-bottom:8px;
             ">
+
                 <button class="newChat"
                         onclick="newChat()">
+
                     + New Chat
+
                 </button>
+
             </div>
 
             <div id="chatMessages"
                  class="chatMessages">
+
                 ${messages}
+
             </div>
 
             <div class="chatInputArea">
@@ -2103,7 +2685,9 @@ function renderChat(){
 
                 <button class="sendBtn"
                         onclick="sendChatMessage()">
+
                     ➤
+
                 </button>
 
             </div>
@@ -2112,43 +2696,55 @@ function renderChat(){
         `
     );
 
-    setTimeout(()=>{
+    setTimeout(
+        ()=>{
+            const box=
+                document.getElementById(
+                    "chatMessages"
+                );
 
-        const box=document.getElementById("chatMessages");
+            if(box){
+                box.scrollTop=
+                    box.scrollHeight;
+            }
 
-        if(box){
-            box.scrollTop=box.scrollHeight;
-        }
+            const input=
+                document.getElementById(
+                    "chatInput"
+                );
 
-        const input=document.getElementById("chatInput");
-
-        if(input){
-            input.focus();
-        }
-
-    },50);
-
+            if(input){
+                input.focus();
+            }
+        },
+        50
+    );
 }
 
 function chatKeyDown(event){
 
-    if(event.key==="Enter" && !event.shiftKey){
+    if(
+        event.key==="Enter" &&
+        !event.shiftKey
+    ){
 
         event.preventDefault();
 
         sendChatMessage();
-
     }
-
 }
 
 async function sendChatMessage(){
 
-    const input=document.getElementById("chatInput");
+    const input=
+        document.getElementById(
+            "chatInput"
+        );
 
     if(!input) return;
 
-    const text=input.value.trim();
+    const text=
+        input.value.trim();
 
     if(!text) return;
 
@@ -2165,15 +2761,21 @@ async function sendChatMessage(){
 
     try{
 
-        const previous=chatHistory
+        const previous=
+            chatHistory
             .slice(-8)
-            .map(x=>
-                (x.role==="user"?"Student: ":"Teacher: ")+
-                x.text
+            .map(
+                x=>
+                    (
+                        x.role==="user"
+                        ? "Student: "
+                        : "Teacher: "
+                    )+
+                    x.text
             )
             .join("\n\n");
 
-        const prompt = `
+        const prompt=`
 
 तुम EXAMOS AI के personal teacher हो।
 
@@ -2183,27 +2785,33 @@ ${selectedClass || "Unknown"}
 Subject:
 ${selectedSubject || "General"}
 
-Student के साथ बातचीत:
+पिछली बातचीत:
 
 ${previous}
 
-नियम:
+Student के आखिरी सवाल का जवाब दो।
 
-1. छात्र के सवाल का सीधा जवाब दो।
-2. बहुत आसान हिंदी में समझाओ।
-3. अगर Math/Science है तो step-by-step समझाओ।
-4. जरूरत हो तो छोटा example दो।
-5. एक साथ बहुत ज्यादा information मत भरो।
-6. पहले basic idea समझाओ।
-7. फिर example दो।
-8. अंत में पूछो कि क्या student एक practice question करना चाहता है।
-9. अगर student follow-up question पूछे तो पिछले context को ध्यान में रखो।
-10. भाषा सरल और student-friendly रखो।
+बहुत जरूरी rules:
 
-अब student के आखिरी सवाल का जवाब दो।
+1. पहले सवाल का सीधा answer दो।
+2. फिर concept आसान हिंदी में समझाओ।
+3. अगर Math/Science है तो छोटे step-by-step steps दो।
+4. जरूरत हो तो केवल एक आसान example दो।
+5. बहुत ज्यादा information एक साथ मत दो।
+6. Formula साफ plain text में लिखो।
+7. उदाहरण: x², √x, 2x + 3, sin x।
+8. LaTeX मत इस्तेमाल करो।
+9. Markdown table मत बनाओ।
+10. Answer को headings और छोटे paragraphs में रखो।
+11. अगर student follow-up सवाल पूछे तो पिछली बातचीत का context याद रखो।
+12. अंत में केवल जरूरत होने पर पूछो: "चाहो तो मैं इसका एक practice question दूँ?"
+13. छात्र को ऐसा जवाब दो जिसे Class ${selectedClass || "10"} का student आसानी से समझ सके।
+
+अब आखिरी सवाल का जवाब दो।
 `;
 
-        const answer=await askEXAMOSAI(prompt);
+        const answer=
+            await askEXAMOSAI(prompt);
 
         removeThinkingBubble();
 
@@ -2221,51 +2829,59 @@ ${previous}
         chatHistory.push({
             role:"ai",
             text:
-            "माफ करना, अभी AI से connection नहीं हो पाया।\n\n"+
+            "माफ करना, अभी AI से जवाब नहीं मिल पाया।\n\n"+
             error.message
         });
 
         renderChat();
-
     }
-
 }
 
 function addThinkingBubble(){
 
-    const box=document.getElementById("chatMessages");
+    const box=
+        document.getElementById(
+            "chatMessages"
+        );
 
     if(!box) return;
 
-    const div=document.createElement("div");
+    const div=
+        document.createElement("div");
 
     div.id="thinkingBubble";
 
-    div.className="chatBubble aiBubble";
+    div.className=
+        "chatBubble aiBubble";
 
     div.innerHTML=`
         <span class="thinking">
+
             AI सोच रहा है
+
             <span class="dot"></span>
             <span class="dot"></span>
             <span class="dot"></span>
+
         </span>
     `;
 
     box.appendChild(div);
 
-    box.scrollTop=box.scrollHeight;
-
+    box.scrollTop=
+        box.scrollHeight;
 }
 
 function removeThinkingBubble(){
 
-    const el=document.getElementById("thinkingBubble");
+    const el=
+        document.getElementById(
+            "thinkingBubble"
+        );
 
     if(el){
         el.remove();
     }
-
 }
 
 function newChat(){
@@ -2280,10 +2896,11 @@ function newChat(){
     ];
 
     renderChat();
-
 }
 
-/* ================= WEAK TOPICS ================= */
+/* =====================================================
+   WEAK TOPICS
+===================================================== */
 
 function showWeakTopics(){
 
@@ -2293,43 +2910,246 @@ function showWeakTopics(){
         <div style="padding:10px">
 
             <p style="color:#666;line-height:1.7">
-                Diagnostic Test देने के बाद EXAMOS AI
-                आपके गलत answers देखकर weak concepts
-                पहचानने के लिए तैयार रहेगा।
+
+                Diagnostic Test देने के बाद
+                EXAMOS AI आपके गलत answers
+                देखकर weak concepts पहचानने
+                में मदद करेगा।
+
             </p>
 
             <button class="primary"
                     style="width:100%;margin-top:18px"
                     onclick="startDiagnostic()">
+
                 📋 पहले Diagnostic Test दें
+
             </button>
 
         </div>
         `
     );
-
 }
 
-/* ================= HELPERS ================= */
+/* =====================================================
+   AI TEXT FORMATTER
+===================================================== */
+
+function formatAIText(text){
+
+    if(
+        text===null ||
+        text===undefined
+    ){
+        return "";
+    }
+
+    let s=
+        String(text)
+        .replace(/\r/g,"")
+        .trim();
+
+    /*
+       पहले HTML escape।
+       इससे AI का raw HTML execute नहीं होगा।
+    */
+
+    s=escapeHTML(s);
+
+    /*
+       Basic markdown
+    */
+
+    s=s.replace(
+        /\*\*(.*?)\*\*/g,
+        "<strong>$1</strong>"
+    );
+
+    /*
+       Headings
+    */
+
+    s=s.replace(
+        /^###\s*(.*?)$/gm,
+        '<div class="chatHeading">$1</div>'
+    );
+
+    s=s.replace(
+        /^##\s*(.*?)$/gm,
+        '<div class="chatHeading">$1</div>'
+    );
+
+    /*
+       Step lines
+    */
+
+    s=s.replace(
+        /^(Step\s*\d+\s*[:\-].*)$/gim,
+        '<div class="chatStep">$1</div>'
+    );
+
+    s=s.replace(
+        /^(चरण\s*\d+\s*[:\-].*)$/gim,
+        '<div class="chatStep">$1</div>'
+    );
+
+    /*
+       Formula-like lines
+    */
+
+    s=s.replace(
+        /^((?:[A-Za-zα-ωΑ-Ω√].{0,80})(?:=|²|³|√).*)$/gm,
+        '<div class="chatFormula">$1</div>'
+    );
+
+    /*
+       Numbered list
+    */
+
+    s=s.replace(
+        /^(\d+[\.\)]\s+.*)$/gm,
+        '<div class="chatStep">$1</div>'
+    );
+
+    /*
+       Line breaks
+    */
+
+    s=s.replace(
+        /\n{2,}/g,
+        "</p><p>"
+    );
+
+    s=s.replace(
+        /\n/g,
+        "<br>"
+    );
+
+    return "<p>"+s+"</p>";
+}
+
+/* =====================================================
+   SIMPLE TEXT FORMATTER
+===================================================== */
+
+function formatSimpleText(text){
+
+    if(
+        text===null ||
+        text===undefined
+    ){
+        return "";
+    }
+
+    let s=
+        cleanAIText(text);
+
+    s=escapeHTML(s);
+
+    /*
+       Common math replacements
+    */
+
+    s=s.replace(
+        /\^2/g,
+        "²"
+    );
+
+    s=s.replace(
+        /\^3/g,
+        "³"
+    );
+
+    s=s.replace(
+        /sqrt\s*(.*?)/gi,
+        "√($1)"
+    );
+
+    s=s.replace(
+        /\bsqrt\b/gi,
+        "√"
+    );
+
+    /*
+       Bold
+    */
+
+    s=s.replace(
+        /\*\*(.*?)\*\*/g,
+        "<strong>$1</strong>"
+    );
+
+    /*
+       New lines
+    */
+
+    s=s.replace(
+        /\n/g,
+        "<br>"
+    );
+
+    return s;
+}
+
+/* =====================================================
+   CLEAN AI TEXT
+===================================================== */
+
+function cleanAIText(value){
+
+    if(
+        value===null ||
+        value===undefined
+    ){
+        return "";
+    }
+
+    return String(value)
+        .replace(/```[a-zA-Z]*\n?/g,"")
+        .replace(/```/g,"")
+        .replace(/\r/g,"")
+        .trim();
+}
+
+/* =====================================================
+   EXTRACT SECTION
+===================================================== */
 
 function extractSection(text,title){
 
+    if(!text) return "";
+
+    const safeTitle=
+        title.replace(
+            /[.*+?^${}()|[\]\\]/g,
+            "\\$&"
+        );
+
     const regex=
         new RegExp(
-            title.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+
+            safeTitle+
             "\\s*([\\s\\S]*?)(?=\\n[A-Z][A-Z ]+:|$)",
             "i"
         );
 
-    const match=text.match(regex);
+    const match=
+        text.match(regex);
 
-    return match ? match[1].trim() : "";
-
+    return match
+        ? match[1].trim()
+        : "";
 }
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
 
 function escapeHTML(value){
 
-    if(value===null || value===undefined){
+    if(
+        value===null ||
+        value===undefined
+    ){
         return "";
     }
 
@@ -2339,18 +3159,21 @@ function escapeHTML(value){
         .replace(/>/g,"&gt;")
         .replace(/"/g,"&quot;")
         .replace(/'/g,"&#039;");
-
 }
 
-/* ================= MODAL OUTSIDE CLICK ================= */
+/* =====================================================
+   MODAL OUTSIDE CLICK
+===================================================== */
 
-document.getElementById("modal").onclick=function(e){
+document
+    .getElementById("modal")
+    .onclick=function(e){
 
-    if(e.target===this){
-        closeModal();
-    }
+        if(e.target===this){
+            closeModal();
+        }
 
-};
+    };
 
 </script>
 
