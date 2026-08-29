@@ -2,381 +2,1527 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
 <title>EXAMOS AI</title>
 
 <style>
+
+/* =====================================================
+   EXAMOS AI - COMPLETE FRONTEND
+===================================================== */
+
 *{
-    box-sizing:border-box;
     margin:0;
     padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --primary:#5b43f5;
+    --primary-dark:#452ee0;
+    --secondary:#8b5cf6;
+    --pink:#d946ef;
+
+    --bg:#f5f6fc;
+    --card:#ffffff;
+
+    --text:#16182b;
+    --muted:#6b7085;
+
+    --border:#e8e9f1;
+
+    --success:#18a76c;
+    --warning:#e88b00;
+    --danger:#e34b4b;
+
+    --shadow:0 10px 30px rgba(30,35,90,.08);
+}
+
+html{
+    scroll-behavior:smooth;
 }
 
 body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f7f8ff;
-    color:#151936;
+    font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+    background:var(--bg);
+
+    color:var(--text);
 }
 
-button,input,textarea{
-    font-family:inherit;
-}
 
-button{
-    cursor:pointer;
-}
+/* =====================================================
+   APP
+===================================================== */
 
-.app{
-    max-width:1200px;
-    margin:auto;
+#app{
+    width:100%;
     min-height:100vh;
-    background:#fff;
 }
 
-/* HEADER */
-.header{
-    height:78px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 32px;
-    border-bottom:1px solid #eee;
-    background:#fff;
-    position:sticky;
-    top:0;
-    z-index:100;
+
+/* =====================================================
+   SCREEN SYSTEM
+===================================================== */
+
+.screen{
+    display:none;
+    min-height:100vh;
 }
 
-.brand{
-    display:flex;
+.screen.active{
+    display:block;
+}
+
+
+/* =====================================================
+   WELCOME SCREEN
+===================================================== */
+
+#welcomeScreen{
+    min-height:100vh;
+
+    background:
+    radial-gradient(
+        circle at top left,
+        #e9e5ff,
+        transparent 45%
+    ),
+    radial-gradient(
+        circle at bottom right,
+        #f7dfff,
+        transparent 45%
+    ),
+    linear-gradient(
+        135deg,
+        #fafaff,
+        #f2f3ff
+    );
+
+    display:none;
+
     align-items:center;
+    justify-content:center;
+
+    padding:20px;
+
+    overflow:hidden;
+
+    position:relative;
+}
+
+#welcomeScreen.active{
+    display:flex;
+}
+
+.welcomeBox{
+    text-align:center;
+
+    width:100%;
+    max-width:650px;
+
+    animation:welcomeFade 1s ease;
+}
+
+@keyframes welcomeFade{
+
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+.welcomeSmall{
+    color:var(--primary);
+
+    font-weight:bold;
+
+    letter-spacing:1px;
+
+    margin-bottom:15px;
+}
+
+.examosLogoText{
+    font-size:clamp(
+        50px,
+        12vw,
+        95px
+    );
+
+    font-weight:900;
+
+    letter-spacing:-4px;
+
+    background:
+    linear-gradient(
+        90deg,
+        #4b35e8,
+        #8b5cf6,
+        #d946ef
+    );
+
+    -webkit-background-clip:text;
+
+    color:transparent;
+
+    animation:logoGlow 3s ease infinite;
+}
+
+@keyframes logoGlow{
+
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.03);
+    }
+
+}
+
+.aiTitle{
+    font-size:28px;
+
+    margin-top:10px;
+
+    color:#36384f;
+
+    font-weight:700;
+}
+
+.welcomeDescription{
+    color:var(--muted);
+
+    font-size:17px;
+
+    line-height:1.7;
+
+    max-width:500px;
+
+    margin:
+    25px auto;
+}
+
+.welcomeFeatures{
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    margin-bottom:30px;
+}
+
+.welcomeTag{
+    padding:10px 15px;
+
+    background:rgba(255,255,255,.8);
+
+    border:1px solid #e9e7ff;
+
+    border-radius:50px;
+
+    color:#5143a7;
+
+    font-size:13px;
+
+    font-weight:bold;
+}
+
+.welcomeButton{
+    width:min(
+        100%,
+        350px
+    );
+
+    padding:17px;
+
+    border:0;
+
+    border-radius:15px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #5138e8,
+        #8b5cf6
+    );
+
+    color:white;
+
+    font-size:17px;
+
+    font-weight:bold;
+
+    box-shadow:
+    0 10px 25px
+    rgba(91,67,245,.28);
+
+    transition:.25s;
+}
+
+.welcomeButton:hover{
+    transform:translateY(-2px);
+}
+
+.welcomeFooter{
+    color:#8a8da0;
+
+    font-size:12px;
+
+    margin-top:25px;
+}
+
+
+/* =====================================================
+   PROFILE SETUP
+===================================================== */
+
+.setupPage{
+    min-height:100vh;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:25px 15px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #f5f3ff,
+        #f7f9ff
+    );
+}
+
+.setupCard{
+    width:100%;
+
+    max-width:650px;
+
+    background:#fff;
+
+    border-radius:25px;
+
+    padding:30px;
+
+    box-shadow:var(--shadow);
+}
+
+.setupHeader{
+    text-align:center;
+
+    margin-bottom:25px;
+}
+
+.setupHeader h1{
+    font-size:30px;
+}
+
+.setupHeader p{
+    color:var(--muted);
+
+    margin-top:8px;
+
+    line-height:1.6;
+}
+
+.setupProgress{
+    display:flex;
+
+    gap:8px;
+
+    margin-bottom:25px;
+}
+
+.setupProgress span{
+    height:7px;
+
+    flex:1;
+
+    border-radius:20px;
+
+    background:#e8e9f2;
+}
+
+.setupProgress span.active{
+    background:var(--primary);
+}
+
+.formGroup{
+    margin-bottom:16px;
+}
+
+.formGroup label{
+    display:block;
+
+    font-size:14px;
+
+    font-weight:bold;
+
+    margin-bottom:7px;
+}
+
+.inputField,
+.selectField{
+    width:100%;
+
+    padding:14px;
+
+    border:
+    1px solid
+    var(--border);
+
+    border-radius:12px;
+
+    font-size:15px;
+
+    outline:none;
+
+    background:#fff;
+
+    color:var(--text);
+}
+
+.inputField:focus,
+.selectField:focus{
+    border-color:var(--primary);
+
+    box-shadow:
+    0 0 0 3px
+    rgba(91,67,245,.1);
+}
+
+.formRow{
+    display:grid;
+
+    grid-template-columns:
+    1fr 1fr;
+
     gap:12px;
 }
 
-.brandIcon{
-    width:45px;
-    height:45px;
-    border-radius:14px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:25px;
-    background:linear-gradient(135deg,#6250ff,#b44bdf);
-    color:#fff;
-}
+.primaryButton{
+    width:100%;
 
-.brandName{
-    font-size:25px;
-    font-weight:800;
-}
+    padding:15px;
 
-.brandSub{
-    font-size:12px;
-    color:#666;
-}
-
-.nav{
-    display:flex;
-    gap:10px;
-}
-
-.nav button{
     border:0;
-    background:#fff;
-    padding:12px 18px;
+
     border-radius:12px;
-    font-size:15px;
-}
 
-.nav button.active{
-    background:#f0edff;
-    color:#5038df;
-}
+    background:
+    linear-gradient(
+        135deg,
+        var(--primary),
+        var(--secondary)
+    );
 
-.profile{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
+    color:white;
 
-.profileIcon{
-    width:43px;
-    height:43px;
-    border-radius:50%;
-    background:#eee9ff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:23px;
-}
-
-.profileText{
-    font-size:13px;
-}
-
-.profileText b{
-    font-size:15px;
-}
-
-/* MAIN */
-.main{
-    padding:22px 28px 90px;
-}
-
-/* HERO */
-.hero{
-    min-height:360px;
-    border-radius:22px;
-    padding:42px;
-    background:linear-gradient(120deg,#f0efff,#e8e9ff,#f5efff);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    overflow:hidden;
-}
-
-.heroContent{
-    width:52%;
-}
-
-.heroTitle{
-    font-size:48px;
-    line-height:1.08;
-    margin-bottom:18px;
-}
-
-.gradientText{
-    background:linear-gradient(90deg,#4835e8,#d13cb0);
-    -webkit-background-clip:text;
-    color:transparent;
-}
-
-.heroText{
-    color:#4d5266;
-    font-size:17px;
-    line-height:1.7;
-}
-
-.heroButtons{
-    display:flex;
-    gap:14px;
-    margin-top:25px;
-}
-
-.primary{
-    border:0;
-    background:linear-gradient(135deg,#4d32e9,#673bf4);
-    color:#fff;
-    padding:14px 24px;
-    border-radius:11px;
     font-size:16px;
+
     font-weight:bold;
+
+    margin-top:8px;
 }
 
-.secondary{
-    border:1px solid #ddd;
-    background:#fff;
-    padding:14px 22px;
-    border-radius:11px;
-    font-size:16px;
+.secondaryButton{
+    width:100%;
+
+    padding:14px;
+
+    border:
+    1px solid
+    var(--border);
+
+    border-radius:12px;
+
+    background:white;
+
+    color:var(--text);
+
+    font-size:15px;
+
     font-weight:bold;
+
+    margin-top:10px;
 }
 
-/* HERO VISUAL */
-.heroVisual{
-    width:43%;
-    min-height:300px;
-    position:relative;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-.student{
-    width:210px;
-    height:210px;
-    border-radius:50%;
-    background:linear-gradient(135deg,#a9c8ff,#d6b9ff);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:125px;
-}
-
-.aiCard{
-    position:absolute;
-    background:#fff;
-    padding:13px 17px;
-    border-radius:14px;
-    box-shadow:0 8px 25px rgba(0,0,0,.08);
-    font-size:14px;
-    font-weight:bold;
-}
-
-.ai1{top:20px;left:5px}
-.ai2{top:25px;right:0}
-.ai3{bottom:20px;left:20px}
-.ai4{bottom:30px;right:5px}
-
-/* FEATURES */
-.features{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    margin-top:25px;
-    border:1px solid #eee;
-    border-radius:17px;
-    overflow:hidden;
-}
-
-.feature{
-    padding:25px 20px;
+.smallInfo{
     text-align:center;
-    border-right:1px solid #eee;
-}
 
-.feature:last-child{
-    border-right:0;
-}
+    color:var(--muted);
 
-.featureIcon{
-    width:50px;
-    height:50px;
-    border-radius:14px;
-    margin:0 auto 15px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:25px;
-}
+    font-size:12px;
 
-.purple{background:#eee8ff}
-.blue{background:#e5f2ff}
-.green{background:#e3f8ed}
-.orange{background:#fff0d8}
-
-.feature h3{
-    margin-bottom:10px;
-    font-size:17px;
-}
-
-.feature p{
-    color:#666;
     line-height:1.5;
-    font-size:14px;
-    min-height:43px;
-}
 
-.featureBtn{
     margin-top:15px;
-    border:0;
-    background:#fff;
-    font-weight:bold;
-    font-size:14px;
 }
 
-.purpleText{color:#5138df}
-.blueText{color:#1484e8}
-.greenText{color:#12a964}
-.orangeText{color:#e98a00}
-
-/* SECTION */
-.section{
-    background:#fff;
-    border-radius:17px;
-    padding:25px;
-    margin-top:25px;
-    border:1px solid #eee;
+.streamBox{
+    display:none;
 }
 
-.sectionTitle{
+.streamBox.show{
+    display:block;
+}
+
+
+/* =====================================================
+   MAIN APP
+===================================================== */
+
+.appLayout{
+    width:100%;
+
+    max-width:1250px;
+
+    margin:auto;
+
+    min-height:100vh;
+
+    background:#fff;
+}
+
+
+/* HEADER */
+
+.header{
+    height:72px;
+
     display:flex;
+
     align-items:center;
-    gap:10px;
-    font-size:22px;
+
+    justify-content:space-between;
+
+    padding:0 25px;
+
+    border-bottom:
+    1px solid
+    var(--border);
+
+    background:#fff;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:100;
+}
+
+.headerBrand{
+    font-size:26px;
+
+    font-weight:900;
+
+    letter-spacing:-1px;
+
+    color:var(--primary);
+}
+
+.headerBrand span{
+    color:#23243a;
+}
+
+.headerRight{
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+}
+
+.headerAskButton{
+    border:0;
+
+    background:#f0edff;
+
+    color:var(--primary);
+
+    padding:10px 14px;
+
+    border-radius:10px;
+
+    font-weight:bold;
+}
+
+.headerProfile{
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+    background:#edeaff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:20px;
+}
+
+
+/* MAIN CONTENT */
+
+.mainContent{
+    padding:
+    25px
+    25px
+    100px;
+}
+
+
+/* =====================================================
+   HOME
+===================================================== */
+
+.homeGreeting{
+    margin-bottom:25px;
+}
+
+.homeGreeting h1{
+    font-size:30px;
+
     margin-bottom:8px;
 }
 
-.sectionSub{
-    color:#666;
-    margin-bottom:20px;
+.homeGreeting p{
+    color:var(--muted);
+
+    line-height:1.6;
 }
 
-/* CLASSES */
-.classes{
+.profileSummary{
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    flex-wrap:wrap;
+
+    margin-top:15px;
+}
+
+.summaryTag{
+    padding:8px 12px;
+
+    border-radius:50px;
+
+    background:#f1efff;
+
+    color:#5b43d8;
+
+    font-size:13px;
+
+    font-weight:bold;
+}
+
+
+/* HERO CARD */
+
+.homeHero{
+    border-radius:22px;
+
+    padding:28px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #5140e8,
+        #7b5cf5,
+        #b45be8
+    );
+
+    color:#fff;
+
+    position:relative;
+
+    overflow:hidden;
+
+    margin-bottom:25px;
+}
+
+.homeHero:after{
+    content:"";
+
+    position:absolute;
+
+    width:220px;
+
+    height:220px;
+
+    border-radius:50%;
+
+    background:
+    rgba(255,255,255,.1);
+
+    right:-60px;
+
+    top:-80px;
+}
+
+.homeHero h2{
+    font-size:28px;
+
+    position:relative;
+
+    z-index:1;
+}
+
+.homeHero p{
+    max-width:600px;
+
+    margin-top:10px;
+
+    line-height:1.7;
+
+    color:#f3f2ff;
+
+    position:relative;
+
+    z-index:1;
+}
+
+.heroAction{
+    margin-top:18px;
+
+    border:0;
+
+    background:#fff;
+
+    color:#5138df;
+
+    padding:12px 18px;
+
+    border-radius:10px;
+
+    font-weight:bold;
+
+    position:relative;
+
+    z-index:1;
+}
+
+
+/* QUICK FEATURES */
+
+.sectionHeading{
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:10px;
+
+    margin-bottom:15px;
+}
+
+.sectionHeading h2{
+    font-size:22px;
+}
+
+.featureGrid{
     display:grid;
-    grid-template-columns:repeat(4,1fr);
+
+    grid-template-columns:
+    repeat(3,1fr);
+
     gap:15px;
 }
 
-.classCard{
-    border:1px solid #e5e5e5;
-    border-radius:14px;
-    padding:24px 15px;
+.featureCard{
+    border:
+    1px solid
+    var(--border);
+
+    border-radius:17px;
+
+    padding:20px;
+
     background:#fff;
-    text-align:center;
+
+    text-align:left;
+
+    transition:.2s;
+
+    min-height:180px;
 }
 
-.classCard:hover{
+.featureCard:hover{
     transform:translateY(-3px);
-    box-shadow:0 8px 25px rgba(0,0,0,.08);
+
+    box-shadow:var(--shadow);
 }
 
-.classNumber{
-    font-size:42px;
-    font-weight:bold;
-    color:#5038df;
+.featureIcon{
+    width:52px;
+
+    height:52px;
+
+    border-radius:15px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:26px;
+
+    margin-bottom:15px;
 }
 
-.classCard:nth-child(2) .classNumber{
-    color:#1484e8;
+.iconPurple{
+    background:#eeeaff;
 }
 
-.classCard:nth-child(3) .classNumber{
-    color:#10a765;
+.iconBlue{
+    background:#e8f3ff;
 }
 
-.classCard:nth-child(4) .classNumber{
-    color:#e88900;
+.iconGreen{
+    background:#e6faef;
 }
+
+.iconOrange{
+    background:#fff2df;
+}
+
+.iconPink{
+    background:#ffe9f7;
+}
+
+.iconRed{
+    background:#ffeaea;
+}
+
+.featureCard h3{
+    font-size:17px;
+
+    margin-bottom:8px;
+}
+
+.featureCard p{
+    color:var(--muted);
+
+    font-size:13px;
+
+    line-height:1.6;
+}
+
 
 /* SUBJECTS */
-.subjects{
+
+.subjectGrid{
     display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:15px;
+
+    grid-template-columns:
+    repeat(4,1fr);
+
+    gap:14px;
 }
 
 .subjectCard{
-    border:1px solid #eee;
-    border-radius:14px;
-    padding:25px 10px;
-    text-align:center;
+    border:
+    1px solid
+    var(--border);
+
     background:#fff;
+
+    border-radius:15px;
+
+    padding:20px 12px;
+
+    text-align:center;
+
+    font-weight:bold;
+
+    min-height:110px;
+
+    color:var(--text);
 }
 
 .subjectCard:hover{
-    transform:translateY(-3px);
-    box-shadow:0 8px 20px rgba(0,0,0,.07);
+    border-color:var(--primary);
+
+    background:#faf9ff;
 }
 
-.subjectIcon{
-    font-size:40px;
+.subjectEmoji{
+    font-size:30px;
+
+    margin-bottom:8px;
+}
+
+
+/* =====================================================
+   PAGE
+===================================================== */
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.pageTitle{
+    margin-bottom:22px;
+}
+
+.pageTitle h1{
+    font-size:29px;
+}
+
+.pageTitle p{
+    color:var(--muted);
+
+    margin-top:7px;
+
+    line-height:1.6;
+}
+
+
+/* =====================================================
+   TEST
+===================================================== */
+
+.formCard{
+    background:#fff;
+
+    border:
+    1px solid
+    var(--border);
+
+    border-radius:20px;
+
+    padding:22px;
+
+    margin-bottom:18px;
+}
+
+.choiceRow{
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    margin-top:10px;
+}
+
+.choiceButton{
+    padding:11px 17px;
+
+    border:
+    1px solid
+    var(--border);
+
+    border-radius:10px;
+
+    background:#fff;
+
+    font-weight:bold;
+}
+
+.choiceButton.selected{
+    background:#eeeaff;
+
+    border-color:var(--primary);
+
+    color:var(--primary);
+}
+
+
+/* =====================================================
+   PRACTICE
+===================================================== */
+
+.practiceSteps{
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:15px;
+}
+
+.practiceStep{
+    border:
+    1px solid
+    var(--border);
+
+    border-radius:16px;
+
+    padding:20px;
+
+    background:#fff;
+}
+
+.stepNumber{
+    width:35px;
+
+    height:35px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:#eeeaff;
+
+    color:var(--primary);
+
+    font-weight:bold;
+
     margin-bottom:12px;
 }
 
-.subjectCard h3{
+
+/* =====================================================
+   WEAK TOPICS
+===================================================== */
+
+.emptyState{
+    text-align:center;
+
+    padding:50px 20px;
+
+    border:
+    1px dashed
+    #dcdde7;
+
+    border-radius:18px;
+
+    background:#fafaff;
+}
+
+.emptyState .emptyIcon{
+    font-size:55px;
+
+    margin-bottom:15px;
+}
+
+.emptyState p{
+    color:var(--muted);
+
+    line-height:1.7;
+
+    margin-top:10px;
+}
+
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+.statsGrid{
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,1fr);
+
+    gap:14px;
+
+    margin-bottom:20px;
+}
+
+.statCard{
+    border:
+    1px solid
+    var(--border);
+
+    border-radius:16px;
+
+    padding:18px;
+
+    background:#fff;
+}
+
+.statCard span{
+    color:var(--muted);
+
+    font-size:13px;
+}
+
+.statCard h2{
+    font-size:28px;
+
+    margin-top:8px;
+}
+
+.chartCard{
+    border:
+    1px solid
+    var(--border);
+
+    border-radius:20px;
+
+    padding:22px;
+
+    background:#fff;
+}
+
+.fakeChart{
+    height:240px;
+
+    display:flex;
+
+    align-items:flex-end;
+
+    justify-content:space-around;
+
+    gap:10px;
+
+    padding:20px 0;
+}
+
+.chartBar{
+    width:12%;
+
+    border-radius:
+    10px 10px 0 0;
+
+    background:
+    linear-gradient(
+        to top,
+        var(--primary),
+        #a78bfa
+    );
+}
+
+.chartLabel{
+    text-align:center;
+
+    font-size:12px;
+
+    color:var(--muted);
+
+    margin-top:7px;
+}
+
+
+/* =====================================================
+   ANALYZE QUESTION
+===================================================== */
+
+.uploadArea{
+    border:
+    2px dashed
+    #cfc9ff;
+
+    border-radius:20px;
+
+    padding:35px 20px;
+
+    text-align:center;
+
+    background:#faf9ff;
+
+    cursor:pointer;
+}
+
+.uploadArea input{
+    display:none;
+}
+
+.uploadIcon{
+    font-size:50px;
+
+    margin-bottom:12px;
+}
+
+.imagePreview{
+    width:100%;
+
+    max-height:300px;
+
+    object-fit:contain;
+
+    border-radius:15px;
+
+    margin-top:15px;
+
+    display:none;
+}
+
+
+/* =====================================================
+   CHAT
+===================================================== */
+
+.chatPage{
+    display:flex;
+
+    flex-direction:column;
+
+    height:
+    calc(
+        100vh - 185px
+    );
+
+    min-height:480px;
+}
+
+.chatMessages{
+    flex:1;
+
+    overflow-y:auto;
+
+    padding:10px 0;
+}
+
+.chatBubble{
+    max-width:85%;
+
+    padding:14px 16px;
+
+    border-radius:16px;
+
+    margin-bottom:12px;
+
+    white-space:pre-wrap;
+
+    line-height:1.65;
+
+    word-break:break-word;
+}
+
+.aiMessage{
+    background:#f0eeff;
+
+    border-bottom-left-radius:4px;
+}
+
+.userMessage{
+    background:
+    linear-gradient(
+        135deg,
+        #5138e8,
+        #6f54f4
+    );
+
+    color:#fff;
+
+    margin-left:auto;
+
+    border-bottom-right-radius:4px;
+}
+
+.chatInputArea{
+    display:flex;
+
+    gap:8px;
+
+    padding-top:12px;
+
+    border-top:
+    1px solid
+    var(--border);
+}
+
+.chatInput{
+    flex:1;
+
+    min-height:50px;
+
+    max-height:120px;
+
+    resize:none;
+
+    border:
+    1px solid
+    var(--border);
+
+    border-radius:13px;
+
+    padding:13px;
+
+    outline:none;
+}
+
+.chatInput:focus{
+    border-color:var(--primary);
+}
+
+.sendButton{
+    width:54px;
+
+    border:0;
+
+    border-radius:13px;
+
+    background:var(--primary);
+
+    color:white;
+
+    font-size:21px;
+}
+
+
+/* =====================================================
+   SETTINGS
+===================================================== */
+
+.settingsList{
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+}
+
+.settingItem{
+    width:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    padding:17px;
+
+    border:
+    1px solid
+    var(--border);
+
+    border-radius:14px;
+
+    background:#fff;
+
+    text-align:left;
+}
+
+.settingLeft{
+    display:flex;
+
+    align-items:center;
+
+    gap:13px;
+}
+
+.settingIcon{
+    width:43px;
+
+    height:43px;
+
+    border-radius:12px;
+
+    background:#f2efff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:20px;
+}
+
+.settingText h3{
     font-size:15px;
 }
 
-/* MODAL */
-.modal{
+.settingText p{
+    font-size:12px;
+
+    color:var(--muted);
+
+    margin-top:4px;
+}
+
+.dangerButton{
+    color:var(--danger);
+}
+
+
+/* =====================================================
+   FEEDBACK
+===================================================== */
+
+.textArea{
+    width:100%;
+
+    min-height:150px;
+
+    padding:14px;
+
+    resize:vertical;
+
+    border:
+    1px solid
+    var(--border);
+
+    border-radius:12px;
+
+    outline:none;
+
+    font-family:inherit;
+
+    font-size:15px;
+}
+
+
+/* =====================================================
+   BOTTOM NAV
+===================================================== */
+
+.bottomNav{
     position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.45);
-    display:none;
+
+    bottom:0;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:min(
+        1250px,
+        100%
+    );
+
+    height:72px;
+
+    background:#fff;
+
+    border-top:
+    1px solid
+    var(--border);
+
+    display:flex;
+
     align-items:center;
-    justify-content:center;
+
+    justify-content:space-around;
+
+    z-index:200;
+}
+
+.bottomNav button{
+    border:0;
+
+    background:transparent;
+
+    color:#73768a;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:3px;
+
+    font-size:11px;
+
+    min-width:55px;
+}
+
+.bottomNav button.active{
+    color:var(--primary);
+
+    font-weight:bold;
+}
+
+.navIcon{
+    font-size:21px;
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+.toast{
+    position:fixed;
+
+    left:50%;
+
+    bottom:90px;
+
+    transform:
+    translateX(-50%)
+    translateY(20px);
+
+    background:#24253b;
+
+    color:#fff;
+
+    padding:12px 18px;
+
+    border-radius:12px;
+
+    font-size:14px;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transition:.25s;
+
+    z-index:999;
+}
+
+.toast.show{
+    opacity:1;
+
+    transform:
+    translateX(-50%)
+    translateY(0);
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal{
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+    rgba(10,10,25,.5);
+
     z-index:500;
+
+    align-items:center;
+
+    justify-content:center;
+
     padding:15px;
 }
 
@@ -385,859 +1531,1838 @@ button{
 }
 
 .modalBox{
-    background:#fff;
     width:100%;
-    max-width:680px;
-    border-radius:20px;
-    padding:25px;
-    max-height:92vh;
+
+    max-width:600px;
+
+    max-height:90vh;
+
     overflow:auto;
-}
 
-.modalHeader{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:18px;
-}
-
-.close{
-    border:0;
-    background:#f2f2f2;
-    width:35px;
-    height:35px;
-    border-radius:50%;
-    font-size:20px;
-}
-
-/* CHAPTER */
-.chapter{
-    width:100%;
-    text-align:left;
-    padding:16px;
-    border:1px solid #ddd;
     background:#fff;
-    border-radius:12px;
-    margin:8px 0;
-    font-size:15px;
-    color:#151936;
+
+    border-radius:22px;
+
+    padding:24px;
 }
 
-.chapter:hover{
-    background:#f3f0ff;
-    border-color:#684cff;
-}
 
-/* ACTION */
-.actionCard{
-    width:100%;
-    border:1px solid #eee;
-    background:#fff;
-    border-radius:15px;
-    padding:18px;
-    margin:10px 0;
-    text-align:left;
-}
+/* =====================================================
+   RESPONSIVE
+===================================================== */
 
-.actionCard:hover{
-    background:#f8f6ff;
-    border-color:#6244ed;
-}
+@media(max-width:850px){
 
-.actionIcon{
-    font-size:30px;
-    margin-bottom:8px;
-}
-
-.actionTitle{
-    font-weight:bold;
-    font-size:18px;
-}
-
-.actionDesc{
-    color:#666;
-    margin-top:6px;
-    line-height:1.5;
-}
-
-/* LOADING */
-.loading{
-    text-align:center;
-    padding:45px 15px;
-}
-
-.spinner{
-    width:42px;
-    height:42px;
-    border:4px solid #eee;
-    border-top-color:#5939e8;
-    border-radius:50%;
-    animation:spin .8s linear infinite;
-    margin:0 auto 15px;
-}
-
-@keyframes spin{
-    to{
-        transform:rotate(360deg);
+    .featureGrid{
+        grid-template-columns:
+        repeat(2,1fr);
     }
-}
 
-/* TEST */
-.testTop{
-    background:#f5f2ff;
-    padding:15px;
-    border-radius:13px;
-    margin-bottom:18px;
-}
-
-.progressBar{
-    height:8px;
-    background:#e3e3e3;
-    border-radius:10px;
-    overflow:hidden;
-    margin-top:10px;
-}
-
-.progressFill{
-    height:100%;
-    background:linear-gradient(90deg,#5137e8,#bd43db);
-}
-
-.questionBox{
-    border:1px solid #eee;
-    border-radius:16px;
-    padding:20px;
-}
-
-.questionNumber{
-    color:#5939e8;
-    font-weight:bold;
-    margin-bottom:12px;
-}
-
-.questionText{
-    font-size:20px;
-    line-height:1.7;
-    font-weight:600;
-    margin-bottom:20px;
-    white-space:pre-wrap;
-    word-break:break-word;
-}
-
-.option{
-    width:100%;
-    text-align:left;
-    padding:16px;
-    margin:9px 0;
-    border:1px solid #ddd;
-    background:#fff;
-    border-radius:12px;
-    font-size:17px;
-    line-height:1.6;
-    color:#151936;
-}
-
-.option:hover{
-    border-color:#6244ed;
-    background:#f8f6ff;
-}
-
-.option.selected{
-    border-color:#6244ed;
-    background:#eeeaff;
-}
-
-.nextBtn{
-    width:100%;
-    margin-top:15px;
-}
-
-/* RESULT */
-.result{
-    text-align:center;
-    padding:20px 5px;
-}
-
-.score{
-    font-size:52px;
-    font-weight:bold;
-    color:#5338df;
-    margin:15px 0;
-}
-
-.resultBox{
-    background:#f7f7ff;
-    padding:15px;
-    border-radius:13px;
-    text-align:left;
-    margin-top:15px;
-    line-height:1.7;
-}
-
-/* CONCEPT */
-.concept{
-    background:#faf9ff;
-    border:1px solid #e9e5ff;
-    border-radius:15px;
-    padding:20px;
-    line-height:1.8;
-}
-
-.concept h3{
-    color:#5038df;
-    margin:15px 0 8px;
-}
-
-.concept p{
-    margin-bottom:10px;
-    white-space:pre-wrap;
-}
-
-/* CHAT */
-.chat{
-    display:flex;
-    flex-direction:column;
-    height:70vh;
-    min-height:500px;
-}
-
-.chatMessages{
-    flex:1;
-    overflow-y:auto;
-    padding:10px 3px;
-}
-
-.chatBubble{
-    max-width:88%;
-    padding:14px 16px;
-    border-radius:16px;
-    margin:8px 0;
-    line-height:1.7;
-    white-space:pre-wrap;
-    word-wrap:break-word;
-}
-
-.userBubble{
-    background:#5939e8;
-    color:#fff;
-    margin-left:auto;
-    border-bottom-right-radius:5px;
-}
-
-.aiBubble{
-    background:#f1efff;
-    color:#222;
-    margin-right:auto;
-    border-bottom-left-radius:5px;
-}
-
-.thinking{
-    display:inline-flex;
-    gap:5px;
-    align-items:center;
-}
-
-.dot{
-    width:7px;
-    height:7px;
-    background:#694de8;
-    border-radius:50%;
-    animation:bounce 1s infinite;
-}
-
-.dot:nth-child(2){
-    animation-delay:.15s;
-}
-
-.dot:nth-child(3){
-    animation-delay:.3s;
-}
-
-@keyframes bounce{
-    0%,100%{
-        transform:translateY(0);
-        opacity:.4;
+    .subjectGrid{
+        grid-template-columns:
+        repeat(3,1fr);
     }
-    50%{
-        transform:translateY(-4px);
-        opacity:1;
+
+    .statsGrid{
+        grid-template-columns:
+        repeat(2,1fr);
     }
+
 }
 
-.chatInputArea{
-    display:flex;
-    gap:8px;
-    padding-top:12px;
-    border-top:1px solid #eee;
-}
-
-.chatInput{
-    flex:1;
-    border:1px solid #ddd;
-    border-radius:13px;
-    padding:13px;
-    resize:none;
-    min-height:48px;
-    max-height:120px;
-    outline:none;
-}
-
-.chatInput:focus{
-    border-color:#6244ed;
-}
-
-.sendBtn{
-    width:52px;
-    border:0;
-    border-radius:13px;
-    background:#5939e8;
-    color:#fff;
-    font-size:20px;
-}
-
-.newChat{
-    border:0;
-    background:#eeeaff;
-    color:#5038df;
-    padding:9px 13px;
-    border-radius:9px;
-    font-weight:bold;
-}
-
-/* PROFILE */
-.profilePage{
-    text-align:center;
-    padding:20px;
-}
-
-.profileAvatar{
-    width:90px;
-    height:90px;
-    border-radius:50%;
-    background:#eee9ff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:45px;
-    margin:0 auto 15px;
-}
-
-.profileInput{
-    width:100%;
-    padding:13px;
-    border:1px solid #ddd;
-    border-radius:10px;
-    margin:8px 0;
-    outline:none;
-}
-
-/* BOTTOM */
-.bottomNav{
-    position:fixed;
-    bottom:0;
-    left:50%;
-    transform:translateX(-50%);
-    width:min(1200px,100%);
-    height:70px;
-    background:#fff;
-    border-top:1px solid #eee;
-    display:flex;
-    justify-content:space-around;
-    align-items:center;
-    z-index:200;
-}
-
-.bottomNav button{
-    border:0;
-    background:#fff;
-    font-size:12px;
-    color:#333;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:4px;
-}
-
-.bottomIcon{
-    font-size:22px;
-}
-
-.bottomNav .active{
-    color:#5038df;
-}
-
-/* MOBILE */
-@media(max-width:800px){
+@media(max-width:600px){
 
     .header{
         height:65px;
+
         padding:0 15px;
     }
 
-    .brandName{
-        font-size:20px;
+    .headerBrand{
+        font-size:22px;
     }
 
-    .brandSub,
-    .nav,
-    .profileText{
+    .headerAskButton{
         display:none;
     }
 
-    .main{
-        padding:15px 12px 85px;
+    .mainContent{
+        padding:
+        18px
+        12px
+        90px;
     }
 
-    .hero{
-        padding:25px 20px;
-        min-height:520px;
-        flex-direction:column;
-        align-items:flex-start;
+    .homeGreeting h1,
+    .pageTitle h1{
+        font-size:25px;
     }
 
-    .heroContent{
-        width:100%;
+    .homeHero{
+        padding:22px;
     }
 
-    .heroTitle{
-        font-size:37px;
+    .homeHero h2{
+        font-size:23px;
     }
 
-    .heroText{
-        font-size:15px;
+    .featureGrid{
+        grid-template-columns:
+        1fr 1fr;
     }
 
-    .heroVisual{
-        width:100%;
-        min-height:220px;
-        margin-top:10px;
+    .featureCard{
+        padding:16px;
+
+        min-height:165px;
     }
 
-    .student{
-        width:150px;
-        height:150px;
-        font-size:85px;
+    .subjectGrid{
+        grid-template-columns:
+        1fr 1fr;
     }
 
-    .aiCard{
-        font-size:11px;
-        padding:9px 11px;
+    .formRow{
+        grid-template-columns:
+        1fr;
     }
 
-    .features{
-        grid-template-columns:1fr 1fr;
+    .practiceSteps{
+        grid-template-columns:
+        1fr;
     }
 
-    .feature{
-        border-bottom:1px solid #eee;
-        padding:20px 10px;
+    .setupCard{
+        padding:22px 17px;
     }
 
-    .classes{
-        grid-template-columns:1fr 1fr;
+    .setupHeader h1{
+        font-size:25px;
     }
 
-    .subjects{
-        grid-template-columns:1fr 1fr;
+    .chatPage{
+        height:
+        calc(
+            100vh - 160px
+        );
     }
 
-    .subjectCard:last-child{
-        grid-column:1 / 3;
+    .statsGrid{
+        grid-template-columns:
+        1fr 1fr;
     }
 
-    .section{
-        padding:18px;
+    .examosLogoText{
+        letter-spacing:-2px;
     }
 
-    .modalBox{
-        padding:18px;
-    }
-
-    .questionText{
-        font-size:18px;
-    }
-
-    .option{
-        font-size:16px;
-    }
-
-    .chat{
-        height:72vh;
-        min-height:480px;
-    }
 }
 
-@media(max-width:420px){
+@media(max-width:370px){
 
-    .heroTitle{
-        font-size:32px;
+    .featureGrid{
+        grid-template-columns:
+        1fr;
     }
 
-    .heroButtons{
-        flex-direction:column;
-        width:100%;
+    .subjectGrid{
+        grid-template-columns:
+        1fr;
     }
 
-    .primary,
-    .secondary{
-        width:100%;
-    }
-
-    .questionText{
-        font-size:17px;
-    }
 }
+
 </style>
 </head>
 
+
 <body>
 
-<div class="app">
+<div id="app">
 
-<header class="header">
 
-    <div class="brand">
+<!-- =================================================
+     WELCOME SCREEN
+================================================== -->
 
-        <div class="brandIcon">🎓</div>
+<section
+id="welcomeScreen"
+class="screen active">
 
-        <div>
-            <div class="brandName">EXAMOS</div>
-            <div class="brandSub">AI Powered Learning</div>
+    <div class="welcomeBox">
+
+        <div class="welcomeSmall">
+            WELCOME TO
+        </div>
+
+        <div class="examosLogoText">
+            EXAMOS
+        </div>
+
+        <div class="aiTitle">
+            AI Powered Learning
+        </div>
+
+        <p class="welcomeDescription">
+
+            Learn smarter with AI.
+            Understand your mistakes,
+            improve weak topics and
+            practice in your own way.
+
+        </p>
+
+        <div class="welcomeFeatures">
+
+            <div class="welcomeTag">
+                🤖 AI Assistant
+            </div>
+
+            <div class="welcomeTag">
+                🎯 Weak Topic
+            </div>
+
+            <div class="welcomeTag">
+                📊 Progress
+            </div>
+
+            <div class="welcomeTag">
+                📷 Analyze Solution
+            </div>
+
+        </div>
+
+        <button
+        class="welcomeButton"
+        onclick="startApp()">
+
+            Get Started →
+
+        </button>
+
+        <div class="welcomeFooter">
+
+            Your AI Learning Companion
+
         </div>
 
     </div>
 
-    <nav class="nav">
+</section>
 
-        <button class="active" onclick="goHome()">
-            ⌂ Home
-        </button>
 
-        <button onclick="openAIChat()">
-            🤖 AI Assistant
-        </button>
+<!-- =================================================
+     PROFILE SETUP
+================================================== -->
 
-        <button onclick="scrollToSection('subjects')">
-            📚 Subjects
-        </button>
+<section
+id="profileScreen"
+class="screen">
 
-    </nav>
+    <div class="setupPage">
 
-    <div class="profile">
+        <div class="setupCard">
 
-        <div class="profileIcon">
-            👤
+            <div class="setupHeader">
+
+                <h1>
+                    Create Your Student Profile
+                </h1>
+
+                <p>
+                    अपनी जानकारी भरें ताकि
+                    EXAMOS AI आपके लिए
+                    personalized learning experience
+                    तैयार कर सके।
+                </p>
+
+            </div>
+
+
+            <div class="setupProgress">
+
+                <span class="active"></span>
+
+                <span class="active"></span>
+
+                <span></span>
+
+            </div>
+
+
+            <div class="formGroup">
+
+                <label>
+                    Student Name
+                </label>
+
+                <input
+                id="studentName"
+                class="inputField"
+                type="text"
+                placeholder="अपना नाम लिखें">
+
+            </div>
+
+
+            <div class="formRow">
+
+                <div class="formGroup">
+
+                    <label>
+                        Date of Birth
+                    </label>
+
+                    <input
+                    id="studentDOB"
+                    class="inputField"
+                    type="date">
+
+                </div>
+
+
+                <div class="formGroup">
+
+                    <label>
+                        Class
+                    </label>
+
+                    <select
+                    id="studentClass"
+                    class="selectField"
+                    onchange="handleClassChange()">
+
+                        <option value="">
+                            Class चुनें
+                        </option>
+
+                        <option value="9">
+                            Class 9
+                        </option>
+
+                        <option value="10">
+                            Class 10
+                        </option>
+
+                        <option value="11">
+                            Class 11
+                        </option>
+
+                        <option value="12">
+                            Class 12
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="formGroup">
+
+                <label>
+                    Board
+                </label>
+
+                <select
+                id="studentBoard"
+                class="selectField">
+
+                    <option value="">
+                        Board चुनें
+                    </option>
+
+                    <option>
+                        Bihar Board
+                    </option>
+
+                    <option>
+                        CBSE
+                    </option>
+
+                    <option>
+                        ICSE
+                    </option>
+
+                    <option>
+                        Other State Board
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div
+            id="streamBox"
+            class="streamBox">
+
+                <div class="formGroup">
+
+                    <label>
+                        Stream
+                    </label>
+
+                    <select
+                    id="studentStream"
+                    class="selectField">
+
+                        <option value="">
+                            Stream चुनें
+                        </option>
+
+                        <option>
+                            Science
+                        </option>
+
+                        <option>
+                            Arts
+                        </option>
+
+                        <option>
+                            Commerce
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="formGroup">
+
+                <label>
+                    Phone Number
+                </label>
+
+                <input
+                id="studentPhone"
+                class="inputField"
+                type="tel"
+                maxlength="10"
+                placeholder="10 digit phone number">
+
+            </div>
+
+
+            <button
+            class="primaryButton"
+            onclick="sendOTP()">
+
+                Send OTP
+
+            </button>
+
+
+            <p class="smallInfo">
+
+                Demo version में OTP verification
+                frontend level पर दिखाया जाएगा।
+
+            </p>
+
+
+            <div
+            id="otpBox"
+            style="display:none;
+            margin-top:20px;">
+
+                <div class="formGroup">
+
+                    <label>
+                        Enter OTP
+                    </label>
+
+                    <input
+                    id="otpInput"
+                    class="inputField"
+                    type="text"
+                    maxlength="6"
+                    placeholder="Demo OTP: 123456">
+
+                </div>
+
+
+                <button
+                class="primaryButton"
+                onclick="verifyOTP()">
+
+                    Verify & Continue
+
+                </button>
+
+            </div>
+
         </div>
 
-        <div class="profileText">
-            Welcome<br>
-            <b id="profileNameTop">Student</b>
+    </div>
+
+</section>
+
+
+<!-- =================================================
+     MAIN APPLICATION
+================================================== -->
+
+<section
+id="mainScreen"
+class="screen">
+
+<div class="appLayout">
+
+
+<!-- HEADER -->
+
+<header class="header">
+
+    <div class="headerBrand">
+
+        EXAMOS <span>AI</span>
+
+    </div>
+
+
+    <div class="headerRight">
+
+        <button
+        class="headerAskButton"
+        onclick="openPage('askAIPage')">
+
+            🤖 Ask AI
+
+        </button>
+
+        <div
+        class="headerProfile"
+        onclick="openPage('settingsPage')">
+
+            👤
+
         </div>
 
     </div>
 
 </header>
 
-<main class="main">
 
-<section class="hero">
 
-    <div class="heroContent">
+<!-- MAIN -->
 
-        <h1 class="heroTitle">
-            Learn <span class="gradientText">Smarter</span><br>
-            Not <span class="gradientText">Harder</span>
+<main class="mainContent">
+
+
+<!-- =============================================
+     HOME PAGE
+============================================= -->
+
+<section
+id="homePage"
+class="page active">
+
+
+    <div class="homeGreeting">
+
+        <h1>
+
+            Hello,
+            <span id="homeStudentName">
+                Student
+            </span> 👋
+
         </h1>
 
-        <p class="heroText">
-            EXAMOS uses AI to analyze your mistakes,
-            find weak topics and help you improve
-            faster with personalized practice.
+        <p>
+            आज सीखने के लिए तैयार हो?
+            अपनी पढ़ाई को AI के साथ
+            और बेहतर बनाओ।
         </p>
 
-        <div class="heroButtons">
 
-            <button class="primary"
-                    onclick="startLearning()">
-                Start Learning →
-            </button>
+        <div class="profileSummary">
 
-            <button class="secondary"
-                    onclick="showHowItWorks()">
-                ▶ How It Works
-            </button>
+            <span
+            id="homeClass"
+            class="summaryTag">
+
+                Class
+
+            </span>
+
+            <span
+            id="homeBoard"
+            class="summaryTag">
+
+                Board
+
+            </span>
+
+            <span
+            id="homeStream"
+            class="summaryTag"
+            style="display:none">
+
+                Stream
+
+            </span>
 
         </div>
 
     </div>
 
-    <div class="heroVisual">
 
-        <div class="aiCard ai1">
-            🧠 AI Mistake Analysis
+
+    <div class="homeHero">
+
+        <h2>
+            Learn Smarter with EXAMOS AI
+        </h2>
+
+        <p>
+            Test दो, अपनी mistakes समझो,
+            weak topics पहचानो और
+            personalized practice से
+            अपनी performance improve करो।
+        </p>
+
+        <button
+        class="heroAction"
+        onclick="openPage('testPage')">
+
+            Start Learning →
+
+        </button>
+
+    </div>
+
+
+
+    <div class="sectionHeading">
+
+        <h2>
+            🚀 Quick Actions
+        </h2>
+
+    </div>
+
+
+    <div class="featureGrid">
+
+
+        <button
+        class="featureCard"
+        onclick="openPage('testPage')">
+
+            <div
+            class="featureIcon iconPurple">
+
+                📋
+
+            </div>
+
+            <h3>
+                AI Test
+            </h3>
+
+            <p>
+                अपने subject और topic
+                से AI powered test दें।
+            </p>
+
+        </button>
+
+
+
+        <button
+        class="featureCard"
+        onclick="openPage('practicePage')">
+
+            <div
+            class="featureIcon iconOrange">
+
+                ✏️
+
+            </div>
+
+            <h3>
+                Practice
+            </h3>
+
+            <p>
+                Topic समझें और
+                personalized questions
+                practice करें।
+            </p>
+
+        </button>
+
+
+
+        <button
+        class="featureCard"
+        onclick="openPage('weakPage')">
+
+            <div
+            class="featureIcon iconGreen">
+
+                🎯
+
+            </div>
+
+            <h3>
+                Weak Topics
+            </h3>
+
+            <p>
+                अपने weak concepts
+                पहचानें और improve करें।
+            </p>
+
+        </button>
+
+
+
+        <button
+        class="featureCard"
+        onclick="openPage('progressPage')">
+
+            <div
+            class="featureIcon iconBlue">
+
+                📈
+
+            </div>
+
+            <h3>
+                Progress
+            </h3>
+
+            <p>
+                अपनी learning progress
+                और performance देखें।
+            </p>
+
+        </button>
+
+
+
+        <button
+        class="featureCard"
+        onclick="openPage('analyzePage')">
+
+            <div
+            class="featureIcon iconPink">
+
+                📷
+
+            </div>
+
+            <h3>
+                Analyze Question
+            </h3>
+
+            <p>
+                Solution की photo upload
+                करके mistakes analyze करें।
+            </p>
+
+        </button>
+
+
+
+        <button
+        class="featureCard"
+        onclick="openPage('askAIPage')">
+
+            <div
+            class="featureIcon iconRed">
+
+                🤖
+
+            </div>
+
+            <h3>
+                Ask AI
+            </h3>
+
+            <p>
+                पढ़ाई या किसी भी topic
+                पर AI से सवाल पूछें।
+            </p>
+
+        </button>
+
+
+    </div>
+
+
+
+    <div
+    class="sectionHeading"
+    style="margin-top:28px">
+
+        <h2>
+            📚 Your Subjects
+        </h2>
+
+    </div>
+
+
+    <div
+    id="subjectGrid"
+    class="subjectGrid">
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =============================================
+     TEST PAGE
+============================================= -->
+
+<section
+id="testPage"
+class="page">
+
+
+    <div class="pageTitle">
+
+        <h1>
+            📋 AI Test
+        </h1>
+
+        <p>
+            अपने हिसाब से test तैयार करें।
+        </p>
+
+    </div>
+
+
+    <div class="formCard">
+
+
+        <div class="formGroup">
+
+            <label>
+                Subject
+            </label>
+
+            <select
+            id="testSubject"
+            class="selectField">
+
+            </select>
+
         </div>
 
-        <div class="aiCard ai2">
-            🎯 Weak Topic Detection
+
+        <div class="formGroup">
+
+            <label>
+                Chapter
+            </label>
+
+            <input
+            id="testChapter"
+            class="inputField"
+            placeholder="Chapter या Topic लिखें">
+
         </div>
 
-        <div class="student">
-            🧑‍🎓
+
+        <div class="formGroup">
+
+            <label>
+                Number of Questions
+            </label>
+
+
+            <div
+            id="questionCountChoices"
+            class="choiceRow">
+
+                <button
+                class="choiceButton selected"
+                data-value="25"
+                onclick="selectChoice(
+                'questionCountChoices',
+                this)">
+
+                    25
+
+                </button>
+
+                <button
+                class="choiceButton"
+                data-value="50"
+                onclick="selectChoice(
+                'questionCountChoices',
+                this)">
+
+                    50
+
+                </button>
+
+                <button
+                class="choiceButton"
+                data-value="100"
+                onclick="selectChoice(
+                'questionCountChoices',
+                this)">
+
+                    100
+
+                </button>
+
+            </div>
+
         </div>
 
-        <div class="aiCard ai3">
-            📚 Personalized Practice
+
+        <div class="formGroup">
+
+            <label>
+                Test Language
+            </label>
+
+
+            <div
+            id="languageChoices"
+            class="choiceRow">
+
+                <button
+                class="choiceButton selected"
+                data-value="Hindi"
+                onclick="selectChoice(
+                'languageChoices',
+                this)">
+
+                    हिंदी
+
+                </button>
+
+                <button
+                class="choiceButton"
+                data-value="English"
+                onclick="selectChoice(
+                'languageChoices',
+                this)">
+
+                    English
+
+                </button>
+
+            </div>
+
         </div>
 
-        <div class="aiCard ai4">
-            📊 Progress Tracking
+
+        <div class="formGroup">
+
+            <label>
+                Timer
+            </label>
+
+            <select
+            id="testTimer"
+            class="selectField">
+
+                <option value="0">
+                    No Timer
+                </option>
+
+                <option value="30">
+                    30 Minutes
+                </option>
+
+                <option value="60">
+                    60 Minutes
+                </option>
+
+                <option value="90">
+                    90 Minutes
+                </option>
+
+            </select>
+
         </div>
+
+
+        <button
+        class="primaryButton"
+        onclick="createTest()">
+
+            🤖 Generate AI Test
+
+        </button>
+
 
     </div>
 
 </section>
 
-<section class="features">
 
-    <div class="feature">
 
-        <div class="featureIcon purple">
-            📋
-        </div>
+<!-- =============================================
+     PRACTICE PAGE
+============================================= -->
 
-        <h3>Diagnostic Test</h3>
+<section
+id="practicePage"
+class="page">
+
+
+    <div class="pageTitle">
+
+        <h1>
+            ✏️ Personalized Practice
+        </h1>
 
         <p>
-            Class, Subject और Chapter चुनकर
-            AI से नया test बनवाएँ।
+            अपनी पसंद का topic चुनें,
+            concept समझें और practice करें।
         </p>
-
-        <button class="featureBtn purpleText"
-                onclick="startDiagnostic()">
-            Start Test →
-        </button>
 
     </div>
 
-    <div class="feature">
 
-        <div class="featureIcon blue">
-            🤖
+    <div class="practiceSteps">
+
+
+        <div class="practiceStep">
+
+            <div class="stepNumber">
+                1
+            </div>
+
+            <h3>
+                Subject
+            </h3>
+
+            <p
+            style="color:var(--muted);
+            margin-top:8px">
+
+                Subject चुनें।
+
+            </p>
+
+
+            <select
+            id="practiceSubject"
+            class="selectField"
+            style="margin-top:15px">
+
+            </select>
+
         </div>
 
-        <h3>AI Assistant</h3>
 
-        <p>
-            कोई भी सवाल पूछें और आसान
-            step-by-step जवाब पाएँ।
-        </p>
 
-        <button class="featureBtn blueText"
-                onclick="openAIChat()">
-            Ask AI →
-        </button>
+        <div class="practiceStep">
+
+            <div class="stepNumber">
+                2
+            </div>
+
+            <h3>
+                Chapter
+            </h3>
+
+            <p
+            style="color:var(--muted);
+            margin-top:8px">
+
+                Chapter चुनें।
+
+            </p>
+
+
+            <input
+            id="practiceChapter"
+            class="inputField"
+            style="margin-top:15px"
+            placeholder="Chapter लिखें">
+
+        </div>
+
+
+
+        <div class="practiceStep">
+
+            <div class="stepNumber">
+                3
+            </div>
+
+            <h3>
+                Topic
+            </h3>
+
+            <p
+            style="color:var(--muted);
+            margin-top:8px">
+
+                जिस topic को पढ़ना है
+                उसे लिखें।
+
+            </p>
+
+
+            <input
+            id="practiceTopic"
+            class="inputField"
+            style="margin-top:15px"
+            placeholder="Topic लिखें">
+
+        </div>
+
 
     </div>
 
-    <div class="feature">
 
-        <div class="featureIcon green">
+    <div
+    class="formCard"
+    style="margin-top:20px">
+
+
+        <h3>
+            Practice Difficulty
+        </h3>
+
+
+        <div
+        id="difficultyChoices"
+        class="choiceRow">
+
+            <button
+            class="choiceButton selected"
+            data-value="Easy"
+            onclick="selectChoice(
+            'difficultyChoices',
+            this)">
+
+                Easy
+
+            </button>
+
+            <button
+            class="choiceButton"
+            data-value="Medium"
+            onclick="selectChoice(
+            'difficultyChoices',
+            this)">
+
+                Medium
+
+            </button>
+
+            <button
+            class="choiceButton"
+            data-value="Hard"
+            onclick="selectChoice(
+            'difficultyChoices',
+            this)">
+
+                Hard
+
+            </button>
+
+        </div>
+
+
+        <h3
+        style="margin-top:20px">
+
+            Questions
+
+        </h3>
+
+
+        <div
+        id="practiceCountChoices"
+        class="choiceRow">
+
+            <button
+            class="choiceButton selected"
+            data-value="25"
+            onclick="selectChoice(
+            'practiceCountChoices',
+            this)">
+
+                25
+
+            </button>
+
+            <button
+            class="choiceButton"
+            data-value="50"
+            onclick="selectChoice(
+            'practiceCountChoices',
+            this)">
+
+                50
+
+            </button>
+
+            <button
+            class="choiceButton"
+            data-value="100"
+            onclick="selectChoice(
+            'practiceCountChoices',
+            this)">
+
+                100
+
+            </button>
+
+        </div>
+
+
+        <button
+        class="primaryButton"
+        onclick="startPractice()">
+
+            Start Personalized Practice
+
+        </button>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =============================================
+     WEAK TOPIC PAGE
+============================================= -->
+
+<section
+id="weakPage"
+class="page">
+
+
+    <div class="pageTitle">
+
+        <h1>
+            🎯 Weak Topics
+        </h1>
+
+        <p>
+            Tests और practice के आधार पर
+            आपके weak topics यहाँ दिखाई देंगे।
+        </p>
+
+    </div>
+
+
+    <div class="emptyState">
+
+        <div class="emptyIcon">
             🎯
         </div>
 
-        <h3>Weak Topic Detection</h3>
+        <h2>
+            अभी कोई Weak Topic नहीं है
+        </h2>
 
         <p>
-            Test के बाद AI आपके weak
-            topics पहचानता है।
+            पहले AI Test दें।
+            आपके answers analyze होने के बाद
+            weak topics यहाँ दिखाई देंगे।
         </p>
 
-        <button class="featureBtn greenText"
-                onclick="showWeakTopics()">
-            View Weak Topics →
+        <button
+        class="primaryButton"
+        style="
+        max-width:300px;
+        margin-top:20px"
+        onclick="openPage('testPage')">
+
+            📋 Start AI Test
+
         </button>
 
     </div>
 
-    <div class="feature">
 
-        <div class="featureIcon orange">
-            ✏️
+</section>
+
+
+
+<!-- =============================================
+     PROGRESS PAGE
+============================================= -->
+
+<section
+id="progressPage"
+class="page">
+
+
+    <div class="pageTitle">
+
+        <h1>
+            📈 Your Progress
+        </h1>
+
+        <p>
+            अपनी learning performance track करें।
+        </p>
+
+    </div>
+
+
+    <div class="statsGrid">
+
+
+        <div class="statCard">
+
+            <span>
+                Tests Given
+            </span>
+
+            <h2 id="testsGiven">
+                0
+            </h2>
+
         </div>
 
-        <h3>Personalized Practice</h3>
 
-        <p>
-            पहले concept सीखें, फिर उसी
-            concept के questions करें।
+        <div class="statCard">
+
+            <span>
+                Average Score
+            </span>
+
+            <h2>
+                0%
+            </h2>
+
+        </div>
+
+
+        <div class="statCard">
+
+            <span>
+                Practice
+            </span>
+
+            <h2>
+                0
+            </h2>
+
+        </div>
+
+
+        <div class="statCard">
+
+            <span>
+                Weak Topics
+            </span>
+
+            <h2>
+                0
+            </h2>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="chartCard">
+
+        <h2>
+            Learning Progress
+        </h2>
+
+
+        <div class="fakeChart">
+
+            <div
+            class="chartBar"
+            style="height:25%">
+
+            </div>
+
+            <div
+            class="chartBar"
+            style="height:38%">
+
+            </div>
+
+            <div
+            class="chartBar"
+            style="height:45%">
+
+            </div>
+
+            <div
+            class="chartBar"
+            style="height:32%">
+
+            </div>
+
+            <div
+            class="chartBar"
+            style="height:55%">
+
+            </div>
+
+            <div
+            class="chartBar"
+            style="height:65%">
+
+            </div>
+
+        </div>
+
+
+        <p
+        style="
+        text-align:center;
+        color:var(--muted)">
+
+            Real progress data
+            test results के बाद दिखाई देगा।
+
         </p>
 
-        <button class="featureBtn orangeText"
-                onclick="startPractice()">
-            Start Practice →
-        </button>
-
     </div>
+
 
 </section>
 
-<section class="section">
 
-    <h2 class="sectionTitle">
-        🎓 Select Your Class
-    </h2>
 
-    <p class="sectionSub">
-        अपनी class चुनें और सही syllabus के अनुसार learning शुरू करें।
-    </p>
+<!-- =============================================
+     ANALYZE QUESTION
+============================================= -->
 
-    <div class="classes">
+<section
+id="analyzePage"
+class="page">
 
-        <button class="classCard"
-                onclick="selectClass(9)">
 
-            <div class="classNumber">
-                9
-            </div>
+    <div class="pageTitle">
 
-            <h3>
-                Class 9
-            </h3>
+        <h1>
+            📷 Analyze Question
+        </h1>
 
-        </button>
-
-        <button class="classCard"
-                onclick="selectClass(10)">
-
-            <div class="classNumber">
-                10
-            </div>
-
-            <h3>
-                Class 10
-            </h3>
-
-        </button>
-
-        <button class="classCard"
-                onclick="selectClass(11)">
-
-            <div class="classNumber">
-                11
-            </div>
-
-            <h3>
-                Class 11
-            </h3>
-
-        </button>
-
-        <button class="classCard"
-                onclick="selectClass(12)">
-
-            <div class="classNumber">
-                12
-            </div>
-
-            <h3>
-                Class 12
-            </h3>
-
-        </button>
+        <p>
+            अपने handwritten solution की photo
+            upload करें। AI future version में
+            mistakes और गलत steps analyze करेगा।
+        </p>
 
     </div>
 
-</section>
 
-<section id="subjects" class="section">
+    <div class="formCard">
 
-    <h2 class="sectionTitle">
-        📚 Subjects
-    </h2>
 
-    <p class="sectionSub">
-        पहले Class चुनें, फिर Subject और Chapter चुनें।
-    </p>
+        <label
+        class="uploadArea">
 
-    <div class="subjects">
+            <input
+            type="file"
+            accept="image/*"
+            onchange="previewImage(event)">
 
-        <button class="subjectCard"
-                onclick="selectSubject('Mathematics')">
 
-            <div class="subjectIcon">
-                √x
+            <div class="uploadIcon">
+                📷
             </div>
 
+
             <h3>
-                Mathematics
+                Upload Solution Photo
             </h3>
+
+
+            <p
+            style="
+            color:var(--muted);
+            margin-top:8px">
+
+                साफ और readable photo upload करें।
+
+            </p>
+
+        </label>
+
+
+        <img
+        id="solutionPreview"
+        class="imagePreview"
+        alt="Solution Preview">
+
+
+        <button
+        class="primaryButton"
+        onclick="analyzeSolution()">
+
+            🤖 Analyze My Solution
 
         </button>
 
-        <button class="subjectCard"
-                onclick="selectSubject('Physics')">
-
-            <div class="subjectIcon">
-                ⚛️
-            </div>
-
-            <h3>
-                Physics
-            </h3>
-
-        </button>
-
-        <button class="subjectCard"
-                onclick="selectSubject('Chemistry')">
-
-            <div class="subjectIcon">
-                🧪
-            </div>
-
-            <h3>
-                Chemistry
-            </h3>
-
-        </button>
-
-        <button class="subjectCard"
-                onclick="selectSubject('English')">
-
-            <div class="subjectIcon">
-                📖
-            </div>
-
-            <h3>
-                English
-            </h3>
-
-        </button>
-
-        <button class="subjectCard"
-                onclick="selectSubject('Hindi')">
-
-            <div class="subjectIcon">
-                अ
-            </div>
-
-            <h3>
-                Hindi
-            </h3>
-
-        </button>
 
     </div>
 
+
+    <div
+    id="analysisResult"
+    style="display:none"
+    class="formCard">
+
+    </div>
+
+
 </section>
+
+
+
+<!-- =============================================
+     ASK AI PAGE
+============================================= -->
+
+<section
+id="askAIPage"
+class="page">
+
+
+    <div class="pageTitle">
+
+        <h1>
+            🤖 Ask EXAMOS AI
+        </h1>
+
+        <p>
+            किसी भी विषय या topic पर
+            अपना सवाल पूछें।
+        </p>
+
+    </div>
+
+
+    <div class="chatPage">
+
+
+        <div
+        id="chatMessages"
+        class="chatMessages">
+
+        </div>
+
+
+        <div class="chatInputArea">
+
+            <textarea
+            id="chatInput"
+            class="chatInput"
+            placeholder="अपना सवाल यहाँ लिखें..."
+            onkeydown="chatKeyDown(event)">
+
+            </textarea>
+
+
+            <button
+            class="sendButton"
+            onclick="sendAIMessage()">
+
+                ➤
+
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =============================================
+     SETTINGS PAGE
+============================================= -->
+
+<section
+id="settingsPage"
+class="page">
+
+
+    <div class="pageTitle">
+
+        <h1>
+            ⚙️ Settings
+        </h1>
+
+        <p>
+            अपना profile और app settings manage करें।
+        </p>
+
+    </div>
+
+
+    <div class="settingsList">
+
+
+        <button
+        class="settingItem"
+        onclick="editProfile()">
+
+            <div class="settingLeft">
+
+                <div class="settingIcon">
+                    👤
+                </div>
+
+                <div class="settingText">
+
+                    <h3>
+                        Student Profile
+                    </h3>
+
+                    <p>
+                        अपनी profile information देखें।
+                    </p>
+
+                </div>
+
+            </div>
+
+            <span>
+                →
+            </span>
+
+        </button>
+
+
+
+        <button
+        class="settingItem"
+        onclick="changeLanguage()">
+
+            <div class="settingLeft">
+
+                <div class="settingIcon">
+                    🌐
+                </div>
+
+                <div class="settingText">
+
+                    <h3>
+                        App Language
+                    </h3>
+
+                    <p>
+                        Hindi / English
+                    </p>
+
+                </div>
+
+            </div>
+
+            <span>
+                →
+            </span>
+
+        </button>
+
+
+
+        <button
+        class="settingItem"
+        onclick="openPage('feedbackPage')">
+
+            <div class="settingLeft">
+
+                <div class="settingIcon">
+                    💬
+                </div>
+
+                <div class="settingText">
+
+                    <h3>
+                        Feedback
+                    </h3>
+
+                    <p>
+                        अपना सुझाव और feedback दें।
+                    </p>
+
+                </div>
+
+            </div>
+
+            <span>
+                →
+            </span>
+
+        </button>
+
+
+
+        <button
+        class="settingItem">
+
+            <div class="settingLeft">
+
+                <div class="settingIcon">
+                    ℹ️
+                </div>
+
+                <div class="settingText">
+
+                    <h3>
+                        About EXAMOS AI
+                    </h3>
+
+                    <p>
+                        AI powered learning platform
+                    </p>
+
+                </div>
+
+            </div>
+
+            <span>
+                →
+            </span>
+
+        </button>
+
+
+
+        <button
+        class="settingItem dangerButton"
+        onclick="logout()">
+
+            <div class="settingLeft">
+
+                <div class="settingIcon">
+                    🚪
+                </div>
+
+                <div class="settingText">
+
+                    <h3>
+                        Logout
+                    </h3>
+
+                    <p>
+                        अपने account से बाहर जाएँ।
+                    </p>
+
+                </div>
+
+            </div>
+
+            <span>
+                →
+            </span>
+
+        </button>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =============================================
+     FEEDBACK PAGE
+============================================= -->
+
+<section
+id="feedbackPage"
+class="page">
+
+
+    <div class="pageTitle">
+
+        <h1>
+            💬 Feedback
+        </h1>
+
+        <p>
+            EXAMOS AI को बेहतर बनाने के लिए
+            अपना feedback दें।
+        </p>
+
+    </div>
+
+
+    <div class="formCard">
+
+
+        <div class="formGroup">
+
+            <label>
+                Your Feedback
+            </label>
+
+            <textarea
+            id="feedbackText"
+            class="textArea"
+            placeholder="
+आपको app कैसा लगा?
+कोई समस्या या सुझाव लिखें...">
+
+            </textarea>
+
+        </div>
+
+
+        <button
+        class="primaryButton"
+        onclick="submitFeedback()">
+
+            Submit Feedback
+
+        </button>
+
+
+        <p class="smallInfo">
+
+            अभी feedback local storage में
+            save होगा। बाद में इसे
+            database से जोड़ा जाएगा।
+
+        </p>
+
+
+    </div>
+
+
+</section>
+
 
 </main>
 
+
+
+<!-- BOTTOM NAV -->
+
 <nav class="bottomNav">
 
-    <button class="active"
-            onclick="goHome()">
 
-        <span class="bottomIcon">
+    <button
+    class="active"
+    data-page="homePage"
+    onclick="openPage('homePage')">
+
+        <span class="navIcon">
             ⌂
         </span>
 
@@ -1245,29 +3370,27 @@ button{
 
     </button>
 
-    <button onclick="scrollToSection('subjects')">
 
-        <span class="bottomIcon">
-            🎓
+
+    <button
+    data-page="testPage"
+    onclick="openPage('testPage')">
+
+        <span class="navIcon">
+            📋
         </span>
 
-        Classes
+        Test
 
     </button>
 
-    <button onclick="openAIChat()">
 
-        <span class="bottomIcon">
-            🤖
-        </span>
 
-        AI
+    <button
+    data-page="practicePage"
+    onclick="openPage('practicePage')">
 
-    </button>
-
-    <button onclick="startPractice()">
-
-        <span class="bottomIcon">
+        <span class="navIcon">
             ✏️
         </span>
 
@@ -1275,984 +3398,451 @@ button{
 
     </button>
 
-    <button onclick="showProfile()">
 
-        <span class="bottomIcon">
-            👤
+
+    <button
+    data-page="askAIPage"
+    onclick="openPage('askAIPage')">
+
+        <span class="navIcon">
+            🤖
         </span>
 
-        Profile
+        Ask AI
 
     </button>
 
+
+
+    <button
+    data-page="settingsPage"
+    onclick="openPage('settingsPage')">
+
+        <span class="navIcon">
+            ⚙️
+        </span>
+
+        Settings
+
+    </button>
+
+
 </nav>
 
-</div>
-
-<!-- MODAL -->
-
-<div id="modal" class="modal">
-
-    <div class="modalBox">
-
-        <div class="modalHeader">
-
-            <h2 id="modalTitle">
-                EXAMOS
-            </h2>
-
-            <button class="close"
-                    onclick="closeModal()">
-                ×
-            </button>
-
-        </div>
-
-        <div id="modalContent"></div>
-
-    </div>
 
 </div>
+
+</section>
+
+
+
+<!-- TOAST -->
+
+<div
+id="toast"
+class="toast">
+
+    Message
+
+</div>
+
+
+
+</div>
+
+
 
 <script>
 
 /* =====================================================
-   EXAMOS AI
+   EXAMOS AI - JAVASCRIPT
 ===================================================== */
-
-let selectedClass = "";
-let selectedSubject = "";
-let selectedChapter = "";
-
-let currentTest = [];
-let currentQuestion = 0;
-let userAnswers = [];
-let testMode = "";
-
-let chatHistory = [];
-
-let practiceRawAnswer = "";
 
 
 /* =====================================================
-   CLASS-WISE + SUBJECT-WISE CHAPTERS
+   GLOBAL DATA
 ===================================================== */
 
-const syllabus = {
+let studentProfile={};
 
-9: {
+let chatHistory=[];
 
-Mathematics:[
-"Number Systems",
-"Polynomials",
-"Coordinate Geometry",
-"Linear Equations in Two Variables",
-"Introduction to Euclid's Geometry",
-"Lines and Angles",
-"Triangles",
-"Quadrilaterals",
-"Circles",
-"Heron's Formula",
-"Surface Areas and Volumes",
-"Statistics"
-],
+let selectedTestCount="25";
 
-Physics:[
-"Motion",
-"Force and Laws of Motion",
-"Gravitation",
-"Work and Energy",
-"Sound"
-],
+let selectedTestLanguage="Hindi";
 
-Chemistry:[
-"Matter in Our Surroundings",
-"Is Matter Around Us Pure",
-"Atoms and Molecules",
-"Structure of the Atom"
-],
+let selectedDifficulty="Easy";
 
-English:[
-"Reading Comprehension",
-"Grammar",
-"Writing",
-"Vocabulary",
-"Literature"
-],
+let selectedPracticeCount="25";
 
-Hindi:[
-"गद्य खंड",
-"पद्य खंड",
-"व्याकरण",
-"लेखन",
-"पाठ आधारित प्रश्न"
-]
 
-},
+/* =====================================================
+   SUBJECT DATA
+===================================================== */
 
-10: {
+const subjectData={
 
-Mathematics:[
-"Real Numbers",
-"Polynomials",
-"Pair of Linear Equations",
-"Quadratic Equations",
-"Arithmetic Progressions",
-"Triangles",
-"Coordinate Geometry",
-"Introduction to Trigonometry",
-"Applications of Trigonometry",
-"Circles",
-"Areas Related to Circles",
-"Surface Areas and Volumes",
-"Statistics",
-"Probability"
-],
 
-Physics:[
-"Light – Reflection and Refraction",
-"Human Eye and Colourful World",
-"Electricity",
-"Magnetic Effects of Electric Current",
-"Sources of Energy"
-],
+    "9":[
 
-Chemistry:[
-"Chemical Reactions and Equations",
-"Acids Bases and Salts",
-"Metals and Non-metals",
-"Carbon and Its Compounds",
-"Periodic Classification of Elements"
-],
+        {
+            name:"Hindi",
+            icon:"अ"
+        },
 
-English:[
-"Reading Comprehension",
-"Grammar",
-"Writing",
-"Vocabulary",
-"Literature"
-],
+        {
+            name:"English",
+            icon:"📖"
+        },
 
-Hindi:[
-"गद्य खंड",
-"पद्य खंड",
-"व्याकरण",
-"लेखन",
-"पाठ आधारित प्रश्न"
-]
+        {
+            name:"Mathematics",
+            icon:"√"
+        },
 
-},
+        {
+            name:"Sanskrit",
+            icon:"🕉️"
+        },
 
-11: {
+        {
+            name:"Physics",
+            icon:"⚛️"
+        },
 
-Mathematics:[
-"Sets",
-"Relations and Functions",
-"Trigonometric Functions",
-"Principle of Mathematical Induction",
-"Complex Numbers",
-"Linear Inequalities",
-"Permutations and Combinations",
-"Binomial Theorem",
-"Sequences and Series",
-"Straight Lines",
-"Conic Sections",
-"Introduction to Three Dimensional Geometry",
-"Limits and Derivatives",
-"Statistics",
-"Probability"
-],
+        {
+            name:"Chemistry",
+            icon:"🧪"
+        },
 
-Physics:[
-"Units and Measurements",
-"Motion in a Straight Line",
-"Motion in a Plane",
-"Laws of Motion",
-"Work Energy and Power",
-"System of Particles and Rotational Motion",
-"Gravitation",
-"Mechanical Properties of Solids",
-"Mechanical Properties of Fluids",
-"Thermal Properties of Matter",
-"Thermodynamics",
-"Kinetic Theory",
-"Oscillations",
-"Waves"
-],
+        {
+            name:"Biology",
+            icon:"🧬"
+        },
 
-Chemistry:[
-"Some Basic Concepts of Chemistry",
-"Structure of Atom",
-"Classification of Elements",
-"Chemical Bonding",
-"Thermodynamics",
-"Equilibrium",
-"Redox Reactions",
-"Organic Chemistry – Basic Principles",
-"Hydrocarbons"
-],
+        {
+            name:"History",
+            icon:"🏛️"
+        },
 
-English:[
-"Reading Comprehension",
-"Grammar",
-"Writing",
-"Vocabulary",
-"Literature"
-],
+        {
+            name:"Geography",
+            icon:"🌍"
+        },
 
-Hindi:[
-"गद्य खंड",
-"पद्य खंड",
-"व्याकरण",
-"लेखन",
-"पाठ आधारित प्रश्न"
-]
+        {
+            name:"Political Science",
+            icon:"⚖️"
+        },
 
-},
+        {
+            name:"Economics",
+            icon:"📊"
+        }
 
-12: {
+    ],
 
-Mathematics:[
-"Relations and Functions",
-"Inverse Trigonometric Functions",
-"Matrices",
-"Determinants",
-"Continuity and Differentiability",
-"Application of Derivatives",
-"Integrals",
-"Application of Integrals",
-"Differential Equations",
-"Vector Algebra",
-"Three Dimensional Geometry",
-"Linear Programming",
-"Probability"
-],
 
-Physics:[
-"Electric Charges and Fields",
-"Electrostatic Potential and Capacitance",
-"Current Electricity",
-"Moving Charges and Magnetism",
-"Magnetism and Matter",
-"Electromagnetic Induction",
-"Alternating Current",
-"Electromagnetic Waves",
-"Ray Optics",
-"Wave Optics",
-"Dual Nature of Radiation",
-"Atoms",
-"Nuclei",
-"Semiconductor Electronics"
-],
+    "10":[
 
-Chemistry:[
-"Solutions",
-"Electrochemistry",
-"Chemical Kinetics",
-"Surface Chemistry",
-"General Principles of Metallurgy",
-"p-Block Elements",
-"d and f Block Elements",
-"Coordination Compounds",
-"Haloalkanes and Haloarenes",
-"Alcohols Phenols and Ethers",
-"Aldehydes Ketones and Carboxylic Acids",
-"Amines",
-"Biomolecules"
-],
+        {
+            name:"Hindi",
+            icon:"अ"
+        },
 
-English:[
-"Reading Comprehension",
-"Grammar",
-"Writing",
-"Vocabulary",
-"Literature"
-],
+        {
+            name:"English",
+            icon:"📖"
+        },
 
-Hindi:[
-"गद्य खंड",
-"पद्य खंड",
-"व्याकरण",
-"लेखन",
-"पाठ आधारित प्रश्न"
-]
+        {
+            name:"Mathematics",
+            icon:"√"
+        },
 
-}
+        {
+            name:"Sanskrit",
+            icon:"🕉️"
+        },
+
+        {
+            name:"Physics",
+            icon:"⚛️"
+        },
+
+        {
+            name:"Chemistry",
+            icon:"🧪"
+        },
+
+        {
+            name:"Biology",
+            icon:"🧬"
+        },
+
+        {
+            name:"History",
+            icon:"🏛️"
+        },
+
+        {
+            name:"Geography",
+            icon:"🌍"
+        },
+
+        {
+            name:"Political Science",
+            icon:"⚖️"
+        },
+
+        {
+            name:"Economics",
+            icon:"📊"
+        }
+
+    ],
+
+
+    "11_Science":[
+
+        {
+            name:"Physics",
+            icon:"⚛️"
+        },
+
+        {
+            name:"Chemistry",
+            icon:"🧪"
+        },
+
+        {
+            name:"Mathematics",
+            icon:"√"
+        },
+
+        {
+            name:"Biology",
+            icon:"🧬"
+        },
+
+        {
+            name:"English",
+            icon:"📖"
+        },
+
+        {
+            name:"Hindi",
+            icon:"अ"
+        }
+
+    ],
+
+
+    "12_Science":[
+
+        {
+            name:"Physics",
+            icon:"⚛️"
+        },
+
+        {
+            name:"Chemistry",
+            icon:"🧪"
+        },
+
+        {
+            name:"Mathematics",
+            icon:"√"
+        },
+
+        {
+            name:"Biology",
+            icon:"🧬"
+        },
+
+        {
+            name:"English",
+            icon:"📖"
+        },
+
+        {
+            name:"Hindi",
+            icon:"अ"
+        }
+
+    ],
+
+
+    "11_Arts":[
+
+        {
+            name:"History",
+            icon:"🏛️"
+        },
+
+        {
+            name:"Geography",
+            icon:"🌍"
+        },
+
+        {
+            name:"Political Science",
+            icon:"⚖️"
+        },
+
+        {
+            name:"Economics",
+            icon:"📊"
+        },
+
+        {
+            name:"Hindi",
+            icon:"अ"
+        },
+
+        {
+            name:"English",
+            icon:"📖"
+        }
+
+    ],
+
+
+    "12_Arts":[
+
+        {
+            name:"History",
+            icon:"🏛️"
+        },
+
+        {
+            name:"Geography",
+            icon:"🌍"
+        },
+
+        {
+            name:"Political Science",
+            icon:"⚖️"
+        },
+
+        {
+            name:"Economics",
+            icon:"📊"
+        },
+
+        {
+            name:"Hindi",
+            icon:"अ"
+        },
+
+        {
+            name:"English",
+            icon:"📖"
+        }
+
+    ],
+
+
+    "11_Commerce":[
+
+        {
+            name:"Accountancy",
+            icon:"📒"
+        },
+
+        {
+            name:"Business Studies",
+            icon:"💼"
+        },
+
+        {
+            name:"Economics",
+            icon:"📊"
+        },
+
+        {
+            name:"Mathematics",
+            icon:"√"
+        },
+
+        {
+            name:"English",
+            icon:"📖"
+        }
+
+    ],
+
+
+    "12_Commerce":[
+
+        {
+            name:"Accountancy",
+            icon:"📒"
+        },
+
+        {
+            name:"Business Studies",
+            icon:"💼"
+        },
+
+        {
+            name:"Economics",
+            icon:"📊"
+        },
+
+        {
+            name:"Mathematics",
+            icon:"√"
+        },
+
+        {
+            name:"English",
+            icon:"📖"
+        }
+
+    ]
 
 };
 
 
 /* =====================================================
-   BASIC
+   APP START
 ===================================================== */
 
-function openModal(title,content){
+function startApp(){
 
-    document.getElementById("modalTitle").textContent = title;
-
-    document.getElementById("modalContent").innerHTML = content;
-
-    document.getElementById("modal").classList.add("show");
-
-}
-
-
-function closeModal(){
-
-    document.getElementById("modal").classList.remove("show");
-
-}
-
-
-function scrollToSection(id){
-
-    const el=document.getElementById(id);
-
-    if(el){
-
-        el.scrollIntoView({
-            behavior:"smooth"
-        });
-
-    }
-
-}
-
-
-function goHome(){
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
-}
-
-
-function startLearning(){
-
-    scrollToSection("features");
-
-}
-
-
-function showHowItWorks(){
-
-    openModal(
-        "How EXAMOS Works",
-        `
-        <div style="line-height:1.9">
-
-            <p>1️⃣ अपनी Class चुनें</p>
-
-            <p>2️⃣ Subject चुनें</p>
-
-            <p>3️⃣ सही Chapter चुनें</p>
-
-            <p>4️⃣ Diagnostic Test दें</p>
-
-            <p>5️⃣ AI आपकी performance देखेगा</p>
-
-            <p>6️⃣ Weak Topic identify होगा</p>
-
-            <p>7️⃣ पहले Concept सीखें</p>
-
-            <p>8️⃣ उसी Concept की Personalized Practice करें</p>
-
-            <p>9️⃣ AI Assistant से सवाल पूछें</p>
-
-        </div>
-        `
+    showScreen(
+        "profileScreen"
     );
 
 }
 
 
 /* =====================================================
-   CLASS SELECT
+   SCREEN
 ===================================================== */
 
-function selectClass(cls){
-
-    selectedClass=String(cls);
-
-    selectedSubject="";
-    selectedChapter="";
-
-    const subjects=[
-        "Mathematics",
-        "Physics",
-        "Chemistry",
-        "English",
-        "Hindi"
-    ];
-
-    let html=`
-
-        <div style="
-            background:#f5f2ff;
-            padding:15px;
-            border-radius:12px;
-            margin-bottom:15px;
-        ">
-
-            <b>Selected Class: ${escapeHTML(selectedClass)}</b>
-
-            <div style="
-                color:#666;
-                margin-top:5px;
-            ">
-                अब अपना Subject चुनें।
-            </div>
-
-        </div>
-
-    `;
-
-    subjects.forEach(subject=>{
-
-        html+=`
-
-            <button class="chapter"
-                    onclick='selectSubject(${JSON.stringify(subject)})'>
-
-                📚 ${escapeHTML(subject)}
-                <span style="float:right">→</span>
-
-            </button>
-
-        `;
-
-    });
-
-    openModal(
-        "Class "+selectedClass,
-        html
-    );
-
-}
-
-
-/* =====================================================
-   SUBJECT SELECT
-===================================================== */
-
-function selectSubject(subject){
-
-    if(!selectedClass){
-
-        openModal(
-            "पहले Class चुनें",
-            `
-            <div style="text-align:center;padding:25px">
-
-                <div style="font-size:50px">🎓</div>
-
-                <h3>पहले अपनी Class चुनें</h3>
-
-                <p style="
-                    color:#666;
-                    margin:10px 0 20px;
-                ">
-                    फिर Subject और Chapter चुनें।
-                </p>
-
-                <button class="primary"
-                        style="width:100%"
-                        onclick="selectClass(10)">
-                    Class चुनें
-                </button>
-
-            </div>
-            `
-        );
-
-        return;
-
-    }
-
-    selectedSubject=String(subject);
-
-    selectedChapter="";
-
-    const classData=syllabus[selectedClass];
-
-    const list=
-        classData && classData[selectedSubject]
-        ? classData[selectedSubject]
-        : [];
-
-    if(!list.length){
-
-        openModal(
-            "Chapters नहीं मिले",
-            `
-            <div style="text-align:center;padding:25px">
-
-                <p>
-                    इस Class और Subject के लिए अभी chapters उपलब्ध नहीं हैं।
-                </p>
-
-            </div>
-            `
-        );
-
-        return;
-
-    }
-
-    let html=`
-
-        <div style="
-            background:#f5f2ff;
-            padding:15px;
-            border-radius:12px;
-            margin-bottom:15px;
-        ">
-
-            <b>
-                Class ${escapeHTML(selectedClass)}
-            </b>
-
-            <div style="
-                color:#666;
-                margin-top:5px;
-            ">
-                ${escapeHTML(selectedSubject)}
-            </div>
-
-        </div>
-
-        <p style="
-            color:#666;
-            margin-bottom:10px;
-        ">
-            अब Chapter चुनें:
-        </p>
-
-    `;
-
-    list.forEach((chapter,index)=>{
-
-        /*
-           IMPORTANT FIX:
-           JSON.stringify + single quoted onclick
-           की वजह से chapter button नहीं टूटेगा।
-        */
-
-        html+=`
-
-            <button class="chapter"
-                    onclick='openChapter(${JSON.stringify(selectedSubject)},${JSON.stringify(chapter)})'>
-
-                <b>${index+1}.</b>
-                ${escapeHTML(chapter)}
-
-                <span style="float:right">
-                    →
-                </span>
-
-            </button>
-
-        `;
-
-    });
-
-    openModal(
-        "Class "+selectedClass+" • "+selectedSubject,
-        html
-    );
-
-}
-
-
-/* =====================================================
-   CHAPTER SELECT
-===================================================== */
-
-function openChapter(subject,chapter){
-
-    selectedSubject=String(subject);
-    selectedChapter=String(chapter);
-
-    /*
-       यही वह हिस्सा है जो पहले सही से काम नहीं कर रहा था।
-       अब Chapter click करने के बाद यह screen खुलेगी।
-    */
-
-    openModal(
-        "Chapter Selected",
-        `
-
-        <div style="
-            background:#f5f2ff;
-            padding:16px;
-            border-radius:14px;
-            margin-bottom:15px;
-        ">
-
-            <div style="
-                color:#666;
-                font-size:14px;
-            ">
-                Class ${escapeHTML(selectedClass)}
-            </div>
-
-            <h3 style="
-                margin-top:5px;
-                color:#5038df;
-            ">
-                ${escapeHTML(selectedSubject)}
-            </h3>
-
-            <div style="
-                margin-top:8px;
-                font-weight:bold;
-            ">
-                📖 ${escapeHTML(selectedChapter)}
-            </div>
-
-        </div>
-
-        <p style="
-            color:#666;
-            margin-bottom:12px;
-        ">
-            इस Chapter के लिए क्या करना चाहते हैं?
-        </p>
-
-        <button class="actionCard"
-                onclick="beginDiagnosticForChapter()">
-
-            <div class="actionIcon">
-                📋
-            </div>
-
-            <div class="actionTitle">
-                Diagnostic Test
-            </div>
-
-            <div class="actionDesc">
-                इस Chapter से AI नया test बनाएगा
-                और आपकी understanding check करेगा।
-            </div>
-
-        </button>
-
-        <button class="actionCard"
-                onclick="beginPracticeForChapter()">
-
-            <div class="actionIcon">
-                ✏️
-            </div>
-
-            <div class="actionTitle">
-                Personalized Practice
-            </div>
-
-            <div class="actionDesc">
-                पहले इसी Chapter का concept समझें,
-                फिर उसी concept के नए questions करें।
-            </div>
-
-        </button>
-
-        `
-    );
-
-}
-
-
-/* =====================================================
-   API
-===================================================== */
-
-async function askEXAMOSAI(prompt){
-
-    const controller=new AbortController();
-
-    const timeout=setTimeout(
-        ()=>controller.abort(),
-        45000
-    );
-
-    try{
-
-        const response=await fetch(
-            "/api/ai",
-            {
-                method:"POST",
-
-                headers:{
-                    "Content-Type":"application/json"
-                },
-
-                body:JSON.stringify({
-                    prompt:prompt
-                }),
-
-                signal:controller.signal
-            }
-        );
-
-        let data;
-
-        try{
-
-            data=await response.json();
-
-        }catch(e){
-
-            throw new Error(
-                "AI server ने सही response नहीं भेजा।"
+function showScreen(screenId){
+
+    document
+    .querySelectorAll(".screen")
+    .forEach(
+        screen=>{
+            screen.classList.remove(
+                "active"
             );
-
         }
-
-        if(!response.ok){
-
-            throw new Error(
-                data?.error ||
-                "AI request failed"
-            );
-
-        }
-
-        if(!data.answer){
-
-            throw new Error(
-                "AI ने कोई answer नहीं भेजा।"
-            );
-
-        }
-
-        return String(data.answer);
-
-    }catch(error){
-
-        if(error.name==="AbortError"){
-
-            throw new Error(
-                "AI response बहुत देर से आ रहा है। फिर कोशिश करें।"
-            );
-
-        }
-
-        throw error;
-
-    }finally{
-
-        clearTimeout(timeout);
-
-    }
-
-}
-
-
-/* =====================================================
-   LOADING
-===================================================== */
-
-function showLoading(text){
-
-    openModal(
-        "EXAMOS AI",
-        `
-        <div class="loading">
-
-            <div class="spinner"></div>
-
-            <h3>
-                ${escapeHTML(text || "AI सोच रहा है…")}
-            </h3>
-
-            <p style="
-                color:#777;
-                margin-top:8px;
-            ">
-                AI आपके लिए content तैयार कर रहा है।
-            </p>
-
-        </div>
-        `
     );
 
-}
-
-
-/* =====================================================
-   DIAGNOSTIC
-===================================================== */
-
-function startDiagnostic(){
-
-    /*
-       अब Direct Test नहीं खुलेगा।
-       पहले Class → Subject → Chapter
-    */
-
-    if(!selectedClass){
-
-        selectClass(10);
-
-        return;
-
-    }
-
-    if(!selectedSubject){
-
-        selectSubject("Mathematics");
-
-        return;
-
-    }
-
-    if(!selectedChapter){
-
-        selectSubject(selectedSubject);
-
-        return;
-
-    }
-
-    generateDiagnosticTest();
-
-}
-
-
-function beginDiagnosticForChapter(){
-
-    closeModal();
-
-    generateDiagnosticTest();
-
-}
-
-
-async function generateDiagnosticTest(){
-
-    testMode="diagnostic";
-
-    showLoading(
-        "AI Diagnostic Test तैयार कर रहा है…"
+    const screen=
+    document.getElementById(
+        screenId
     );
 
-    const prompt=`
+    if(screen){
 
-तुम EXAMOS AI के expert school teacher हो।
-
-Student की details:
-
-Class: ${selectedClass}
-Subject: ${selectedSubject}
-Chapter: ${selectedChapter}
-
-IMPORTANT:
-सिर्फ इसी Class, Subject और Chapter से questions बनाओ।
-
-5 नए MCQ बनाओ।
-
-Rules:
-
-1. Questions नए होने चाहिए।
-2. Class ${selectedClass} के level के हों।
-3. केवल ${selectedChapter} से questions हों।
-4. हर question में 4 options हों।
-5. केवल एक answer सही हो।
-6. Questions साफ और पढ़ने में आसान हों।
-7. Math/Science में formulas को readable plain text में लिखो।
-8. LaTeX जैसे \\sqrt, \\frac, $ signs का इस्तेमाल मत करो।
-9. उदाहरण:
-   sqrt(2) की जगह √2
-   x^2 की जगह x²
-   2/3 को 2/3 ही लिखो।
-10. कोई अतिरिक्त explanation नहीं।
-
-Output:
-
-QUESTION 1:
-प्रश्न
-
-A) option
-B) option
-C) option
-D) option
-
-ANSWER: A
-
-QUESTION 2:
-प्रश्न
-
-A) option
-B) option
-C) option
-D) option
-
-ANSWER: B
-
-QUESTION 3:
-...
-
-QUESTION 4:
-...
-
-QUESTION 5:
-...
-
-`;
-
-    try{
-
-        const answer=await askEXAMOSAI(prompt);
-
-        currentTest=parseTestQuestions(answer);
-
-        if(currentTest.length<1){
-
-            throw new Error(
-                "AI ने questions सही format में नहीं भेजे।"
-            );
-
-        }
-
-        currentQuestion=0;
-
-        userAnswers=[];
-
-        showTestQuestion();
-
-    }catch(error){
-
-        openModal(
-            "Test Error",
-            `
-            <div style="
-                text-align:center;
-                padding:25px;
-            ">
-
-                <div style="font-size:45px">
-                    ⚠️
-                </div>
-
-                <h3>
-                    Test तैयार नहीं हो पाया
-                </h3>
-
-                <p style="
-                    color:#666;
-                    margin:12px 0;
-                ">
-                    ${escapeHTML(error.message)}
-                </p>
-
-                <button class="primary"
-                        onclick="generateDiagnosticTest()">
-                    🔄 फिर कोशिश करें
-                </button>
-
-            </div>
-            `
+        screen.classList.add(
+            "active"
         );
 
     }
@@ -2261,1351 +3851,1505 @@ QUESTION 5:
 
 
 /* =====================================================
-   PARSE
+   CLASS CHANGE
 ===================================================== */
 
-function parseTestQuestions(text){
+function handleClassChange(){
 
-    const result=[];
-
-    const clean=String(text)
-        .replace(/\r/g,"")
-        .replace(/\$/g,"");
-
-    const blocks=
-        clean.split(
-            /QUESTION\s*\d+\s*:/i
-        );
-
-    blocks.forEach(block=>{
-
-        if(!block.trim()) return;
-
-        const answerMatch=
-            block.match(
-                /ANSWER\s*:\s*([ABCD])/i
-            );
-
-        if(!answerMatch) return;
-
-        const answer=
-            answerMatch[1].toUpperCase();
-
-        const optionA=
-            block.match(
-                /A\)\s*([\s\S]*?)(?=\n\s*B\))/i
-            );
-
-        const optionB=
-            block.match(
-                /B\)\s*([\s\S]*?)(?=\n\s*C\))/i
-            );
-
-        const optionC=
-            block.match(
-                /C\)\s*([\s\S]*?)(?=\n\s*D\))/i
-            );
-
-        const optionD=
-            block.match(
-                /D\)\s*([\s\S]*?)(?=\n\s*ANSWER)/i
-            );
-
-        if(
-            !optionA ||
-            !optionB ||
-            !optionC ||
-            !optionD
-        ){
-            return;
-        }
-
-        const questionText=
-            block
-            .split(
-                /A\)\s*/i
-            )[0]
-            .trim();
-
-        if(!questionText) return;
-
-        result.push({
-
-            question:cleanMathText(questionText),
-
-            options:[
-                cleanMathText(optionA[1].trim()),
-                cleanMathText(optionB[1].trim()),
-                cleanMathText(optionC[1].trim()),
-                cleanMathText(optionD[1].trim())
-            ],
-
-            answer:answer
-
-        });
-
-    });
-
-    return result;
-
-}
+    const cls=
+    document.getElementById(
+        "studentClass"
+    ).value;
 
 
-/* =====================================================
-   SHOW TEST
-===================================================== */
+    const streamBox=
+    document.getElementById(
+        "streamBox"
+    );
 
-function showTestQuestion(){
 
     if(
-        !currentTest ||
-        currentQuestion>=currentTest.length
+        cls==="11" ||
+        cls==="12"
     ){
 
-        finishTest();
+        streamBox
+        .classList
+        .add("show");
+
+    }else{
+
+        streamBox
+        .classList
+        .remove("show");
+
+        document.getElementById(
+            "studentStream"
+        ).value="";
+
+    }
+
+}
+
+
+/* =====================================================
+   OTP
+===================================================== */
+
+function sendOTP(){
+
+    const name=
+    document.getElementById(
+        "studentName"
+    ).value.trim();
+
+
+    const dob=
+    document.getElementById(
+        "studentDOB"
+    ).value;
+
+
+    const cls=
+    document.getElementById(
+        "studentClass"
+    ).value;
+
+
+    const board=
+    document.getElementById(
+        "studentBoard"
+    ).value;
+
+
+    const stream=
+    document.getElementById(
+        "studentStream"
+    ).value;
+
+
+    const phone=
+    document.getElementById(
+        "studentPhone"
+    ).value.trim();
+
+
+    if(!name){
+
+        showToast(
+            "कृपया अपना नाम लिखें"
+        );
 
         return;
 
     }
 
-    const q=currentTest[currentQuestion];
 
-    let options="";
+    if(!dob){
 
-    q.options.forEach(
-        (option,index)=>{
+        showToast(
+            "कृपया DOB चुनें"
+        );
 
-            const letter=
-                ["A","B","C","D"][index];
+        return;
 
-            options+=`
+    }
 
-                <button class="option"
-                        onclick='selectTestAnswer(${JSON.stringify(letter)})'>
 
-                    <b>${letter})</b>
-                    ${escapeHTML(option)}
+    if(!cls){
 
-                </button>
+        showToast(
+            "कृपया Class चुनें"
+        );
+
+        return;
+
+    }
+
+
+    if(!board){
+
+        showToast(
+            "कृपया Board चुनें"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        (cls==="11" ||
+        cls==="12")
+        &&
+        !stream
+    ){
+
+        showToast(
+            "कृपया Stream चुनें"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !/^[0-9]{10}$/
+        .test(phone)
+    ){
+
+        showToast(
+            "सही 10 digit phone number लिखें"
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "otpBox"
+    ).style.display="block";
+
+
+    showToast(
+        "Demo OTP: 123456"
+    );
+
+}
+
+
+/* =====================================================
+   VERIFY OTP
+===================================================== */
+
+function verifyOTP(){
+
+    const otp=
+    document.getElementById(
+        "otpInput"
+    ).value.trim();
+
+
+    if(otp!=="123456"){
+
+        showToast(
+            "Demo OTP गलत है"
+        );
+
+        return;
+
+    }
+
+
+    studentProfile={
+
+        name:
+        document.getElementById(
+            "studentName"
+        ).value.trim(),
+
+        dob:
+        document.getElementById(
+            "studentDOB"
+        ).value,
+
+        class:
+        document.getElementById(
+            "studentClass"
+        ).value,
+
+        board:
+        document.getElementById(
+            "studentBoard"
+        ).value,
+
+        stream:
+        document.getElementById(
+            "studentStream"
+        ).value,
+
+        phone:
+        document.getElementById(
+            "studentPhone"
+        ).value.trim()
+
+    };
+
+
+    localStorage.setItem(
+
+        "examos_student_profile",
+
+        JSON.stringify(
+            studentProfile
+        )
+
+    );
+
+
+    loadStudentHome();
+
+
+    showScreen(
+        "mainScreen"
+    );
+
+
+    showToast(
+        "Welcome to EXAMOS AI 🎉"
+    );
+
+}
+
+
+/* =====================================================
+   LOAD PROFILE
+===================================================== */
+
+function loadStudentHome(){
+
+
+    const name=
+    studentProfile.name ||
+    "Student";
+
+
+    document.getElementById(
+        "homeStudentName"
+    ).textContent=name;
+
+
+    document.getElementById(
+        "homeClass"
+    ).textContent=
+    "Class "+
+    studentProfile.class;
+
+
+    document.getElementById(
+        "homeBoard"
+    ).textContent=
+    studentProfile.board;
+
+
+    const streamTag=
+    document.getElementById(
+        "homeStream"
+    );
+
+
+    if(studentProfile.stream){
+
+        streamTag.style.display=
+        "inline-block";
+
+
+        streamTag.textContent=
+        studentProfile.stream;
+
+    }else{
+
+        streamTag.style.display=
+        "none";
+
+    }
+
+
+    renderSubjects();
+
+
+    fillSubjectSelects();
+
+}
+
+
+/* =====================================================
+   GET SUBJECT KEY
+===================================================== */
+
+function getSubjectKey(){
+
+
+    const cls=
+    studentProfile.class;
+
+
+    const stream=
+    studentProfile.stream;
+
+
+    if(
+        cls==="9" ||
+        cls==="10"
+    ){
+
+        return cls;
+
+    }
+
+
+    return cls+
+    "_"+
+    stream;
+
+}
+
+
+/* =====================================================
+   GET STUDENT SUBJECTS
+===================================================== */
+
+function getStudentSubjects(){
+
+    const key=
+    getSubjectKey();
+
+
+    return
+    subjectData[key]
+    ||
+    [];
+
+}
+
+
+/* =====================================================
+   RENDER SUBJECTS
+===================================================== */
+
+function renderSubjects(){
+
+    const grid=
+    document.getElementById(
+        "subjectGrid"
+    );
+
+
+    const subjects=
+    getStudentSubjects();
+
+
+    grid.innerHTML="";
+
+
+    subjects.forEach(
+        subject=>{
+
+            const button=
+            document.createElement(
+                "button"
+            );
+
+
+            button.className=
+            "subjectCard";
+
+
+            button.innerHTML=
+            `
+
+            <div class="subjectEmoji">
+                ${subject.icon}
+            </div>
+
+            <div>
+                ${escapeHTML(
+                    subject.name
+                )}
+            </div>
+
+            `;
+
+
+            button.onclick=
+            function(){
+
+                showToast(
+                    subject.name+
+                    " selected"
+                );
+
+                openPage(
+                    "practicePage"
+                );
+
+            };
+
+
+            grid.appendChild(
+                button
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SUBJECT SELECTS
+===================================================== */
+
+function fillSubjectSelects(){
+
+    const subjects=
+    getStudentSubjects();
+
+
+    const testSelect=
+    document.getElementById(
+        "testSubject"
+    );
+
+
+    const practiceSelect=
+    document.getElementById(
+        "practiceSubject"
+    );
+
+
+    let options=
+    `<option value="">
+    Subject चुनें
+    </option>`;
+
+
+    subjects.forEach(
+        subject=>{
+
+            options+=
+            `
+
+            <option
+            value="${escapeHTML(
+                subject.name
+            )}">
+
+                ${escapeHTML(
+                    subject.name
+                )}
+
+            </option>
 
             `;
 
         }
     );
 
-    const percent=
-        Math.round(
-            (currentQuestion/currentTest.length)*100
-        );
 
-    openModal(
-        testMode==="practice"
-        ? "✏️ Personalized Practice"
-        : "📋 Diagnostic Test",
-
-        `
-
-        <div class="testTop">
-
-            <div style="
-                display:flex;
-                justify-content:space-between;
-                gap:10px;
-            ">
-
-                <b>
-                    Question ${currentQuestion+1}
-                    / ${currentTest.length}
-                </b>
-
-                <span style="color:#666">
-                    ${escapeHTML(selectedSubject)}
-                </span>
-
-            </div>
-
-            <div style="
-                color:#666;
-                margin-top:5px;
-                font-size:13px;
-            ">
-                ${escapeHTML(selectedChapter)}
-            </div>
-
-            <div class="progressBar">
-
-                <div class="progressFill"
-                     style="width:${percent}%">
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="questionBox">
-
-            <div class="questionNumber">
-                Question ${currentQuestion+1}
-            </div>
-
-            <div class="questionText">
-                ${escapeHTML(cleanMathText(q.question))}
-            </div>
-
-            <div>
-                ${options}
-            </div>
-
-            <button id="nextQuestionBtn"
-                    class="primary nextBtn"
-                    disabled
-                    onclick="nextTestQuestion()">
-
-                ${
-                    currentQuestion===currentTest.length-1
-                    ? "Finish Test ✓"
-                    : "Next Question →"
-                }
-
-            </button>
-
-        </div>
-
-        `
-    );
-
-}
+    testSelect.innerHTML=
+    options;
 
 
-function selectTestAnswer(letter){
-
-    userAnswers[currentQuestion]=letter;
-
-    document
-        .querySelectorAll(".option")
-        .forEach(
-            btn=>btn.classList.remove("selected")
-        );
-
-    const buttons=
-        document.querySelectorAll(".option");
-
-    const index=
-        ["A","B","C","D"].indexOf(letter);
-
-    if(buttons[index]){
-
-        buttons[index]
-            .classList.add("selected");
-
-    }
-
-    const next=
-        document.getElementById(
-            "nextQuestionBtn"
-        );
-
-    if(next){
-
-        next.disabled=false;
-
-    }
-
-}
-
-
-function nextTestQuestion(){
-
-    if(!userAnswers[currentQuestion]){
-
-        return;
-
-    }
-
-    currentQuestion++;
-
-    showTestQuestion();
+    practiceSelect.innerHTML=
+    options;
 
 }
 
 
 /* =====================================================
-   RESULT
+   OPEN PAGE
 ===================================================== */
 
-function finishTest(){
+function openPage(pageId){
 
-    let score=0;
 
-    currentTest.forEach(
-        (q,index)=>{
+    document
+    .querySelectorAll(".page")
+    .forEach(
+        page=>{
+
+            page.classList.remove(
+                "active"
+            );
+
+        }
+    );
+
+
+    const page=
+    document.getElementById(
+        pageId
+    );
+
+
+    if(page){
+
+        page.classList.add(
+            "active"
+        );
+
+    }
+
+
+    document
+    .querySelectorAll(
+        ".bottomNav button"
+    )
+    .forEach(
+        button=>{
+
+            button.classList.remove(
+                "active"
+            );
+
 
             if(
-                userAnswers[index]===q.answer
+                button.dataset.page===
+                pageId
             ){
 
-                score++;
+                button.classList.add(
+                    "active"
+                );
 
             }
 
         }
     );
 
-    const percentage=
-        currentTest.length
-        ? Math.round(
-            (score/currentTest.length)*100
-        )
-        : 0;
 
-    let level="";
+    window.scrollTo({
 
-    if(percentage>=80){
+        top:0,
 
-        level="बहुत अच्छा";
+        behavior:"smooth"
 
-    }else if(percentage>=60){
+    });
 
-        level="अच्छा";
 
-    }else if(percentage>=40){
+    if(
+        pageId==="askAIPage"
+    ){
 
-        level="सुधार की जरूरत";
-
-    }else{
-
-        level="Concept को फिर से समझना चाहिए";
+        initializeChat();
 
     }
-
-    openModal(
-        "📊 Test Result",
-        `
-
-        <div class="result">
-
-            <div style="font-size:50px">
-                📊
-            </div>
-
-            <h2>
-                Test Complete
-            </h2>
-
-            <div class="score">
-                ${score}/${currentTest.length}
-            </div>
-
-            <h3>
-                ${percentage}% — ${level}
-            </h3>
-
-            <div class="resultBox">
-
-                <b>
-                    Class:
-                </b>
-                ${escapeHTML(selectedClass)}
-
-                <br>
-
-                <b>
-                    Subject:
-                </b>
-                ${escapeHTML(selectedSubject)}
-
-                <br>
-
-                <b>
-                    Chapter:
-                </b>
-                ${escapeHTML(selectedChapter)}
-
-                <p style="margin-top:10px">
-
-                    अब इसी chapter के कमजोर
-                    concept को समझकर Personalized
-                    Practice करना बेहतर रहेगा।
-
-                </p>
-
-            </div>
-
-            <button class="primary"
-                    style="width:100%;margin-top:15px"
-                    onclick="beginPracticeForChapter()">
-
-                🎯 Personalized Practice
-
-            </button>
-
-        </div>
-
-        `
-    );
 
 }
 
 
 /* =====================================================
-   PERSONALIZED PRACTICE
+   CHOICE BUTTON
+===================================================== */
+
+function selectChoice(
+    containerId,
+    button
+){
+
+
+    const container=
+    document.getElementById(
+        containerId
+    );
+
+
+    container
+    .querySelectorAll(
+        ".choiceButton"
+    )
+    .forEach(
+        btn=>{
+
+            btn.classList.remove(
+                "selected"
+            );
+
+        }
+    );
+
+
+    button.classList.add(
+        "selected"
+    );
+
+
+    const value=
+    button.dataset.value;
+
+
+    if(
+        containerId===
+        "questionCountChoices"
+    ){
+
+        selectedTestCount=
+        value;
+
+    }
+
+
+    if(
+        containerId===
+        "languageChoices"
+    ){
+
+        selectedTestLanguage=
+        value;
+
+    }
+
+
+    if(
+        containerId===
+        "difficultyChoices"
+    ){
+
+        selectedDifficulty=
+        value;
+
+    }
+
+
+    if(
+        containerId===
+        "practiceCountChoices"
+    ){
+
+        selectedPracticeCount=
+        value;
+
+    }
+
+}
+
+
+/* =====================================================
+   CREATE TEST
+===================================================== */
+
+function createTest(){
+
+    const subject=
+    document.getElementById(
+        "testSubject"
+    ).value;
+
+
+    const chapter=
+    document.getElementById(
+        "testChapter"
+    ).value.trim();
+
+
+    if(!subject){
+
+        showToast(
+            "कृपया Subject चुनें"
+        );
+
+        return;
+
+    }
+
+
+    if(!chapter){
+
+        showToast(
+            "कृपया Chapter या Topic लिखें"
+        );
+
+        return;
+
+    }
+
+
+    showToast(
+        "Test AI integration अगले step में जोड़ा जाएगा"
+    );
+
+
+    console.log({
+
+        subject:subject,
+
+        chapter:chapter,
+
+        questions:
+        selectedTestCount,
+
+        language:
+        selectedTestLanguage,
+
+        timer:
+        document.getElementById(
+            "testTimer"
+        ).value
+
+    });
+
+}
+
+
+/* =====================================================
+   PRACTICE
 ===================================================== */
 
 function startPractice(){
 
-    if(!selectedClass){
 
-        selectClass(10);
-
-        return;
-
-    }
-
-    if(!selectedSubject){
-
-        selectSubject("Mathematics");
-
-        return;
-
-    }
-
-    if(!selectedChapter){
-
-        selectSubject(selectedSubject);
-
-        return;
-
-    }
-
-    createWeakTopicLesson();
-
-}
+    const subject=
+    document.getElementById(
+        "practiceSubject"
+    ).value;
 
 
-function beginPracticeForChapter(){
-
-    closeModal();
-
-    createWeakTopicLesson();
-
-}
+    const chapter=
+    document.getElementById(
+        "practiceChapter"
+    ).value.trim();
 
 
-async function createWeakTopicLesson(){
+    const topic=
+    document.getElementById(
+        "practiceTopic"
+    ).value.trim();
 
-    testMode="practice";
 
-    showLoading(
-        "AI पहले concept तैयार कर रहा है…"
-    );
+    if(
+        !subject ||
+        !chapter ||
+        !topic
+    ){
 
-    const prompt=`
-
-तुम EXAMOS AI के personalized teacher हो।
-
-Student:
-
-Class: ${selectedClass}
-Subject: ${selectedSubject}
-Chapter: ${selectedChapter}
-
-इस EXACT chapter के अंदर से एक important concept चुनो।
-
-पहले concept सिखाओ।
-
-फिर उसी concept पर practice कराओ।
-
-Rules:
-
-1. केवल Class ${selectedClass} के level पर रहो।
-2. केवल Subject ${selectedSubject}।
-3. केवल Chapter ${selectedChapter}।
-4. Concept बहुत आसान हिंदी में समझाओ।
-5. Step-by-step explanation दो।
-6. Formula हो तो LaTeX मत लिखो।
-7. sqrt(2) की जगह √2 लिखो।
-8. x^2 की जगह x² लिखो।
-9. \\frac या $...$ बिल्कुल मत लिखो।
-10. पहले concept।
-11. फिर example।
-12. फिर practice questions।
-
-Output:
-
-WEAK TOPIC:
-topic
-
-WHY IMPORTANT:
-reason
-
-CONCEPT:
-easy explanation
-
-STEP BY STEP:
-step 1
-step 2
-step 3
-step 4
-
-EXAMPLE:
-example with solution
-
-`;
-
-    try{
-
-        const answer=
-            await askEXAMOSAI(prompt);
-
-        practiceRawAnswer=answer;
-
-        showPracticeConcept(answer);
-
-    }catch(error){
-
-        openModal(
-            "Practice Error",
-            `
-
-            <div style="
-                text-align:center;
-                padding:25px;
-            ">
-
-                <div style="font-size:45px">
-                    ⚠️
-                </div>
-
-                <h3>
-                    Practice तैयार नहीं हो पाई
-                </h3>
-
-                <p style="
-                    color:#666;
-                    margin:12px 0;
-                ">
-                    ${escapeHTML(error.message)}
-                </p>
-
-                <button class="primary"
-                        onclick="createWeakTopicLesson()">
-
-                    🔄 फिर कोशिश करें
-
-                </button>
-
-            </div>
-
-            `
+        showToast(
+            "Subject, Chapter और Topic भरें"
         );
 
+        return;
+
     }
+
+
+    showToast(
+        "Personalized AI Practice अगले step में जोड़ी जाएगी"
+    );
+
+
+    console.log({
+
+        subject,
+
+        chapter,
+
+        topic,
+
+        difficulty:
+        selectedDifficulty,
+
+        count:
+        selectedPracticeCount
+
+    });
 
 }
 
 
 /* =====================================================
-   CONCEPT SCREEN
+   IMAGE PREVIEW
 ===================================================== */
 
-function showPracticeConcept(answer){
+function previewImage(event){
 
-    const weakTopic=
-        extractSection(
-            answer,
-            "WEAK TOPIC:"
-        );
+    const file=
+    event.target.files[0];
 
-    const why=
-        extractSection(
-            answer,
-            "WHY IMPORTANT:"
-        );
 
-    const concept=
-        extractSection(
-            answer,
-            "CONCEPT:"
-        );
+    if(!file){
 
-    const steps=
-        extractSection(
-            answer,
-            "STEP BY STEP:"
-        );
+        return;
 
-    const example=
-        extractSection(
-            answer,
-            "EXAMPLE:"
-        );
+    }
 
-    openModal(
-        "📚 Concept Learning",
-        `
 
-        <div class="concept">
+    const preview=
+    document.getElementById(
+        "solutionPreview"
+    );
 
-            <h3>
-                🎯 Topic
-            </h3>
 
-            <p>
-                ${escapeHTML(
-                    cleanMathText(
-                        weakTopic || selectedChapter
-                    )
-                )}
-            </p>
+    const reader=
+    new FileReader();
 
-            <h3>
-                💡 यह क्यों जरूरी है?
-            </h3>
 
-            <p>
-                ${escapeHTML(
-                    cleanMathText(why)
-                )}
-            </p>
+    reader.onload=
+    function(e){
 
-            <h3>
-                🧠 Concept आसान भाषा में
-            </h3>
+        preview.src=
+        e.target.result;
 
-            <p>
-                ${escapeHTML(
-                    cleanMathText(concept)
-                )}
-            </p>
 
-            <h3>
-                🪜 Step-by-Step
-            </h3>
+        preview.style.display=
+        "block";
 
-            <p>
-                ${escapeHTML(
-                    cleanMathText(steps)
-                )}
-            </p>
+    };
 
-            <h3>
-                ✏️ Example
-            </h3>
 
-            <p>
-                ${escapeHTML(
-                    cleanMathText(example)
-                )}
-            </p>
-
-            <button class="primary"
-                    style="width:100%;margin-top:15px"
-                    onclick="startPracticeQuestions()">
-
-                📝 अब इसी Concept का Test दें →
-
-            </button>
-
-        </div>
-
-        `
+    reader.readAsDataURL(
+        file
     );
 
 }
 
 
 /* =====================================================
-   PRACTICE QUESTIONS
+   ANALYZE SOLUTION
 ===================================================== */
 
-async function startPracticeQuestions(){
+function analyzeSolution(){
 
-    showLoading(
-        "उसी Concept से नए Questions बनाए जा रहे हैं…"
+    const preview=
+    document.getElementById(
+        "solutionPreview"
     );
 
-    const prompt=`
 
-तुम EXAMOS AI teacher हो।
+    if(
+        preview.style.display!=="block"
+    ){
 
-Class:
-${selectedClass}
-
-Subject:
-${selectedSubject}
-
-Chapter:
-${selectedChapter}
-
-नीचे दिए गए concept को पढ़ो:
-
-${practiceRawAnswer}
-
-अब केवल इसी concept से 5 नए MCQ बनाओ।
-
-Rules:
-
-1. केवल इसी concept से questions।
-2. 5 नए questions।
-3. 4 options।
-4. केवल एक सही answer।
-5. पहले आसान।
-6. फिर धीरे-धीरे difficulty बढ़ाओ।
-7. Class ${selectedClass} level।
-8. Math formulas readable plain text में।
-9. LaTeX नहीं।
-10. $ signs नहीं।
-11. \\sqrt नहीं।
-12. \\frac नहीं।
-
-Format:
-
-QUESTION 1:
-question
-
-A) option
-B) option
-C) option
-D) option
-
-ANSWER: A
-
-QUESTION 2:
-question
-
-A) option
-B) option
-C) option
-D) option
-
-ANSWER: B
-
-QUESTION 3:
-...
-
-QUESTION 4:
-...
-
-QUESTION 5:
-...
-
-`;
-
-    try{
-
-        const answer=
-            await askEXAMOSAI(prompt);
-
-        currentTest=
-            parseTestQuestions(answer);
-
-        if(!currentTest.length){
-
-            throw new Error(
-                "Questions सही format में नहीं मिले।"
-            );
-
-        }
-
-        currentQuestion=0;
-
-        userAnswers=[];
-
-        showTestQuestion();
-
-    }catch(error){
-
-        openModal(
-            "Practice Error",
-            `
-
-            <div style="
-                text-align:center;
-                padding:25px;
-            ">
-
-                <h3>
-                    Questions नहीं बन पाए
-                </h3>
-
-                <p style="
-                    color:#666;
-                    margin:12px 0;
-                ">
-                    ${escapeHTML(error.message)}
-                </p>
-
-                <button class="primary"
-                        onclick="startPracticeQuestions()">
-
-                    🔄 फिर कोशिश करें
-
-                </button>
-
-            </div>
-
-            `
+        showToast(
+            "पहले solution की photo upload करें"
         );
 
+        return;
+
     }
+
+
+    const result=
+    document.getElementById(
+        "analysisResult"
+    );
+
+
+    result.style.display=
+    "block";
+
+
+    result.innerHTML=
+    `
+
+    <h2>
+        🤖 Analysis Feature
+    </h2>
+
+    <p
+    style="
+    color:var(--muted);
+    line-height:1.7;
+    margin-top:12px">
+
+        Photo successfully selected है।
+
+        <br><br>
+
+        अगला step इस feature को
+        AI Vision API से जोड़ना होगा।
+
+        <br><br>
+
+        तब EXAMOS AI identify करेगा:
+
+        <br><br>
+
+        • कौन सा question है<br>
+        • Student ने कौन सा step लिखा<br>
+        • कहाँ गलती हुई<br>
+        • Calculation mistake<br>
+        • Formula mistake<br>
+        • Concept mistake<br>
+        • सही solution method
+
+    </p>
+
+    `;
+
+
+    result.scrollIntoView({
+
+        behavior:"smooth"
+
+    });
 
 }
 
 
 /* =====================================================
-   AI CHAT
+   CHAT INITIALIZE
 ===================================================== */
 
-function openAIChat(){
+function initializeChat(){
 
-    if(!chatHistory.length){
+    if(
+        chatHistory.length===0
+    ){
 
-        chatHistory=[
-            {
-                role:"ai",
-                text:
-                "नमस्ते! मैं EXAMOS AI हूँ। 😊\n\n"+
-                "तुम मुझसे पढ़ाई का कोई भी सवाल पूछ सकते हो।\n\n"+
-                "मैं आसान भाषा में step-by-step समझाऊँगा।"
-            }
-        ];
+        chatHistory.push({
+
+            role:"ai",
+
+            text:
+            "नमस्ते! मैं EXAMOS AI हूँ। 😊\n\n"+
+            "तुम मुझसे किसी भी विषय या किसी भी topic पर सवाल पूछ सकते हो।\n\n"+
+            "तुम जिस भाषा में सवाल पूछोगे, मैं उसी भाषा में जवाब देने की कोशिश करूँगा।"
+
+        });
 
     }
+
 
     renderChat();
 
 }
 
 
+/* =====================================================
+   RENDER CHAT
+===================================================== */
+
 function renderChat(){
 
-    let messages="";
+    const container=
+    document.getElementById(
+        "chatMessages"
+    );
+
+
+    if(!container){
+
+        return;
+
+    }
+
+
+    container.innerHTML=
+    "";
+
 
     chatHistory.forEach(
         message=>{
 
-            messages+=`
 
-                <div class="chatBubble ${
-                    message.role==="user"
-                    ? "userBubble"
-                    : "aiBubble"
-                }">
+            const bubble=
+            document.createElement(
+                "div"
+            );
 
-                    ${escapeHTML(
-                        cleanMathText(message.text)
-                    )}
 
-                </div>
+            bubble.className=
+            "chatBubble "+
+            (
+                message.role==="user"
+                ?
+                "userMessage"
+                :
+                "aiMessage"
+            );
 
-            `;
+
+            bubble.textContent=
+            message.text;
+
+
+            container.appendChild(
+                bubble
+            );
 
         }
     );
 
-    openModal(
-        "🤖 EXAMOS AI Assistant",
-        `
 
-        <div class="chat">
+    setTimeout(
+        ()=>{
 
-            <div style="
-                display:flex;
-                justify-content:flex-end;
-                margin-bottom:8px;
-            ">
+            container.scrollTop=
+            container.scrollHeight;
 
-                <button class="newChat"
-                        onclick="newChat()">
-
-                    + New Chat
-
-                </button>
-
-            </div>
-
-            <div id="chatMessages"
-                 class="chatMessages">
-
-                ${messages}
-
-            </div>
-
-            <div class="chatInputArea">
-
-                <textarea
-                    id="chatInput"
-                    class="chatInput"
-                    placeholder="अपना सवाल यहाँ लिखें..."
-                    onkeydown="chatKeyDown(event)"
-                ></textarea>
-
-                <button class="sendBtn"
-                        onclick="sendChatMessage()">
-
-                    ➤
-
-                </button>
-
-            </div>
-
-        </div>
-
-        `
+        },
+        50
     );
-
-    setTimeout(()=>{
-
-        const box=
-            document.getElementById(
-                "chatMessages"
-            );
-
-        if(box){
-
-            box.scrollTop=
-                box.scrollHeight;
-
-        }
-
-        const input=
-            document.getElementById(
-                "chatInput"
-            );
-
-        if(input){
-
-            input.focus();
-
-        }
-
-    },50);
 
 }
 
 
+/* =====================================================
+   CHAT KEY
+===================================================== */
+
 function chatKeyDown(event){
 
     if(
-        event.key==="Enter" &&
+        event.key==="Enter"
+        &&
         !event.shiftKey
     ){
 
         event.preventDefault();
 
-        sendChatMessage();
+        sendAIMessage();
 
     }
 
 }
 
 
-async function sendChatMessage(){
+/* =====================================================
+   SEND AI MESSAGE
+===================================================== */
+
+async function sendAIMessage(){
+
 
     const input=
-        document.getElementById(
-            "chatInput"
-        );
+    document.getElementById(
+        "chatInput"
+    );
 
-    if(!input) return;
 
     const text=
-        input.value.trim();
+    input.value.trim();
 
-    if(!text) return;
 
-    input.value="";
+    if(!text){
+
+        return;
+
+    }
+
+
+    input.value=
+    "";
+
 
     chatHistory.push({
+
         role:"user",
+
         text:text
+
     });
+
 
     renderChat();
 
-    addThinkingBubble();
+
+    const thinkingMessage={
+
+        role:"ai",
+
+        text:
+        "AI सोच रहा है..."
+
+    };
+
+
+    chatHistory.push(
+        thinkingMessage
+    );
+
+
+    renderChat();
+
 
     try{
 
-        const previous=
-            chatHistory
-            .slice(-8)
-            .map(
-                x=>
-                (
-                    x.role==="user"
-                    ? "Student: "
-                    : "Teacher: "
-                )+x.text
-            )
-            .join("\n\n");
 
-        const prompt=`
+        const response=
+        await fetch(
 
-तुम EXAMOS AI के personal teacher हो।
+            "/api/ai",
 
-Student Class:
-${selectedClass || "Unknown"}
+            {
 
-Subject:
-${selectedSubject || "General"}
+                method:"POST",
 
-Chapter:
-${selectedChapter || "General"}
+                headers:{
 
-Conversation:
+                    "Content-Type":
+                    "application/json"
 
-${previous}
+                },
 
-Rules:
+                body:
+                JSON.stringify({
 
-1. सीधे सवाल का जवाब दो।
-2. बहुत आसान हिंदी।
-3. Math/Science में step-by-step।
-4. Formula को readable plain text में लिखो।
-5. LaTeX जैसे $...$, \\sqrt, \\frac मत लिखो।
-6. जरूरत पर example दो।
-7. जवाब साफ और छोटा रखो।
-8. छात्र अगर फिर सवाल पूछे तो previous context याद रखो।
+                    prompt:
+                    createAIPrompt(
+                        text
+                    )
 
-अब आखिरी student question का जवाब दो।
+                })
 
-`;
+            }
 
-        const answer=
-            await askEXAMOSAI(prompt);
+        );
 
-        removeThinkingBubble();
+
+        const data=
+        await response.json();
+
+
+        chatHistory.pop();
+
+
+        if(
+            !response.ok
+        ){
+
+            throw new Error(
+
+                data.error
+                ||
+                "AI response failed"
+
+            );
+
+        }
+
 
         chatHistory.push({
+
             role:"ai",
-            text:answer
+
+            text:
+            data.answer
+            ||
+            "AI ने कोई जवाब नहीं दिया।"
+
         });
 
+
         renderChat();
+
 
     }catch(error){
 
-        removeThinkingBubble();
+
+        chatHistory.pop();
+
 
         chatHistory.push({
+
             role:"ai",
+
             text:
             "माफ करना, अभी AI से connection नहीं हो पाया।\n\n"+
-            error.message
+            (
+                error.message
+                ||
+                "Please try again."
+            )
+
         });
+
 
         renderChat();
 
-    }
-
-}
-
-
-function addThinkingBubble(){
-
-    const box=
-        document.getElementById(
-            "chatMessages"
-        );
-
-    if(!box) return;
-
-    const div=
-        document.createElement("div");
-
-    div.id="thinkingBubble";
-
-    div.className=
-        "chatBubble aiBubble";
-
-    div.innerHTML=`
-
-        <span class="thinking">
-
-            AI सोच रहा है
-
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-
-        </span>
-
-    `;
-
-    box.appendChild(div);
-
-    box.scrollTop=
-        box.scrollHeight;
-
-}
-
-
-function removeThinkingBubble(){
-
-    const el=
-        document.getElementById(
-            "thinkingBubble"
-        );
-
-    if(el){
-
-        el.remove();
 
     }
-
-}
-
-
-function newChat(){
-
-    chatHistory=[
-        {
-            role:"ai",
-            text:
-            "नई chat शुरू हो गई है। 😊\n\n"+
-            "अपना सवाल पूछो।"
-        }
-    ];
-
-    renderChat();
 
 }
 
 
 /* =====================================================
-   WEAK TOPICS
+   CREATE AI PROMPT
 ===================================================== */
 
-function showWeakTopics(){
+function createAIPrompt(
+    userQuestion
+){
 
-    openModal(
-        "🎯 Weak Topics",
-        `
+    const recentConversation=
+    chatHistory
+    .slice(-8)
+    .filter(
+        item=>
+        item.text!==
+        "AI सोच रहा है..."
+    )
+    .map(
+        item=>
 
-        <div style="padding:10px">
+        (
+            item.role==="user"
+            ?
+            "Student: "
+            :
+            "AI: "
+        )
 
-            <p style="
-                color:#666;
-                line-height:1.7;
-            ">
+        +
 
-                Diagnostic Test के बाद
-                EXAMOS आपकी performance के आधार पर
-                weak concepts पर Personalized Practice
-                शुरू करेगा।
-
-            </p>
-
-            <button class="primary"
-                    style="width:100%;margin-top:18px"
-                    onclick="startDiagnostic()">
-
-                📋 Diagnostic Test
-
-            </button>
-
-        </div>
-
-        `
+        item.text
+    )
+    .join(
+        "\n\n"
     );
 
+
+    return `
+
+तुम EXAMOS AI हो।
+
+तुम एक helpful AI assistant हो।
+
+महत्वपूर्ण नियम:
+
+1. छात्र जिस भाषा में सवाल पूछे,
+   उसी भाषा में natural जवाब दो।
+
+2. अगर छात्र हिंदी में पूछे,
+   हिंदी में जवाब दो।
+
+3. अगर छात्र English में पूछे,
+   English में जवाब दो।
+
+4. Hinglish में पूछे तो
+   natural Hinglish/Hindi में जवाब दे सकते हो।
+
+5. Math या Science के सवाल में
+   step-by-step explanation दो।
+
+6. सिर्फ answer मत दो,
+   समझाओ भी।
+
+7. बेवजह बहुत लंबा जवाब मत दो।
+
+8. कठिन concept को आसान बनाओ।
+
+9. छात्र किसी भी topic पर सवाल पूछ सकता है।
+   उसे केवल उसके school subject तक सीमित मत करो।
+
+Student Profile:
+
+Class:
+${studentProfile.class || "Not selected"}
+
+Board:
+${studentProfile.board || "Not selected"}
+
+Stream:
+${studentProfile.stream || "Not selected"}
+
+Recent Conversation:
+
+${recentConversation}
+
+अब student के सवाल का सही और helpful जवाब दो।
+
+`;
+
 }
 
 
 /* =====================================================
-   PROFILE
+   FEEDBACK
 ===================================================== */
 
-function showProfile(){
+function submitFeedback(){
 
-    const savedName=
+    const text=
+    document.getElementById(
+        "feedbackText"
+    ).value.trim();
+
+
+    if(!text){
+
+        showToast(
+            "कृपया अपना feedback लिखें"
+        );
+
+        return;
+
+    }
+
+
+    const feedbackList=
+
+    JSON.parse(
+
         localStorage.getItem(
-            "examos_student_name"
-        ) || "";
+            "examos_feedback"
+        )
 
-    openModal(
-        "👤 Student Profile",
-        `
+        ||
 
-        <div class="profilePage">
+        "[]"
 
-            <div class="profileAvatar">
-                👤
-            </div>
+    );
 
-            <h2>
-                Student Profile
-            </h2>
 
-            <p style="
-                color:#666;
-                margin:8px 0 18px;
-            ">
-                अपनी basic learning information रखें।
-            </p>
+    feedbackList.push({
 
-            <input
-                id="profileName"
-                class="profileInput"
-                placeholder="अपना नाम लिखें"
-                value="${escapeHTML(savedName)}"
-            >
+        name:
+        studentProfile.name,
 
-            <select
-                id="profileClass"
-                class="profileInput">
+        phone:
+        studentProfile.phone,
 
-                <option value="">
-                    Class चुनें
-                </option>
+        feedback:
+        text,
 
-                <option value="9">
-                    Class 9
-                </option>
+        date:
+        new Date()
+        .toISOString()
 
-                <option value="10">
-                    Class 10
-                </option>
+    });
 
-                <option value="11">
-                    Class 11
-                </option>
 
-                <option value="12">
-                    Class 12
-                </option>
+    localStorage.setItem(
 
-            </select>
+        "examos_feedback",
 
-            <button class="primary"
-                    style="width:100%;margin-top:10px"
-                    onclick="saveProfile()">
+        JSON.stringify(
+            feedbackList
+        )
 
-                Save Profile
+    );
 
-            </button>
 
-        </div>
+    document.getElementById(
+        "feedbackText"
+    ).value=
+    "";
 
-        `
+
+    showToast(
+        "Feedback save हो गया। धन्यवाद! 🙏"
     );
 
 }
 
 
-function saveProfile(){
+/* =====================================================
+   EDIT PROFILE
+===================================================== */
 
-    const name=
-        document.getElementById(
-            "profileName"
-        ).value.trim();
+function editProfile(){
 
-    const cls=
-        document.getElementById(
-            "profileClass"
-        ).value;
-
-    if(name){
-
-        localStorage.setItem(
-            "examos_student_name",
-            name
-        );
-
-        document.getElementById(
-            "profileNameTop"
-        ).textContent=name;
-
-    }
-
-    if(cls){
-
-        selectedClass=cls;
-
-    }
-
-    closeModal();
+    showToast(
+        "Profile editing अगले database/profile update step में improve किया जाएगा"
+    );
 
 }
 
 
 /* =====================================================
-   HELPERS
+   CHANGE LANGUAGE
 ===================================================== */
 
-function extractSection(text,title){
+function changeLanguage(){
 
-    const regex=
-        new RegExp(
-            title.replace(
-                /[.*+?^${}()|[\]\\]/g,
-                "\\$&"
-            )+
-            "\\s*([\\s\\S]*?)(?=\\n[A-Z][A-Z ]+:|$)",
-            "i"
-        );
-
-    const match=
-        String(text).match(regex);
-
-    return match
-        ? match[1].trim()
-        : "";
+    showToast(
+        "App language feature जल्द जोड़ा जाएगा"
+    );
 
 }
 
 
 /* =====================================================
-   CLEAN AI MATH
+   LOGOUT
 ===================================================== */
 
-function cleanMathText(value){
+function logout(){
 
-    if(value===null || value===undefined){
+    const confirmLogout=
+    confirm(
+        "क्या आप Logout करना चाहते हैं?"
+    );
 
-        return "";
+
+    if(!confirmLogout){
+
+        return;
 
     }
 
-    let text=String(value);
 
-    text=text
-        .replace(/\$/g,"")
-        .replace(/\\sqrt\{([^}]+)\}/g,"√($1)")
-        .replace(/\\sqrt\s*([A-Za-z0-9]+)/g,"√$1")
-        .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g,"($1)/($2)")
-        .replace(/\\pi/g,"π")
-        .replace(/\\times/g,"×")
-        .replace(/\\cdot/g,"·")
-        .replace(/\\leq/g,"≤")
-        .replace(/\\geq/g,"≥")
-        .replace(/\\neq/g,"≠")
-        .replace(/\\pm/g,"±")
-        .replace(/\\infty/g,"∞")
-        .replace(/\\alpha/g,"α")
-        .replace(/\\beta/g,"β")
-        .replace(/\\theta/g,"θ")
-        .replace(/\\Delta/g,"Δ")
-        .replace(/\^\{2\}/g,"²")
-        .replace(/\^\{3\}/g,"³")
-        .replace(/\^2/g,"²")
-        .replace(/\^3/g,"³")
-        .replace(/\^\{([0-9]+)\}/g,"^$1")
-        .replace(/\\left/g,"")
-        .replace(/\\right/g,"")
-        .replace(/\\,/g," ")
-        .replace(/\\\\/g,"\n");
+    localStorage.removeItem(
+        "examos_student_profile"
+    );
 
-    return text.trim();
+
+    studentProfile={};
+
+
+    chatHistory=[];
+
+
+    showScreen(
+        "welcomeScreen"
+    );
+
+
+    showToast(
+        "Successfully logged out"
+    );
 
 }
 
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+let toastTimer;
+
+
+function showToast(message){
+
+    const toast=
+    document.getElementById(
+        "toast"
+    );
+
+
+    toast.textContent=
+    message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(
+        toastTimer
+    );
+
+
+    toastTimer=
+    setTimeout(
+
+        ()=>{
+
+            toast.classList.remove(
+                "show"
+            );
+
+        },
+
+        3000
+
+    );
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
 
 function escapeHTML(value){
 
     if(
-        value===null ||
+        value===null
+        ||
         value===undefined
     ){
 
@@ -3613,55 +5357,98 @@ function escapeHTML(value){
 
     }
 
+
     return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
 
 }
 
 
 /* =====================================================
-   MODAL OUTSIDE CLICK
-===================================================== */
-
-document.getElementById(
-    "modal"
-).onclick=function(e){
-
-    if(e.target===this){
-
-        closeModal();
-
-    }
-
-};
-
-
-/* =====================================================
-   LOAD PROFILE NAME
+   LOAD APP
 ===================================================== */
 
 window.addEventListener(
+
     "DOMContentLoaded",
+
     ()=>{
 
-        const name=
-            localStorage.getItem(
-                "examos_student_name"
-            );
 
-        if(name){
+        const savedProfile=
+        localStorage.getItem(
+            "examos_student_profile"
+        );
 
-            document.getElementById(
-                "profileNameTop"
-            ).textContent=name;
+
+        if(savedProfile){
+
+
+            try{
+
+
+                studentProfile=
+                JSON.parse(
+                    savedProfile
+                );
+
+
+                if(
+                    studentProfile
+                    &&
+                    studentProfile.name
+                ){
+
+
+                    loadStudentHome();
+
+
+                    showScreen(
+                        "mainScreen"
+                    );
+
+                }
+
+
+            }catch(error){
+
+
+                console.error(
+                    "Profile loading error:",
+                    error
+                );
+
+            }
 
         }
 
+
     }
+
 );
 
 </script>
