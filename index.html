@@ -7,239 +7,553 @@
 <title>EXAMOS AI</title>
 
 <style>
+:root{
+    --primary:#5b5cf0;
+    --primary2:#7c3aed;
+    --bg:#f5f7ff;
+    --card:#ffffff;
+    --text:#171a2b;
+    --muted:#73778d;
+    --border:#e8e9f3;
+    --green:#10b981;
+    --orange:#f59e0b;
+    --red:#ef4444;
+}
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial, sans-serif;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-    background:#f5f7fb;
-    color:#1e293b;
-}
-
-.app{
-    max-width:520px;
-    min-height:100vh;
-    margin:auto;
-    background:#fff;
-    position:relative;
-    overflow:hidden;
-}
-
-/* HEADER */
-
-.header{
-    background:linear-gradient(135deg,#5b3df5,#7c3aed);
-    color:white;
-    padding:20px;
-}
-
-.header h1{
-    font-size:24px;
-}
-
-.header p{
-    font-size:13px;
-    margin-top:5px;
-    opacity:.9;
-}
-
-/* SCREENS */
-
-.screen{
-    display:none;
+    background:var(--bg);
+    color:var(--text);
     min-height:100vh;
 }
 
-.screen.active{
-    display:block;
+button,input,select,textarea{
+    font:inherit;
 }
-
-/* WELCOME */
-
-.welcome{
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    padding:25px;
-    text-align:center;
-    background:
-    linear-gradient(135deg,#5b3df5,#7c3aed);
-    color:white;
-}
-
-.logo{
-    width:100px;
-    height:100px;
-    border-radius:30px;
-    background:white;
-    color:#6d28d9;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:42px;
-    font-weight:bold;
-    margin-bottom:25px;
-}
-
-.welcome h1{
-    font-size:36px;
-}
-
-.welcome p{
-    margin-top:12px;
-    line-height:1.6;
-    opacity:.9;
-}
-
-/* BUTTON */
 
 button{
     border:none;
     cursor:pointer;
 }
 
-.primary-btn{
-    width:100%;
-    padding:15px;
-    border-radius:14px;
-    background:#6d28d9;
+.app{
+    max-width:1200px;
+    margin:auto;
+    min-height:100vh;
+}
+
+/* HEADER */
+
+.header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:rgba(255,255,255,.95);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+}
+
+.header-inner{
+    max-width:1200px;
+    margin:auto;
+    padding:14px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:800;
+    font-size:20px;
+}
+
+.logo-icon{
+    width:42px;
+    height:42px;
+    border-radius:13px;
+    display:grid;
+    place-items:center;
     color:white;
-    font-size:16px;
-    font-weight:bold;
-    margin-top:20px;
+    background:linear-gradient(135deg,var(--primary),var(--primary2));
+    font-size:22px;
 }
 
-.primary-btn:hover{
-    opacity:.9;
-}
-
-.white-btn{
-    background:white;
-    color:#6d28d9;
-    width:100%;
-    padding:15px;
+.profile-mini{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:#f4f4ff;
+    padding:7px 12px;
     border-radius:14px;
-    font-size:16px;
-    font-weight:bold;
-    margin-top:25px;
 }
 
-/* CONTENT */
+.profile-circle{
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#7c3aed,#ec4899);
+    color:white;
+    display:grid;
+    place-items:center;
+    font-weight:bold;
+}
 
-.content{
+/* MAIN */
+
+main{
     padding:20px;
     padding-bottom:100px;
 }
 
-/* PROFILE */
-
-.profile-card{
-    background:white;
-    padding:20px;
-    border-radius:20px;
-    box-shadow:0 5px 20px rgba(0,0,0,.06);
+.page{
+    display:none;
+    animation:fade .25s ease;
 }
 
-label{
+.page.active{
     display:block;
-    font-size:14px;
-    font-weight:bold;
-    margin-top:15px;
-    margin-bottom:7px;
 }
 
-input,
-select{
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateY(8px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* COMMON */
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:18px;
+    box-shadow:0 5px 25px rgba(40,45,100,.04);
+}
+
+.section-title{
+    font-size:22px;
+    margin-bottom:8px;
+}
+
+.section-subtitle{
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.5;
+    margin-bottom:20px;
+}
+
+.btn{
     width:100%;
     padding:14px;
-    border:1px solid #ddd;
-    border-radius:12px;
-    font-size:15px;
+    border-radius:14px;
+    font-weight:700;
+    color:white;
+    background:linear-gradient(135deg,var(--primary),var(--primary2));
+    transition:.2s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.btn.secondary{
+    background:#eceeff;
+    color:var(--primary);
+}
+
+.btn.green{
+    background:linear-gradient(135deg,#10b981,#059669);
+}
+
+.btn.orange{
+    background:linear-gradient(135deg,#f59e0b,#ea580c);
+}
+
+.btn.red{
+    background:#ef4444;
+}
+
+.btn-row{
+    display:flex;
+    gap:10px;
+}
+
+.btn-row .btn{
+    flex:1;
+}
+
+.input-group{
+    margin-bottom:15px;
+}
+
+.input-group label{
+    display:block;
+    margin-bottom:7px;
+    font-size:14px;
+    font-weight:700;
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea{
+    width:100%;
+    border:1px solid var(--border);
+    padding:13px;
+    border-radius:13px;
+    outline:none;
+    background:#fafbff;
+}
+
+.input-group textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus{
+    border-color:var(--primary);
+}
+
+/* SETUP */
+
+.setup-box{
+    max-width:520px;
+    margin:30px auto;
 }
 
 /* HOME */
 
-.greeting{
-    padding:20px;
+.hero{
+    color:white;
+    border-radius:25px;
+    padding:25px;
+    background:linear-gradient(135deg,#5b5cf0,#7c3aed);
+    margin-bottom:20px;
 }
 
-.greeting h2{
-    font-size:24px;
+.hero h1{
+    font-size:26px;
+    margin-bottom:8px;
 }
 
-.greeting p{
-    color:#64748b;
-    margin-top:5px;
+.hero p{
+    opacity:.9;
+    line-height:1.5;
 }
-
-/* STATS */
 
 .stats{
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:repeat(3,1fr);
     gap:12px;
-    padding:0 20px;
+    margin-bottom:20px;
 }
 
-.stat{
-    padding:17px;
+.stat-card{
+    background:white;
     border-radius:18px;
-    color:white;
+    padding:15px;
+    border:1px solid var(--border);
 }
 
-.stat:nth-child(1){
-    background:#6d28d9;
-}
-
-.stat:nth-child(2){
-    background:#2563eb;
-}
-
-.stat h3{
-    font-size:24px;
-}
-
-.stat p{
+.stat-card span{
+    display:block;
+    color:var(--muted);
     font-size:12px;
-    margin-top:5px;
+    margin-bottom:8px;
 }
 
-/* FEATURE CARDS */
+.stat-card strong{
+    font-size:20px;
+}
 
 .feature-grid{
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:repeat(2,1fr);
     gap:14px;
-    padding:20px;
 }
 
-.feature{
-    background:white;
+.feature-card{
     padding:18px;
+    background:white;
+    border:1px solid var(--border);
     border-radius:20px;
-    box-shadow:0 4px 15px rgba(0,0,0,.05);
     cursor:pointer;
+    transition:.2s;
 }
 
-.feature .icon{
-    font-size:30px;
+.feature-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 30px rgba(50,50,100,.08);
 }
 
-.feature h3{
-    margin-top:12px;
+.feature-icon{
+    width:45px;
+    height:45px;
+    display:grid;
+    place-items:center;
+    border-radius:14px;
+    font-size:22px;
+    margin-bottom:12px;
+    background:#f0f0ff;
+}
+
+.feature-card h3{
+    margin-bottom:7px;
     font-size:16px;
 }
 
-.feature p{
-    font-size:12px;
-    color:#64748b;
-    margin-top:6px;
+.feature-card p{
+    color:var(--muted);
+    font-size:13px;
     line-height:1.4;
+}
+
+/* FLOW */
+
+.step-indicator{
+    display:flex;
+    gap:6px;
+    margin-bottom:20px;
+}
+
+.step{
+    flex:1;
+    height:6px;
+    border-radius:10px;
+    background:#e7e8f2;
+}
+
+.step.active{
+    background:var(--primary);
+}
+
+.option-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.option{
+    padding:16px;
+    border:2px solid var(--border);
+    background:white;
+    border-radius:16px;
+    cursor:pointer;
+    text-align:center;
+    transition:.2s;
+}
+
+.option.selected{
+    border-color:var(--primary);
+    background:#f3f3ff;
+    color:var(--primary);
+    font-weight:bold;
+}
+
+.option h4{
+    margin-bottom:6px;
+}
+
+.option p{
+    font-size:12px;
+    color:var(--muted);
+}
+
+.flow-box{
+    max-width:700px;
+    margin:auto;
+}
+
+.selected-info{
+    padding:12px;
+    border-radius:14px;
+    background:#f4f4ff;
+    color:#4b4dc7;
+    font-size:13px;
+    margin-bottom:15px;
+}
+
+/* TEST */
+
+.question-card{
+    margin-top:15px;
+}
+
+.question-number{
+    color:var(--primary);
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.question-text{
+    font-size:18px;
+    line-height:1.5;
+    margin-bottom:20px;
+}
+
+.answer-option{
+    width:100%;
+    text-align:left;
+    padding:14px;
+    border:1px solid var(--border);
+    background:white;
+    border-radius:13px;
+    margin-bottom:10px;
+}
+
+.answer-option.selected{
+    border-color:var(--primary);
+    background:#f2f2ff;
+}
+
+.test-top{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    align-items:center;
+}
+
+.timer{
+    background:#fff3e0;
+    color:#b45309;
+    padding:10px;
+    border-radius:12px;
+    font-weight:bold;
+}
+
+/* PRACTICE */
+
+.topic-list{
+    display:grid;
+    gap:10px;
+}
+
+.topic-item{
+    padding:15px;
+    border:1px solid var(--border);
+    border-radius:15px;
+    cursor:pointer;
+    background:white;
+}
+
+.topic-item.selected{
+    border-color:var(--primary);
+    background:#f4f4ff;
+}
+
+/* ASK AI */
+
+.ai-container{
+    max-width:800px;
+    margin:auto;
+}
+
+.chat-box{
+    min-height:430px;
+    background:white;
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:15px;
+    overflow:auto;
+    margin-bottom:15px;
+}
+
+.message{
+    max-width:85%;
+    padding:12px 15px;
+    margin-bottom:12px;
+    border-radius:17px;
+    line-height:1.5;
+    font-size:14px;
+    white-space:pre-wrap;
+}
+
+.message.user{
+    margin-left:auto;
+    background:linear-gradient(135deg,var(--primary),var(--primary2));
+    color:white;
+    border-bottom-right-radius:4px;
+}
+
+.message.ai{
+    background:#f3f4f8;
+    border-bottom-left-radius:4px;
+}
+
+.chat-input{
+    display:flex;
+    gap:10px;
+}
+
+.chat-input textarea{
+    flex:1;
+    min-height:52px;
+    max-height:130px;
+    padding:14px;
+    border:1px solid var(--border);
+    border-radius:15px;
+    resize:none;
+    outline:none;
+}
+
+.send-btn{
+    width:55px;
+    border-radius:15px;
+    background:var(--primary);
+    color:white;
+    font-size:20px;
+}
+
+/* ANALYSIS */
+
+.analysis-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+}
+
+.analysis-card{
+    padding:17px;
+    border-radius:18px;
+    background:white;
+    border:1px solid var(--border);
+}
+
+.analysis-card h3{
+    margin-bottom:10px;
+    font-size:15px;
+}
+
+.progress-bar{
+    height:9px;
+    background:#e8e9f1;
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:8px;
+}
+
+.progress-fill{
+    height:100%;
+    background:linear-gradient(90deg,var(--primary),#8b5cf6);
+    border-radius:10px;
 }
 
 /* BOTTOM NAV */
@@ -247,249 +561,158 @@ select{
 .bottom-nav{
     position:fixed;
     bottom:0;
-    left:50%;
-    transform:translateX(-50%);
-    max-width:520px;
+    left:0;
     width:100%;
     background:white;
+    border-top:1px solid var(--border);
+    display:flex;
+    justify-content:center;
+    z-index:100;
+}
+
+.nav-inner{
+    width:100%;
+    max-width:800px;
     display:flex;
     justify-content:space-around;
+}
+
+.nav-btn{
+    background:transparent;
     padding:12px 5px;
-    box-shadow:0 -4px 15px rgba(0,0,0,.08);
-}
-
-.nav-item{
-    font-size:12px;
-    text-align:center;
-    color:#64748b;
-    cursor:pointer;
-}
-
-.nav-item.active{
-    color:#6d28d9;
-    font-weight:bold;
-}
-
-/* FLOW */
-
-.flow-title{
-    font-size:22px;
-    font-weight:bold;
-    margin-bottom:5px;
-}
-
-.flow-subtitle{
-    font-size:13px;
-    color:#64748b;
-    margin-bottom:20px;
-}
-
-.step-card{
-    background:white;
-    padding:20px;
-    border-radius:20px;
-    box-shadow:0 5px 20px rgba(0,0,0,.06);
-}
-
-/* QUESTION */
-
-.question-card{
-    background:white;
-    border-radius:20px;
-    padding:20px;
-    box-shadow:0 5px 20px rgba(0,0,0,.06);
-}
-
-.question-number{
-    color:#6d28d9;
-    font-weight:bold;
-    margin-bottom:15px;
-}
-
-.question{
-    font-size:18px;
-    line-height:1.5;
-}
-
-.option{
-    width:100%;
-    text-align:left;
-    padding:14px;
-    margin-top:12px;
-    background:#f8fafc;
-    border:1px solid #e2e8f0;
-    border-radius:12px;
-    font-size:15px;
-}
-
-.option.selected{
-    background:#ede9fe;
-    border-color:#6d28d9;
-}
-
-/* TIMER */
-
-.timer{
-    background:#fee2e2;
-    color:#dc2626;
-    padding:10px;
-    border-radius:10px;
-    text-align:center;
-    margin-bottom:15px;
-    font-weight:bold;
-}
-
-/* RESULT */
-
-.result-score{
-    background:linear-gradient(135deg,#6d28d9,#8b5cf6);
-    color:white;
-    padding:30px;
-    border-radius:25px;
-    text-align:center;
-}
-
-.result-score h1{
-    font-size:45px;
-}
-
-.analysis-card{
-    background:white;
-    padding:18px;
-    border-radius:18px;
-    margin-top:15px;
-    box-shadow:0 4px 15px rgba(0,0,0,.05);
-}
-
-.analysis-card h3{
-    margin-bottom:8px;
-}
-
-/* ASK AI */
-
-.chat-box{
-    padding-bottom:85px;
-}
-
-.messages{
-    padding:15px;
-}
-
-.message{
-    max-width:85%;
-    padding:12px;
-    border-radius:16px;
-    margin-bottom:12px;
-    line-height:1.5;
-    font-size:14px;
-    white-space:pre-wrap;
-}
-
-.user-message{
-    background:#6d28d9;
-    color:white;
-    margin-left:auto;
-}
-
-.ai-message{
-    background:#f1f5f9;
-    color:#1e293b;
-}
-
-.chat-input{
-    position:fixed;
-    bottom:0;
-    left:50%;
-    transform:translateX(-50%);
-    width:100%;
-    max-width:520px;
-    background:white;
-    padding:10px;
-    display:flex;
-    gap:8px;
-    box-shadow:0 -4px 15px rgba(0,0,0,.08);
-}
-
-.chat-input input{
+    color:var(--muted);
+    font-size:11px;
     flex:1;
-    margin:0;
 }
 
-.send-btn{
-    width:55px;
-    border-radius:12px;
-    background:#6d28d9;
-    color:white;
+.nav-btn span{
+    display:block;
     font-size:20px;
+    margin-bottom:3px;
+}
+
+.nav-btn.active{
+    color:var(--primary);
+    font-weight:bold;
 }
 
 /* LOADING */
 
 .loading{
-    text-align:center;
-    color:#64748b;
-    padding:10px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:var(--muted);
 }
 
-.back-btn{
-    background:none;
-    color:#6d28d9;
-    font-size:16px;
-    margin-bottom:20px;
-    font-weight:bold;
+.loader{
+    width:20px;
+    height:20px;
+    border:3px solid #ddd;
+    border-top-color:var(--primary);
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
 }
 
 .hidden{
-    display:none;
+    display:none !important;
 }
-</style>
 
+.empty{
+    text-align:center;
+    color:var(--muted);
+    padding:30px 10px;
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    main{
+        padding:15px;
+        padding-bottom:90px;
+    }
+
+    .feature-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .stats{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .stat-card{
+        padding:12px;
+    }
+
+    .stat-card strong{
+        font-size:16px;
+    }
+
+    .option-grid{
+        grid-template-columns:1fr;
+    }
+
+    .analysis-grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        font-size:22px;
+    }
+}
+
+</style>
 </head>
 
 <body>
 
 <div class="app">
 
-<!-- WELCOME SCREEN -->
+<header class="header">
 
-<div class="screen active" id="welcomeScreen">
+<div class="header-inner">
 
-<div class="welcome">
+<div class="logo">
+<div class="logo-icon">E</div>
+<div>
+EXAMOS AI
+</div>
+</div>
 
-<div class="logo">E</div>
+<div class="profile-mini">
+<div class="profile-circle" id="profileInitial">S</div>
+<div>
+<strong id="headerName">Student</strong>
+</div>
+</div>
 
-<h1>EXAMOS AI</h1>
+</div>
 
-<p>
-आपका AI Learning Partner
-<br>
-पढ़ाई, Practice, Test और Smart Analysis
+</header>
+
+
+<main>
+
+<!-- SETUP PAGE -->
+
+<section class="page active" id="setupPage">
+
+<div class="setup-box card">
+
+<h1 class="section-title">EXAMOS AI में आपका स्वागत है</h1>
+
+<p class="section-subtitle">
+अपनी पढ़ाई को आपके अनुसार personalize करने के लिए नीचे जानकारी भरें।
 </p>
 
-<button class="white-btn" onclick="startApp()">
-शुरू करें
-</button>
-
-</div>
-
-</div>
-
-
-<!-- PROFILE SCREEN -->
-
-<div class="screen" id="profileScreen">
-
-<div class="header">
-
-<h1>Student Profile</h1>
-
-<p>अपनी जानकारी भरें ताकि EXAMOS AI आपकी पढ़ाई को personalize कर सके।</p>
-
-</div>
-
-<div class="content">
-
-<div class="profile-card">
+<div class="input-group">
 
 <label>आपका नाम</label>
 
@@ -499,16 +722,14 @@ id="studentName"
 placeholder="अपना नाम लिखें"
 >
 
-<label>जन्म तिथि</label>
+</div>
 
-<input
-type="date"
-id="studentDob"
->
 
-<label>Class</label>
+<div class="input-group">
 
-<select id="studentClass" onchange="updateStreamOptions()">
+<label>आपकी Class</label>
+
+<select id="studentClass" onchange="updateStreamVisibility()">
 
 <option value="">Class चुनें</option>
 
@@ -522,19 +743,29 @@ id="studentDob"
 
 </select>
 
+</div>
+
+
+<div class="input-group">
+
 <label>Board</label>
 
 <select id="studentBoard">
 
 <option value="">Board चुनें</option>
 
-<option value="BSEB">Bihar Board</option>
+<option value="BSEB">Bihar Board (BSEB)</option>
 
 <option value="CBSE">CBSE</option>
 
+<option value="ICSE">ICSE</option>
+
 </select>
 
-<div id="streamBox" class="hidden">
+</div>
+
+
+<div class="input-group hidden" id="streamBox">
 
 <label>Stream</label>
 
@@ -552,207 +783,252 @@ id="studentDob"
 
 </div>
 
-<button class="primary-btn" onclick="saveProfile()">
-Save & Continue
+
+<button class="btn" onclick="saveStudentProfile()">
+शुरू करें
 </button>
 
 </div>
 
-</div>
+</section>
 
-</div>
 
 
 <!-- HOME -->
 
-<div class="screen" id="homeScreen">
+<section class="page" id="homePage">
 
-<div class="header">
+<div class="hero">
 
-<h1>EXAMOS AI</h1>
-
-<p>Your Personal AI Learning System</p>
-
-</div>
-
-<div class="greeting">
-
-<h2 id="homeGreeting">
-नमस्ते!
-</h2>
+<h1 id="welcomeText">
+नमस्ते Student 👋
+</h1>
 
 <p id="studentInfo">
-अपनी पढ़ाई को Smart तरीके से शुरू करें।
+अपनी पढ़ाई को और बेहतर बनाने के लिए आज कुछ नया सीखें।
 </p>
 
 </div>
 
+
 <div class="stats">
 
-<div class="stat">
+<div class="stat-card">
 
-<h3 id="testCount">0</h3>
+<span>Tests</span>
 
-<p>Tests Completed</p>
-
-</div>
-
-<div class="stat">
-
-<h3 id="accuracy">0%</h3>
-
-<p>Accuracy</p>
+<strong id="totalTests">0</strong>
 
 </div>
 
+<div class="stat-card">
+
+<span>Practice</span>
+
+<strong id="totalPractice">0</strong>
+
 </div>
+
+<div class="stat-card">
+
+<span>Progress</span>
+
+<strong id="progressPercent">0%</strong>
+
+</div>
+
+</div>
+
+
+<h2 class="section-title">
+आज क्या करना चाहते हैं?
+</h2>
+
+<p class="section-subtitle">
+EXAMOS AI आपके लिए personalized learning तैयार करता है।
+</p>
 
 
 <div class="feature-grid">
 
-<div class="feature" onclick="openTestFlow()">
+<div class="feature-card" onclick="openTest()">
 
-<div class="icon">📝</div>
+<div class="feature-icon">
+📝
+</div>
 
-<h3>Smart Test</h3>
+<h3>Test</h3>
 
 <p>
-अपने Class और Board के अनुसार Test दें।
+अपनी class और syllabus के अनुसार test दें।
 </p>
 
 </div>
 
 
-<div class="feature" onclick="openPracticeFlow()">
+<div class="feature-card" onclick="openPractice()">
 
-<div class="icon">📚</div>
+<div class="feature-icon">
+🎯
+</div>
 
 <h3>Practice</h3>
 
 <p>
-Chapter और Topic के अनुसार Practice करें।
+Chapter और topic के अनुसार practice करें।
 </p>
 
 </div>
 
 
-<div class="feature" onclick="openAnalysis()">
+<div class="feature-card" onclick="openAnalysis()">
 
-<div class="icon">📊</div>
+<div class="feature-icon">
+📊
+</div>
 
-<h3>AI Analysis</h3>
+<h3>Analysis</h3>
 
 <p>
-अपनी गलतियों और कमजोर topics को समझें।
+अपनी गलतियों और weak topics को पहचानें।
 </p>
 
 </div>
 
 
-<div class="feature" onclick="openAskAI()">
+<div class="feature-card" onclick="openAskAI()">
 
-<div class="icon">🤖</div>
+<div class="feature-icon">
+🤖
+</div>
 
 <h3>Ask AI</h3>
 
 <p>
-जो पूछना है अपने तरीके से पूछें।
+किसी भी सवाल को आसान भाषा में समझें।
+</p>
+
+</div>
+
+
+<div class="feature-card" onclick="openProgress()">
+
+<div class="feature-icon">
+📈
+</div>
+
+<h3>Progress</h3>
+
+<p>
+अपनी learning progress देखें।
+</p>
+
+</div>
+
+
+<div class="feature-card" onclick="editProfile()">
+
+<div class="feature-icon">
+⚙️
+</div>
+
+<h3>Settings</h3>
+
+<p>
+अपनी class, board और जानकारी बदलें।
 </p>
 
 </div>
 
 </div>
 
+</section>
 
-<div class="bottom-nav">
 
-<div class="nav-item active" onclick="showScreen('homeScreen')">
 
-🏠
+<!-- TEST FLOW -->
+
+<section class="page" id="testPage">
+
+<div class="flow-box">
+
+<h1 class="section-title">
+Create Test
+</h1>
+
+<p class="section-subtitle">
+आपकी Class, Board और Stream के अनुसार test तैयार होगा।
+</p>
+
+
+<div class="step-indicator">
+
+<div class="step active"></div>
+
+<div class="step"></div>
+
+<div class="step"></div>
+
+<div class="step"></div>
+
+<div class="step"></div>
+
+</div>
+
+
+<div class="card" id="testSubjectStep">
+
+<h3 class="section-title">
+Subject चुनें
+</h3>
+
+<div
+class="selected-info"
+id="testStudentInfo">
+</div>
+
+<div
+class="option-grid"
+id="subjectOptions">
+</div>
+
+</div>
+
+
+<div
+class="card hidden"
+id="testChapterStep">
+
+<h3 class="section-title">
+Chapter चुनें
+</h3>
+
+<div
+class="option-grid"
+id="chapterOptions">
+</div>
+
 <br>
-Home
 
-</div>
-
-<div class="nav-item" onclick="openTestFlow()">
-
-📝
-<br>
-Test
-
-</div>
-
-<div class="nav-item" onclick="openPracticeFlow()">
-
-📚
-<br>
-Practice
-
-</div>
-
-<div class="nav-item" onclick="openAskAI()">
-
-🤖
-<br>
-Ask AI
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- TEST SETUP -->
-
-<div class="screen" id="testSetupScreen">
-
-<div class="header">
-
-<h1>Smart Test</h1>
-
-<p>अपनी पसंद के अनुसार Test तैयार करें।</p>
-
-</div>
-
-<div class="content">
-
-<button class="back-btn" onclick="showScreen('homeScreen')">
-← वापस
+<button
+class="btn secondary"
+onclick="backTestStep(1)">
+वापस
 </button>
 
-<div class="step-card">
-
-<div class="flow-title">
-Test Setup
-</div>
-
-<div class="flow-subtitle">
-आपके Class और Board के अनुसार syllabus दिखाया जाएगा।
 </div>
 
 
-<label>Subject</label>
+<div
+class="card hidden"
+id="testConfigStep">
 
-<select id="testSubject" onchange="updateTestChapters()">
-
-<option value="">
-Subject चुनें
-</option>
-
-</select>
+<h3 class="section-title">
+Test Settings
+</h3>
 
 
-<label>Chapter</label>
-
-<select id="testChapter">
-
-<option value="">
-पहले Subject चुनें
-</option>
-
-</select>
-
+<div class="input-group">
 
 <label>Number of Questions</label>
 
@@ -760,29 +1036,55 @@ Subject चुनें
 
 <option value="5">5 Questions</option>
 
-<option value="10">10 Questions</option>
+<option value="10" selected>
+10 Questions
+</option>
 
-<option value="15">15 Questions</option>
+<option value="15">
+15 Questions
+</option>
 
-<option value="20">20 Questions</option>
+<option value="20">
+20 Questions
+</option>
 
 </select>
 
+</div>
+
+
+<div class="input-group">
 
 <label>Time</label>
 
 <select id="testTime">
 
-<option value="5">5 Minutes</option>
+<option value="10">
+10 Minutes
+</option>
 
-<option value="10">10 Minutes</option>
+<option value="20" selected>
+20 Minutes
+</option>
 
-<option value="20">20 Minutes</option>
+<option value="30">
+30 Minutes
+</option>
 
-<option value="30">30 Minutes</option>
+<option value="45">
+45 Minutes
+</option>
+
+<option value="60">
+60 Minutes
+</option>
 
 </select>
 
+</div>
+
+
+<div class="input-group">
 
 <label>Test Language</label>
 
@@ -798,14 +1100,21 @@ English
 
 </select>
 
+</div>
+
+
+<div class="btn-row">
 
 <button
-class="primary-btn"
-onclick="startTest()"
->
+class="btn secondary"
+onclick="backTestStep(2)">
+वापस
+</button>
 
+<button
+class="btn"
+onclick="startTest()">
 Start Test
-
 </button>
 
 </div>
@@ -814,74 +1123,218 @@ Start Test
 
 </div>
 
+</section>
 
-<!-- PRACTICE SETUP -->
 
-<div class="screen" id="practiceSetupScreen">
 
-<div class="header">
+<!-- TEST RUN -->
 
-<h1>Smart Practice</h1>
+<section class="page" id="testRunPage">
 
-<p>Topic के अनुसार अपनी तैयारी मजबूत करें।</p>
+<div class="flow-box">
+
+<div class="test-top">
+
+<div>
+
+<strong id="testTitle">
+Test
+</strong>
+
+<div
+style="font-size:12px;color:#73778d"
+id="testQuestionProgress">
+Question 1
+</div>
 
 </div>
 
-<div class="content">
+<div
+class="timer"
+id="testTimer">
+20:00
+</div>
 
-<button class="back-btn" onclick="showScreen('homeScreen')">
-← वापस
+</div>
+
+
+<div class="card question-card">
+
+<div
+class="question-number"
+id="questionNumber">
+Question 1
+</div>
+
+<div
+class="question-text"
+id="questionText">
+Question loading...
+</div>
+
+<div id="answerOptions"></div>
+
+
+<button
+class="btn"
+id="nextQuestionBtn"
+onclick="nextQuestion()">
+Next Question
 </button>
 
-<div class="step-card">
-
-<div class="flow-title">
-Practice Setup
 </div>
 
-<div class="flow-subtitle">
-Chapter के अंदर किसी specific topic को चुनकर Practice करें।
+</div>
+
+</section>
+
+
+
+<!-- TEST RESULT -->
+
+<section class="page" id="resultPage">
+
+<div class="flow-box">
+
+<div class="card">
+
+<h1 class="section-title">
+Test Completed 🎉
+</h1>
+
+<p class="section-subtitle">
+यह आपका test performance है।
+</p>
+
+
+<div
+style="font-size:38px;font-weight:bold;color:#5b5cf0;margin:20px 0"
+id="resultScore">
+0%
 </div>
 
 
-<label>Subject</label>
+<div
+id="resultSummary">
+</div>
 
-<select
-id="practiceSubject"
-onchange="updatePracticeChapters()"
->
 
-<option value="">
+<br>
+
+
+<button
+class="btn"
+onclick="saveTestAndAnalyze()">
+View AI Analysis
+</button>
+
+
+<br><br>
+
+
+<button
+class="btn secondary"
+onclick="goHome()">
+Home जाएं
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- PRACTICE -->
+
+<section class="page" id="practicePage">
+
+<div class="flow-box">
+
+<h1 class="section-title">
+Practice
+</h1>
+
+<p class="section-subtitle">
+अपने syllabus के अनुसार किसी chapter और topic पर practice करें।
+</p>
+
+
+<div
+class="card"
+id="practiceSubjectStep">
+
+<h3 class="section-title">
 Subject चुनें
-</option>
+</h3>
 
-</select>
+<div
+class="option-grid"
+id="practiceSubjectOptions">
+</div>
+
+</div>
 
 
-<label>Chapter</label>
+<div
+class="card hidden"
+id="practiceChapterStep">
 
-<select
-id="practiceChapter"
-onchange="updatePracticeTopics()"
->
-
-<option value="">
+<h3 class="section-title">
 Chapter चुनें
-</option>
+</h3>
 
-</select>
+<div
+class="option-grid"
+id="practiceChapterOptions">
+</div>
+
+<br>
+
+<button
+class="btn secondary"
+onclick="backPractice(1)">
+वापस
+</button>
+
+</div>
 
 
-<label>Topic</label>
+<div
+class="card hidden"
+id="practiceTopicStep">
 
-<select id="practiceTopic">
-
-<option value="">
+<h3 class="section-title">
 Topic चुनें
-</option>
+</h3>
 
-</select>
+<div
+class="topic-list"
+id="topicOptions">
+</div>
 
+<br>
+
+<button
+class="btn secondary"
+onclick="backPractice(2)">
+वापस
+</button>
+
+</div>
+
+
+<div
+class="card hidden"
+id="practiceConfigStep">
+
+<h3 class="section-title">
+Practice Settings
+</h3>
+
+
+<div class="input-group">
 
 <label>Difficulty</label>
 
@@ -891,7 +1344,7 @@ Topic चुनें
 Easy
 </option>
 
-<option value="Medium">
+<option value="Medium" selected>
 Medium
 </option>
 
@@ -899,29 +1352,50 @@ Medium
 Hard
 </option>
 
+<option value="Mixed">
+Mixed
+</option>
+
 </select>
 
+</div>
 
-<label>Number of Questions</label>
+
+<div class="input-group">
+
+<label>Questions</label>
 
 <select id="practiceQuestionCount">
 
-<option value="5">5 Questions</option>
+<option value="5">
+5 Questions
+</option>
 
-<option value="10">10 Questions</option>
+<option value="10" selected>
+10 Questions
+</option>
 
-<option value="15">15 Questions</option>
+<option value="15">
+15 Questions
+</option>
 
 </select>
 
+</div>
+
+
+<div class="btn-row">
 
 <button
-class="primary-btn"
-onclick="startPractice()"
->
+class="btn secondary"
+onclick="backPractice(3)">
+वापस
+</button>
 
+<button
+class="btn green"
+onclick="startPractice()">
 Start Practice
-
 </button>
 
 </div>
@@ -930,192 +1404,102 @@ Start Practice
 
 </div>
 
+</section>
 
-<!-- TEST SCREEN -->
 
-<div class="screen" id="testScreen">
 
-<div class="header">
+<!-- PRACTICE RUN -->
 
-<h1 id="testTitle">
-Test
-</h1>
+<section class="page" id="practiceRunPage">
 
-<p id="testChapterName"></p>
+<div class="flow-box">
 
-</div>
+<div class="card">
 
-<div class="content">
+<h2 id="practiceTitle">
+Practice
+</h2>
 
-<div class="timer">
+<p
+class="section-subtitle"
+id="practiceSubtitle">
+</p>
 
-Time Left:
-<span id="timer">
-00:00
-</span>
 
+<div
+class="question-number"
+id="practiceQuestionNumber">
+Question 1
 </div>
 
 
 <div
-class="question-card"
-id="questionContainer"
->
+class="question-text"
+id="practiceQuestionText">
+Question
+</div>
 
+
+<div
+id="practiceAnswerOptions">
 </div>
 
 
 <button
-class="primary-btn"
-onclick="nextQuestion()"
-id="nextQuestionBtn"
->
-
+class="btn green"
+onclick="nextPracticeQuestion()">
 Next Question
-
 </button>
 
 </div>
 
 </div>
 
+</section>
 
-<!-- RESULT SCREEN -->
-
-<div class="screen" id="resultScreen">
-
-<div class="header">
-
-<h1>Test Result</h1>
-
-<p>अपनी performance देखें।</p>
-
-</div>
-
-<div class="content">
-
-<div class="result-score">
-
-<p>Your Score</p>
-
-<h1 id="finalScore">
-0/0
-</h1>
-
-<p id="percentageScore">
-0%
-</p>
-
-</div>
-
-
-<div class="analysis-card">
-
-<h3>
-📊 Performance
-</h3>
-
-<p id="performanceText"></p>
-
-</div>
-
-
-<div class="analysis-card">
-
-<h3>
-🔍 Weak Topic
-</h3>
-
-<p id="weakTopicText">
-अभी पर्याप्त data नहीं है।
-</p>
-
-</div>
-
-
-<div class="analysis-card">
-
-<h3>
-🤖 EXAMOS AI Suggestion
-</h3>
-
-<p id="aiSuggestion"></p>
-
-</div>
-
-
-<button
-class="primary-btn"
-onclick="openPracticeFromResult()"
->
-
-Weak Topic Practice करें
-
-</button>
-
-
-<button
-class="primary-btn"
-onclick="showScreen('homeScreen')"
->
-
-Home जाएँ
-
-</button>
-
-</div>
-
-</div>
 
 
 <!-- ANALYSIS -->
 
-<div class="screen" id="analysisScreen">
+<section class="page" id="analysisPage">
 
-<div class="header">
+<h1 class="section-title">
+AI Analysis
+</h1>
 
-<h1>AI Analysis</h1>
-
-<p>आपकी learning performance का analysis</p>
-
-</div>
-
-<div class="content">
-
-<button
-class="back-btn"
-onclick="showScreen('homeScreen')"
->
-
-← वापस
-
-</button>
-
-
-<div class="analysis-card">
-
-<h3>
-📈 Overall Performance
-</h3>
-
-<p id="overallPerformance">
-अभी कोई Test data उपलब्ध नहीं है।
+<p class="section-subtitle">
+EXAMOS AI आपकी performance देखकर improvement suggestions देगा।
 </p>
 
+
+<div class="analysis-grid">
+
+<div class="analysis-card">
+
+<h3>
+📉 Weak Topics
+</h3>
+
+<div id="weakTopics">
+
+अभी कोई test data उपलब्ध नहीं है।
+
+</div>
+
 </div>
 
 
 <div class="analysis-card">
 
 <h3>
-🎯 Personalized Recommendation
+❌ Mistake Analysis
 </h3>
 
-<p id="personalRecommendation">
+<div id="mistakeAnalysis">
 
-पहले Test या Practice शुरू करें।
+Test देने के बाद आपकी गलतियों का analysis यहां दिखेगा।
 
-</p>
+</div>
 
 </div>
 
@@ -1123,54 +1507,74 @@ onclick="showScreen('homeScreen')"
 <div class="analysis-card">
 
 <h3>
-📚 Suggested Action
+🎯 Recommended Practice
 </h3>
+
+<div id="recommendedPractice">
+
+आपके performance के अनुसार practice recommend होगी।
+
+</div>
+
+</div>
+
+
+<div class="analysis-card">
+
+<h3>
+📈 Improvement
+</h3>
+
+<div id="improvementAdvice">
+
+नियमित practice से आपकी progress यहां दिखाई जाएगी।
+
+</div>
+
+</div>
+
+</div>
+
+
+<br>
+
 
 <button
-class="primary-btn"
-onclick="openPracticeFlow()"
->
-
-Personalized Practice
-
+class="btn"
+onclick="openPractice()">
+Recommended Practice शुरू करें
 </button>
 
-</div>
+</section>
 
-</div>
-
-</div>
 
 
 <!-- ASK AI -->
 
-<div class="screen" id="askAIScreen">
+<section class="page" id="askAIPage">
 
-<div class="header">
+<div class="ai-container">
 
-<h1>Ask EXAMOS AI</h1>
+<h1 class="section-title">
+Ask EXAMOS AI
+</h1>
 
-<p>अपनी भाषा और अपने तरीके से सवाल पूछें।</p>
+<p class="section-subtitle">
+जो समझना है, अपने तरीके से पूछें।
+</p>
 
-</div>
-
-
-<div class="chat-box">
 
 <div
-class="messages"
-id="chatMessages"
->
+class="chat-box"
+id="chatBox">
 
-<div class="message ai-message">
+<div class="message ai">
 
-नमस्ते! 👋
+नमस्ते! 👋 मैं EXAMOS AI हूँ।
 
-मैं EXAMOS AI हूँ।
+आप मुझसे किसी भी पढ़ाई से जुड़े सवाल को अपने तरीके से पूछ सकते हैं।
 
-आप अपनी पढ़ाई से जुड़ा कोई भी सवाल पूछ सकते हैं। मैं आसान तरीके से समझाने की कोशिश करूँगा।
-
-</div>
+मैं आपको आसान भाषा में समझाने की कोशिश करूँगा।
 
 </div>
 
@@ -1179,25 +1583,304 @@ id="chatMessages"
 
 <div class="chat-input">
 
-<input
-type="text"
-id="chatInput"
+<textarea
+id="aiPrompt"
 placeholder="अपना सवाल लिखें..."
-onkeydown="if(event.key==='Enter') sendMessage()"
->
+onkeydown="handleChatKey(event)">
+</textarea>
+
 
 <button
 class="send-btn"
-onclick="sendMessage()"
->
-
+onclick="askAI()">
 ➤
-
 </button>
 
 </div>
 
 </div>
+
+</section>
+
+
+
+<!-- PROGRESS -->
+
+<section class="page" id="progressPage">
+
+<h1 class="section-title">
+Your Progress
+</h1>
+
+<p class="section-subtitle">
+अपनी learning journey को यहां देखें।
+</p>
+
+
+<div class="card">
+
+<h3>
+Overall Progress
+</h3>
+
+<div class="progress-bar">
+
+<div
+class="progress-fill"
+id="overallProgressBar"
+style="width:0%">
+</div>
+
+</div>
+
+<br>
+
+<strong id="overallProgressText">
+0%
+</strong>
+
+</div>
+
+
+<br>
+
+
+<div class="analysis-grid">
+
+<div class="analysis-card">
+
+<h3>
+Total Tests
+</h3>
+
+<strong
+style="font-size:28px"
+id="progressTests">
+0
+</strong>
+
+</div>
+
+
+<div class="analysis-card">
+
+<h3>
+Practice Sessions
+</h3>
+
+<strong
+style="font-size:28px"
+id="progressPractice">
+0
+</strong>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- SETTINGS -->
+
+<section class="page" id="settingsPage">
+
+<div class="setup-box card">
+
+<h1 class="section-title">
+Student Settings
+</h1>
+
+<p class="section-subtitle">
+अपनी जानकारी update करें।
+</p>
+
+
+<div class="input-group">
+
+<label>नाम</label>
+
+<input
+type="text"
+id="editName"
+>
+
+</div>
+
+
+<div class="input-group">
+
+<label>Class</label>
+
+<select
+id="editClass"
+onchange="updateEditStream()">
+
+<option value="9">
+Class 9
+</option>
+
+<option value="10">
+Class 10
+</option>
+
+<option value="11">
+Class 11
+</option>
+
+<option value="12">
+Class 12
+</option>
+
+</select>
+
+</div>
+
+
+<div class="input-group">
+
+<label>Board</label>
+
+<select id="editBoard">
+
+<option value="BSEB">
+Bihar Board (BSEB)
+</option>
+
+<option value="CBSE">
+CBSE
+</option>
+
+<option value="ICSE">
+ICSE
+</option>
+
+</select>
+
+</div>
+
+
+<div
+class="input-group"
+id="editStreamBox">
+
+<label>Stream</label>
+
+<select id="editStream">
+
+<option value="">
+None
+</option>
+
+<option value="Science">
+Science
+</option>
+
+<option value="Commerce">
+Commerce
+</option>
+
+<option value="Arts">
+Arts
+</option>
+
+</select>
+
+</div>
+
+
+<button
+class="btn"
+onclick="updateStudentProfile()">
+Save Changes
+</button>
+
+
+<br><br>
+
+
+<button
+class="btn red"
+onclick="resetStudentData()">
+Reset Student Data
+</button>
+
+</div>
+
+</section>
+
+
+</main>
+
+
+
+<nav class="bottom-nav">
+
+<div class="nav-inner">
+
+<button
+class="nav-btn active"
+data-page="homePage"
+onclick="goHome()">
+
+<span>🏠</span>
+
+Home
+
+</button>
+
+
+<button
+class="nav-btn"
+data-page="testPage"
+onclick="openTest()">
+
+<span>📝</span>
+
+Test
+
+</button>
+
+
+<button
+class="nav-btn"
+data-page="practicePage"
+onclick="openPractice()">
+
+<span>🎯</span>
+
+Practice
+
+</button>
+
+
+<button
+class="nav-btn"
+data-page="askAIPage"
+onclick="openAskAI()">
+
+<span>🤖</span>
+
+Ask AI
+
+</button>
+
+
+<button
+class="nav-btn"
+data-page="analysisPage"
+onclick="openAnalysis()">
+
+<span>📊</span>
+
+Analysis
+
+</button>
+
+</div>
+
+</nav>
 
 </div>
 
@@ -1205,1710 +1888,2767 @@ onclick="sendMessage()"
 <script>
 
 /* =========================
-PROFILE
+   STUDENT DATA
 ========================= */
 
-let studentProfile = {};
-
-let syllabus = {};
-
-let testQuestions = [];
-
-let currentQuestionIndex = 0;
-
-let selectedAnswers = [];
-
-let timerInterval;
-
-let testResults = [];
+let student = null;
 
 
 /* =========================
-START APP
+   SYLLABUS DATA
 ========================= */
 
-function startApp(){
+const syllabus = {
 
-    const savedProfile =
-        localStorage.getItem("examosProfile");
+"9":{
 
-    if(savedProfile){
+common:{
 
-        studentProfile =
-        JSON.parse(savedProfile);
+"Mathematics":[
 
-        loadStudentData();
+{
+chapter:"Number Systems",
 
-        showScreen("homeScreen");
+topics:[
+"Rational Numbers",
+"Irrational Numbers",
+"Real Numbers"
+]
+},
 
-    }else{
+{
+chapter:"Polynomials",
 
-        showScreen("profileScreen");
+topics:[
+"Introduction",
+"Zeroes of Polynomial",
+"Algebraic Expressions"
+]
+},
 
-    }
+{
+chapter:"Linear Equations in Two Variables",
+
+topics:[
+"Coordinate System",
+"Linear Equations",
+"Graph"
+]
+}
+
+],
+
+"Science":[
+
+{
+chapter:"Matter in Our Surroundings",
+
+topics:[
+"States of Matter",
+"Physical Properties",
+"Change of State"
+]
+},
+
+{
+chapter:"Atoms and Molecules",
+
+topics:[
+"Laws of Chemical Combination",
+"Atoms",
+"Molecules"
+]
+},
+
+{
+chapter:"Motion",
+
+topics:[
+"Distance and Displacement",
+"Speed",
+"Velocity",
+"Acceleration"
+]
+}
+
+],
+
+"English":[
+
+{
+chapter:"Grammar",
+
+topics:[
+"Tenses",
+"Articles",
+"Voice"
+]
+}
+
+]
 
 }
+
+},
+
+
+"10":{
+
+common:{
+
+"Mathematics":[
+
+{
+chapter:"Real Numbers",
+
+topics:[
+"Euclid Division Lemma",
+"Fundamental Theorem of Arithmetic"
+]
+},
+
+{
+chapter:"Polynomials",
+
+topics:[
+"Zeroes",
+"Relationship Between Zeroes and Coefficients"
+]
+},
+
+{
+chapter:"Pair of Linear Equations",
+
+topics:[
+"Graphical Method",
+"Substitution Method",
+"Elimination Method"
+]
+}
+
+],
+
+"Science":[
+
+{
+chapter:"Chemical Reactions",
+
+topics:[
+"Chemical Equations",
+"Types of Reactions"
+]
+},
+
+{
+chapter:"Acids Bases and Salts",
+
+topics:[
+"Acids",
+"Bases",
+"pH Scale"
+]
+}
+
+],
+
+"English":[
+
+{
+chapter:"Grammar",
+
+topics:[
+"Tenses",
+"Voice",
+"Narration"
+]
+}
+
+]
+
+}
+
+},
+
+
+"11":{
+
+common:{
+
+"English":[
+{
+chapter:"Grammar",
+topics:[
+"Tenses",
+"Voice",
+"Narration"
+]
+}
+]
+
+},
+
+Science:{
+
+"Physics":[
+
+{
+chapter:"Units and Measurements",
+
+topics:[
+"SI Units",
+"Significant Figures",
+"Errors"
+]
+},
+
+{
+chapter:"Motion in a Straight Line",
+
+topics:[
+"Distance",
+"Velocity",
+"Acceleration"
+]
+}
+
+],
+
+"Chemistry":[
+
+{
+chapter:"Some Basic Concepts of Chemistry",
+
+topics:[
+"Mole Concept",
+"Atomic Mass",
+"Molecular Mass"
+]
+}
+
+],
+
+"Mathematics":[
+
+{
+chapter:"Sets",
+
+topics:[
+"Types of Sets",
+"Operations on Sets"
+]
+},
+
+{
+chapter:"Relations and Functions",
+
+topics:[
+"Relations",
+"Functions"
+]
+}
+
+]
+
+},
+
+Commerce:{
+
+"Accountancy":[
+{
+chapter:"Introduction to Accounting",
+topics:[
+"Accounting Concepts",
+"Accounting Principles"
+]
+}
+],
+
+"Business Studies":[
+{
+chapter:"Nature and Purpose of Business",
+topics:[
+"Business Activities",
+"Objectives of Business"
+]
+}
+]
+
+},
+
+Arts:{
+
+"History":[
+{
+chapter:"Writing and City Life",
+topics:[
+"Civilization",
+"Ancient Cities"
+]
+}
+],
+
+"Political Science":[
+{
+chapter:"Constitution",
+topics:[
+"Political Theory",
+"Rights"
+]
+}
+]
+
+}
+
+},
+
+
+"12":{
+
+common:{
+
+"English":[
+
+{
+chapter:"Grammar",
+
+topics:[
+"Tenses",
+"Voice",
+"Narration"
+]
+}
+
+]
+
+},
+
+Science:{
+
+"Physics":[
+
+{
+chapter:"Electric Charges and Fields",
+
+topics:[
+"Electric Charge",
+"Coulomb Law",
+"Electric Field"
+]
+},
+
+{
+chapter:"Electrostatic Potential and Capacitance",
+
+topics:[
+"Electric Potential",
+"Capacitors"
+]
+}
+
+],
+
+"Chemistry":[
+
+{
+chapter:"Solutions",
+
+topics:[
+"Types of Solutions",
+"Concentration"
+]
+},
+
+{
+chapter:"Electrochemistry",
+
+topics:[
+"Conductance",
+"Electrochemical Cell"
+]
+}
+
+],
+
+"Mathematics":[
+
+{
+chapter:"Relations and Functions",
+
+topics:[
+"Types of Relations",
+"Functions"
+]
+},
+
+{
+chapter:"Continuity and Differentiability",
+
+topics:[
+"Continuity",
+"Differentiability"
+]
+}
+
+]
+
+},
+
+Commerce:{
+
+"Accountancy":[
+
+{
+chapter:"Accounting for Partnership",
+
+topics:[
+"Partnership",
+"Capital Accounts"
+]
+}
+
+],
+
+"Business Studies":[
+
+{
+chapter:"Nature and Significance of Management",
+
+topics:[
+"Management",
+"Objectives"
+]
+}
+
+]
+
+},
+
+Arts:{
+
+"History":[
+
+{
+chapter:"Bricks Beads and Bones",
+
+topics:[
+"Harappan Civilization",
+"Archaeology"
+]
+}
+
+],
+
+"Political Science":[
+
+{
+chapter:"Challenges of Nation Building",
+
+topics:[
+"Independence",
+"Nation Building"
+]
+}
+
+]
+
+}
+
+}
+
+};
 
 
 /* =========================
-SCREEN
-========================= */
-
-function showScreen(screenId){
-
-    document
-    .querySelectorAll(".screen")
-    .forEach(screen=>{
-
-        screen.classList.remove("active");
-
-    });
-
-    document
-    .getElementById(screenId)
-    .classList.add("active");
-
-}
-
-
-/* =========================
-STREAM
-========================= */
-
-function updateStreamOptions(){
-
-    const studentClass =
-        document.getElementById("studentClass").value;
-
-    const streamBox =
-        document.getElementById("streamBox");
-
-    if(studentClass==="11" ||
-       studentClass==="12"){
-
-        streamBox.classList.remove("hidden");
-
-    }else{
-
-        streamBox.classList.add("hidden");
-
-    }
-
-}
-
-
-/* =========================
-SAVE PROFILE
-========================= */
-
-function saveProfile(){
-
-    const name =
-        document.getElementById("studentName").value.trim();
-
-    const dob =
-        document.getElementById("studentDob").value;
-
-    const studentClass =
-        document.getElementById("studentClass").value;
-
-    const board =
-        document.getElementById("studentBoard").value;
-
-    const stream =
-        document.getElementById("studentStream").value;
-
-
-    if(!name ||
-       !dob ||
-       !studentClass ||
-       !board){
-
-        alert("कृपया सभी जरूरी जानकारी भरें।");
-
-        return;
-
-    }
-
-
-    if(
-        (studentClass==="11" ||
-        studentClass==="12")
-        &&
-        !stream
-    ){
-
-        alert("कृपया Stream चुनें।");
-
-        return;
-
-    }
-
-
-    studentProfile = {
-
-        name:name,
-
-        dob:dob,
-
-        class:studentClass,
-
-        board:board,
-
-        stream:
-        (studentClass==="11" ||
-        studentClass==="12")
-        ?stream:""
-
-    };
-
-
-    localStorage.setItem(
-
-        "examosProfile",
-
-        JSON.stringify(studentProfile)
-
-    );
-
-
-    loadStudentData();
-
-    showScreen("homeScreen");
-
-}
-
-
-/* =========================
-LOAD STUDENT
-========================= */
-
-function loadStudentData(){
-
-    document
-    .getElementById("homeGreeting")
-    .innerText =
-    "नमस्ते, " +
-    studentProfile.name +
-    " 👋";
-
-
-    document
-    .getElementById("studentInfo")
-    .innerText =
-    "Class " +
-    studentProfile.class +
-    " • " +
-    studentProfile.board;
-
-
-    loadResults();
-
-    buildSyllabus();
-
-    updateHomeStats();
-
-}
-
-
-/* =========================
-SYLLABUS
-========================= */
-
-function buildSyllabus(){
-
-    const studentClass =
-        studentProfile.class;
-
-
-    /*
-    अभी SAMPLE STRUCTURE है।
-
-    आगे इसमें पूरा
-    Bihar Board / CBSE
-    syllabus जोड़ेंगे।
-    */
-
-
-    if(studentClass==="9"){
-
-        syllabus = {
-
-            Mathematics:{
-
-                "Number System":[
-                    "Real Numbers",
-                    "Rational Numbers",
-                    "Irrational Numbers"
-                ],
-
-                "Polynomials":[
-                    "Polynomial Basics",
-                    "Zeroes",
-                    "Factorisation"
-                ],
-
-                "Coordinate Geometry":[
-                    "Cartesian Plane",
-                    "Coordinates"
-                ]
-
-            },
-
-            Science:{
-
-                "Matter in Our Surroundings":[
-                    "States of Matter",
-                    "Change of State"
-                ],
-
-                "Force and Laws of Motion":[
-                    "Force",
-                    "Newton Laws"
-                ]
-
-            },
-
-            Hindi:{
-
-                "गद्य":[
-                    "पाठ अध्ययन"
-                ],
-
-                "काव्य":[
-                    "कविता अध्ययन"
-                ]
-
-            },
-
-            English:{
-
-                "Reading":[
-                    "Comprehension"
-                ],
-
-                "Grammar":[
-                    "Tenses",
-                    "Parts of Speech"
-                ]
-
-            }
-
-        };
-
-    }
-
-
-    else if(studentClass==="10"){
-
-        syllabus = {
-
-            Mathematics:{
-
-                "Real Numbers":[
-                    "Euclid Division Lemma",
-                    "HCF"
-                ],
-
-                "Polynomials":[
-                    "Zeroes of Polynomial",
-                    "Relation Between Zeroes"
-                ],
-
-                "Linear Equations":[
-                    "Pair of Linear Equations"
-                ]
-
-            },
-
-            Science:{
-
-                "Chemical Reactions":[
-                    "Types of Reactions"
-                ],
-
-                "Light":[
-                    "Reflection",
-                    "Refraction"
-                ]
-
-            },
-
-            Hindi:{
-
-                "गद्य":[
-                    "पाठ अध्ययन"
-                ],
-
-                "काव्य":[
-                    "कविता अध्ययन"
-                ]
-
-            },
-
-            English:{
-
-                "Grammar":[
-                    "Tenses",
-                    "Voice"
-                ]
-
-            }
-
-        };
-
-    }
-
-
-    else if(
-
-        studentClass==="11" ||
-
-        studentClass==="12"
-
-    ){
-
-        buildSeniorSyllabus();
-
-    }
-
-}
-
-
-/* =========================
-CLASS 11 & 12
-========================= */
-
-function buildSeniorSyllabus(){
-
-    if(studentProfile.stream==="Science"){
-
-        syllabus = {
-
-            Physics:{
-
-                "Electrostatics":[
-                    "Electric Charge",
-                    "Electric Field"
-                ],
-
-                "Current Electricity":[
-                    "Electric Current",
-                    "Ohm Law"
-                ]
-
-            },
-
-            Chemistry:{
-
-                "Solutions":[
-                    "Concentration",
-                    "Types of Solutions"
-                ],
-
-                "Electrochemistry":[
-                    "Galvanic Cell",
-                    "Electrolysis"
-                ]
-
-            },
-
-            Mathematics:{
-
-                "Relations and Functions":[
-                    "Relations",
-                    "Functions"
-                ],
-
-                "Calculus":[
-                    "Limits",
-                    "Differentiation"
-                ]
-
-            }
-
-        };
-
-    }
-
-
-    else if(studentProfile.stream==="Commerce"){
-
-        syllabus = {
-
-            Accountancy:{
-
-                "Accounting Basics":[
-                    "Journal",
-                    "Ledger"
-                ]
-
-            },
-
-            BusinessStudies:{
-
-                "Nature of Business":[
-                    "Business Concepts"
-                ]
-
-            },
-
-            Economics:{
-
-                "Micro Economics":[
-                    "Demand",
-                    "Supply"
-                ]
-
-            }
-
-        };
-
-    }
-
-
-    else{
-
-        syllabus = {
-
-            History:{
-
-                "Indian History":[
-                    "Ancient India"
-                ]
-
-            },
-
-            Geography:{
-
-                "Physical Geography":[
-                    "Earth",
-                    "Climate"
-                ]
-
-            },
-
-            PoliticalScience:{
-
-                "Constitution":[
-                    "Democracy",
-                    "Government"
-                ]
-
-            }
-
-        };
-
-    }
-
-}
-
-
-/* =========================
-TEST FLOW
-========================= */
-
-function openTestFlow(){
-
-    populateSubjects("testSubject");
-
-    showScreen("testSetupScreen");
-
-}
-
-
-function populateSubjects(selectId){
-
-    const select =
-        document.getElementById(selectId);
-
-    select.innerHTML =
-    '<option value="">Subject चुनें</option>';
-
-
-    Object.keys(syllabus)
-    .forEach(subject=>{
-
-        const option =
-        document.createElement("option");
-
-        option.value = subject;
-
-        option.textContent = subject;
-
-        select.appendChild(option);
-
-    });
-
-}
-
-
-function updateTestChapters(){
-
-    const subject =
-        document.getElementById("testSubject").value;
-
-    const chapterSelect =
-        document.getElementById("testChapter");
-
-    chapterSelect.innerHTML =
-    '<option value="">Chapter चुनें</option>';
-
-
-    if(!subject) return;
-
-
-    Object.keys(syllabus[subject])
-    .forEach(chapter=>{
-
-        const option =
-        document.createElement("option");
-
-        option.value = chapter;
-
-        option.textContent = chapter;
-
-        chapterSelect.appendChild(option);
-
-    });
-
-}
-
-
-/* =========================
-PRACTICE FLOW
-========================= */
-
-function openPracticeFlow(){
-
-    populateSubjects("practiceSubject");
-
-    showScreen("practiceSetupScreen");
-
-}
-
-
-function updatePracticeChapters(){
-
-    const subject =
-        document
-        .getElementById("practiceSubject")
-        .value;
-
-    const chapterSelect =
-        document
-        .getElementById("practiceChapter");
-
-    chapterSelect.innerHTML =
-    '<option value="">Chapter चुनें</option>';
-
-
-    if(!subject) return;
-
-
-    Object.keys(syllabus[subject])
-    .forEach(chapter=>{
-
-        const option =
-        document.createElement("option");
-
-        option.value = chapter;
-
-        option.textContent = chapter;
-
-        chapterSelect.appendChild(option);
-
-    });
-
-}
-
-
-function updatePracticeTopics(){
-
-    const subject =
-        document
-        .getElementById("practiceSubject")
-        .value;
-
-    const chapter =
-        document
-        .getElementById("practiceChapter")
-        .value;
-
-    const topicSelect =
-        document
-        .getElementById("practiceTopic");
-
-    topicSelect.innerHTML =
-    '<option value="">Topic चुनें</option>';
-
-
-    if(!subject || !chapter) return;
-
-
-    syllabus[subject][chapter]
-    .forEach(topic=>{
-
-        const option =
-        document.createElement("option");
-
-        option.value = topic;
-
-        option.textContent = topic;
-
-        topicSelect.appendChild(option);
-
-    });
-
-}
-
-
-/* =========================
-START TEST
-========================= */
-
-function startTest(){
-
-    const subject =
-        document.getElementById("testSubject").value;
-
-    const chapter =
-        document.getElementById("testChapter").value;
-
-    const questionCount =
-        Number(
-            document
-            .getElementById("testQuestionCount")
-            .value
-        );
-
-    const time =
-        Number(
-            document
-            .getElementById("testTime")
-            .value
-        );
-
-
-    if(!subject || !chapter){
-
-        alert("कृपया Subject और Chapter चुनें।");
-
-        return;
-
-    }
-
-
-    testQuestions =
-    generateSampleQuestions(
-        subject,
-        chapter,
-        questionCount
-    );
-
-
-    currentQuestionIndex = 0;
-
-    selectedAnswers = [];
-
-
-    document
-    .getElementById("testTitle")
-    .innerText =
-    subject + " Test";
-
-
-    document
-    .getElementById("testChapterName")
-    .innerText =
-    chapter;
-
-
-    showScreen("testScreen");
-
-
-    startTimer(time * 60);
-
-
-    renderQuestion();
-
-}
-
-
-/* =========================
-START PRACTICE
-========================= */
-
-function startPractice(){
-
-    const subject =
-        document
-        .getElementById("practiceSubject")
-        .value;
-
-    const chapter =
-        document
-        .getElementById("practiceChapter")
-        .value;
-
-    const topic =
-        document
-        .getElementById("practiceTopic")
-        .value;
-
-    const count =
-        Number(
-            document
-            .getElementById("practiceQuestionCount")
-            .value
-        );
-
-
-    if(!subject ||
-       !chapter ||
-       !topic){
-
-        alert(
-        "कृपया Subject, Chapter और Topic चुनें।"
-        );
-
-        return;
-
-    }
-
-
-    testQuestions =
-    generateSampleQuestions(
-        subject,
-        chapter,
-        count
-    );
-
-
-    currentQuestionIndex = 0;
-
-    selectedAnswers = [];
-
-
-    document
-    .getElementById("testTitle")
-    .innerText =
-    "Practice: " +
-    topic;
-
-
-    document
-    .getElementById("testChapterName")
-    .innerText =
-    chapter;
-
-
-    showScreen("testScreen");
-
-
-    renderQuestion();
-
-}
-
-
-/* =========================
-SAMPLE QUESTIONS
-========================= */
-
-function generateSampleQuestions(
-
-    subject,
-    chapter,
-    count
-
-){
-
-    let questions = [];
-
-
-    const mathQuestion = {
-
-        question:
-
-        "यदि 2 + 3 का मान ज्ञात करें।",
-
-        options:[
-
-            "4",
-
-            "5",
-
-            "6",
-
-            "7"
-
-        ],
-
-        answer:1
-
-    };
-
-
-    const scienceQuestion = {
-
-        question:
-
-        "बल की SI इकाई क्या है?",
-
-        options:[
-
-            "Newton",
-
-            "Joule",
-
-            "Watt",
-
-            "Volt"
-
-        ],
-
-        answer:0
-
-    };
-
-
-    const generalQuestion = {
-
-        question:
-
-        chapter +
-        " से संबंधित सही उत्तर चुनें।",
-
-        options:[
-
-            "Option 1",
-
-            "Option 2",
-
-            "Option 3",
-
-            "Option 4"
-
-        ],
-
-        answer:0
-
-    };
-
-
-    for(let i=0;i<count;i++){
-
-        let question;
-
-
-        if(subject==="Mathematics"){
-
-            question =
-            JSON.parse(
-                JSON.stringify(mathQuestion)
-            );
-
-        }
-
-        else if(
-            subject==="Science" ||
-            subject==="Physics"
-        ){
-
-            question =
-            JSON.parse(
-                JSON.stringify(scienceQuestion)
-            );
-
-        }
-
-        else{
-
-            question =
-            JSON.parse(
-                JSON.stringify(generalQuestion)
-            );
-
-        }
-
-
-        questions.push(question);
-
-    }
-
-
-    return questions;
-
-}
-
-
-/* =========================
-RENDER QUESTION
-========================= */
-
-function renderQuestion(){
-
-    const question =
-        testQuestions[
-            currentQuestionIndex
-        ];
-
-
-    const container =
-        document
-        .getElementById("questionContainer");
-
-
-    let html =
-
-    '<div class="question-number">' +
-
-    'Question ' +
-
-    (currentQuestionIndex + 1) +
-
-    ' of ' +
-
-    testQuestions.length +
-
-    '</div>';
-
-
-    html +=
-
-    '<div class="question">' +
-
-    question.question +
-
-    '</div>';
-
-
-    question.options
-    .forEach((option,index)=>{
-
-        const selected =
-
-        selectedAnswers[
-            currentQuestionIndex
-        ]===index
-
-        ?"selected":"";
-
-
-        html +=
-
-        '<button class="option ' +
-
-        selected +
-
-        '" onclick="selectAnswer(' +
-
-        index +
-
-        ')">' +
-
-        option +
-
-        '</button>';
-
-    });
-
-
-    container.innerHTML = html;
-
-
-    const nextBtn =
-        document
-        .getElementById("nextQuestionBtn");
-
-
-    if(
-        currentQuestionIndex ===
-        testQuestions.length-1
-    ){
-
-        nextBtn.innerText =
-        "Submit Test";
-
-    }
-
-    else{
-
-        nextBtn.innerText =
-        "Next Question";
-
-    }
-
-}
-
-
-/* =========================
-SELECT ANSWER
-========================= */
-
-function selectAnswer(index){
-
-    selectedAnswers[
-        currentQuestionIndex
-    ] = index;
-
-
-    renderQuestion();
-
-}
-
-
-/* =========================
-NEXT QUESTION
-========================= */
-
-function nextQuestion(){
-
-    if(
-
-        selectedAnswers[
-            currentQuestionIndex
-        ]===undefined
-
-    ){
-
-        alert("पहले एक Answer चुनें।");
-
-        return;
-
-    }
-
-
-    if(
-
-        currentQuestionIndex <
-
-        testQuestions.length - 1
-
-    ){
-
-        currentQuestionIndex++;
-
-        renderQuestion();
-
-    }
-
-    else{
-
-        finishTest();
-
-    }
-
-}
-
-
-/* =========================
-TIMER
-========================= */
-
-function startTimer(seconds){
-
-    clearInterval(timerInterval);
-
-
-    let timeLeft = seconds;
-
-
-    timerInterval =
-    setInterval(()=>{
-
-        const minutes =
-        Math.floor(timeLeft / 60);
-
-
-        const secondsLeft =
-        timeLeft % 60;
-
-
-        const display =
-
-        String(minutes).padStart(2,"0")
-
-        +
-
-        ":"
-
-        +
-
-        String(secondsLeft).padStart(2,"0");
-
-
-        const timer =
-        document.getElementById("timer");
-
-
-        if(timer){
-
-            timer.innerText = display;
-
-        }
-
-
-        if(timeLeft <= 0){
-
-            clearInterval(timerInterval);
-
-            finishTest();
-
-        }
-
-
-        timeLeft--;
-
-    },1000);
-
-}
-
-
-/* =========================
-FINISH TEST
-========================= */
-
-function finishTest(){
-
-    clearInterval(timerInterval);
-
-
-    let correct = 0;
-
-
-    testQuestions
-    .forEach((question,index)=>{
-
-        if(
-
-            selectedAnswers[index]
-
-            ===
-
-            question.answer
-
-        ){
-
-            correct++;
-
-        }
-
-    });
-
-
-    const percentage =
-
-    Math.round(
-
-        correct /
-
-        testQuestions.length
-
-        *
-
-        100
-
-    );
-
-
-    const result = {
-
-        score:correct,
-
-        total:testQuestions.length,
-
-        percentage:percentage,
-
-        date:new Date().toLocaleDateString()
-
-    };
-
-
-    testResults.push(result);
-
-
-    localStorage.setItem(
-
-        "examosResults",
-
-        JSON.stringify(testResults)
-
-    );
-
-
-    document
-    .getElementById("finalScore")
-    .innerText =
-
-    correct +
-
-    "/" +
-
-    testQuestions.length;
-
-
-    document
-    .getElementById("percentageScore")
-    .innerText =
-
-    percentage +
-
-    "%";
-
-
-    let performance = "";
-
-
-    if(percentage >= 80){
-
-        performance =
-        "बहुत अच्छा! आपकी performance शानदार है।";
-
-    }
-
-    else if(percentage >= 50){
-
-        performance =
-        "अच्छी performance है, लेकिन कुछ topics पर और Practice करें।";
-
-    }
-
-    else{
-
-        performance =
-        "इस Chapter को दोबारा पढ़कर Practice करने की जरूरत है।";
-
-    }
-
-
-    document
-    .getElementById("performanceText")
-    .innerText =
-    performance;
-
-
-    document
-    .getElementById("weakTopicText")
-    .innerText =
-
-    percentage < 60
-
-    ?
-
-    "इस Test के selected Chapter में आपको और Practice करनी चाहिए।"
-
-    :
-
-    "अभी आपकी performance अच्छी है।";
-
-
-    document
-    .getElementById("aiSuggestion")
-    .innerText =
-
-    percentage < 60
-
-    ?
-
-    "पहले Concept को समझें, फिर आसान Questions से Practice शुरू करें।"
-
-    :
-
-    "अब Medium और Hard level Questions की Practice करें।";
-
-
-    updateHomeStats();
-
-
-    showScreen("resultScreen");
-
-}
-
-
-/* =========================
-RESULT DATA
-========================= */
-
-function loadResults(){
-
-    const savedResults =
-
-    localStorage.getItem(
-        "examosResults"
-    );
-
-
-    if(savedResults){
-
-        testResults =
-        JSON.parse(savedResults);
-
-    }
-
-}
-
-
-function updateHomeStats(){
-
-    document
-    .getElementById("testCount")
-    .innerText =
-    testResults.length;
-
-
-    if(testResults.length === 0){
-
-        document
-        .getElementById("accuracy")
-        .innerText =
-        "0%";
-
-        return;
-
-    }
-
-
-    let total = 0;
-
-
-    testResults
-    .forEach(result=>{
-
-        total +=
-        result.percentage;
-
-    });
-
-
-    const average =
-    Math.round(
-
-        total /
-
-        testResults.length
-
-    );
-
-
-    document
-    .getElementById("accuracy")
-    .innerText =
-    average + "%";
-
-}
-
-
-/* =========================
-ANALYSIS
-========================= */
-
-function openAnalysis(){
-
-    showScreen("analysisScreen");
-
-
-    if(testResults.length===0){
-
-        return;
-
-    }
-
-
-    let total = 0;
-
-
-    testResults
-    .forEach(result=>{
-
-        total +=
-        result.percentage;
-
-    });
-
-
-    const average =
-    Math.round(
-        total /
-        testResults.length
-    );
-
-
-    document
-    .getElementById("overallPerformance")
-    .innerText =
-
-    "आपने " +
-
-    testResults.length +
-
-    " Test पूरे किए हैं। आपकी average accuracy " +
-
-    average +
-
-    "% है।";
-
-
-    let recommendation;
-
-
-    if(average < 50){
-
-        recommendation =
-        "आपको पहले Concepts मजबूत करने और आसान Practice से शुरुआत करने की सलाह दी जाती है।";
-
-    }
-
-    else if(average < 80){
-
-        recommendation =
-        "आपकी तैयारी अच्छी है। अब कमजोर Chapters को पहचानकर नियमित Practice करें।";
-
-    }
-
-    else{
-
-        recommendation =
-        "आपकी performance बहुत अच्छी है। अब कठिन और advanced Questions पर ध्यान दें।";
-
-    }
-
-
-    document
-    .getElementById("personalRecommendation")
-    .innerText =
-    recommendation;
-
-}
-
-
-/* =========================
-RESULT PRACTICE
-========================= */
-
-function openPracticeFromResult(){
-
-    openPracticeFlow();
-
-}
-
-
-/* =========================
-ASK AI
-========================= */
-
-function openAskAI(){
-
-    showScreen("askAIScreen");
-
-}
-
-
-/* =========================
-SEND MESSAGE
-========================= */
-
-async function sendMessage(){
-
-    const input =
-        document.getElementById("chatInput");
-
-
-    const prompt =
-        input.value.trim();
-
-
-    if(!prompt){
-
-        return;
-
-    }
-
-
-    addMessage(
-
-        prompt,
-
-        "user-message"
-
-    );
-
-
-    input.value = "";
-
-
-    const loading =
-    addMessage(
-
-        "EXAMOS AI सोच रहा है...",
-
-        "ai-message"
-
-    );
-
-
-    try{
-
-
-        /*
-        VERCEL API ENDPOINT
-
-        तुम्हारा backend
-        /api/ask-ai.js
-        होने पर यह काम करेगा।
-        */
-
-
-        const response =
-        await fetch(
-
-            "/api/ask-ai",
-
-            {
-
-                method:"POST",
-
-                headers:{
-
-                    "Content-Type":
-                    "application/json"
-
-                },
-
-                body:
-                JSON.stringify({
-
-                    prompt:prompt
-
-                })
-
-            }
-
-        );
-
-
-        const data =
-        await response.json();
-
-
-        loading.remove();
-
-
-        if(!response.ok){
-
-            throw new Error(
-
-                data.error ||
-                "AI Error"
-
-            );
-
-        }
-
-
-        addMessage(
-
-            data.answer,
-
-            "ai-message"
-
-        );
-
-
-    }
-
-    catch(error){
-
-
-        loading.remove();
-
-
-        addMessage(
-
-            "AI से connection में समस्या हुई। कृपया दोबारा कोशिश करें।",
-
-            "ai-message"
-
-        );
-
-
-        console.error(error);
-
-    }
-
-}
-
-
-/* =========================
-ADD MESSAGE
-========================= */
-
-function addMessage(
-
-    text,
-
-    className
-
-){
-
-    const messages =
-        document
-        .getElementById("chatMessages");
-
-
-    const message =
-        document
-        .createElement("div");
-
-
-    message.className =
-        "message " +
-        className;
-
-
-    message.innerText =
-        text;
-
-
-    messages.appendChild(
-        message
-    );
-
-
-    messages.scrollTop =
-        messages.scrollHeight;
-
-
-    return message;
-
-}
-
-
-/* =========================
-INITIAL LOAD
+   APP START
 ========================= */
 
 window.onload = function(){
 
-    const profile =
-        localStorage.getItem(
-            "examosProfile"
-        );
+const savedStudent =
+localStorage.getItem("examosStudent");
 
+if(savedStudent){
 
-    if(profile){
+student =
+JSON.parse(savedStudent);
 
-        studentProfile =
-        JSON.parse(profile);
+updateStudentUI();
 
-        loadResults();
+goHome();
 
-    }
+}else{
+
+showPage("setupPage");
+
+}
+
+updateProgressUI();
 
 };
+
+
+/* =========================
+   PAGE CONTROL
+========================= */
+
+function showPage(pageId){
+
+document
+.querySelectorAll(".page")
+.forEach(page=>{
+
+page.classList.remove("active");
+
+});
+
+const page =
+document.getElementById(pageId);
+
+if(page){
+
+page.classList.add("active");
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+updateNav(pageId);
+
+}
+
+
+function updateNav(pageId){
+
+document
+.querySelectorAll(".nav-btn")
+.forEach(btn=>{
+
+btn.classList.remove("active");
+
+if(
+btn.dataset.page === pageId
+){
+
+btn.classList.add("active");
+
+}
+
+});
+
+}
+
+
+/* =========================
+   STUDENT PROFILE
+========================= */
+
+function updateStreamVisibility(){
+
+const studentClass =
+document
+.getElementById("studentClass")
+.value;
+
+const streamBox =
+document
+.getElementById("streamBox");
+
+if(
+studentClass === "11" ||
+studentClass === "12"
+){
+
+streamBox.classList.remove("hidden");
+
+}else{
+
+streamBox.classList.add("hidden");
+
+}
+
+}
+
+
+function saveStudentProfile(){
+
+const name =
+document
+.getElementById("studentName")
+.value
+.trim();
+
+const studentClass =
+document
+.getElementById("studentClass")
+.value;
+
+const board =
+document
+.getElementById("studentBoard")
+.value;
+
+const stream =
+document
+.getElementById("studentStream")
+.value;
+
+
+if(
+!name ||
+!studentClass ||
+!board
+){
+
+alert(
+"कृपया नाम, Class और Board भरें।"
+);
+
+return;
+
+}
+
+
+if(
+(studentClass === "11" ||
+studentClass === "12")
+&& !stream
+){
+
+alert(
+"कृपया Stream चुनें।"
+);
+
+return;
+
+}
+
+
+student = {
+
+name:name,
+
+class:studentClass,
+
+board:board,
+
+stream:
+(studentClass === "9" ||
+studentClass === "10")
+? "common"
+: stream
+
+};
+
+
+localStorage.setItem(
+"examosStudent",
+JSON.stringify(student)
+);
+
+
+updateStudentUI();
+
+goHome();
+
+}
+
+
+function updateStudentUI(){
+
+if(!student)
+return;
+
+
+document
+.getElementById("headerName")
+.textContent =
+student.name;
+
+
+document
+.getElementById("profileInitial")
+.textContent =
+student.name
+.charAt(0)
+.toUpperCase();
+
+
+document
+.getElementById("welcomeText")
+.textContent =
+"नमस्ते " +
+student.name +
+" 👋";
+
+
+let streamText =
+student.stream === "common"
+? ""
+: " • " + student.stream;
+
+
+document
+.getElementById("studentInfo")
+.textContent =
+
+"Class " +
+student.class +
+" • " +
+student.board +
+streamText;
+
+}
+
+
+/* =========================
+   SETTINGS
+========================= */
+
+function editProfile(){
+
+showPage("settingsPage");
+
+
+document
+.getElementById("editName")
+.value =
+student.name;
+
+
+document
+.getElementById("editClass")
+.value =
+student.class;
+
+
+document
+.getElementById("editBoard")
+.value =
+student.board;
+
+
+document
+.getElementById("editStream")
+.value =
+
+student.stream === "common"
+? ""
+: student.stream;
+
+
+updateEditStream();
+
+}
+
+
+function updateEditStream(){
+
+const value =
+document
+.getElementById("editClass")
+.value;
+
+
+const box =
+document
+.getElementById("editStreamBox");
+
+
+if(
+value === "11" ||
+value === "12"
+){
+
+box.classList.remove("hidden");
+
+}else{
+
+box.classList.add("hidden");
+
+}
+
+}
+
+
+function updateStudentProfile(){
+
+const name =
+document
+.getElementById("editName")
+.value
+.trim();
+
+const studentClass =
+document
+.getElementById("editClass")
+.value;
+
+const board =
+document
+.getElementById("editBoard")
+.value;
+
+const stream =
+document
+.getElementById("editStream")
+.value;
+
+
+if(!name){
+
+alert(
+"नाम भरें।"
+);
+
+return;
+
+}
+
+
+student = {
+
+name:name,
+
+class:studentClass,
+
+board:board,
+
+stream:
+
+(
+studentClass === "9" ||
+studentClass === "10"
+)
+
+? "common"
+
+: stream
+
+};
+
+
+localStorage.setItem(
+"examosStudent",
+JSON.stringify(student)
+);
+
+
+updateStudentUI();
+
+
+alert(
+"Student profile update हो गया।"
+);
+
+
+goHome();
+
+}
+
+
+function resetStudentData(){
+
+const confirmReset =
+confirm(
+"क्या आप सच में student data reset करना चाहते हैं?"
+);
+
+
+if(!confirmReset)
+return;
+
+
+localStorage.removeItem(
+"examosStudent"
+);
+
+
+localStorage.removeItem(
+"examosProgress"
+);
+
+
+student = null;
+
+
+showPage(
+"setupPage"
+);
+
+}
+
+
+/* =========================
+   SUBJECT DATA
+========================= */
+
+function getSubjects(){
+
+if(!student)
+return [];
+
+
+const classData =
+syllabus[
+student.class
+];
+
+
+if(!classData)
+return [];
+
+
+let subjects = [];
+
+
+if(
+classData.common
+){
+
+subjects =
+subjects.concat(
+Object.keys(
+classData.common
+)
+);
+
+}
+
+
+if(
+student.stream !== "common"
+&&
+classData[
+student.stream
+]
+){
+
+subjects =
+subjects.concat(
+Object.keys(
+classData[
+student.stream
+]
+)
+);
+
+}
+
+
+return [...new Set(subjects)];
+
+}
+
+
+function getChapters(subject){
+
+const classData =
+syllabus[
+student.class
+];
+
+
+let chapters = [];
+
+
+if(
+classData.common &&
+classData.common[subject]
+){
+
+chapters =
+chapters.concat(
+classData.common[subject]
+);
+
+}
+
+
+if(
+student.stream !== "common"
+&&
+classData[
+student.stream
+]
+&&
+classData[
+student.stream
+][subject]
+){
+
+chapters =
+chapters.concat(
+
+classData[
+student.stream
+][subject]
+
+);
+
+}
+
+
+return chapters;
+
+}
+
+
+/* =========================
+   TEST FLOW
+========================= */
+
+let selectedTestSubject = "";
+let selectedTestChapter = "";
+
+
+function openTest(){
+
+if(!student){
+
+showPage(
+"setupPage"
+);
+
+return;
+
+}
+
+
+showPage(
+"testPage"
+);
+
+
+document
+.getElementById("testStudentInfo")
+.textContent =
+
+"Class " +
+student.class +
+" • " +
+student.board +
+(
+student.stream !== "common"
+? " • " + student.stream
+: ""
+);
+
+
+document
+.getElementById("testSubjectStep")
+.classList.remove("hidden");
+
+
+document
+.getElementById("testChapterStep")
+.classList.add("hidden");
+
+
+document
+.getElementById("testConfigStep")
+.classList.add("hidden");
+
+
+renderTestSubjects();
+
+}
+
+
+function renderTestSubjects(){
+
+const container =
+document
+.getElementById("subjectOptions");
+
+
+container.innerHTML = "";
+
+
+const subjects =
+getSubjects();
+
+
+subjects.forEach(subject=>{
+
+const button =
+document.createElement("div");
+
+
+button.className =
+"option";
+
+
+button.innerHTML =
+"<h4>" +
+subject +
+"</h4><p>Test शुरू करें</p>";
+
+
+button.onclick =
+()=>{
+
+selectedTestSubject =
+subject;
+
+openTestChapters();
+
+};
+
+
+container.appendChild(
+button
+);
+
+});
+
+}
+
+
+function openTestChapters(){
+
+document
+.getElementById("testSubjectStep")
+.classList.add("hidden");
+
+
+document
+.getElementById("testChapterStep")
+.classList.remove("hidden");
+
+
+const container =
+document
+.getElementById("chapterOptions");
+
+
+container.innerHTML = "";
+
+
+const chapters =
+getChapters(
+selectedTestSubject
+);
+
+
+chapters.forEach(item=>{
+
+const button =
+document.createElement("div");
+
+
+button.className =
+"option";
+
+
+button.innerHTML =
+"<h4>" +
+item.chapter +
+"</h4><p>" +
+item.topics.length +
+" Topics</p>";
+
+
+button.onclick =
+()=>{
+
+selectedTestChapter =
+item.chapter;
+
+
+openTestConfig();
+
+};
+
+
+container.appendChild(
+button
+);
+
+});
+
+}
+
+
+function openTestConfig(){
+
+document
+.getElementById("testChapterStep")
+.classList.add("hidden");
+
+
+document
+.getElementById("testConfigStep")
+.classList.remove("hidden");
+
+}
+
+
+function backTestStep(step){
+
+if(step === 1){
+
+document
+.getElementById("testChapterStep")
+.classList.add("hidden");
+
+
+document
+.getElementById("testSubjectStep")
+.classList.remove("hidden");
+
+}
+
+
+if(step === 2){
+
+document
+.getElementById("testConfigStep")
+.classList.add("hidden");
+
+
+document
+.getElementById("testChapterStep")
+.classList.remove("hidden");
+
+}
+
+}
+
+
+/* =========================
+   TEST QUESTIONS
+========================= */
+
+let testQuestions = [];
+
+let currentQuestion = 0;
+
+let testAnswers = [];
+
+let testTimerInterval;
+
+let remainingSeconds = 0;
+
+
+function generateDemoQuestions(
+subject,
+chapter,
+count
+){
+
+const questions = [];
+
+
+for(
+let i = 1;
+i <= count;
+i++
+){
+
+let questionText =
+`(${subject} - ${chapter}) Practice Question ${i}`;
+
+
+let correctAnswer =
+Math.floor(
+Math.random()*4
+);
+
+
+questions.push({
+
+question:
+questionText,
+
+options:[
+
+"Option A",
+
+"Option B",
+
+"Option C",
+
+"Option D"
+
+],
+
+correct:
+correctAnswer
+
+});
+
+}
+
+
+return questions;
+
+}
+
+
+function startTest(){
+
+const count =
+parseInt(
+document
+.getElementById("testQuestionCount")
+.value
+);
+
+
+const minutes =
+parseInt(
+document
+.getElementById("testTime")
+.value
+);
+
+
+testQuestions =
+generateDemoQuestions(
+
+selectedTestSubject,
+
+selectedTestChapter,
+
+count
+
+);
+
+
+testAnswers =
+new Array(
+testQuestions.length
+).fill(null);
+
+
+currentQuestion = 0;
+
+
+remainingSeconds =
+minutes * 60;
+
+
+showPage(
+"testRunPage"
+);
+
+
+document
+.getElementById("testTitle")
+.textContent =
+
+selectedTestSubject +
+" • " +
+selectedTestChapter;
+
+
+renderTestQuestion();
+
+
+clearInterval(
+testTimerInterval
+);
+
+
+testTimerInterval =
+setInterval(
+updateTimer,
+1000
+);
+
+}
+
+
+function updateTimer(){
+
+const minutes =
+Math.floor(
+remainingSeconds / 60
+);
+
+
+const seconds =
+remainingSeconds % 60;
+
+
+document
+.getElementById("testTimer")
+.textContent =
+
+String(minutes)
+.padStart(2,"0")
+
++
+
+":"
+
++
+
+String(seconds)
+.padStart(2,"0");
+
+
+remainingSeconds--;
+
+
+if(
+remainingSeconds < 0
+){
+
+clearInterval(
+testTimerInterval
+);
+
+
+finishTest();
+
+}
+
+}
+
+
+function renderTestQuestion(){
+
+const question =
+testQuestions[
+currentQuestion
+];
+
+
+document
+.getElementById("questionNumber")
+.textContent =
+
+"Question " +
+(currentQuestion + 1);
+
+
+document
+.getElementById("testQuestionProgress")
+.textContent =
+
+"Question " +
+(currentQuestion + 1) +
+" of " +
+testQuestions.length;
+
+
+document
+.getElementById("questionText")
+.textContent =
+question.question;
+
+
+const container =
+document
+.getElementById("answerOptions");
+
+
+container.innerHTML = "";
+
+
+question.options.forEach(
+
+(option,index)=>{
+
+const button =
+document.createElement("button");
+
+
+button.className =
+"answer-option";
+
+
+button.textContent =
+option;
+
+
+if(
+testAnswers[
+currentQuestion
+] === index
+){
+
+button.classList.add(
+"selected"
+);
+
+}
+
+
+button.onclick =
+()=>{
+
+testAnswers[
+currentQuestion
+] = index;
+
+
+renderTestQuestion();
+
+};
+
+
+container.appendChild(
+button
+);
+
+}
+
+);
+
+
+document
+.getElementById("nextQuestionBtn")
+.textContent =
+
+currentQuestion ===
+testQuestions.length - 1
+
+?
+
+"Finish Test"
+
+:
+
+"Next Question";
+
+}
+
+
+function nextQuestion(){
+
+if(
+
+testAnswers[
+currentQuestion
+] === null
+
+){
+
+alert(
+"कृपया एक answer चुनें।"
+);
+
+return;
+
+}
+
+
+if(
+
+currentQuestion <
+testQuestions.length - 1
+
+){
+
+currentQuestion++;
+
+
+renderTestQuestion();
+
+}else{
+
+finishTest();
+
+}
+
+}
+
+
+function finishTest(){
+
+clearInterval(
+testTimerInterval
+);
+
+
+let correct = 0;
+
+
+testQuestions.forEach(
+(question,index)=>{
+
+if(
+
+testAnswers[index]
+=== question.correct
+
+){
+
+correct++;
+
+}
+
+}
+);
+
+
+const percentage =
+Math.round(
+
+(
+correct /
+testQuestions.length
+)
+
+* 100
+
+);
+
+
+const wrong =
+testQuestions.length -
+correct;
+
+
+window.currentTestResult = {
+
+subject:
+selectedTestSubject,
+
+chapter:
+selectedTestChapter,
+
+correct:
+correct,
+
+wrong:
+wrong,
+
+total:
+testQuestions.length,
+
+percentage:
+percentage
+
+};
+
+
+document
+.getElementById("resultScore")
+.textContent =
+percentage + "%";
+
+
+document
+.getElementById("resultSummary")
+.innerHTML =
+
+"<p><strong>Correct:</strong> " +
+correct +
+"</p>"
+
++
+
+"<p><strong>Wrong:</strong> " +
+wrong +
+"</p>"
+
++
+
+"<p><strong>Subject:</strong> " +
+selectedTestSubject +
+"</p>"
+
++
+
+"<p><strong>Chapter:</strong> " +
+selectedTestChapter +
+"</p>";
+
+
+showPage(
+"resultPage"
+);
+
+}
+
+
+/* =========================
+   SAVE TEST ANALYSIS
+========================= */
+
+function saveTestAndAnalyze(){
+
+if(
+!window.currentTestResult
+)
+return;
+
+
+const progress =
+JSON.parse(
+
+localStorage.getItem(
+"examosProgress"
+)
+
+||
+
+'{"tests":0,"practice":0,"scores":[]}'
+
+);
+
+
+progress.tests++;
+
+
+progress.scores.push(
+window.currentTestResult
+);
+
+
+localStorage.setItem(
+"examosProgress",
+JSON.stringify(progress)
+);
+
+
+updateProgressUI();
+
+
+showPage(
+"analysisPage"
+);
+
+
+loadAnalysis();
+
+}
+
+
+/* =========================
+   PRACTICE FLOW
+========================= */
+
+let selectedPracticeSubject = "";
+let selectedPracticeChapter = "";
+let selectedPracticeTopic = "";
+
+
+function openPractice(){
+
+showPage(
+"practicePage"
+);
+
+
+document
+.getElementById("practiceSubjectStep")
+.classList.remove("hidden");
+
+
+document
+.getElementById("practiceChapterStep")
+.classList.add("hidden");
+
+
+document
+.getElementById("practiceTopicStep")
+.classList.add("hidden");
+
+
+document
+.getElementById("practiceConfigStep")
+.classList.add("hidden");
+
+
+renderPracticeSubjects();
+
+}
+
+
+function renderPracticeSubjects(){
+
+const container =
+document
+.getElementById(
+"practiceSubjectOptions"
+);
+
+
+container.innerHTML = "";
+
+
+getSubjects()
+.forEach(subject=>{
+
+const div =
+document.createElement("div");
+
+
+div.className =
+"option";
+
+
+div.innerHTML =
+"<h4>" +
+subject +
+"</h4><p>Practice</p>";
+
+
+div.onclick =
+()=>{
+
+selectedPracticeSubject =
+subject;
+
+
+openPracticeChapters();
+
+};
+
+
+container.appendChild(
+div
+);
+
+});
+
+}
+
+
+function openPracticeChapters(){
+
+document
+.getElementById(
+"practiceSubjectStep"
+)
+.classList.add(
+"hidden"
+);
+
+
+document
+.getElementById(
+"practiceChapterStep"
+)
+.classList.remove(
+"hidden"
+);
+
+
+const container =
+document
+.getElementById(
+"practiceChapterOptions"
+);
+
+
+container.innerHTML = "";
+
+
+getChapters(
+selectedPracticeSubject
+)
+.forEach(item=>{
+
+const div =
+document.createElement("div");
+
+
+div.className =
+"option";
+
+
+div.innerHTML =
+"<h4>" +
+item.chapter +
+"</h4>";
+
+
+div.onclick =
+()=>{
+
+selectedPracticeChapter =
+item.chapter;
+
+
+openPracticeTopics(
+item
+);
+
+};
+
+
+container.appendChild(
+div
+);
+
+});
+
+}
+
+
+function openPracticeTopics(chapter){
+
+document
+.getElementById(
+"practiceChapterStep"
+)
+.classList.add(
+"hidden"
+);
+
+
+document
+.getElementById(
+"practiceTopicStep"
+)
+.classList.remove(
+"hidden"
+);
+
+
+const container =
+document
+.getElementById(
+"topicOptions"
+);
+
+
+container.innerHTML = "";
+
+
+chapter.topics
+.forEach(topic=>{
+
+const div =
+document.createElement("div");
+
+
+div.className =
+"topic-item";
+
+
+div.textContent =
+topic;
+
+
+div.onclick =
+()=>{
+
+document
+.querySelectorAll(
+".topic-item"
+)
+.forEach(item=>{
+
+item.classList.remove(
+"selected"
+);
+
+});
+
+
+div.classList.add(
+"selected"
+);
+
+
+selectedPracticeTopic =
+topic;
+
+
+setTimeout(
+openPracticeConfig,
+250
+);
+
+};
+
+
+container.appendChild(
+div
+);
+
+});
+
+}
+
+
+function openPracticeConfig(){
+
+document
+.getElementById(
+"practiceTopicStep"
+)
+.classList.add(
+"hidden"
+);
+
+
+document
+.getElementById(
+"practiceConfigStep"
+)
+.classList.remove(
+"hidden"
+);
+
+}
+
+
+function backPractice(step){
+
+if(step === 1){
+
+document
+.getElementById(
+"practiceChapterStep"
+)
+.classList.add(
+"hidden"
+);
+
+
+document
+.getElementById(
+"practiceSubjectStep"
+)
+.classList.remove(
+"hidden"
+);
+
+}
+
+
+if(step === 2){
+
+document
+.getElementById(
+"practiceTopicStep"
+)
+.classList.add(
+"hidden"
+);
+
+
+document
+.getElementById(
+"practiceChapterStep"
+)
+.classList.remove(
+"hidden"
+);
+
+}
+
+
+if(step === 3){
+
+document
+.getElementById(
+"practiceConfigStep"
+)
+.classList.add(
+"hidden"
+);
+
+
+document
+.getElementById(
+"practiceTopicStep"
+)
+.classList.remove(
+"hidden"
+);
+
+}
+
+}
+
+
+/* =========================
+   PRACTICE RUN
+========================= */
+
+let practiceQuestions = [];
+
+let practiceIndex = 0;
+
+
+function startPractice(){
+
+const count =
+parseInt(
+
+document
+.getElementById(
+"practiceQuestionCount"
+)
+.value
+
+);
+
+
+practiceQuestions =
+generateDemoQuestions(
+
+selectedPracticeSubject,
+
+selectedPracticeTopic,
+
+count
+
+);
+
+
+practiceIndex = 0;
+
+
+showPage(
+"practiceRunPage"
+);
+
+
+document
+.getElementById(
+"practiceTitle"
+)
+.textContent =
+
+selectedPracticeSubject +
+" Practice";
+
+
+document
+.getElementById(
+"practiceSubtitle"
+)
+.textContent =
+
+selectedPracticeChapter +
+" • " +
+selectedPracticeTopic;
+
+
+renderPracticeQuestion();
+
+}
+
+
+function renderPracticeQuestion(){
+
+if(
+
+practiceIndex >=
+practiceQuestions.length
+
+){
+
+finishPractice();
+
+return;
+
+}
+
+
+const question =
+practiceQuestions[
+practiceIndex
+];
+
+
+document
+.getElementById(
+"practiceQuestionNumber"
+)
+.textContent =
+
+"Question " +
+(practiceIndex + 1) +
+" of " +
+practiceQuestions.length;
+
+
+document
+.getElementById(
+"practiceQuestionText"
+)
+.textContent =
+question.question;
+
+
+const container =
+document
+.getElementById(
+"practiceAnswerOptions"
+);
+
+
+container.innerHTML = "";
+
+
+question.options
+.forEach(option=>{
+
+const button =
+document.createElement(
+"button"
+);
+
+
+button.className =
+"answer-option";
+
+
+button.textContent =
+option;
+
+
+button.onclick =
+()=>{
+
+button.classList.add(
+"selected"
+);
+
+};
+
+
+container.appendChild(
+button
+);
+
+});
+
+}
+
+
+function nextPracticeQuestion(){
+
+practiceIndex++;
+
+
+renderPracticeQuestion();
+
+}
+
+
+function finishPractice(){
+
+const progress =
+JSON.parse(
+
+localStorage.getItem(
+"examosProgress"
+)
+
+||
+
+'{"tests":0,"practice":0,"scores":[]}'
+
+);
+
+
+progress.practice++;
+
+
+localStorage.setItem(
+"examosProgress",
+JSON.stringify(progress)
+);
+
+
+updateProgressUI();
+
+
+alert(
+"Practice session completed! 🎉"
+);
+
+
+goHome();
+
+}
+
+
+/* =========================
+   ANALYSIS
+========================= */
+
+function openAnalysis(){
+
+showPage(
+"analysisPage"
+);
+
+
+loadAnalysis();
+
+}
+
+
+function loadAnalysis(){
+
+const progress =
+JSON.parse(
+
+localStorage.getItem(
+"examosProgress"
+)
+
+||
+
+'{"tests":0,"practice":0,"scores":[]}'
+
+);
+
+
+if(
+
+progress.scores.length === 0
+
+){
+
+return;
+
+}
+
+
+const lastScore =
+progress.scores[
+progress.scores.length - 1
+];
+
+
+let performanceText;
+
+
+if(
+lastScore.percentage >= 80
+){
+
+performanceText =
+"बहुत अच्छा प्रदर्शन। अब advanced questions की practice करें।";
+
+}
+
+else if(
+lastScore.percentage >= 50
+){
+
+performanceText =
+"आपका प्रदर्शन ठीक है। कमजोर topics पर ज्यादा practice करें।";
+
+}
+
+else{
+
+performanceText =
+"इस chapter के concepts को दोबारा पढ़ें और आसान questions से practice शुरू करें।";
+
+}
+
+
+document
+.getElementById("weakTopics")
+.innerHTML =
+
+"<strong>" +
+lastScore.chapter +
+"</strong><br>" +
+
+"इस chapter में और practice की जरूरत है।";
+
+
+document
+.getElementById("mistakeAnalysis")
+.innerHTML =
+
+"आपके " +
+lastScore.wrong +
+" answers गलत हुए।<br><br>" +
+
+"संभावित areas:<br>" +
+
+"• Concept understanding<br>" +
+
+"• Calculation mistakes<br>" +
+
+"• Question reading";
+
+
+document
+.getElementById("recommendedPractice")
+.innerHTML =
+
+"<strong>" +
+lastScore.subject +
+"</strong><br>" +
+
+lastScore.chapter +
+" के topics की practice करें।";
+
+
+document
+.getElementById("improvementAdvice")
+.innerHTML =
+performanceText;
+
+}
+
+
+/* =========================
+   PROGRESS
+========================= */
+
+function openProgress(){
+
+showPage(
+"progressPage"
+);
+
+
+updateProgressUI();
+
+}
+
+
+function updateProgressUI(){
+
+const progress =
+JSON.parse(
+
+localStorage.getItem(
+"examosProgress"
+)
+
+||
+
+'{"tests":0,"practice":0,"scores":[]}'
+
+);
+
+
+document
+.getElementById(
+"totalTests"
+)
+.textContent =
+progress.tests;
+
+
+document
+.getElementById(
+"totalPractice"
+)
+.textContent =
+progress.practice;
+
+
+document
+.getElementById(
+"progressTests"
+)
+.textContent =
+progress.tests;
+
+
+document
+.getElementById(
+"progressPractice"
+)
+.textContent =
+progress.practice;
+
+
+let average = 0;
+
+
+if(
+progress.scores.length
+){
+
+average =
+Math.round(
+
+progress.scores
+.reduce(
+(sum,item)=>
+sum + item.percentage,
+0
+)
+
+/
+
+progress.scores.length
+
+);
+
+}
+
+
+document
+.getElementById(
+"progressPercent"
+)
+.textContent =
+average + "%";
+
+
+document
+.getElementById(
+"overallProgressText"
+)
+.textContent =
+average + "%";
+
+
+document
+.getElementById(
+"overallProgressBar"
+)
+.style.width =
+average + "%";
+
+}
+
+
+/* =========================
+   ASK AI
+========================= */
+
+function openAskAI(){
+
+showPage(
+"askAIPage"
+);
+
+}
+
+
+function handleChatKey(event){
+
+if(
+
+event.key === "Enter"
+&&
+!event.shiftKey
+
+){
+
+event.preventDefault();
+
+askAI();
+
+}
+
+}
+
+
+function addMessage(
+text,
+type
+){
+
+const chatBox =
+document
+.getElementById(
+"chatBox"
+);
+
+
+const message =
+document.createElement(
+"div"
+);
+
+
+message.className =
+"message " + type;
+
+
+message.textContent =
+text;
+
+
+chatBox.appendChild(
+message
+);
+
+
+chatBox.scrollTop =
+chatBox.scrollHeight;
+
+
+return message;
+
+}
+
+
+async function askAI(){
+
+const input =
+document
+.getElementById(
+"aiPrompt"
+);
+
+
+const prompt =
+input.value.trim();
+
+
+if(!prompt)
+return;
+
+
+addMessage(
+prompt,
+"user"
+);
+
+
+input.value = "";
+
+
+const loading =
+document.createElement(
+"div"
+);
+
+
+loading.className =
+"message ai loading";
+
+
+loading.innerHTML =
+
+'<div class="loader"></div> AI सोच रहा है...';
+
+
+document
+.getElementById(
+"chatBox"
+)
+.appendChild(
+loading
+);
+
+
+const chatBox =
+document
+.getElementById(
+"chatBox"
+);
+
+
+chatBox.scrollTop =
+chatBox.scrollHeight;
+
+
+try{
+
+const response =
+await fetch(
+"/api/ask-ai",
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":
+"application/json"
+
+},
+
+body:
+JSON.stringify({
+
+prompt:prompt
+
+})
+
+}
+);
+
+
+const data =
+await response.json();
+
+
+loading.remove();
+
+
+if(
+!response.ok
+){
+
+throw new Error(
+
+data.error
+||
+
+"AI से जवाब नहीं मिला।"
+
+);
+
+}
+
+
+addMessage(
+
+data.answer,
+
+"ai"
+
+);
+
+}
+
+catch(error){
+
+loading.remove();
+
+
+addMessage(
+
+"माफ़ कीजिए, AI से connection नहीं हो पाया।\n\nError: " +
+error.message,
+
+"ai"
+
+);
+
+}
+
+}
+
+
+/* =========================
+   HOME
+========================= */
+
+function goHome(){
+
+if(!student){
+
+showPage(
+"setupPage"
+);
+
+return;
+
+}
+
+
+showPage(
+"homePage"
+);
+
+
+updateProgressUI();
+
+}
 
 </script>
 
 </body>
-
 </html>
