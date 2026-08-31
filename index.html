@@ -7,6 +7,7 @@
 <title>EXAMOS AI</title>
 
 <style>
+
 :root{
     --primary:#5b5cf0;
     --primary2:#7c3aed;
@@ -30,7 +31,6 @@
 body{
     background:var(--bg);
     color:var(--text);
-    min-height:100vh;
 }
 
 button,input,select,textarea{
@@ -48,25 +48,22 @@ button{
     min-height:100vh;
 }
 
+
 /* HEADER */
 
 .header{
     position:sticky;
     top:0;
     z-index:100;
-    background:rgba(255,255,255,.95);
-    backdrop-filter:blur(10px);
+    background:rgba(255,255,255,.96);
     border-bottom:1px solid var(--border);
 }
 
 .header-inner{
-    max-width:1200px;
-    margin:auto;
     padding:14px 20px;
     display:flex;
-    align-items:center;
     justify-content:space-between;
-    gap:15px;
+    align-items:center;
 }
 
 .logo{
@@ -84,29 +81,30 @@ button{
     display:grid;
     place-items:center;
     color:white;
+    font-size:21px;
     background:linear-gradient(135deg,var(--primary),var(--primary2));
-    font-size:22px;
 }
 
 .profile-mini{
     display:flex;
     align-items:center;
     gap:8px;
-    background:#f4f4ff;
-    padding:7px 12px;
+    background:#f2f2ff;
+    padding:6px 10px;
     border-radius:14px;
 }
 
 .profile-circle{
-    width:35px;
-    height:35px;
+    width:36px;
+    height:36px;
     border-radius:50%;
-    background:linear-gradient(135deg,#7c3aed,#ec4899);
-    color:white;
     display:grid;
     place-items:center;
+    color:white;
     font-weight:bold;
+    background:linear-gradient(135deg,#7c3aed,#ec4899);
 }
+
 
 /* MAIN */
 
@@ -125,6 +123,7 @@ main{
 }
 
 @keyframes fade{
+
     from{
         opacity:0;
         transform:translateY(8px);
@@ -134,7 +133,9 @@ main{
         opacity:1;
         transform:translateY(0);
     }
+
 }
+
 
 /* COMMON */
 
@@ -153,8 +154,8 @@ main{
 
 .section-subtitle{
     color:var(--muted);
-    font-size:14px;
     line-height:1.5;
+    font-size:14px;
     margin-bottom:20px;
 }
 
@@ -162,14 +163,9 @@ main{
     width:100%;
     padding:14px;
     border-radius:14px;
-    font-weight:700;
     color:white;
+    font-weight:700;
     background:linear-gradient(135deg,var(--primary),var(--primary2));
-    transition:.2s;
-}
-
-.btn:hover{
-    transform:translateY(-2px);
 }
 
 .btn.secondary{
@@ -181,10 +177,6 @@ main{
     background:linear-gradient(135deg,#10b981,#059669);
 }
 
-.btn.orange{
-    background:linear-gradient(135deg,#f59e0b,#ea580c);
-}
-
 .btn.red{
     background:#ef4444;
 }
@@ -194,7 +186,7 @@ main{
     gap:10px;
 }
 
-.btn-row .btn{
+.btn-row button{
     flex:1;
 }
 
@@ -206,23 +198,18 @@ main{
     display:block;
     margin-bottom:7px;
     font-size:14px;
-    font-weight:700;
+    font-weight:bold;
 }
 
 .input-group input,
 .input-group select,
 .input-group textarea{
     width:100%;
-    border:1px solid var(--border);
     padding:13px;
+    border:1px solid var(--border);
     border-radius:13px;
     outline:none;
     background:#fafbff;
-}
-
-.input-group textarea{
-    min-height:100px;
-    resize:vertical;
 }
 
 .input-group input:focus,
@@ -231,6 +218,17 @@ main{
     border-color:var(--primary);
 }
 
+.hidden{
+    display:none !important;
+}
+
+.empty{
+    text-align:center;
+    color:var(--muted);
+    padding:25px;
+}
+
+
 /* SETUP */
 
 .setup-box{
@@ -238,50 +236,50 @@ main{
     margin:30px auto;
 }
 
+
 /* HOME */
 
 .hero{
     color:white;
-    border-radius:25px;
     padding:25px;
-    background:linear-gradient(135deg,#5b5cf0,#7c3aed);
+    border-radius:25px;
     margin-bottom:20px;
+    background:linear-gradient(135deg,#5b5cf0,#7c3aed);
 }
 
 .hero h1{
-    font-size:26px;
     margin-bottom:8px;
 }
 
 .hero p{
     opacity:.9;
-    line-height:1.5;
 }
 
 .stats{
     display:grid;
     grid-template-columns:repeat(3,1fr);
     gap:12px;
-    margin-bottom:20px;
+    margin-bottom:22px;
 }
 
 .stat-card{
     background:white;
+    border:1px solid var(--border);
     border-radius:18px;
     padding:15px;
-    border:1px solid var(--border);
 }
 
 .stat-card span{
     display:block;
     color:var(--muted);
     font-size:12px;
-    margin-bottom:8px;
+    margin-bottom:7px;
 }
 
 .stat-card strong{
     font-size:20px;
 }
+
 
 .feature-grid{
     display:grid;
@@ -290,33 +288,30 @@ main{
 }
 
 .feature-card{
-    padding:18px;
     background:white;
     border:1px solid var(--border);
     border-radius:20px;
+    padding:18px;
     cursor:pointer;
-    transition:.2s;
 }
 
-.feature-card:hover{
-    transform:translateY(-3px);
-    box-shadow:0 10px 30px rgba(50,50,100,.08);
+.feature-card:active{
+    transform:scale(.98);
 }
 
 .feature-icon{
-    width:45px;
-    height:45px;
+    width:46px;
+    height:46px;
     display:grid;
     place-items:center;
-    border-radius:14px;
     font-size:22px;
-    margin-bottom:12px;
-    background:#f0f0ff;
+    background:#f1f1ff;
+    border-radius:14px;
+    margin-bottom:10px;
 }
 
 .feature-card h3{
-    margin-bottom:7px;
-    font-size:16px;
+    margin-bottom:6px;
 }
 
 .feature-card p{
@@ -325,23 +320,12 @@ main{
     line-height:1.4;
 }
 
+
 /* FLOW */
 
-.step-indicator{
-    display:flex;
-    gap:6px;
-    margin-bottom:20px;
-}
-
-.step{
-    flex:1;
-    height:6px;
-    border-radius:10px;
-    background:#e7e8f2;
-}
-
-.step.active{
-    background:var(--primary);
+.flow-box{
+    max-width:750px;
+    margin:auto;
 }
 
 .option-grid{
@@ -352,23 +336,21 @@ main{
 
 .option{
     padding:16px;
-    border:2px solid var(--border);
     background:white;
+    border:2px solid var(--border);
     border-radius:16px;
     cursor:pointer;
     text-align:center;
-    transition:.2s;
 }
 
 .option.selected{
     border-color:var(--primary);
     background:#f3f3ff;
     color:var(--primary);
-    font-weight:bold;
 }
 
 .option h4{
-    margin-bottom:6px;
+    margin-bottom:5px;
 }
 
 .option p{
@@ -376,21 +358,49 @@ main{
     color:var(--muted);
 }
 
-.flow-box{
-    max-width:700px;
-    margin:auto;
-}
-
 .selected-info{
-    padding:12px;
-    border-radius:14px;
     background:#f4f4ff;
     color:#4b4dc7;
+    padding:12px;
+    border-radius:13px;
     font-size:13px;
     margin-bottom:15px;
 }
 
+.step-indicator{
+    display:flex;
+    gap:6px;
+    margin-bottom:20px;
+}
+
+.step{
+    height:6px;
+    flex:1;
+    border-radius:10px;
+    background:#e7e8f2;
+}
+
+.step.active{
+    background:var(--primary);
+}
+
+
 /* TEST */
+
+.test-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+}
+
+.timer{
+    padding:9px 12px;
+    border-radius:12px;
+    background:#fff3e0;
+    color:#b45309;
+    font-weight:bold;
+}
 
 .question-card{
     margin-top:15px;
@@ -398,8 +408,8 @@ main{
 
 .question-number{
     color:var(--primary);
-    font-size:13px;
     font-weight:bold;
+    font-size:13px;
     margin-bottom:10px;
 }
 
@@ -413,31 +423,17 @@ main{
     width:100%;
     text-align:left;
     padding:14px;
-    border:1px solid var(--border);
     background:white;
+    border:1px solid var(--border);
     border-radius:13px;
     margin-bottom:10px;
 }
 
 .answer-option.selected{
-    border-color:var(--primary);
     background:#f2f2ff;
+    border-color:var(--primary);
 }
 
-.test-top{
-    display:flex;
-    justify-content:space-between;
-    gap:10px;
-    align-items:center;
-}
-
-.timer{
-    background:#fff3e0;
-    color:#b45309;
-    padding:10px;
-    border-radius:12px;
-    font-weight:bold;
-}
 
 /* PRACTICE */
 
@@ -448,79 +444,17 @@ main{
 
 .topic-item{
     padding:15px;
-    border:1px solid var(--border);
-    border-radius:15px;
-    cursor:pointer;
     background:white;
+    border:1px solid var(--border);
+    border-radius:14px;
+    cursor:pointer;
 }
 
 .topic-item.selected{
     border-color:var(--primary);
-    background:#f4f4ff;
+    background:#f3f3ff;
 }
 
-/* ASK AI */
-
-.ai-container{
-    max-width:800px;
-    margin:auto;
-}
-
-.chat-box{
-    min-height:430px;
-    background:white;
-    border:1px solid var(--border);
-    border-radius:22px;
-    padding:15px;
-    overflow:auto;
-    margin-bottom:15px;
-}
-
-.message{
-    max-width:85%;
-    padding:12px 15px;
-    margin-bottom:12px;
-    border-radius:17px;
-    line-height:1.5;
-    font-size:14px;
-    white-space:pre-wrap;
-}
-
-.message.user{
-    margin-left:auto;
-    background:linear-gradient(135deg,var(--primary),var(--primary2));
-    color:white;
-    border-bottom-right-radius:4px;
-}
-
-.message.ai{
-    background:#f3f4f8;
-    border-bottom-left-radius:4px;
-}
-
-.chat-input{
-    display:flex;
-    gap:10px;
-}
-
-.chat-input textarea{
-    flex:1;
-    min-height:52px;
-    max-height:130px;
-    padding:14px;
-    border:1px solid var(--border);
-    border-radius:15px;
-    resize:none;
-    outline:none;
-}
-
-.send-btn{
-    width:55px;
-    border-radius:15px;
-    background:var(--primary);
-    color:white;
-    font-size:20px;
-}
 
 /* ANALYSIS */
 
@@ -531,79 +465,91 @@ main{
 }
 
 .analysis-card{
-    padding:17px;
-    border-radius:18px;
     background:white;
     border:1px solid var(--border);
+    border-radius:18px;
+    padding:17px;
 }
 
 .analysis-card h3{
     margin-bottom:10px;
-    font-size:15px;
 }
 
 .progress-bar{
-    height:9px;
+    height:10px;
     background:#e8e9f1;
     border-radius:10px;
     overflow:hidden;
-    margin-top:8px;
 }
 
 .progress-fill{
     height:100%;
-    background:linear-gradient(90deg,var(--primary),#8b5cf6);
-    border-radius:10px;
+    background:linear-gradient(90deg,var(--primary),var(--primary2));
 }
 
-/* BOTTOM NAV */
 
-.bottom-nav{
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    background:white;
-    border-top:1px solid var(--border);
-    display:flex;
-    justify-content:center;
-    z-index:100;
-}
+/* CHAT */
 
-.nav-inner{
-    width:100%;
+.ai-container{
     max-width:800px;
+    margin:auto;
+}
+
+.chat-box{
+    min-height:420px;
+    max-height:600px;
+    overflow-y:auto;
+    background:white;
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:15px;
+    margin-bottom:15px;
+}
+
+.message{
+    max-width:85%;
+    padding:12px 15px;
+    border-radius:17px;
+    margin-bottom:12px;
+    line-height:1.5;
+    white-space:pre-wrap;
+    font-size:14px;
+}
+
+.message.user{
+    margin-left:auto;
+    color:white;
+    background:linear-gradient(135deg,var(--primary),var(--primary2));
+}
+
+.message.ai{
+    background:#f1f2f7;
+}
+
+.chat-input{
     display:flex;
-    justify-content:space-around;
-}
-
-.nav-btn{
-    background:transparent;
-    padding:12px 5px;
-    color:var(--muted);
-    font-size:11px;
-    flex:1;
-}
-
-.nav-btn span{
-    display:block;
-    font-size:20px;
-    margin-bottom:3px;
-}
-
-.nav-btn.active{
-    color:var(--primary);
-    font-weight:bold;
-}
-
-/* LOADING */
-
-.loading{
-    display:flex;
-    align-items:center;
     gap:10px;
-    color:var(--muted);
 }
+
+.chat-input textarea{
+    flex:1;
+    min-height:55px;
+    padding:13px;
+    border:1px solid var(--border);
+    border-radius:15px;
+    resize:none;
+}
+
+.send-btn{
+    width:58px;
+    color:white;
+    font-size:20px;
+    border-radius:15px;
+    background:var(--primary);
+}
+
+
+/* LOADER */
 
 .loader{
     width:20px;
@@ -620,15 +566,45 @@ main{
     }
 }
 
-.hidden{
-    display:none !important;
+
+/* NAV */
+
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background:white;
+    border-top:1px solid var(--border);
+    z-index:100;
 }
 
-.empty{
-    text-align:center;
-    color:var(--muted);
-    padding:30px 10px;
+.nav-inner{
+    max-width:850px;
+    margin:auto;
+    display:flex;
+    justify-content:space-around;
 }
+
+.nav-btn{
+    flex:1;
+    background:transparent;
+    padding:10px 4px;
+    color:var(--muted);
+    font-size:10px;
+}
+
+.nav-btn span{
+    display:block;
+    font-size:20px;
+    margin-bottom:3px;
+}
+
+.nav-btn.active{
+    color:var(--primary);
+    font-weight:bold;
+}
+
 
 /* MOBILE */
 
@@ -637,22 +613,6 @@ main{
     main{
         padding:15px;
         padding-bottom:90px;
-    }
-
-    .feature-grid{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .stats{
-        grid-template-columns:repeat(3,1fr);
-    }
-
-    .stat-card{
-        padding:12px;
-    }
-
-    .stat-card strong{
-        font-size:16px;
     }
 
     .option-grid{
@@ -666,6 +626,15 @@ main{
     .hero h1{
         font-size:22px;
     }
+
+    .stat-card{
+        padding:12px;
+    }
+
+    .stat-card strong{
+        font-size:16px;
+    }
+
 }
 
 </style>
@@ -675,22 +644,30 @@ main{
 
 <div class="app">
 
+
 <header class="header">
 
 <div class="header-inner">
 
 <div class="logo">
+
 <div class="logo-icon">E</div>
-<div>
-EXAMOS AI
-</div>
+
+<div>EXAMOS AI</div>
+
 </div>
 
+
 <div class="profile-mini">
-<div class="profile-circle" id="profileInitial">S</div>
-<div>
-<strong id="headerName">Student</strong>
+
+<div class="profile-circle" id="profileInitial">
+S
 </div>
+
+<strong id="headerName">
+Student
+</strong>
+
 </div>
 
 </div>
@@ -700,25 +677,29 @@ EXAMOS AI
 
 <main>
 
-<!-- SETUP PAGE -->
+
+<!-- ================= SETUP ================= -->
 
 <section class="page active" id="setupPage">
 
 <div class="setup-box card">
 
-<h1 class="section-title">EXAMOS AI में आपका स्वागत है</h1>
+<h1 class="section-title">
+EXAMOS AI में आपका स्वागत है
+</h1>
 
 <p class="section-subtitle">
-अपनी पढ़ाई को आपके अनुसार personalize करने के लिए नीचे जानकारी भरें।
+अपनी पढ़ाई को personalize करने के लिए अपनी जानकारी भरें।
 </p>
+
 
 <div class="input-group">
 
 <label>आपका नाम</label>
 
 <input
-type="text"
 id="studentName"
+type="text"
 placeholder="अपना नाम लिखें"
 >
 
@@ -727,18 +708,18 @@ placeholder="अपना नाम लिखें"
 
 <div class="input-group">
 
-<label>आपकी Class</label>
+<label>Class</label>
 
-<select id="studentClass" onchange="updateStreamVisibility()">
+<select
+id="studentClass"
+onchange="updateStreamVisibility()"
+>
 
 <option value="">Class चुनें</option>
 
 <option value="9">Class 9</option>
-
 <option value="10">Class 10</option>
-
 <option value="11">Class 11</option>
-
 <option value="12">Class 12</option>
 
 </select>
@@ -754,18 +735,27 @@ placeholder="अपना नाम लिखें"
 
 <option value="">Board चुनें</option>
 
-<option value="BSEB">Bihar Board (BSEB)</option>
+<option value="BSEB">
+Bihar Board (BSEB)
+</option>
 
-<option value="CBSE">CBSE</option>
+<option value="CBSE">
+CBSE
+</option>
 
-<option value="ICSE">ICSE</option>
+<option value="ICSE">
+ICSE
+</option>
 
 </select>
 
 </div>
 
 
-<div class="input-group hidden" id="streamBox">
+<div
+class="input-group hidden"
+id="streamBox"
+>
 
 <label>Stream</label>
 
@@ -774,9 +764,7 @@ placeholder="अपना नाम लिखें"
 <option value="">Stream चुनें</option>
 
 <option value="Science">Science</option>
-
 <option value="Commerce">Commerce</option>
-
 <option value="Arts">Arts</option>
 
 </select>
@@ -784,8 +772,13 @@ placeholder="अपना नाम लिखें"
 </div>
 
 
-<button class="btn" onclick="saveStudentProfile()">
+<button
+class="btn"
+onclick="saveStudentProfile()"
+>
+
 शुरू करें
+
 </button>
 
 </div>
@@ -794,7 +787,7 @@ placeholder="अपना नाम लिखें"
 
 
 
-<!-- HOME -->
+<!-- ================= HOME ================= -->
 
 <section class="page" id="homePage">
 
@@ -805,7 +798,7 @@ placeholder="अपना नाम लिखें"
 </h1>
 
 <p id="studentInfo">
-अपनी पढ़ाई को और बेहतर बनाने के लिए आज कुछ नया सीखें।
+आज अपनी पढ़ाई को बेहतर बनाइए।
 </p>
 
 </div>
@@ -817,23 +810,31 @@ placeholder="अपना नाम लिखें"
 
 <span>Tests</span>
 
-<strong id="totalTests">0</strong>
+<strong id="totalTests">
+0
+</strong>
 
 </div>
+
 
 <div class="stat-card">
 
 <span>Practice</span>
 
-<strong id="totalPractice">0</strong>
+<strong id="totalPractice">
+0
+</strong>
 
 </div>
+
 
 <div class="stat-card">
 
 <span>Progress</span>
 
-<strong id="progressPercent">0%</strong>
+<strong id="progressPercent">
+0%
+</strong>
 
 </div>
 
@@ -845,13 +846,17 @@ placeholder="अपना नाम लिखें"
 </h2>
 
 <p class="section-subtitle">
-EXAMOS AI आपके लिए personalized learning तैयार करता है।
+अपनी पढ़ाई के लिए कोई feature चुनें।
 </p>
 
 
 <div class="feature-grid">
 
-<div class="feature-card" onclick="openTest()">
+
+<div
+class="feature-card"
+onclick="openTest()"
+>
 
 <div class="feature-icon">
 📝
@@ -860,13 +865,17 @@ EXAMOS AI आपके लिए personalized learning तैयार करत
 <h3>Test</h3>
 
 <p>
-अपनी class और syllabus के अनुसार test दें।
+अपने syllabus के अनुसार test दें।
 </p>
 
 </div>
 
 
-<div class="feature-card" onclick="openPractice()">
+
+<div
+class="feature-card"
+onclick="openPractice()"
+>
 
 <div class="feature-icon">
 🎯
@@ -875,13 +884,17 @@ EXAMOS AI आपके लिए personalized learning तैयार करत
 <h3>Practice</h3>
 
 <p>
-Chapter और topic के अनुसार practice करें।
+Chapter और topic की practice करें।
 </p>
 
 </div>
 
 
-<div class="feature-card" onclick="openAnalysis()">
+
+<div
+class="feature-card"
+onclick="openAnalysis()"
+>
 
 <div class="feature-icon">
 📊
@@ -890,13 +903,17 @@ Chapter और topic के अनुसार practice करें।
 <h3>Analysis</h3>
 
 <p>
-अपनी गलतियों और weak topics को पहचानें।
+अपनी गलतियों को पहचानें।
 </p>
 
 </div>
 
 
-<div class="feature-card" onclick="openAskAI()">
+
+<div
+class="feature-card"
+onclick="openAskAI()"
+>
 
 <div class="feature-icon">
 🤖
@@ -905,13 +922,17 @@ Chapter और topic के अनुसार practice करें।
 <h3>Ask AI</h3>
 
 <p>
-किसी भी सवाल को आसान भाषा में समझें।
+कुछ भी पढ़ाई से जुड़ा पूछें।
 </p>
 
 </div>
 
 
-<div class="feature-card" onclick="openProgress()">
+
+<div
+class="feature-card"
+onclick="openProgress()"
+>
 
 <div class="feature-icon">
 📈
@@ -920,13 +941,17 @@ Chapter और topic के अनुसार practice करें।
 <h3>Progress</h3>
 
 <p>
-अपनी learning progress देखें।
+अपनी progress देखें।
 </p>
 
 </div>
 
 
-<div class="feature-card" onclick="editProfile()">
+
+<div
+class="feature-card"
+onclick="editProfile()"
+>
 
 <div class="feature-icon">
 ⚙️
@@ -935,10 +960,11 @@ Chapter और topic के अनुसार practice करें।
 <h3>Settings</h3>
 
 <p>
-अपनी class, board और जानकारी बदलें।
+अपनी जानकारी बदलें।
 </p>
 
 </div>
+
 
 </div>
 
@@ -946,7 +972,7 @@ Chapter और topic के अनुसार practice करें।
 
 
 
-<!-- TEST FLOW -->
+<!-- ================= TEST ================= -->
 
 <section class="page" id="testPage">
 
@@ -957,26 +983,26 @@ Create Test
 </h1>
 
 <p class="section-subtitle">
-आपकी Class, Board और Stream के अनुसार test तैयार होगा।
+आपकी profile के अनुसार subjects और chapters दिखेंगे।
 </p>
 
 
 <div class="step-indicator">
 
 <div class="step active"></div>
-
-<div class="step"></div>
-
-<div class="step"></div>
-
-<div class="step"></div>
-
-<div class="step"></div>
+<div class="step active"></div>
+<div class="step active"></div>
+<div class="step active"></div>
 
 </div>
 
 
-<div class="card" id="testSubjectStep">
+<!-- SUBJECT -->
+
+<div
+class="card"
+id="testSubjectStep"
+>
 
 <h3 class="section-title">
 Subject चुनें
@@ -984,20 +1010,23 @@ Subject चुनें
 
 <div
 class="selected-info"
-id="testStudentInfo">
-</div>
+id="testStudentInfo"
+></div>
 
 <div
 class="option-grid"
-id="subjectOptions">
-</div>
+id="subjectOptions"
+></div>
 
 </div>
 
+
+<!-- CHAPTER -->
 
 <div
 class="card hidden"
-id="testChapterStep">
+id="testChapterStep"
+>
 
 <h3 class="section-title">
 Chapter चुनें
@@ -1005,23 +1034,27 @@ Chapter चुनें
 
 <div
 class="option-grid"
-id="chapterOptions">
-</div>
+id="chapterOptions"
+></div>
 
 <br>
 
 <button
 class="btn secondary"
-onclick="backTestStep(1)">
+onclick="backTestStep(1)"
+>
 वापस
 </button>
 
 </div>
 
 
+<!-- CONFIG -->
+
 <div
 class="card hidden"
-id="testConfigStep">
+id="testConfigStep"
+>
 
 <h3 class="section-title">
 Test Settings
@@ -1035,18 +1068,9 @@ Test Settings
 <select id="testQuestionCount">
 
 <option value="5">5 Questions</option>
-
-<option value="10" selected>
-10 Questions
-</option>
-
-<option value="15">
-15 Questions
-</option>
-
-<option value="20">
-20 Questions
-</option>
+<option value="10" selected>10 Questions</option>
+<option value="15">15 Questions</option>
+<option value="20">20 Questions</option>
 
 </select>
 
@@ -1059,25 +1083,11 @@ Test Settings
 
 <select id="testTime">
 
-<option value="10">
-10 Minutes
-</option>
-
-<option value="20" selected>
-20 Minutes
-</option>
-
-<option value="30">
-30 Minutes
-</option>
-
-<option value="45">
-45 Minutes
-</option>
-
-<option value="60">
-60 Minutes
-</option>
+<option value="10">10 Minutes</option>
+<option value="20" selected>20 Minutes</option>
+<option value="30">30 Minutes</option>
+<option value="45">45 Minutes</option>
+<option value="60">60 Minutes</option>
 
 </select>
 
@@ -1107,13 +1117,15 @@ English
 
 <button
 class="btn secondary"
-onclick="backTestStep(2)">
+onclick="backTestStep(2)"
+>
 वापस
 </button>
 
 <button
 class="btn"
-onclick="startTest()">
+onclick="startTest()"
+>
 Start Test
 </button>
 
@@ -1127,9 +1139,12 @@ Start Test
 
 
 
-<!-- TEST RUN -->
+<!-- ================= TEST RUN ================= -->
 
-<section class="page" id="testRunPage">
+<section
+class="page"
+id="testRunPage"
+>
 
 <div class="flow-box">
 
@@ -1143,15 +1158,18 @@ Test
 
 <div
 style="font-size:12px;color:#73778d"
-id="testQuestionProgress">
-Question 1
+id="testQuestionProgress"
+>
+Question
 </div>
 
 </div>
+
 
 <div
 class="timer"
-id="testTimer">
+id="testTimer"
+>
 20:00
 </div>
 
@@ -1162,13 +1180,13 @@ id="testTimer">
 
 <div
 class="question-number"
-id="questionNumber">
-Question 1
-</div>
+id="questionNumber"
+></div>
 
 <div
 class="question-text"
-id="questionText">
+id="questionText"
+>
 Question loading...
 </div>
 
@@ -1178,7 +1196,8 @@ Question loading...
 <button
 class="btn"
 id="nextQuestionBtn"
-onclick="nextQuestion()">
+onclick="nextQuestion()"
+>
 Next Question
 </button>
 
@@ -1190,9 +1209,12 @@ Next Question
 
 
 
-<!-- TEST RESULT -->
+<!-- ================= RESULT ================= -->
 
-<section class="page" id="resultPage">
+<section
+class="page"
+id="resultPage"
+>
 
 <div class="flow-box">
 
@@ -1203,39 +1225,37 @@ Test Completed 🎉
 </h1>
 
 <p class="section-subtitle">
-यह आपका test performance है।
+आपका performance नीचे है।
 </p>
 
 
 <div
-style="font-size:38px;font-weight:bold;color:#5b5cf0;margin:20px 0"
-id="resultScore">
+id="resultScore"
+style="font-size:40px;font-weight:bold;color:#5b5cf0;margin:20px 0"
+>
 0%
 </div>
 
 
-<div
-id="resultSummary">
-</div>
-
+<div id="resultSummary"></div>
 
 <br>
 
 
 <button
 class="btn"
-onclick="saveTestAndAnalyze()">
-View AI Analysis
+onclick="saveTestAndAnalyze()"
+>
+View Analysis
 </button>
-
 
 <br><br>
 
-
 <button
 class="btn secondary"
-onclick="goHome()">
-Home जाएं
+onclick="goHome()"
+>
+Home
 </button>
 
 </div>
@@ -1246,9 +1266,12 @@ Home जाएं
 
 
 
-<!-- PRACTICE -->
+<!-- ================= PRACTICE ================= -->
 
-<section class="page" id="practicePage">
+<section
+class="page"
+id="practicePage"
+>
 
 <div class="flow-box">
 
@@ -1257,13 +1280,14 @@ Practice
 </h1>
 
 <p class="section-subtitle">
-अपने syllabus के अनुसार किसी chapter और topic पर practice करें।
+Subject, chapter और topic के अनुसार practice करें।
 </p>
 
 
 <div
 class="card"
-id="practiceSubjectStep">
+id="practiceSubjectStep"
+>
 
 <h3 class="section-title">
 Subject चुनें
@@ -1271,15 +1295,17 @@ Subject चुनें
 
 <div
 class="option-grid"
-id="practiceSubjectOptions">
-</div>
+id="practiceSubjectOptions"
+></div>
 
 </div>
+
 
 
 <div
 class="card hidden"
-id="practiceChapterStep">
+id="practiceChapterStep"
+>
 
 <h3 class="section-title">
 Chapter चुनें
@@ -1287,23 +1313,26 @@ Chapter चुनें
 
 <div
 class="option-grid"
-id="practiceChapterOptions">
-</div>
+id="practiceChapterOptions"
+></div>
 
 <br>
 
 <button
 class="btn secondary"
-onclick="backPractice(1)">
+onclick="backPractice(1)"
+>
 वापस
 </button>
 
 </div>
 
 
+
 <div
 class="card hidden"
-id="practiceTopicStep">
+id="practiceTopicStep"
+>
 
 <h3 class="section-title">
 Topic चुनें
@@ -1311,23 +1340,26 @@ Topic चुनें
 
 <div
 class="topic-list"
-id="topicOptions">
-</div>
+id="topicOptions"
+></div>
 
 <br>
 
 <button
 class="btn secondary"
-onclick="backPractice(2)">
+onclick="backPractice(2)"
+>
 वापस
 </button>
 
 </div>
 
 
+
 <div
 class="card hidden"
-id="practiceConfigStep">
+id="practiceConfigStep"
+>
 
 <h3 class="section-title">
 Practice Settings
@@ -1388,13 +1420,16 @@ Mixed
 
 <button
 class="btn secondary"
-onclick="backPractice(3)">
+onclick="backPractice(3)"
+>
 वापस
 </button>
 
+
 <button
 class="btn green"
-onclick="startPractice()">
+onclick="startPractice()"
+>
 Start Practice
 </button>
 
@@ -1408,9 +1443,12 @@ Start Practice
 
 
 
-<!-- PRACTICE RUN -->
+<!-- ================= PRACTICE RUN ================= -->
 
-<section class="page" id="practiceRunPage">
+<section
+class="page"
+id="practiceRunPage"
+>
 
 <div class="flow-box">
 
@@ -1422,32 +1460,31 @@ Practice
 
 <p
 class="section-subtitle"
-id="practiceSubtitle">
-</p>
+id="practiceSubtitle"
+></p>
 
 
 <div
 class="question-number"
-id="practiceQuestionNumber">
-Question 1
-</div>
+id="practiceQuestionNumber"
+></div>
 
 
 <div
 class="question-text"
-id="practiceQuestionText">
-Question
-</div>
+id="practiceQuestionText"
+></div>
 
 
 <div
-id="practiceAnswerOptions">
-</div>
+id="practiceAnswerOptions"
+></div>
 
 
 <button
 class="btn green"
-onclick="nextPracticeQuestion()">
+onclick="nextPracticeQuestion()"
+>
 Next Question
 </button>
 
@@ -1459,34 +1496,37 @@ Next Question
 
 
 
-<!-- ANALYSIS -->
+<!-- ================= ANALYSIS ================= -->
 
-<section class="page" id="analysisPage">
+<section
+class="page"
+id="analysisPage"
+>
 
 <h1 class="section-title">
 AI Analysis
 </h1>
 
 <p class="section-subtitle">
-EXAMOS AI आपकी performance देखकर improvement suggestions देगा।
+आपके tests के आधार पर आपकी performance।
 </p>
 
 
 <div class="analysis-grid">
 
+
 <div class="analysis-card">
 
 <h3>
-📉 Weak Topics
+📉 Weak Chapter
 </h3>
 
 <div id="weakTopics">
-
-अभी कोई test data उपलब्ध नहीं है।
-
+अभी कोई test data नहीं है।
 </div>
 
 </div>
+
 
 
 <div class="analysis-card">
@@ -1496,12 +1536,11 @@ EXAMOS AI आपकी performance देखकर improvement suggestions द�
 </h3>
 
 <div id="mistakeAnalysis">
-
-Test देने के बाद आपकी गलतियों का analysis यहां दिखेगा।
-
+Test के बाद आपकी mistakes दिखाई जाएंगी।
 </div>
 
 </div>
+
 
 
 <div class="analysis-card">
@@ -1511,12 +1550,11 @@ Test देने के बाद आपकी गलतियों का ana
 </h3>
 
 <div id="recommendedPractice">
-
-आपके performance के अनुसार practice recommend होगी।
-
+आपकी performance के अनुसार practice मिलेगी।
 </div>
 
 </div>
+
 
 
 <div class="analysis-card">
@@ -1526,22 +1564,20 @@ Test देने के बाद आपकी गलतियों का ana
 </h3>
 
 <div id="improvementAdvice">
-
-नियमित practice से आपकी progress यहां दिखाई जाएगी।
-
+नियमित practice करते रहें।
 </div>
 
 </div>
 
-</div>
 
+</div>
 
 <br>
 
-
 <button
 class="btn"
-onclick="openPractice()">
+onclick="startRecommendedPractice()"
+>
 Recommended Practice शुरू करें
 </button>
 
@@ -1549,9 +1585,12 @@ Recommended Practice शुरू करें
 
 
 
-<!-- ASK AI -->
+<!-- ================= ASK AI ================= -->
 
-<section class="page" id="askAIPage">
+<section
+class="page"
+id="askAIPage"
+>
 
 <div class="ai-container">
 
@@ -1560,22 +1599,23 @@ Ask EXAMOS AI
 </h1>
 
 <p class="section-subtitle">
-जो समझना है, अपने तरीके से पूछें।
+जिस तरह सवाल पूछना चाहते हैं, उसी तरह पूछें।
 </p>
 
 
 <div
 class="chat-box"
-id="chatBox">
+id="chatBox"
+>
 
 <div class="message ai">
+नमस्ते! 👋
 
-नमस्ते! 👋 मैं EXAMOS AI हूँ।
+मैं EXAMOS AI हूँ।
 
-आप मुझसे किसी भी पढ़ाई से जुड़े सवाल को अपने तरीके से पूछ सकते हैं।
+आप मुझसे अपनी पढ़ाई से जुड़ा कोई भी सवाल अपने तरीके से पूछ सकते हैं।
 
-मैं आपको आसान भाषा में समझाने की कोशिश करूँगा।
-
+मैं आसान भाषा में समझाने की कोशिश करूँगा।
 </div>
 
 </div>
@@ -1586,13 +1626,14 @@ id="chatBox">
 <textarea
 id="aiPrompt"
 placeholder="अपना सवाल लिखें..."
-onkeydown="handleChatKey(event)">
-</textarea>
+onkeydown="handleChatKey(event)"
+></textarea>
 
 
 <button
 class="send-btn"
-onclick="askAI()">
+onclick="askAI()"
+>
 ➤
 </button>
 
@@ -1604,16 +1645,19 @@ onclick="askAI()">
 
 
 
-<!-- PROGRESS -->
+<!-- ================= PROGRESS ================= -->
 
-<section class="page" id="progressPage">
+<section
+class="page"
+id="progressPage"
+>
 
 <h1 class="section-title">
 Your Progress
 </h1>
 
 <p class="section-subtitle">
-अपनी learning journey को यहां देखें।
+अपनी learning journey देखें।
 </p>
 
 
@@ -1623,19 +1667,23 @@ Your Progress
 Overall Progress
 </h3>
 
+<br>
+
 <div class="progress-bar">
 
 <div
 class="progress-fill"
 id="overallProgressBar"
-style="width:0%">
-</div>
+style="width:0%"
+></div>
 
 </div>
 
 <br>
 
-<strong id="overallProgressText">
+<strong
+id="overallProgressText"
+>
 0%
 </strong>
 
@@ -1647,15 +1695,15 @@ style="width:0%">
 
 <div class="analysis-grid">
 
+
 <div class="analysis-card">
 
-<h3>
-Total Tests
-</h3>
+<h3>Total Tests</h3>
 
 <strong
 style="font-size:28px"
-id="progressTests">
+id="progressTests"
+>
 0
 </strong>
 
@@ -1664,14 +1712,41 @@ id="progressTests">
 
 <div class="analysis-card">
 
-<h3>
-Practice Sessions
-</h3>
+<h3>Practice Sessions</h3>
 
 <strong
 style="font-size:28px"
-id="progressPractice">
+id="progressPractice"
+>
 0
+</strong>
+
+</div>
+
+
+<div class="analysis-card">
+
+<h3>Total Questions</h3>
+
+<strong
+style="font-size:28px"
+id="totalQuestions"
+>
+0
+</strong>
+
+</div>
+
+
+<div class="analysis-card">
+
+<h3>Average Accuracy</h3>
+
+<strong
+style="font-size:28px"
+id="averageAccuracy"
+>
+0%
 </strong>
 
 </div>
@@ -1682,9 +1757,12 @@ id="progressPractice">
 
 
 
-<!-- SETTINGS -->
+<!-- ================= SETTINGS ================= -->
 
-<section class="page" id="settingsPage">
+<section
+class="page"
+id="settingsPage"
+>
 
 <div class="setup-box card">
 
@@ -1692,18 +1770,14 @@ id="progressPractice">
 Student Settings
 </h1>
 
-<p class="section-subtitle">
-अपनी जानकारी update करें।
-</p>
-
 
 <div class="input-group">
 
 <label>नाम</label>
 
 <input
-type="text"
 id="editName"
+type="text"
 >
 
 </div>
@@ -1715,23 +1789,13 @@ id="editName"
 
 <select
 id="editClass"
-onchange="updateEditStream()">
+onchange="updateEditStream()"
+>
 
-<option value="9">
-Class 9
-</option>
-
-<option value="10">
-Class 10
-</option>
-
-<option value="11">
-Class 11
-</option>
-
-<option value="12">
-Class 12
-</option>
+<option value="9">Class 9</option>
+<option value="10">Class 10</option>
+<option value="11">Class 11</option>
+<option value="12">Class 12</option>
 
 </select>
 
@@ -1744,17 +1808,9 @@ Class 12
 
 <select id="editBoard">
 
-<option value="BSEB">
-Bihar Board (BSEB)
-</option>
-
-<option value="CBSE">
-CBSE
-</option>
-
-<option value="ICSE">
-ICSE
-</option>
+<option value="BSEB">Bihar Board</option>
+<option value="CBSE">CBSE</option>
+<option value="ICSE">ICSE</option>
 
 </select>
 
@@ -1763,15 +1819,12 @@ ICSE
 
 <div
 class="input-group"
-id="editStreamBox">
+id="editStreamBox"
+>
 
 <label>Stream</label>
 
 <select id="editStream">
-
-<option value="">
-None
-</option>
 
 <option value="Science">
 Science
@@ -1792,7 +1845,8 @@ Arts
 
 <button
 class="btn"
-onclick="updateStudentProfile()">
+onclick="updateStudentProfile()"
+>
 Save Changes
 </button>
 
@@ -1802,7 +1856,8 @@ Save Changes
 
 <button
 class="btn red"
-onclick="resetStudentData()">
+onclick="resetStudentData()"
+>
 Reset Student Data
 </button>
 
@@ -1815,17 +1870,20 @@ Reset Student Data
 
 
 
+<!-- ================= NAVIGATION ================= -->
+
 <nav class="bottom-nav">
 
 <div class="nav-inner">
 
+
 <button
 class="nav-btn active"
 data-page="homePage"
-onclick="goHome()">
+onclick="goHome()"
+>
 
 <span>🏠</span>
-
 Home
 
 </button>
@@ -1834,10 +1892,10 @@ Home
 <button
 class="nav-btn"
 data-page="testPage"
-onclick="openTest()">
+onclick="openTest()"
+>
 
 <span>📝</span>
-
 Test
 
 </button>
@@ -1846,10 +1904,10 @@ Test
 <button
 class="nav-btn"
 data-page="practicePage"
-onclick="openPractice()">
+onclick="openPractice()"
+>
 
 <span>🎯</span>
-
 Practice
 
 </button>
@@ -1858,10 +1916,10 @@ Practice
 <button
 class="nav-btn"
 data-page="askAIPage"
-onclick="openAskAI()">
+onclick="openAskAI()"
+>
 
 <span>🤖</span>
-
 Ask AI
 
 </button>
@@ -1870,35 +1928,53 @@ Ask AI
 <button
 class="nav-btn"
 data-page="analysisPage"
-onclick="openAnalysis()">
+onclick="openAnalysis()"
+>
 
 <span>📊</span>
-
 Analysis
 
 </button>
+
 
 </div>
 
 </nav>
 
+
 </div>
+
 
 
 <script>
 
-/* =========================
+/* =====================================================
    STUDENT DATA
-========================= */
+===================================================== */
 
 let student = null;
 
 
-/* =========================
+/* =====================================================
+   CURRENT SELECTIONS
+===================================================== */
+
+let selectedTestSubject = "";
+let selectedTestChapter = "";
+
+let selectedPracticeSubject = "";
+let selectedPracticeChapter = "";
+let selectedPracticeTopic = "";
+
+
+/* =====================================================
    SYLLABUS DATA
-========================= */
+   आगे इसमें प्रत्येक Board का पूरा verified syllabus
+   जोड़ा जा सकता है।
+===================================================== */
 
 const syllabus = {
+
 
 "9":{
 
@@ -1908,7 +1984,6 @@ common:{
 
 {
 chapter:"Number Systems",
-
 topics:[
 "Rational Numbers",
 "Irrational Numbers",
@@ -1918,41 +1993,45 @@ topics:[
 
 {
 chapter:"Polynomials",
-
 topics:[
-"Introduction",
+"Algebraic Expressions",
 "Zeroes of Polynomial",
-"Algebraic Expressions"
+"Factorisation"
+]
+},
+
+{
+chapter:"Coordinate Geometry",
+topics:[
+"Cartesian Plane",
+"Coordinates"
 ]
 },
 
 {
 chapter:"Linear Equations in Two Variables",
-
 topics:[
-"Coordinate System",
-"Linear Equations",
+"Linear Equation",
 "Graph"
 ]
 }
 
 ],
 
+
 "Science":[
 
 {
 chapter:"Matter in Our Surroundings",
-
 topics:[
 "States of Matter",
-"Physical Properties",
-"Change of State"
+"Change of State",
+"Evaporation"
 ]
 },
 
 {
 chapter:"Atoms and Molecules",
-
 topics:[
 "Laws of Chemical Combination",
 "Atoms",
@@ -1962,7 +2041,6 @@ topics:[
 
 {
 chapter:"Motion",
-
 topics:[
 "Distance and Displacement",
 "Speed",
@@ -1973,15 +2051,29 @@ topics:[
 
 ],
 
+
 "English":[
 
 {
 chapter:"Grammar",
-
 topics:[
 "Tenses",
 "Articles",
 "Voice"
+]
+}
+
+],
+
+
+"Hindi":[
+
+{
+chapter:"व्याकरण",
+topics:[
+"संज्ञा",
+"सर्वनाम",
+"क्रिया"
 ]
 }
 
@@ -1990,6 +2082,7 @@ topics:[
 }
 
 },
+
 
 
 "10":{
@@ -2000,7 +2093,6 @@ common:{
 
 {
 chapter:"Real Numbers",
-
 topics:[
 "Euclid Division Lemma",
 "Fundamental Theorem of Arithmetic"
@@ -2009,7 +2101,6 @@ topics:[
 
 {
 chapter:"Polynomials",
-
 topics:[
 "Zeroes",
 "Relationship Between Zeroes and Coefficients"
@@ -2017,45 +2108,62 @@ topics:[
 },
 
 {
-chapter:"Pair of Linear Equations",
-
+chapter:"Pair of Linear Equations in Two Variables",
 topics:[
 "Graphical Method",
 "Substitution Method",
 "Elimination Method"
 ]
+},
+
+{
+chapter:"Quadratic Equations",
+topics:[
+"Standard Form",
+"Factorisation Method",
+"Quadratic Formula"
+]
 }
 
 ],
 
+
 "Science":[
 
 {
-chapter:"Chemical Reactions",
-
+chapter:"Chemical Reactions and Equations",
 topics:[
 "Chemical Equations",
+"Balancing Equations",
 "Types of Reactions"
 ]
 },
 
 {
 chapter:"Acids Bases and Salts",
-
 topics:[
 "Acids",
 "Bases",
 "pH Scale"
 ]
+},
+
+{
+chapter:"Electricity",
+topics:[
+"Electric Current",
+"Ohm Law",
+"Resistance"
+]
 }
 
 ],
+
 
 "English":[
 
 {
 chapter:"Grammar",
-
 topics:[
 "Tenses",
 "Voice",
@@ -2063,11 +2171,26 @@ topics:[
 ]
 }
 
+],
+
+
+"Hindi":[
+
+{
+chapter:"व्याकरण",
+topics:[
+"वाक्य",
+"शब्द",
+"अलंकार"
+]
+}
+
 ]
 
 }
 
 },
+
 
 
 "11":{
@@ -2075,6 +2198,7 @@ topics:[
 common:{
 
 "English":[
+
 {
 chapter:"Grammar",
 topics:[
@@ -2083,9 +2207,25 @@ topics:[
 "Narration"
 ]
 }
+
+],
+
+
+"Hindi":[
+
+{
+chapter:"व्याकरण",
+topics:[
+"संधि",
+"समास",
+"अलंकार"
+]
+}
+
 ]
 
 },
+
 
 Science:{
 
@@ -2093,7 +2233,6 @@ Science:{
 
 {
 chapter:"Units and Measurements",
-
 topics:[
 "SI Units",
 "Significant Figures",
@@ -2103,35 +2242,68 @@ topics:[
 
 {
 chapter:"Motion in a Straight Line",
-
 topics:[
-"Distance",
+"Position",
 "Velocity",
 "Acceleration"
+]
+},
+
+{
+chapter:"Motion in a Plane",
+topics:[
+"Vectors",
+"Projectile Motion"
+]
+},
+
+{
+chapter:"Laws of Motion",
+topics:[
+"Newton Laws",
+"Force",
+"Friction"
 ]
 }
 
 ],
+
 
 "Chemistry":[
 
 {
 chapter:"Some Basic Concepts of Chemistry",
-
 topics:[
 "Mole Concept",
 "Atomic Mass",
 "Molecular Mass"
 ]
+},
+
+{
+chapter:"Structure of Atom",
+topics:[
+"Atomic Models",
+"Quantum Numbers"
+]
+},
+
+{
+chapter:"Chemical Bonding",
+topics:[
+"Ionic Bond",
+"Covalent Bond",
+"Hybridisation"
+]
 }
 
 ],
+
 
 "Mathematics":[
 
 {
 chapter:"Sets",
-
 topics:[
 "Types of Sets",
 "Operations on Sets"
@@ -2140,10 +2312,17 @@ topics:[
 
 {
 chapter:"Relations and Functions",
-
 topics:[
 "Relations",
 "Functions"
+]
+},
+
+{
+chapter:"Trigonometric Functions",
+topics:[
+"Angles",
+"Trigonometric Ratios"
 ]
 }
 
@@ -2151,19 +2330,33 @@ topics:[
 
 },
 
+
 Commerce:{
 
 "Accountancy":[
+
 {
 chapter:"Introduction to Accounting",
 topics:[
-"Accounting Concepts",
+"Meaning of Accounting",
+"Objectives",
 "Accounting Principles"
 ]
+},
+
+{
+chapter:"Theory Base of Accounting",
+topics:[
+"Accounting Concepts",
+"Accounting Standards"
+]
 }
+
 ],
 
+
 "Business Studies":[
+
 {
 chapter:"Nature and Purpose of Business",
 topics:[
@@ -2171,13 +2364,29 @@ topics:[
 "Objectives of Business"
 ]
 }
+
+],
+
+
+"Economics":[
+
+{
+chapter:"Introduction to Economics",
+topics:[
+"Microeconomics",
+"Macroeconomics"
+]
+}
+
 ]
 
 },
 
+
 Arts:{
 
 "History":[
+
 {
 chapter:"Writing and City Life",
 topics:[
@@ -2185,21 +2394,40 @@ topics:[
 "Ancient Cities"
 ]
 }
+
 ],
 
+
 "Political Science":[
+
 {
-chapter:"Constitution",
+chapter:"Political Theory",
 topics:[
-"Political Theory",
-"Rights"
+"Rights",
+"Equality",
+"Justice"
 ]
 }
+
+],
+
+
+"Geography":[
+
+{
+chapter:"Geography as a Discipline",
+topics:[
+"Physical Geography",
+"Human Geography"
+]
+}
+
 ]
 
 }
 
 },
+
 
 
 "12":{
@@ -2210,7 +2438,6 @@ common:{
 
 {
 chapter:"Grammar",
-
 topics:[
 "Tenses",
 "Voice",
@@ -2218,9 +2445,24 @@ topics:[
 ]
 }
 
+],
+
+
+"Hindi":[
+
+{
+chapter:"व्याकरण",
+topics:[
+"संधि",
+"समास",
+"अलंकार"
+]
+}
+
 ]
 
 },
+
 
 Science:{
 
@@ -2228,7 +2470,6 @@ Science:{
 
 {
 chapter:"Electric Charges and Fields",
-
 topics:[
 "Electric Charge",
 "Coulomb Law",
@@ -2238,42 +2479,69 @@ topics:[
 
 {
 chapter:"Electrostatic Potential and Capacitance",
-
 topics:[
 "Electric Potential",
+"Capacitance",
 "Capacitors"
+]
+},
+
+{
+chapter:"Current Electricity",
+topics:[
+"Electric Current",
+"Drift Velocity",
+"Ohm Law"
+]
+},
+
+{
+chapter:"Moving Charges and Magnetism",
+topics:[
+"Magnetic Field",
+"Lorentz Force",
+"Biot Savart Law"
 ]
 }
 
 ],
+
 
 "Chemistry":[
 
 {
 chapter:"Solutions",
-
 topics:[
 "Types of Solutions",
-"Concentration"
+"Concentration",
+"Raoult Law"
 ]
 },
 
 {
 chapter:"Electrochemistry",
-
 topics:[
 "Conductance",
-"Electrochemical Cell"
+"Electrochemical Cell",
+"Electrolysis"
+]
+},
+
+{
+chapter:"Chemical Kinetics",
+topics:[
+"Rate of Reaction",
+"Order of Reaction"
 ]
 }
 
 ],
 
+
 "Mathematics":[
 
 {
 chapter:"Relations and Functions",
-
 topics:[
 "Types of Relations",
 "Functions"
@@ -2281,47 +2549,100 @@ topics:[
 },
 
 {
-chapter:"Continuity and Differentiability",
+chapter:"Inverse Trigonometric Functions",
+topics:[
+"Inverse Functions",
+"Properties"
+]
+},
 
+{
+chapter:"Continuity and Differentiability",
 topics:[
 "Continuity",
 "Differentiability"
+]
+},
+
+{
+chapter:"Integrals",
+topics:[
+"Integration",
+"Methods of Integration"
 ]
 }
 
 ]
 
 },
+
 
 Commerce:{
 
 "Accountancy":[
 
 {
-chapter:"Accounting for Partnership",
-
+chapter:"Accounting for Partnership Firms",
 topics:[
 "Partnership",
 "Capital Accounts"
+]
+},
+
+{
+chapter:"Company Accounts",
+topics:[
+"Share Capital",
+"Debentures"
 ]
 }
 
 ],
 
+
 "Business Studies":[
 
 {
 chapter:"Nature and Significance of Management",
-
 topics:[
 "Management",
 "Objectives"
+]
+},
+
+{
+chapter:"Principles of Management",
+topics:[
+"Management Principles"
+]
+}
+
+],
+
+
+"Economics":[
+
+{
+chapter:"National Income",
+topics:[
+"National Income",
+"GDP",
+"NNP"
+]
+},
+
+{
+chapter:"Money and Banking",
+topics:[
+"Money",
+"Banking"
 ]
 }
 
 ]
 
 },
+
 
 Arts:{
 
@@ -2329,26 +2650,46 @@ Arts:{
 
 {
 chapter:"Bricks Beads and Bones",
-
 topics:[
 "Harappan Civilization",
 "Archaeology"
+]
+},
+
+{
+chapter:"Kings Farmers and Towns",
+topics:[
+"Early States",
+"Ancient Economy"
 ]
 }
 
 ],
 
+
 "Political Science":[
 
 {
 chapter:"Challenges of Nation Building",
-
 topics:[
 "Independence",
 "Nation Building"
 ]
 }
 
+],
+
+
+"Geography":[
+
+{
+chapter:"Human Geography",
+topics:[
+"Population",
+"Resources"
+]
+}
+
 ]
 
 }
@@ -2358,769 +2699,608 @@ topics:[
 };
 
 
-/* =========================
+
+/* =====================================================
    APP START
-========================= */
+===================================================== */
 
 window.onload = function(){
 
-const savedStudent =
-localStorage.getItem("examosStudent");
+    const savedStudent =
+    localStorage.getItem("examosStudent");
 
-if(savedStudent){
+    if(savedStudent){
 
-student =
-JSON.parse(savedStudent);
+        student =
+        JSON.parse(savedStudent);
 
-updateStudentUI();
+        updateStudentUI();
 
-goHome();
+        goHome();
 
-}else{
+    }else{
 
-showPage("setupPage");
+        showPage("setupPage");
 
-}
+    }
 
-updateProgressUI();
+    updateProgressUI();
 
 };
 
 
-/* =========================
+
+/* =====================================================
    PAGE CONTROL
-========================= */
+===================================================== */
 
 function showPage(pageId){
 
-document
-.querySelectorAll(".page")
-.forEach(page=>{
+    document
+    .querySelectorAll(".page")
+    .forEach(page=>{
 
-page.classList.remove("active");
+        page.classList.remove("active");
 
-});
+    });
 
-const page =
-document.getElementById(pageId);
 
-if(page){
+    const page =
+    document.getElementById(pageId);
 
-page.classList.add("active");
 
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
+    if(page){
 
-}
+        page.classList.add("active");
 
-updateNav(pageId);
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+
+    }
+
+
+    updateNav(pageId);
 
 }
 
 
 function updateNav(pageId){
 
-document
-.querySelectorAll(".nav-btn")
-.forEach(btn=>{
+    document
+    .querySelectorAll(".nav-btn")
+    .forEach(btn=>{
 
-btn.classList.remove("active");
+        btn.classList.remove("active");
 
-if(
-btn.dataset.page === pageId
-){
+        if(btn.dataset.page === pageId){
 
-btn.classList.add("active");
+            btn.classList.add("active");
 
-}
+        }
 
-});
+    });
 
 }
 
 
-/* =========================
-   STUDENT PROFILE
-========================= */
+
+/* =====================================================
+   PROFILE
+===================================================== */
 
 function updateStreamVisibility(){
 
-const studentClass =
-document
-.getElementById("studentClass")
-.value;
+    const studentClass =
+    document
+    .getElementById("studentClass")
+    .value;
 
-const streamBox =
-document
-.getElementById("streamBox");
 
-if(
-studentClass === "11" ||
-studentClass === "12"
-){
+    const streamBox =
+    document
+    .getElementById("streamBox");
 
-streamBox.classList.remove("hidden");
 
-}else{
+    if(
+        studentClass === "11" ||
+        studentClass === "12"
+    ){
 
-streamBox.classList.add("hidden");
+        streamBox.classList.remove("hidden");
 
-}
+    }else{
+
+        streamBox.classList.add("hidden");
+
+    }
 
 }
 
 
 function saveStudentProfile(){
 
-const name =
-document
-.getElementById("studentName")
-.value
-.trim();
-
-const studentClass =
-document
-.getElementById("studentClass")
-.value;
-
-const board =
-document
-.getElementById("studentBoard")
-.value;
-
-const stream =
-document
-.getElementById("studentStream")
-.value;
+    const name =
+    document
+    .getElementById("studentName")
+    .value
+    .trim();
 
 
-if(
-!name ||
-!studentClass ||
-!board
-){
-
-alert(
-"कृपया नाम, Class और Board भरें।"
-);
-
-return;
-
-}
+    const studentClass =
+    document
+    .getElementById("studentClass")
+    .value;
 
 
-if(
-(studentClass === "11" ||
-studentClass === "12")
-&& !stream
-){
-
-alert(
-"कृपया Stream चुनें।"
-);
-
-return;
-
-}
+    const board =
+    document
+    .getElementById("studentBoard")
+    .value;
 
 
-student = {
-
-name:name,
-
-class:studentClass,
-
-board:board,
-
-stream:
-(studentClass === "9" ||
-studentClass === "10")
-? "common"
-: stream
-
-};
+    const stream =
+    document
+    .getElementById("studentStream")
+    .value;
 
 
-localStorage.setItem(
-"examosStudent",
-JSON.stringify(student)
-);
+    if(
+        !name ||
+        !studentClass ||
+        !board
+    ){
+
+        alert("कृपया नाम, Class और Board भरें।");
+
+        return;
+
+    }
 
 
-updateStudentUI();
+    if(
+        (
+            studentClass === "11" ||
+            studentClass === "12"
+        )
+        &&
+        !stream
+    ){
 
-goHome();
+        alert("कृपया Stream चुनें।");
+
+        return;
+
+    }
+
+
+    student = {
+
+        name:name,
+
+        class:studentClass,
+
+        board:board,
+
+        stream:
+
+        (
+            studentClass === "9" ||
+            studentClass === "10"
+        )
+
+        ?
+
+        "common"
+
+        :
+
+        stream
+
+    };
+
+
+    localStorage.setItem(
+        "examosStudent",
+        JSON.stringify(student)
+    );
+
+
+    updateStudentUI();
+
+    goHome();
 
 }
 
 
 function updateStudentUI(){
 
-if(!student)
-return;
+    if(!student)
+    return;
 
 
-document
-.getElementById("headerName")
-.textContent =
-student.name;
+    document
+    .getElementById("headerName")
+    .textContent =
+    student.name;
 
 
-document
-.getElementById("profileInitial")
-.textContent =
-student.name
-.charAt(0)
-.toUpperCase();
+    document
+    .getElementById("profileInitial")
+    .textContent =
+    student.name
+    .charAt(0)
+    .toUpperCase();
 
 
-document
-.getElementById("welcomeText")
-.textContent =
-"नमस्ते " +
-student.name +
-" 👋";
+    document
+    .getElementById("welcomeText")
+    .textContent =
+    "नमस्ते " +
+    student.name +
+    " 👋";
 
 
-let streamText =
-student.stream === "common"
-? ""
-: " • " + student.stream;
+    let info =
+    "Class " +
+    student.class +
+    " • " +
+    student.board;
 
 
-document
-.getElementById("studentInfo")
-.textContent =
+    if(
+        student.stream !== "common"
+    ){
 
-"Class " +
-student.class +
-" • " +
-student.board +
-streamText;
+        info +=
+        " • " +
+        student.stream;
 
-}
+    }
 
 
-/* =========================
-   SETTINGS
-========================= */
-
-function editProfile(){
-
-showPage("settingsPage");
-
-
-document
-.getElementById("editName")
-.value =
-student.name;
-
-
-document
-.getElementById("editClass")
-.value =
-student.class;
-
-
-document
-.getElementById("editBoard")
-.value =
-student.board;
-
-
-document
-.getElementById("editStream")
-.value =
-
-student.stream === "common"
-? ""
-: student.stream;
-
-
-updateEditStream();
+    document
+    .getElementById("studentInfo")
+    .textContent =
+    info;
 
 }
 
 
-function updateEditStream(){
 
-const value =
-document
-.getElementById("editClass")
-.value;
-
-
-const box =
-document
-.getElementById("editStreamBox");
-
-
-if(
-value === "11" ||
-value === "12"
-){
-
-box.classList.remove("hidden");
-
-}else{
-
-box.classList.add("hidden");
-
-}
-
-}
-
-
-function updateStudentProfile(){
-
-const name =
-document
-.getElementById("editName")
-.value
-.trim();
-
-const studentClass =
-document
-.getElementById("editClass")
-.value;
-
-const board =
-document
-.getElementById("editBoard")
-.value;
-
-const stream =
-document
-.getElementById("editStream")
-.value;
-
-
-if(!name){
-
-alert(
-"नाम भरें।"
-);
-
-return;
-
-}
-
-
-student = {
-
-name:name,
-
-class:studentClass,
-
-board:board,
-
-stream:
-
-(
-studentClass === "9" ||
-studentClass === "10"
-)
-
-? "common"
-
-: stream
-
-};
-
-
-localStorage.setItem(
-"examosStudent",
-JSON.stringify(student)
-);
-
-
-updateStudentUI();
-
-
-alert(
-"Student profile update हो गया।"
-);
-
-
-goHome();
-
-}
-
-
-function resetStudentData(){
-
-const confirmReset =
-confirm(
-"क्या आप सच में student data reset करना चाहते हैं?"
-);
-
-
-if(!confirmReset)
-return;
-
-
-localStorage.removeItem(
-"examosStudent"
-);
-
-
-localStorage.removeItem(
-"examosProgress"
-);
-
-
-student = null;
-
-
-showPage(
-"setupPage"
-);
-
-}
-
-
-/* =========================
-   SUBJECT DATA
-========================= */
+/* =====================================================
+   SUBJECTS
+===================================================== */
 
 function getSubjects(){
 
-if(!student)
-return [];
+    if(!student)
+    return [];
 
 
-const classData =
-syllabus[
-student.class
-];
+    const classData =
+    syllabus[student.class];
 
 
-if(!classData)
-return [];
+    if(!classData)
+    return [];
 
 
-let subjects = [];
+    let subjects = [];
 
 
-if(
-classData.common
-){
+    if(classData.common){
 
-subjects =
-subjects.concat(
-Object.keys(
-classData.common
-)
-);
+        subjects =
+        subjects.concat(
+            Object.keys(classData.common)
+        );
 
-}
+    }
 
 
-if(
-student.stream !== "common"
-&&
-classData[
-student.stream
-]
-){
+    if(
+        student.stream !== "common"
+        &&
+        classData[student.stream]
+    ){
 
-subjects =
-subjects.concat(
-Object.keys(
-classData[
-student.stream
-]
-)
-);
+        subjects =
+        subjects.concat(
+            Object.keys(
+                classData[student.stream]
+            )
+        );
 
-}
+    }
 
 
-return [...new Set(subjects)];
+    return [
+        ...new Set(subjects)
+    ];
 
 }
 
 
 function getChapters(subject){
 
-const classData =
-syllabus[
-student.class
-];
+    const classData =
+    syllabus[student.class];
 
 
-let chapters = [];
+    let chapters = [];
 
 
-if(
-classData.common &&
-classData.common[subject]
-){
+    if(
+        classData.common &&
+        classData.common[subject]
+    ){
 
-chapters =
-chapters.concat(
-classData.common[subject]
-);
+        chapters =
+        chapters.concat(
+            classData.common[subject]
+        );
+
+    }
+
+
+    if(
+
+        student.stream !== "common"
+
+        &&
+
+        classData[student.stream]
+
+        &&
+
+        classData[student.stream][subject]
+
+    ){
+
+        chapters =
+        chapters.concat(
+
+            classData[
+                student.stream
+            ][subject]
+
+        );
+
+    }
+
+
+    return chapters;
 
 }
 
 
-if(
-student.stream !== "common"
-&&
-classData[
-student.stream
-]
-&&
-classData[
-student.stream
-][subject]
-){
 
-chapters =
-chapters.concat(
-
-classData[
-student.stream
-][subject]
-
-);
-
-}
-
-
-return chapters;
-
-}
-
-
-/* =========================
+/* =====================================================
    TEST FLOW
-========================= */
-
-let selectedTestSubject = "";
-let selectedTestChapter = "";
-
+===================================================== */
 
 function openTest(){
 
-if(!student){
+    if(!student){
 
-showPage(
-"setupPage"
-);
+        showPage("setupPage");
 
-return;
+        return;
 
-}
+    }
 
 
-showPage(
-"testPage"
-);
+    showPage("testPage");
 
 
-document
-.getElementById("testStudentInfo")
-.textContent =
+    document
+    .getElementById("testStudentInfo")
+    .textContent =
 
-"Class " +
-student.class +
-" • " +
-student.board +
-(
-student.stream !== "common"
-? " • " + student.stream
-: ""
-);
+    "Class " +
+    student.class +
+    " • " +
+    student.board +
 
-
-document
-.getElementById("testSubjectStep")
-.classList.remove("hidden");
+    (
+        student.stream !== "common"
+        ?
+        " • " + student.stream
+        :
+        ""
+    );
 
 
-document
-.getElementById("testChapterStep")
-.classList.add("hidden");
+    document
+    .getElementById("testSubjectStep")
+    .classList
+    .remove("hidden");
 
 
-document
-.getElementById("testConfigStep")
-.classList.add("hidden");
+    document
+    .getElementById("testChapterStep")
+    .classList
+    .add("hidden");
 
 
-renderTestSubjects();
+    document
+    .getElementById("testConfigStep")
+    .classList
+    .add("hidden");
+
+
+    renderTestSubjects();
 
 }
 
 
 function renderTestSubjects(){
 
-const container =
-document
-.getElementById("subjectOptions");
+    const container =
+    document.getElementById("subjectOptions");
 
 
-container.innerHTML = "";
+    container.innerHTML = "";
 
 
-const subjects =
-getSubjects();
+    const subjects =
+    getSubjects();
 
 
-subjects.forEach(subject=>{
+    subjects.forEach(subject=>{
 
-const button =
-document.createElement("div");
-
-
-button.className =
-"option";
+        const button =
+        document.createElement("div");
 
 
-button.innerHTML =
-"<h4>" +
-subject +
-"</h4><p>Test शुरू करें</p>";
+        button.className =
+        "option";
 
 
-button.onclick =
-()=>{
-
-selectedTestSubject =
-subject;
-
-openTestChapters();
-
-};
+        button.innerHTML =
+        "<h4>" +
+        subject +
+        "</h4><p>Test शुरू करें</p>";
 
 
-container.appendChild(
-button
-);
+        button.onclick =
+        function(){
 
-});
+            selectedTestSubject =
+            subject;
+
+            openTestChapters();
+
+        };
+
+
+        container.appendChild(button);
+
+    });
 
 }
 
 
 function openTestChapters(){
 
-document
-.getElementById("testSubjectStep")
-.classList.add("hidden");
+    document
+    .getElementById("testSubjectStep")
+    .classList
+    .add("hidden");
 
 
-document
-.getElementById("testChapterStep")
-.classList.remove("hidden");
+    document
+    .getElementById("testChapterStep")
+    .classList
+    .remove("hidden");
 
 
-const container =
-document
-.getElementById("chapterOptions");
+    const container =
+    document.getElementById("chapterOptions");
 
 
-container.innerHTML = "";
+    container.innerHTML = "";
 
 
-const chapters =
-getChapters(
-selectedTestSubject
-);
+    const chapters =
+    getChapters(selectedTestSubject);
 
 
-chapters.forEach(item=>{
+    chapters.forEach(item=>{
 
-const button =
-document.createElement("div");
-
-
-button.className =
-"option";
+        const button =
+        document.createElement("div");
 
 
-button.innerHTML =
-"<h4>" +
-item.chapter +
-"</h4><p>" +
-item.topics.length +
-" Topics</p>";
+        button.className =
+        "option";
 
 
-button.onclick =
-()=>{
+        button.innerHTML =
 
-selectedTestChapter =
-item.chapter;
-
-
-openTestConfig();
-
-};
+        "<h4>" +
+        item.chapter +
+        "</h4><p>" +
+        item.topics.length +
+        " Topics</p>";
 
 
-container.appendChild(
-button
-);
+        button.onclick =
+        function(){
 
-});
+            selectedTestChapter =
+            item.chapter;
+
+            openTestConfig();
+
+        };
+
+
+        container.appendChild(button);
+
+    });
 
 }
 
 
 function openTestConfig(){
 
-document
-.getElementById("testChapterStep")
-.classList.add("hidden");
+    document
+    .getElementById("testChapterStep")
+    .classList
+    .add("hidden");
 
 
-document
-.getElementById("testConfigStep")
-.classList.remove("hidden");
+    document
+    .getElementById("testConfigStep")
+    .classList
+    .remove("hidden");
 
 }
 
 
 function backTestStep(step){
 
-if(step === 1){
+    if(step === 1){
 
-document
-.getElementById("testChapterStep")
-.classList.add("hidden");
+        document
+        .getElementById("testChapterStep")
+        .classList
+        .add("hidden");
 
 
-document
-.getElementById("testSubjectStep")
-.classList.remove("hidden");
+        document
+        .getElementById("testSubjectStep")
+        .classList
+        .remove("hidden");
+
+    }
+
+
+    if(step === 2){
+
+        document
+        .getElementById("testConfigStep")
+        .classList
+        .add("hidden");
+
+
+        document
+        .getElementById("testChapterStep")
+        .classList
+        .remove("hidden");
+
+    }
 
 }
 
 
-if(step === 2){
 
-document
-.getElementById("testConfigStep")
-.classList.add("hidden");
-
-
-document
-.getElementById("testChapterStep")
-.classList.remove("hidden");
-
-}
-
-}
-
-
-/* =========================
+/* =====================================================
    TEST QUESTIONS
-========================= */
+===================================================== */
 
 let testQuestions = [];
 
@@ -3133,1518 +3313,1692 @@ let testTimerInterval;
 let remainingSeconds = 0;
 
 
-function generateDemoQuestions(
+/*
+DEMO QUESTIONS
+
+बाद में इस function को
+AI API generated questions से replace किया जाएगा।
+*/
+
+function generateQuestions(
 subject,
 chapter,
 count
 ){
 
-const questions = [];
+    const questions = [];
 
 
-for(
-let i = 1;
-i <= count;
-i++
-){
+    for(let i=1;i<=count;i++){
 
-let questionText =
-`(${subject} - ${chapter}) Practice Question ${i}`;
+        const correct =
+        Math.floor(Math.random()*4);
 
 
-let correctAnswer =
-Math.floor(
-Math.random()*4
-);
+        questions.push({
+
+            question:
+            subject +
+            " • " +
+            chapter +
+            " Question " +
+            i,
+
+            options:[
+                "Option A",
+                "Option B",
+                "Option C",
+                "Option D"
+            ],
+
+            correct:correct,
+
+            topic:chapter
+
+        });
+
+    }
 
 
-questions.push({
-
-question:
-questionText,
-
-options:[
-
-"Option A",
-
-"Option B",
-
-"Option C",
-
-"Option D"
-
-],
-
-correct:
-correctAnswer
-
-});
-
-}
-
-
-return questions;
+    return questions;
 
 }
 
 
 function startTest(){
 
-const count =
-parseInt(
-document
-.getElementById("testQuestionCount")
-.value
-);
+    const count =
+    parseInt(
+        document
+        .getElementById("testQuestionCount")
+        .value
+    );
 
 
-const minutes =
-parseInt(
-document
-.getElementById("testTime")
-.value
-);
+    const minutes =
+    parseInt(
+        document
+        .getElementById("testTime")
+        .value
+    );
 
 
-testQuestions =
-generateDemoQuestions(
+    testQuestions =
+    generateQuestions(
 
-selectedTestSubject,
+        selectedTestSubject,
 
-selectedTestChapter,
+        selectedTestChapter,
 
-count
+        count
 
-);
-
-
-testAnswers =
-new Array(
-testQuestions.length
-).fill(null);
+    );
 
 
-currentQuestion = 0;
+    testAnswers =
+    new Array(
+        testQuestions.length
+    )
+    .fill(null);
 
 
-remainingSeconds =
-minutes * 60;
+    currentQuestion = 0;
 
 
-showPage(
-"testRunPage"
-);
+    remainingSeconds =
+    minutes * 60;
 
 
-document
-.getElementById("testTitle")
-.textContent =
-
-selectedTestSubject +
-" • " +
-selectedTestChapter;
+    showPage("testRunPage");
 
 
-renderTestQuestion();
+    document
+    .getElementById("testTitle")
+    .textContent =
+
+    selectedTestSubject +
+    " • " +
+    selectedTestChapter;
 
 
-clearInterval(
-testTimerInterval
-);
+    renderTestQuestion();
 
 
-testTimerInterval =
-setInterval(
-updateTimer,
-1000
-);
+    clearInterval(testTimerInterval);
+
+
+    testTimerInterval =
+    setInterval(
+        updateTimer,
+        1000
+    );
 
 }
 
 
 function updateTimer(){
 
-const minutes =
-Math.floor(
-remainingSeconds / 60
-);
+    const minutes =
+    Math.floor(
+        remainingSeconds / 60
+    );
 
 
-const seconds =
-remainingSeconds % 60;
+    const seconds =
+    remainingSeconds % 60;
 
 
-document
-.getElementById("testTimer")
-.textContent =
+    document
+    .getElementById("testTimer")
+    .textContent =
 
-String(minutes)
-.padStart(2,"0")
+    String(minutes)
+    .padStart(2,"0")
 
-+
+    +
 
-":"
+    ":"
 
-+
+    +
 
-String(seconds)
-.padStart(2,"0");
-
-
-remainingSeconds--;
+    String(seconds)
+    .padStart(2,"0");
 
 
-if(
-remainingSeconds < 0
-){
-
-clearInterval(
-testTimerInterval
-);
+    remainingSeconds--;
 
 
-finishTest();
+    if(remainingSeconds < 0){
 
-}
+        clearInterval(
+            testTimerInterval
+        );
+
+        finishTest();
+
+    }
 
 }
 
 
 function renderTestQuestion(){
 
-const question =
-testQuestions[
-currentQuestion
-];
+    const question =
+    testQuestions[currentQuestion];
 
 
-document
-.getElementById("questionNumber")
-.textContent =
+    document
+    .getElementById("questionNumber")
+    .textContent =
 
-"Question " +
-(currentQuestion + 1);
-
-
-document
-.getElementById("testQuestionProgress")
-.textContent =
-
-"Question " +
-(currentQuestion + 1) +
-" of " +
-testQuestions.length;
+    "Question " +
+    (currentQuestion + 1);
 
 
-document
-.getElementById("questionText")
-.textContent =
-question.question;
+    document
+    .getElementById("testQuestionProgress")
+    .textContent =
+
+    "Question " +
+    (currentQuestion + 1) +
+    " of " +
+    testQuestions.length;
 
 
-const container =
-document
-.getElementById("answerOptions");
+    document
+    .getElementById("questionText")
+    .textContent =
+    question.question;
 
 
-container.innerHTML = "";
+    const container =
+    document.getElementById(
+        "answerOptions"
+    );
 
 
-question.options.forEach(
-
-(option,index)=>{
-
-const button =
-document.createElement("button");
+    container.innerHTML = "";
 
 
-button.className =
-"answer-option";
+    question.options
+    .forEach((option,index)=>{
+
+        const button =
+        document.createElement("button");
 
 
-button.textContent =
-option;
+        button.className =
+        "answer-option";
 
 
-if(
-testAnswers[
-currentQuestion
-] === index
-){
-
-button.classList.add(
-"selected"
-);
-
-}
+        button.textContent =
+        option;
 
 
-button.onclick =
-()=>{
+        if(
+            testAnswers[currentQuestion]
+            === index
+        ){
 
-testAnswers[
-currentQuestion
-] = index;
+            button.classList.add(
+                "selected"
+            );
 
-
-renderTestQuestion();
-
-};
-
-
-container.appendChild(
-button
-);
-
-}
-
-);
+        }
 
 
-document
-.getElementById("nextQuestionBtn")
-.textContent =
+        button.onclick =
+        function(){
 
-currentQuestion ===
-testQuestions.length - 1
+            testAnswers[
+                currentQuestion
+            ] = index;
 
-?
+            renderTestQuestion();
 
-"Finish Test"
+        };
 
-:
 
-"Next Question";
+        container.appendChild(button);
+
+    });
+
+
+    document
+    .getElementById("nextQuestionBtn")
+    .textContent =
+
+    currentQuestion ===
+    testQuestions.length - 1
+
+    ?
+
+    "Finish Test"
+
+    :
+
+    "Next Question";
 
 }
 
 
 function nextQuestion(){
 
-if(
+    if(
+        testAnswers[currentQuestion]
+        === null
+    ){
 
-testAnswers[
-currentQuestion
-] === null
+        alert(
+            "कृपया एक answer चुनें।"
+        );
 
-){
+        return;
 
-alert(
-"कृपया एक answer चुनें।"
-);
-
-return;
-
-}
+    }
 
 
-if(
+    if(
+        currentQuestion <
+        testQuestions.length - 1
+    ){
 
-currentQuestion <
-testQuestions.length - 1
+        currentQuestion++;
 
-){
+        renderTestQuestion();
 
-currentQuestion++;
+    }else{
 
+        finishTest();
 
-renderTestQuestion();
-
-}else{
-
-finishTest();
-
-}
+    }
 
 }
 
 
 function finishTest(){
 
-clearInterval(
-testTimerInterval
-);
+    clearInterval(
+        testTimerInterval
+    );
 
 
-let correct = 0;
+    let correct = 0;
+
+    let wrongQuestions = [];
 
 
-testQuestions.forEach(
-(question,index)=>{
+    testQuestions
+    .forEach((question,index)=>{
 
-if(
+        if(
+            testAnswers[index] ===
+            question.correct
+        ){
 
-testAnswers[index]
-=== question.correct
+            correct++;
 
-){
+        }else{
 
-correct++;
+            wrongQuestions.push({
+
+                question:
+                question.question,
+
+                topic:
+                question.topic,
+
+                selected:
+                testAnswers[index],
+
+                correct:
+                question.correct
+
+            });
+
+        }
+
+    });
+
+
+    const percentage =
+    Math.round(
+        (correct / testQuestions.length)
+        * 100
+    );
+
+
+    const wrong =
+    testQuestions.length - correct;
+
+
+    window.currentTestResult = {
+
+        subject:
+        selectedTestSubject,
+
+        chapter:
+        selectedTestChapter,
+
+        correct:
+        correct,
+
+        wrong:
+        wrong,
+
+        total:
+        testQuestions.length,
+
+        percentage:
+        percentage,
+
+        wrongQuestions:
+        wrongQuestions,
+
+        date:
+        new Date().toISOString()
+
+    };
+
+
+    document
+    .getElementById("resultScore")
+    .textContent =
+    percentage + "%";
+
+
+    document
+    .getElementById("resultSummary")
+    .innerHTML =
+
+    "<p><strong>Correct:</strong> " +
+    correct +
+    "</p>"
+
+    +
+
+    "<p><strong>Wrong:</strong> " +
+    wrong +
+    "</p>"
+
+    +
+
+    "<p><strong>Subject:</strong> " +
+    selectedTestSubject +
+    "</p>"
+
+    +
+
+    "<p><strong>Chapter:</strong> " +
+    selectedTestChapter +
+    "</p>";
+
+
+    showPage("resultPage");
 
 }
 
-}
-);
 
 
-const percentage =
-Math.round(
-
-(
-correct /
-testQuestions.length
-)
-
-* 100
-
-);
-
-
-const wrong =
-testQuestions.length -
-correct;
-
-
-window.currentTestResult = {
-
-subject:
-selectedTestSubject,
-
-chapter:
-selectedTestChapter,
-
-correct:
-correct,
-
-wrong:
-wrong,
-
-total:
-testQuestions.length,
-
-percentage:
-percentage
-
-};
-
-
-document
-.getElementById("resultScore")
-.textContent =
-percentage + "%";
-
-
-document
-.getElementById("resultSummary")
-.innerHTML =
-
-"<p><strong>Correct:</strong> " +
-correct +
-"</p>"
-
-+
-
-"<p><strong>Wrong:</strong> " +
-wrong +
-"</p>"
-
-+
-
-"<p><strong>Subject:</strong> " +
-selectedTestSubject +
-"</p>"
-
-+
-
-"<p><strong>Chapter:</strong> " +
-selectedTestChapter +
-"</p>";
-
-
-showPage(
-"resultPage"
-);
-
-}
-
-
-/* =========================
-   SAVE TEST ANALYSIS
-========================= */
+/* =====================================================
+   SAVE TEST
+===================================================== */
 
 function saveTestAndAnalyze(){
 
-if(
-!window.currentTestResult
-)
-return;
+    if(!window.currentTestResult)
+    return;
 
 
-const progress =
-JSON.parse(
-
-localStorage.getItem(
-"examosProgress"
-)
-
-||
-
-'{"tests":0,"practice":0,"scores":[]}'
-
-);
+    const progress =
+    getProgressData();
 
 
-progress.tests++;
+    progress.tests++;
 
 
-progress.scores.push(
-window.currentTestResult
-);
+    progress.totalQuestions +=
+    window.currentTestResult.total;
 
 
-localStorage.setItem(
-"examosProgress",
-JSON.stringify(progress)
-);
+    progress.scores.push(
+        window.currentTestResult
+    );
 
 
-updateProgressUI();
+    saveProgressData(progress);
 
 
-showPage(
-"analysisPage"
-);
+    updateProgressUI();
 
 
-loadAnalysis();
+    showPage("analysisPage");
+
+
+    loadAnalysis();
 
 }
 
 
-/* =========================
+
+/* =====================================================
    PRACTICE FLOW
-========================= */
-
-let selectedPracticeSubject = "";
-let selectedPracticeChapter = "";
-let selectedPracticeTopic = "";
-
+===================================================== */
 
 function openPractice(){
 
-showPage(
-"practicePage"
-);
+    if(!student){
+
+        showPage("setupPage");
+
+        return;
+
+    }
 
 
-document
-.getElementById("practiceSubjectStep")
-.classList.remove("hidden");
+    showPage("practicePage");
 
 
-document
-.getElementById("practiceChapterStep")
-.classList.add("hidden");
+    document
+    .getElementById("practiceSubjectStep")
+    .classList
+    .remove("hidden");
 
 
-document
-.getElementById("practiceTopicStep")
-.classList.add("hidden");
+    document
+    .getElementById("practiceChapterStep")
+    .classList
+    .add("hidden");
 
 
-document
-.getElementById("practiceConfigStep")
-.classList.add("hidden");
+    document
+    .getElementById("practiceTopicStep")
+    .classList
+    .add("hidden");
 
 
-renderPracticeSubjects();
+    document
+    .getElementById("practiceConfigStep")
+    .classList
+    .add("hidden");
+
+
+    renderPracticeSubjects();
 
 }
 
 
 function renderPracticeSubjects(){
 
-const container =
-document
-.getElementById(
-"practiceSubjectOptions"
-);
+    const container =
+    document.getElementById(
+        "practiceSubjectOptions"
+    );
 
 
-container.innerHTML = "";
+    container.innerHTML = "";
 
 
-getSubjects()
-.forEach(subject=>{
+    getSubjects()
+    .forEach(subject=>{
 
-const div =
-document.createElement("div");
-
-
-div.className =
-"option";
+        const div =
+        document.createElement("div");
 
 
-div.innerHTML =
-"<h4>" +
-subject +
-"</h4><p>Practice</p>";
+        div.className =
+        "option";
 
 
-div.onclick =
-()=>{
-
-selectedPracticeSubject =
-subject;
-
-
-openPracticeChapters();
-
-};
+        div.innerHTML =
+        "<h4>" +
+        subject +
+        "</h4><p>Practice</p>";
 
 
-container.appendChild(
-div
-);
+        div.onclick =
+        function(){
 
-});
+            selectedPracticeSubject =
+            subject;
+
+            openPracticeChapters();
+
+        };
+
+
+        container.appendChild(div);
+
+    });
 
 }
 
 
 function openPracticeChapters(){
 
-document
-.getElementById(
-"practiceSubjectStep"
-)
-.classList.add(
-"hidden"
-);
+    document
+    .getElementById("practiceSubjectStep")
+    .classList
+    .add("hidden");
 
 
-document
-.getElementById(
-"practiceChapterStep"
-)
-.classList.remove(
-"hidden"
-);
+    document
+    .getElementById("practiceChapterStep")
+    .classList
+    .remove("hidden");
 
 
-const container =
-document
-.getElementById(
-"practiceChapterOptions"
-);
+    const container =
+    document.getElementById(
+        "practiceChapterOptions"
+    );
 
 
-container.innerHTML = "";
+    container.innerHTML = "";
 
 
-getChapters(
-selectedPracticeSubject
-)
-.forEach(item=>{
+    getChapters(
+        selectedPracticeSubject
+    )
+    .forEach(item=>{
 
-const div =
-document.createElement("div");
-
-
-div.className =
-"option";
+        const div =
+        document.createElement("div");
 
 
-div.innerHTML =
-"<h4>" +
-item.chapter +
-"</h4>";
+        div.className =
+        "option";
 
 
-div.onclick =
-()=>{
-
-selectedPracticeChapter =
-item.chapter;
-
-
-openPracticeTopics(
-item
-);
-
-};
+        div.innerHTML =
+        "<h4>" +
+        item.chapter +
+        "</h4><p>" +
+        item.topics.length +
+        " Topics</p>";
 
 
-container.appendChild(
-div
-);
+        div.onclick =
+        function(){
 
-});
+            selectedPracticeChapter =
+            item.chapter;
+
+            openPracticeTopics(item);
+
+        };
+
+
+        container.appendChild(div);
+
+    });
 
 }
 
 
 function openPracticeTopics(chapter){
 
-document
-.getElementById(
-"practiceChapterStep"
-)
-.classList.add(
-"hidden"
-);
+    document
+    .getElementById("practiceChapterStep")
+    .classList
+    .add("hidden");
 
 
-document
-.getElementById(
-"practiceTopicStep"
-)
-.classList.remove(
-"hidden"
-);
+    document
+    .getElementById("practiceTopicStep")
+    .classList
+    .remove("hidden");
 
 
-const container =
-document
-.getElementById(
-"topicOptions"
-);
+    const container =
+    document.getElementById(
+        "topicOptions"
+    );
 
 
-container.innerHTML = "";
+    container.innerHTML = "";
 
 
-chapter.topics
-.forEach(topic=>{
+    chapter.topics
+    .forEach(topic=>{
 
-const div =
-document.createElement("div");
-
-
-div.className =
-"topic-item";
+        const div =
+        document.createElement("div");
 
 
-div.textContent =
-topic;
+        div.className =
+        "topic-item";
 
 
-div.onclick =
-()=>{
-
-document
-.querySelectorAll(
-".topic-item"
-)
-.forEach(item=>{
-
-item.classList.remove(
-"selected"
-);
-
-});
+        div.textContent =
+        topic;
 
 
-div.classList.add(
-"selected"
-);
+        div.onclick =
+        function(){
+
+            document
+            .querySelectorAll(
+                ".topic-item"
+            )
+            .forEach(item=>{
+
+                item.classList
+                .remove("selected");
+
+            });
 
 
-selectedPracticeTopic =
-topic;
+            div.classList
+            .add("selected");
 
 
-setTimeout(
-openPracticeConfig,
-250
-);
-
-};
+            selectedPracticeTopic =
+            topic;
 
 
-container.appendChild(
-div
-);
+            setTimeout(
+                openPracticeConfig,
+                250
+            );
 
-});
+        };
+
+
+        container.appendChild(div);
+
+    });
 
 }
 
 
 function openPracticeConfig(){
 
-document
-.getElementById(
-"practiceTopicStep"
-)
-.classList.add(
-"hidden"
-);
+    document
+    .getElementById("practiceTopicStep")
+    .classList
+    .add("hidden");
 
 
-document
-.getElementById(
-"practiceConfigStep"
-)
-.classList.remove(
-"hidden"
-);
+    document
+    .getElementById("practiceConfigStep")
+    .classList
+    .remove("hidden");
 
 }
 
 
 function backPractice(step){
 
-if(step === 1){
+    if(step === 1){
 
-document
-.getElementById(
-"practiceChapterStep"
-)
-.classList.add(
-"hidden"
-);
+        document
+        .getElementById("practiceChapterStep")
+        .classList
+        .add("hidden");
 
 
-document
-.getElementById(
-"practiceSubjectStep"
-)
-.classList.remove(
-"hidden"
-);
+        document
+        .getElementById("practiceSubjectStep")
+        .classList
+        .remove("hidden");
 
-}
+    }
 
 
-if(step === 2){
+    if(step === 2){
 
-document
-.getElementById(
-"practiceTopicStep"
-)
-.classList.add(
-"hidden"
-);
+        document
+        .getElementById("practiceTopicStep")
+        .classList
+        .add("hidden");
 
 
-document
-.getElementById(
-"practiceChapterStep"
-)
-.classList.remove(
-"hidden"
-);
+        document
+        .getElementById("practiceChapterStep")
+        .classList
+        .remove("hidden");
 
-}
+    }
 
 
-if(step === 3){
+    if(step === 3){
 
-document
-.getElementById(
-"practiceConfigStep"
-)
-.classList.add(
-"hidden"
-);
+        document
+        .getElementById("practiceConfigStep")
+        .classList
+        .add("hidden");
 
 
-document
-.getElementById(
-"practiceTopicStep"
-)
-.classList.remove(
-"hidden"
-);
+        document
+        .getElementById("practiceTopicStep")
+        .classList
+        .remove("hidden");
 
-}
+    }
 
 }
 
 
-/* =========================
-   PRACTICE RUN
-========================= */
+
+/* =====================================================
+   PRACTICE
+===================================================== */
 
 let practiceQuestions = [];
 
 let practiceIndex = 0;
 
+let practiceAnswers = [];
+
 
 function startPractice(){
 
-const count =
-parseInt(
+    const count =
+    parseInt(
 
-document
-.getElementById(
-"practiceQuestionCount"
-)
-.value
+        document
+        .getElementById(
+            "practiceQuestionCount"
+        )
+        .value
 
-);
-
-
-practiceQuestions =
-generateDemoQuestions(
-
-selectedPracticeSubject,
-
-selectedPracticeTopic,
-
-count
-
-);
+    );
 
 
-practiceIndex = 0;
+    practiceQuestions =
+    generateQuestions(
+
+        selectedPracticeSubject,
+
+        selectedPracticeTopic,
+
+        count
+
+    );
 
 
-showPage(
-"practiceRunPage"
-);
+    practiceIndex = 0;
 
 
-document
-.getElementById(
-"practiceTitle"
-)
-.textContent =
-
-selectedPracticeSubject +
-" Practice";
+    practiceAnswers =
+    new Array(
+        practiceQuestions.length
+    )
+    .fill(null);
 
 
-document
-.getElementById(
-"practiceSubtitle"
-)
-.textContent =
-
-selectedPracticeChapter +
-" • " +
-selectedPracticeTopic;
+    showPage("practiceRunPage");
 
 
-renderPracticeQuestion();
+    document
+    .getElementById("practiceTitle")
+    .textContent =
+
+    selectedPracticeSubject +
+    " Practice";
+
+
+    document
+    .getElementById("practiceSubtitle")
+    .textContent =
+
+    selectedPracticeChapter +
+    " • " +
+    selectedPracticeTopic;
+
+
+    renderPracticeQuestion();
 
 }
 
 
 function renderPracticeQuestion(){
 
-if(
+    if(
+        practiceIndex >=
+        practiceQuestions.length
+    ){
 
-practiceIndex >=
-practiceQuestions.length
+        finishPractice();
 
-){
+        return;
 
-finishPractice();
-
-return;
-
-}
+    }
 
 
-const question =
-practiceQuestions[
-practiceIndex
-];
+    const question =
+    practiceQuestions[
+        practiceIndex
+    ];
 
 
-document
-.getElementById(
-"practiceQuestionNumber"
-)
-.textContent =
+    document
+    .getElementById(
+        "practiceQuestionNumber"
+    )
+    .textContent =
 
-"Question " +
-(practiceIndex + 1) +
-" of " +
-practiceQuestions.length;
-
-
-document
-.getElementById(
-"practiceQuestionText"
-)
-.textContent =
-question.question;
+    "Question " +
+    (practiceIndex + 1) +
+    " of " +
+    practiceQuestions.length;
 
 
-const container =
-document
-.getElementById(
-"practiceAnswerOptions"
-);
+    document
+    .getElementById(
+        "practiceQuestionText"
+    )
+    .textContent =
+    question.question;
 
 
-container.innerHTML = "";
+    const container =
+    document.getElementById(
+        "practiceAnswerOptions"
+    );
 
 
-question.options
-.forEach(option=>{
-
-const button =
-document.createElement(
-"button"
-);
+    container.innerHTML = "";
 
 
-button.className =
-"answer-option";
+    question.options
+    .forEach((option,index)=>{
+
+        const button =
+        document.createElement(
+            "button"
+        );
 
 
-button.textContent =
-option;
+        button.className =
+        "answer-option";
 
 
-button.onclick =
-()=>{
-
-button.classList.add(
-"selected"
-);
-
-};
+        button.textContent =
+        option;
 
 
-container.appendChild(
-button
-);
+        button.onclick =
+        function(){
 
-});
+            practiceAnswers[
+                practiceIndex
+            ] = index;
+
+
+            document
+            .querySelectorAll(
+                "#practiceAnswerOptions .answer-option"
+            )
+            .forEach(btn=>{
+
+                btn.classList
+                .remove("selected");
+
+            });
+
+
+            button.classList
+            .add("selected");
+
+        };
+
+
+        container.appendChild(button);
+
+    });
 
 }
 
 
 function nextPracticeQuestion(){
 
-practiceIndex++;
+    if(
+        practiceAnswers[
+            practiceIndex
+        ] === null
+    ){
+
+        alert(
+            "कृपया एक answer चुनें।"
+        );
+
+        return;
+
+    }
 
 
-renderPracticeQuestion();
+    practiceIndex++;
+
+    renderPracticeQuestion();
 
 }
 
 
 function finishPractice(){
 
-const progress =
-JSON.parse(
-
-localStorage.getItem(
-"examosProgress"
-)
-
-||
-
-'{"tests":0,"practice":0,"scores":[]}'
-
-);
+    const progress =
+    getProgressData();
 
 
-progress.practice++;
+    progress.practice++;
 
 
-localStorage.setItem(
-"examosProgress",
-JSON.stringify(progress)
-);
+    saveProgressData(progress);
 
 
-updateProgressUI();
+    updateProgressUI();
 
 
-alert(
-"Practice session completed! 🎉"
-);
+    alert(
+        "Practice session completed! 🎉"
+    );
 
 
-goHome();
+    goHome();
 
 }
 
 
-/* =========================
+
+/* =====================================================
    ANALYSIS
-========================= */
+===================================================== */
 
 function openAnalysis(){
 
-showPage(
-"analysisPage"
-);
+    showPage("analysisPage");
 
-
-loadAnalysis();
+    loadAnalysis();
 
 }
 
 
 function loadAnalysis(){
 
-const progress =
-JSON.parse(
-
-localStorage.getItem(
-"examosProgress"
-)
-
-||
-
-'{"tests":0,"practice":0,"scores":[]}'
-
-);
+    const progress =
+    getProgressData();
 
 
-if(
+    if(
+        progress.scores.length === 0
+    ){
 
-progress.scores.length === 0
+        return;
 
-){
-
-return;
-
-}
+    }
 
 
-const lastScore =
-progress.scores[
-progress.scores.length - 1
-];
+    const lastScore =
+    progress.scores[
+        progress.scores.length - 1
+    ];
 
 
-let performanceText;
+    let advice = "";
 
 
-if(
-lastScore.percentage >= 80
-){
+    if(lastScore.percentage >= 80){
 
-performanceText =
-"बहुत अच्छा प्रदर्शन। अब advanced questions की practice करें।";
+        advice =
+        "बहुत अच्छा प्रदर्शन। अब कठिन questions और advanced practice करें।";
 
-}
+    }
 
-else if(
-lastScore.percentage >= 50
-){
+    else if(lastScore.percentage >= 50){
 
-performanceText =
-"आपका प्रदर्शन ठीक है। कमजोर topics पर ज्यादा practice करें।";
+        advice =
+        "आपका प्रदर्शन ठीक है। गलत topics की practice बढ़ाएं।";
 
-}
+    }
 
-else{
+    else{
 
-performanceText =
-"इस chapter के concepts को दोबारा पढ़ें और आसान questions से practice शुरू करें।";
+        advice =
+        "पहले chapter के concepts दोबारा पढ़ें और फिर आसान questions से practice शुरू करें।";
 
-}
+    }
 
 
-document
-.getElementById("weakTopics")
-.innerHTML =
+    document
+    .getElementById("weakTopics")
+    .innerHTML =
 
-"<strong>" +
-lastScore.chapter +
-"</strong><br>" +
+    "<strong>" +
+    lastScore.chapter +
+    "</strong><br><br>" +
 
-"इस chapter में और practice की जरूरत है।";
-
-
-document
-.getElementById("mistakeAnalysis")
-.innerHTML =
-
-"आपके " +
-lastScore.wrong +
-" answers गलत हुए।<br><br>" +
-
-"संभावित areas:<br>" +
-
-"• Concept understanding<br>" +
-
-"• Calculation mistakes<br>" +
-
-"• Question reading";
+    "इस chapter में और practice की जरूरत है।";
 
 
-document
-.getElementById("recommendedPractice")
-.innerHTML =
+    document
+    .getElementById("mistakeAnalysis")
+    .innerHTML =
 
-"<strong>" +
-lastScore.subject +
-"</strong><br>" +
+    "गलत answers: <strong>" +
+    lastScore.wrong +
+    "</strong><br><br>" +
 
-lastScore.chapter +
-" के topics की practice करें।";
+    "गलतियों को समझकर concepts दोबारा revise करें।";
 
 
-document
-.getElementById("improvementAdvice")
-.innerHTML =
-performanceText;
+    document
+    .getElementById("recommendedPractice")
+    .innerHTML =
+
+    "<strong>" +
+    lastScore.subject +
+    "</strong><br><br>" +
+
+    lastScore.chapter +
+    " के topics पर practice करें।";
+
+
+    document
+    .getElementById("improvementAdvice")
+    .textContent =
+    advice;
 
 }
 
 
-/* =========================
+function startRecommendedPractice(){
+
+    const progress =
+    getProgressData();
+
+
+    if(
+        progress.scores.length === 0
+    ){
+
+        openPractice();
+
+        return;
+
+    }
+
+
+    const lastScore =
+    progress.scores[
+        progress.scores.length - 1
+    ];
+
+
+    selectedPracticeSubject =
+    lastScore.subject;
+
+
+    selectedPracticeChapter =
+    lastScore.chapter;
+
+
+    openPractice();
+
+}
+
+
+
+/* =====================================================
    PROGRESS
-========================= */
+===================================================== */
+
+function getProgressData(){
+
+    return JSON.parse(
+
+        localStorage.getItem(
+            "examosProgress"
+        )
+
+        ||
+
+        '{"tests":0,"practice":0,"scores":[],"totalQuestions":0}'
+
+    );
+
+}
+
+
+function saveProgressData(data){
+
+    localStorage.setItem(
+
+        "examosProgress",
+
+        JSON.stringify(data)
+
+    );
+
+}
+
 
 function openProgress(){
 
-showPage(
-"progressPage"
-);
+    showPage("progressPage");
 
-
-updateProgressUI();
+    updateProgressUI();
 
 }
 
 
 function updateProgressUI(){
 
-const progress =
-JSON.parse(
-
-localStorage.getItem(
-"examosProgress"
-)
-
-||
-
-'{"tests":0,"practice":0,"scores":[]}'
-
-);
+    const progress =
+    getProgressData();
 
 
-document
-.getElementById(
-"totalTests"
-)
-.textContent =
-progress.tests;
+    document
+    .getElementById("totalTests")
+    .textContent =
+    progress.tests;
 
 
-document
-.getElementById(
-"totalPractice"
-)
-.textContent =
-progress.practice;
+    document
+    .getElementById("totalPractice")
+    .textContent =
+    progress.practice;
 
 
-document
-.getElementById(
-"progressTests"
-)
-.textContent =
-progress.tests;
+    document
+    .getElementById("progressTests")
+    .textContent =
+    progress.tests;
 
 
-document
-.getElementById(
-"progressPractice"
-)
-.textContent =
-progress.practice;
+    document
+    .getElementById("progressPractice")
+    .textContent =
+    progress.practice;
 
 
-let average = 0;
+    document
+    .getElementById("totalQuestions")
+    .textContent =
+    progress.totalQuestions ||
+    0;
 
 
-if(
-progress.scores.length
-){
-
-average =
-Math.round(
-
-progress.scores
-.reduce(
-(sum,item)=>
-sum + item.percentage,
-0
-)
-
-/
-
-progress.scores.length
-
-);
-
-}
+    let average = 0;
 
 
-document
-.getElementById(
-"progressPercent"
-)
-.textContent =
-average + "%";
+    if(
+        progress.scores.length
+    ){
+
+        average =
+        Math.round(
+
+            progress.scores
+            .reduce(
+                (sum,item)=>
+                sum + item.percentage,
+                0
+            )
+
+            /
+
+            progress.scores.length
+
+        );
+
+    }
 
 
-document
-.getElementById(
-"overallProgressText"
-)
-.textContent =
-average + "%";
+    document
+    .getElementById("progressPercent")
+    .textContent =
+    average + "%";
 
 
-document
-.getElementById(
-"overallProgressBar"
-)
-.style.width =
-average + "%";
+    document
+    .getElementById("averageAccuracy")
+    .textContent =
+    average + "%";
+
+
+    document
+    .getElementById("overallProgressText")
+    .textContent =
+    average + "%";
+
+
+    document
+    .getElementById("overallProgressBar")
+    .style.width =
+    average + "%";
 
 }
 
 
-/* =========================
+
+/* =====================================================
    ASK AI
-========================= */
+===================================================== */
 
 function openAskAI(){
 
-showPage(
-"askAIPage"
-);
+    showPage("askAIPage");
 
 }
 
 
 function handleChatKey(event){
 
-if(
+    if(
 
-event.key === "Enter"
-&&
-!event.shiftKey
+        event.key === "Enter"
 
-){
+        &&
 
-event.preventDefault();
+        !event.shiftKey
 
-askAI();
+    ){
+
+        event.preventDefault();
+
+        askAI();
+
+    }
 
 }
 
-}
+
+function addMessage(text,type){
+
+    const chatBox =
+    document.getElementById(
+        "chatBox"
+    );
 
 
-function addMessage(
-text,
-type
-){
-
-const chatBox =
-document
-.getElementById(
-"chatBox"
-);
+    const message =
+    document.createElement(
+        "div"
+    );
 
 
-const message =
-document.createElement(
-"div"
-);
+    message.className =
+    "message " +
+    type;
 
 
-message.className =
-"message " + type;
+    message.textContent =
+    text;
 
 
-message.textContent =
-text;
+    chatBox.appendChild(
+        message
+    );
 
 
-chatBox.appendChild(
-message
-);
+    chatBox.scrollTop =
+    chatBox.scrollHeight;
 
 
-chatBox.scrollTop =
-chatBox.scrollHeight;
-
-
-return message;
+    return message;
 
 }
 
 
 async function askAI(){
 
-const input =
-document
-.getElementById(
-"aiPrompt"
-);
+    const input =
+    document.getElementById(
+        "aiPrompt"
+    );
 
 
-const prompt =
-input.value.trim();
+    const prompt =
+    input.value.trim();
 
 
-if(!prompt)
-return;
+    if(!prompt)
+    return;
 
 
-addMessage(
-prompt,
-"user"
-);
+    addMessage(
+        prompt,
+        "user"
+    );
 
 
-input.value = "";
+    input.value = "";
 
 
-const loading =
-document.createElement(
-"div"
-);
+    const loading =
+    document.createElement(
+        "div"
+    );
 
 
-loading.className =
-"message ai loading";
+    loading.className =
+    "message ai";
 
 
-loading.innerHTML =
+    loading.innerHTML =
 
-'<div class="loader"></div> AI सोच रहा है...';
+    '<div style="display:flex;gap:10px;align-items:center">' +
 
+    '<div class="loader"></div>' +
 
-document
-.getElementById(
-"chatBox"
-)
-.appendChild(
-loading
-);
+    '<span>EXAMOS AI सोच रहा है...</span>' +
+
+    '</div>';
 
 
-const chatBox =
-document
-.getElementById(
-"chatBox"
-);
+    document
+    .getElementById("chatBox")
+    .appendChild(loading);
 
 
-chatBox.scrollTop =
-chatBox.scrollHeight;
+    try{
 
 
-try{
+        /*
+        Student context भी API को भेजा जा रहा है।
+        */
 
-const response =
-await fetch(
-"/api/ask-ai",
-{
+        const response =
+        await fetch(
 
-method:"POST",
+            "/api/ask-ai",
 
-headers:{
+            {
 
-"Content-Type":
-"application/json"
+                method:"POST",
 
-},
+                headers:{
 
-body:
-JSON.stringify({
+                    "Content-Type":
+                    "application/json"
 
-prompt:prompt
+                },
 
-})
+
+                body:
+                JSON.stringify({
+
+                    prompt:
+
+                    `Student Profile:
+Name: ${student ? student.name : "Student"}
+Class: ${student ? student.class : ""}
+Board: ${student ? student.board : ""}
+Stream: ${student ? student.stream : ""}
+
+Student Question:
+${prompt}`
+
+                })
+
+            }
+
+        );
+
+
+        const data =
+        await response.json();
+
+
+        loading.remove();
+
+
+        if(!response.ok){
+
+            throw new Error(
+
+                data.error ||
+
+                "AI से जवाब नहीं मिला।"
+
+            );
+
+        }
+
+
+        addMessage(
+
+            data.answer,
+
+            "ai"
+
+        );
+
+    }
+
+
+    catch(error){
+
+        loading.remove();
+
+
+        addMessage(
+
+            "AI से connection नहीं हो पाया।\n\n" +
+            error.message,
+
+            "ai"
+
+        );
+
+    }
 
 }
-);
 
 
-const data =
-await response.json();
+
+/* =====================================================
+   SETTINGS
+===================================================== */
+
+function editProfile(){
+
+    showPage("settingsPage");
 
 
-loading.remove();
+    document
+    .getElementById("editName")
+    .value =
+    student.name;
 
 
-if(
-!response.ok
-){
-
-throw new Error(
-
-data.error
-||
-
-"AI से जवाब नहीं मिला।"
-
-);
-
-}
+    document
+    .getElementById("editClass")
+    .value =
+    student.class;
 
 
-addMessage(
-
-data.answer,
-
-"ai"
-
-);
-
-}
-
-catch(error){
-
-loading.remove();
+    document
+    .getElementById("editBoard")
+    .value =
+    student.board;
 
 
-addMessage(
+    if(
+        student.stream !== "common"
+    ){
 
-"माफ़ कीजिए, AI से connection नहीं हो पाया।\n\nError: " +
-error.message,
+        document
+        .getElementById("editStream")
+        .value =
+        student.stream;
 
-"ai"
+    }
 
-);
 
-}
+    updateEditStream();
 
 }
 
 
-/* =========================
+function updateEditStream(){
+
+    const value =
+    document
+    .getElementById("editClass")
+    .value;
+
+
+    const box =
+    document
+    .getElementById("editStreamBox");
+
+
+    if(
+        value === "11" ||
+        value === "12"
+    ){
+
+        box.classList
+        .remove("hidden");
+
+    }
+
+    else{
+
+        box.classList
+        .add("hidden");
+
+    }
+
+}
+
+
+function updateStudentProfile(){
+
+    const name =
+    document
+    .getElementById("editName")
+    .value
+    .trim();
+
+
+    const studentClass =
+    document
+    .getElementById("editClass")
+    .value;
+
+
+    const board =
+    document
+    .getElementById("editBoard")
+    .value;
+
+
+    const stream =
+    document
+    .getElementById("editStream")
+    .value;
+
+
+    if(!name){
+
+        alert("नाम भरें।");
+
+        return;
+
+    }
+
+
+    student = {
+
+        name:name,
+
+        class:studentClass,
+
+        board:board,
+
+        stream:
+
+        (
+            studentClass === "9" ||
+            studentClass === "10"
+        )
+
+        ?
+
+        "common"
+
+        :
+
+        stream
+
+    };
+
+
+    localStorage.setItem(
+
+        "examosStudent",
+
+        JSON.stringify(student)
+
+    );
+
+
+    updateStudentUI();
+
+
+    alert(
+        "Profile update हो गया।"
+    );
+
+
+    goHome();
+
+}
+
+
+function resetStudentData(){
+
+    const confirmReset =
+    confirm(
+        "क्या आप सच में अपना पूरा student data reset करना चाहते हैं?"
+    );
+
+
+    if(!confirmReset)
+    return;
+
+
+    localStorage.removeItem(
+        "examosStudent"
+    );
+
+
+    localStorage.removeItem(
+        "examosProgress"
+    );
+
+
+    student = null;
+
+
+    location.reload();
+
+}
+
+
+
+/* =====================================================
    HOME
-========================= */
+===================================================== */
 
 function goHome(){
 
-if(!student){
+    if(!student){
 
-showPage(
-"setupPage"
-);
+        showPage("setupPage");
 
-return;
+        return;
 
-}
+    }
 
 
-showPage(
-"homePage"
-);
+    showPage("homePage");
 
-
-updateProgressUI();
+    updateProgressUI();
 
 }
 
