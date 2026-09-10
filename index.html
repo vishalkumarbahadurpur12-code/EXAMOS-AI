@@ -1,3253 +1,5257 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>EXAMOS AI</title>
+<title>EXAMOS AI — Smart Practice. Better Results.</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:#eef1ff;
-  color:#182033;
-}
-button,input,select{font:inherit}
-button{cursor:pointer}
-#app{
-  width:100%;
-  max-width:520px;
-  min-height:100vh;
-  margin:auto;
-  background:#fff;
-  position:relative;
-  overflow:hidden;
+
+:root{
+ --bg:#070b20;
+ --card:#111832;
+ --card2:#151d3e;
+ --text:#f5f7ff;
+ --muted:#9da7c7;
+ --line:rgba(255,255,255,.09);
+ --accent:#7c5cff;
+ --accent2:#19a7ff;
+ --good:#2dd4a7;
+ --danger:#ff6b81;
 }
 
-/* ---------- COMMON ---------- */
-.page{
-  display:none;
-  min-height:100vh;
-  padding:20px 18px 95px;
-  animation:fade .25s ease;
+body{
+ font-family:Arial,Helvetica,sans-serif;
+ background:
+ radial-gradient(circle at 20% 0%,#20265e 0,#0c1130 34%,var(--bg) 70%);
+ color:var(--text);
+ min-height:100vh;
 }
-.page.active{display:block}
+
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;border:0}
+
+.app{
+ max-width:620px;
+ margin:auto;
+ min-height:100vh;
+ padding:18px 15px 90px;
+}
+
+.screen{
+ display:none;
+ animation:fade .25s ease;
+}
+
+.screen.active{display:block}
 
 @keyframes fade{
-  from{opacity:0;transform:translateY(8px)}
-  to{opacity:1;transform:translateY(0)}
+ from{opacity:0;transform:translateY(7px)}
+ to{opacity:1;transform:none}
 }
 
-.card{
-  background:#fff;
-  border:1px solid #e8eaff;
-  border-radius:20px;
-  padding:18px;
-  margin:12px 0;
-  box-shadow:0 8px 30px rgba(45,55,120,.08);
+.welcome{
+ min-height:calc(100vh - 36px);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
 }
 
-.btn{
-  width:100%;
-  border:0;
-  border-radius:15px;
-  padding:15px;
-  color:#fff;
-  font-weight:700;
-  background:linear-gradient(135deg,#7655ff,#477dff);
-  box-shadow:0 9px 24px rgba(91,83,240,.22);
-  margin-top:8px;
+.welcomeBox{
+ width:100%;
+ max-width:430px;
 }
 
-.btn:active{transform:scale(.98)}
-
-.btn.secondary{
-  background:#eef0ff;
-  color:#5d4bd0;
-  box-shadow:none;
+.logoWrap{
+ width:145px;
+ height:145px;
+ margin:0 auto 22px;
+ border-radius:40px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:linear-gradient(
+ 135deg,
+ rgba(124,92,255,.25),
+ rgba(25,167,255,.16)
+ );
+ border:1px solid rgba(255,255,255,.12);
+ box-shadow:0 0 55px rgba(124,92,255,.22);
+ animation:float 3s ease-in-out infinite;
+ overflow:hidden;
 }
 
-.link{
-  display:block;
-  width:100%;
-  border:0;
-  background:transparent;
-  color:#614cff;
-  font-weight:700;
-  padding:13px;
+.logoWrap img{
+ width:112px;
+ height:112px;
+ object-fit:contain;
+ border-radius:28px;
 }
 
-.title{
-  font-size:26px;
-  font-weight:800;
-  margin:8px 0;
+.logoFallback{
+ font-size:48px;
+ font-weight:900;
 }
 
-.sub{
-  color:#747d91;
-  font-size:14px;
-  line-height:1.5;
-  margin-bottom:16px;
-}
-
-.input-group{margin:12px 0}
-
-label{
-  display:block;
-  font-size:13px;
-  font-weight:700;
-  color:#525c72;
-  margin-bottom:6px;
-}
-
-.input,select{
-  width:100%;
-  padding:14px;
-  border:1px solid #dfe2ed;
-  border-radius:13px;
-  outline:none;
-  background:#fff;
-}
-
-.input:focus,select:focus{
-  border-color:#7057ff;
-  box-shadow:0 0 0 3px rgba(112,87,255,.08);
-}
-
-.error{
-  display:none;
-  padding:10px;
-  background:#fff0f3;
-  color:#d33958;
-  border-radius:10px;
-  font-size:13px;
-  margin:10px 0;
-}
-
-.success{
-  display:none;
-  padding:10px;
-  background:#effcf5;
-  color:#13824a;
-  border-radius:10px;
-  font-size:13px;
-  margin:10px 0;
-}
-
-/* ---------- WELCOME ---------- */
-#welcome{
-  background:linear-gradient(155deg,#f5f0ff,#edf5ff);
-  text-align:center;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-}
-
-#welcome.active{display:flex}
-
-.logo-box{
-  width:105px;
-  height:105px;
-  border-radius:30px;
-  background:linear-gradient(135deg,#7555ff,#477cff);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#fff;
-  font-size:42px;
-  font-weight:900;
-  box-shadow:0 18px 40px rgba(95,77,230,.25);
-  animation:floatLogo 2.5s ease-in-out infinite;
-  margin-bottom:18px;
-}
-
-@keyframes floatLogo{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-8px)}
+@keyframes float{
+ 50%{transform:translateY(-8px) scale(1.02)}
 }
 
 .brand{
-  font-size:34px;
-  font-weight:900;
-  color:#684cff;
+ font-size:38px;
+ font-weight:900;
+ letter-spacing:2px;
 }
 
-.ai-text{
-  font-size:34px;
-  font-weight:900;
+.gradient{
+ background:linear-gradient(90deg,#9d7bff,#3cc7ff);
+ -webkit-background-clip:text;
+ color:transparent;
 }
 
-.welcome-tag{
-  margin:8px 0 22px;
-  color:#6f7890;
+.tagline{
+ color:var(--muted);
+ margin:9px 0 28px;
+ font-size:15px;
 }
 
-.student-illustration{
-  width:210px;
-  height:160px;
-  border-radius:28px;
-  background:linear-gradient(135deg,#e0e8ff,#f1e8ff);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:78px;
-  margin-bottom:18px;
+.card{
+ background:linear-gradient(
+ 145deg,
+ rgba(20,28,61,.96),
+ rgba(12,17,40,.96)
+ );
+ border:1px solid var(--line);
+ border-radius:22px;
+ padding:18px;
+ margin-bottom:14px;
+ box-shadow:0 15px 35px rgba(0,0,0,.18);
 }
 
-/* ---------- AUTH ---------- */
-.auth-card{
-  margin-top:35px;
+.hero h1{
+ font-size:28px;
+ margin-bottom:7px;
 }
 
-.auth-logo{
-  text-align:center;
-  margin-bottom:22px;
+.hero p{
+ color:var(--muted);
+ line-height:1.5;
 }
 
-.auth-logo .logo-box{
-  width:72px;
-  height:72px;
-  font-size:28px;
-  margin:0 auto 10px;
-  animation:none;
+.btn{
+ width:100%;
+ padding:14px 16px;
+ border-radius:15px;
+ color:white;
+ font-weight:800;
+ background:linear-gradient(
+ 90deg,
+ var(--accent),
+ var(--accent2)
+ );
+ box-shadow:0 10px 25px rgba(72,100,255,.2);
+ margin-top:12px;
 }
 
-/* ---------- PROFILE ---------- */
-.profile-header{
-  text-align:center;
-  padding:10px 0 20px;
+.btn.secondary{
+ background:#20294b;
+ box-shadow:none;
 }
 
-.profile-icon{
-  width:70px;
-  height:70px;
-  margin:auto;
-  border-radius:50%;
-  background:linear-gradient(135deg,#7655ff,#477dff);
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:28px;
-  font-weight:900;
+.btn.small{
+ width:auto;
+ padding:10px 13px;
+ margin:0;
 }
 
-/* ---------- DASHBOARD ---------- */
-.topbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:20px;
+.btn:disabled{
+ opacity:.5;
+ cursor:not-allowed;
 }
 
-.user-name{
-  font-size:23px;
-  font-weight:800;
+.top{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ margin:4px 0 18px;
 }
 
-.avatar{
-  width:45px;
-  height:45px;
-  border-radius:50%;
-  background:#eeeaff;
-  color:#624cff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:800;
+.back{
+ background:#18213f;
+ color:#fff;
+ border:1px solid var(--line);
+ border-radius:12px;
+ padding:9px 12px;
 }
 
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:9px;
+.title{
+ font-size:23px;
+ font-weight:900;
 }
 
-.stat{
-  text-align:center;
-  background:#f7f7ff;
-  border-radius:15px;
-  padding:14px 6px;
+.sub{
+ color:var(--muted);
+ font-size:13px;
+ margin-top:4px;
 }
 
-.stat b{
-  display:block;
-  font-size:22px;
-  color:#604bd2;
-}
-
-.stat span{
-  color:#7b8394;
-  font-size:11px;
-}
-
-.section-title{
-  font-size:20px;
-  font-weight:800;
-  margin:23px 0 10px;
-}
-
-.feature-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.feature{
-  min-height:135px;
-  margin:0;
-  cursor:pointer;
-  transition:.2s;
-}
-
-.feature:active{
-  transform:scale(.97);
-}
-
-.feature-icon{
-  font-size:30px;
-}
-
-.feature-title{
-  font-weight:800;
-  margin-top:10px;
-}
-
-.feature-desc{
-  color:#7a8293;
-  font-size:12px;
-  margin-top:5px;
-}
-
-/* ---------- BOTTOM NAV ---------- */
-.bottom-nav{
-  display:none;
-  position:fixed;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:100%;
-  max-width:520px;
-  background:#fff;
-  border-top:1px solid #e8e8ef;
-  padding:8px 3px;
-  z-index:100;
-  justify-content:space-around;
-}
-
-.bottom-nav button{
-  border:0;
-  background:none;
-  color:#7b8294;
-  font-size:10px;
-  min-width:55px;
-}
-
-.bottom-nav button b{
-  display:block;
-  font-size:21px;
-  margin-bottom:2px;
-}
-
-.bottom-nav button.active{
-  color:#644dff;
-}
-
-/* ---------- CHAPTER ---------- */
-.chapter{
-  padding:16px;
-  background:#fff;
-  border:1px solid #e7e8f1;
-  border-radius:16px;
-  margin:10px 0;
-  cursor:pointer;
-  box-shadow:0 5px 18px rgba(40,50,100,.05);
-}
-
-.chapter:active{
-  transform:scale(.98);
-}
-
-.chapter small{
-  color:#7b8293;
-}
-
-/* ---------- TEST ---------- */
-.test-top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:15px;
-}
-
-.timer{
-  background:#f0edff;
-  color:#5d49ce;
-  padding:8px 12px;
-  border-radius:10px;
-  font-weight:800;
-}
-
-.question{
-  font-size:20px;
-  font-weight:800;
-  line-height:1.45;
-  margin:14px 0 18px;
+.grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:12px;
 }
 
 .option{
-  width:100%;
-  text-align:left;
-  padding:15px;
-  border:1px solid #e1e3ec;
-  border-radius:14px;
-  background:#fff;
-  margin:8px 0;
+ text-align:left;
+ padding:16px;
+ border-radius:18px;
+ background:#121a39;
+ color:#fff;
+ border:1px solid var(--line);
+ transition:.2s;
 }
 
+.option:hover,
 .option.selected{
-  border-color:#6952ff;
-  background:#f5f2ff;
-  color:#5641cb;
+ border-color:#7c5cff;
+ background:#1a2250;
 }
 
-/* ---------- RESULT ---------- */
-.score-circle{
-  width:125px;
-  height:125px;
-  margin:5px auto 18px;
-  border-radius:50%;
-  background:linear-gradient(135deg,#7655ff,#477dff);
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:30px;
-  font-weight:900;
+.option b{
+ display:block;
+ margin-bottom:6px;
 }
 
-.result-stats{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
+.option span{
+ font-size:12px;
+ color:var(--muted);
 }
 
-.result-box{
-  background:#f7f7ff;
-  padding:14px;
-  border-radius:14px;
-  text-align:center;
+label{
+ display:block;
+ color:#cbd2e9;
+ font-size:13px;
+ margin:13px 0 7px;
 }
 
-.result-box b{
-  display:block;
-  font-size:21px;
-  color:#604bd2;
+input,select,textarea{
+ width:100%;
+ background:#0c1330;
+ color:#fff;
+ border:1px solid var(--line);
+ border-radius:13px;
+ padding:13px;
+ outline:none;
 }
 
-/* ---------- WRONG ---------- */
-.wrong-card{
-  border-left:4px solid #ff657d;
+textarea{
+ resize:vertical;
+ min-height:90px;
 }
 
-.answer-correct{
-  color:#12834b;
-  font-weight:700;
+input:focus,
+select:focus,
+textarea:focus{
+ border-color:#7c5cff;
 }
 
-.answer-wrong{
-  color:#d13c57;
+.profileIcon{
+ width:48px;
+ height:48px;
+ border-radius:15px;
+ background:linear-gradient(
+ 135deg,
+ #7c5cff,
+ #19a7ff
+ );
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-weight:900;
+ font-size:20px;
 }
 
-/* ---------- CHAT ---------- */
-.chat-box{
-  height:58vh;
-  overflow-y:auto;
-  background:#f7f8ff;
-  border-radius:18px;
-  padding:12px;
+.statGrid{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:9px;
+ margin-top:13px;
 }
 
-.chat-msg{
-  max-width:86%;
-  padding:11px 14px;
-  border-radius:15px;
-  margin:8px 0;
-  font-size:14px;
-  line-height:1.45;
+.stat{
+ background:#0d1431;
+ border:1px solid var(--line);
+ padding:12px;
+ border-radius:15px;
+ text-align:center;
 }
 
-.chat-ai{
-  background:#fff;
-  border:1px solid #e8e8ef;
+.stat b{
+ display:block;
+ font-size:20px;
 }
 
-.chat-user{
-  background:#6752ef;
-  color:#fff;
-  margin-left:auto;
+.stat span{
+ font-size:11px;
+ color:var(--muted);
 }
 
-.chat-row{
-  display:flex;
-  gap:8px;
-  margin-top:10px;
+.feature{
+ display:flex;
+ gap:12px;
+ align-items:center;
 }
 
-.chat-row input{
-  flex:1;
-  margin:0;
+.featureIcon{
+ width:44px;
+ height:44px;
+ border-radius:13px;
+ background:#202750;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:20px;
+ flex-shrink:0;
 }
 
-.chat-row button{
-  width:82px;
+.feature p{
+ font-size:12px;
+ color:var(--muted);
+ margin-top:4px;
 }
 
-/* ---------- ANALYSIS ---------- */
-.progress-bar{
-  height:10px;
-  background:#ececf5;
-  border-radius:20px;
-  overflow:hidden;
+.progress{
+ height:8px;
+ background:#202747;
+ border-radius:20px;
+ overflow:hidden;
+ margin:12px 0;
 }
 
-.progress-fill{
-  height:100%;
-  background:linear-gradient(90deg,#7555ff,#477dff);
-  border-radius:20px;
+.progress i{
+ display:block;
+ height:100%;
+ background:linear-gradient(
+ 90deg,
+ #7c5cff,
+ #19a7ff
+ );
+ width:0;
 }
 
-/* ---------- FLOATING AI ---------- */
-.ai-float{
-  position:fixed;
-  right:calc(50% - 240px);
-  bottom:76px;
-  width:58px;
-  height:58px;
-  border:0;
-  border-radius:50%;
-  background:linear-gradient(135deg,#7655ff,#477dff);
-  color:#fff;
-  font-size:25px;
-  box-shadow:0 10px 25px rgba(76,70,220,.3);
-  z-index:90;
+.question{
+ font-size:20px;
+ line-height:1.5;
+ margin:15px 0;
+ white-space:pre-wrap;
 }
 
-@media(max-width:520px){
-  .ai-float{
-    right:18px;
-  }
+.qMeta{
+ display:flex;
+ justify-content:space-between;
+ color:var(--muted);
+ font-size:12px;
 }
 
-@media(max-width:370px){
-  .feature-grid{
-    grid-template-columns:1fr;
-  }
+.answers{
+ display:grid;
+ gap:10px;
+}
+
+.answer{
+ padding:14px;
+ text-align:left;
+ border-radius:14px;
+ background:#121a39;
+ color:#fff;
+ border:1px solid var(--line);
+}
+
+.answer.correct{
+ border-color:var(--good);
+ background:rgba(45,212,167,.12);
+}
+
+.answer.wrong{
+ border-color:var(--danger);
+ background:rgba(255,107,129,.1);
+}
+
+.resultScore{
+ font-size:48px;
+ font-weight:900;
+ text-align:center;
+ margin:10px;
+}
+
+.center{text-align:center}
+.muted{color:var(--muted)}
+
+.badge{
+ display:inline-block;
+ padding:6px 10px;
+ border-radius:99px;
+ background:#202750;
+ color:#bfc8e9;
+ font-size:11px;
+}
+
+.notice{
+ padding:11px;
+ border-radius:13px;
+ background:#171f42;
+ color:#c5cce3;
+ font-size:12px;
+ line-height:1.45;
+ margin-top:10px;
+}
+
+.error{
+ padding:10px;
+ border-radius:12px;
+ background:rgba(255,107,129,.12);
+ border:1px solid rgba(255,107,129,.25);
+ color:#ff9cad;
+ font-size:13px;
+ margin-top:10px;
+ display:none;
+}
+
+.success{
+ padding:10px;
+ border-radius:12px;
+ background:rgba(45,212,167,.12);
+ border:1px solid rgba(45,212,167,.25);
+ color:#6de8c5;
+ font-size:13px;
+ margin-top:10px;
+ display:none;
+}
+
+.aiButton{
+ position:fixed;
+ right:18px;
+ bottom:20px;
+ width:58px;
+ height:58px;
+ border-radius:20px;
+ background:linear-gradient(
+ 135deg,
+ #7c5cff,
+ #19a7ff
+ );
+ color:#fff;
+ font-size:25px;
+ box-shadow:0 12px 30px rgba(49,81,255,.4);
+ z-index:50;
+ display:none;
+ align-items:center;
+ justify-content:center;
+}
+
+.aiPanel{
+ position:fixed;
+ right:16px;
+ bottom:88px;
+ width:min(390px,calc(100vw - 32px));
+ background:#0e1532;
+ border:1px solid var(--line);
+ border-radius:22px;
+ z-index:49;
+ box-shadow:0 20px 50px rgba(0,0,0,.45);
+ display:none;
+ overflow:hidden;
+}
+
+.aiPanel.open{display:block}
+
+.aiHead{
+ padding:15px;
+ background:linear-gradient(
+ 90deg,
+ #181f48,
+ #101831
+ );
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+}
+
+.aiHead button{
+ background:none;
+ color:#fff;
+ font-size:20px;
+}
+
+.aiBody{
+ height:300px;
+ overflow:auto;
+ padding:12px;
+}
+
+.msg{
+ padding:10px 12px;
+ border-radius:14px;
+ margin-bottom:9px;
+ line-height:1.45;
+ font-size:13px;
+ max-width:90%;
+ white-space:pre-wrap;
+}
+
+.msg.ai{background:#192144}
+.msg.user{
+ background:#4939a1;
+ margin-left:auto;
+}
+
+.aiInput{
+ display:flex;
+ gap:7px;
+ padding:10px;
+ border-top:1px solid var(--line);
+}
+
+.aiInput input{
+ padding:11px;
+}
+
+.loading{
+ opacity:.7;
+}
+
+.hidden{
+ display:none!important;
+}
+
+.toast{
+ position:fixed;
+ left:50%;
+ bottom:18px;
+ transform:translateX(-50%);
+ background:#151d3d;
+ color:#fff;
+ border:1px solid var(--line);
+ padding:11px 15px;
+ border-radius:13px;
+ z-index:100;
+ display:none;
+ font-size:13px;
+ max-width:90%;
+ text-align:center;
+}
+
+.chapter{
+ padding:15px;
+ border:1px solid var(--line);
+ border-radius:16px;
+ background:#121a39;
+ margin-bottom:10px;
+ cursor:pointer;
+}
+
+.chapter small{
+ display:block;
+ color:var(--muted);
+ margin-top:5px;
+}
+
+.analysisItem{
+ padding:14px;
+ border-radius:15px;
+ background:#0d1431;
+ border:1px solid var(--line);
+ margin-bottom:10px;
+}
+
+.wrongItem{
+ border-left:4px solid var(--danger);
+}
+
+.correctText{color:#6de8c5}
+.wrongText{color:#ff9cad}
+
+@media(max-width:430px){
+ .grid{grid-template-columns:1fr}
+ .brand{font-size:34px}
 }
 </style>
 </head>
 
 <body>
 
-<div id="app">
+<div class="app">
 
-<!-- ================= WELCOME ================= -->
-<section id="welcome" class="page active">
+<!-- ======================================================
+ WELCOME
+====================================================== -->
 
-  <div class="logo-box">E</div>
+<section id="welcome" class="screen active welcome">
 
-  <div>
-    <span class="brand">EXAMOS</span>
-    <span class="ai-text"> AI</span>
-  </div>
+<div class="welcomeBox">
 
-  <div class="welcome-tag">
-    Smart Preparation. Better Results.
-  </div>
+<div class="logoWrap">
 
-  <div class="student-illustration">
-    👨‍🎓📚
-  </div>
+<img
+src="examos-logo.png"
+alt="EXAMOS AI Logo"
+onerror="
+this.style.display='none';
+document.getElementById('logoFallback').style.display='block';
+">
 
-  <div class="sub">
-    <b>AI-Powered Learning for Smart Students</b>
-  </div>
+<div id="logoFallback" class="logoFallback">
+E
+</div>
 
-  <button class="btn" onclick="showPage('login')">
-    Get Started →
-  </button>
+</div>
 
-</section>
+<div class="brand">
+<span class="gradient">EXAMOS</span> AI
+</div>
 
+<div class="tagline">
+Smart Practice. Better Results.
+</div>
 
-<!-- ================= LOGIN ================= -->
-<section id="login" class="page">
+<div class="card">
 
-  <div class="card auth-card">
+<div style="font-size:46px;margin-bottom:8px">
+👨‍🎓📚
+</div>
 
-    <div class="auth-logo">
-      <div class="logo-box">E</div>
-      <div class="title">EXAMOS AI</div>
-      <div class="sub">Student Login</div>
-    </div>
+<div class="sub">
+AI-Powered Learning for Smart Students
+</div>
 
-    <div id="loginError" class="error"></div>
-
-    <div class="input-group">
-      <label>Student ID</label>
-      <input
-        id="loginId"
-        class="input"
-        placeholder="जैसे vishal123"
-        autocomplete="username"
-      >
-    </div>
-
-    <div class="input-group">
-      <label>Password</label>
-      <input
-        id="loginPassword"
-        class="input"
-        type="password"
-        placeholder="Password"
-        autocomplete="current-password"
-      >
-    </div>
-
-    <button class="btn" onclick="loginStudent()">
-      Login
-    </button>
-
-    <button class="link" onclick="showPage('register')">
-      Create New Student ID
-    </button>
-
-    <button class="link" onclick="showPage('welcome')">
-      ← Back
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- ================= REGISTER ================= -->
-<section id="register" class="page">
-
-  <div class="card auth-card">
-
-    <div class="auth-logo">
-      <div class="logo-box">E</div>
-      <div class="title">Create Student ID</div>
-      <div class="sub">नया student account बनाएं</div>
-    </div>
-
-    <div id="registerError" class="error"></div>
-    <div id="registerSuccess" class="success"></div>
-
-    <div class="input-group">
-      <label>Student ID</label>
-      <input
-        id="registerId"
-        class="input"
-        placeholder="जैसे vishal123"
-        maxlength="30"
-      >
-    </div>
-
-    <div class="input-group">
-      <label>Password</label>
-      <input
-        id="registerPassword"
-        class="input"
-        type="password"
-        placeholder="कम से कम 6 characters"
-        maxlength="64"
-      >
-    </div>
-
-    <div class="input-group">
-      <label>Confirm Password</label>
-      <input
-        id="registerConfirm"
-        class="input"
-        type="password"
-        placeholder="Password फिर से डालें"
-        maxlength="64"
-      >
-    </div>
-
-    <button class="btn" onclick="registerStudent()">
-      Create Student ID
-    </button>
-
-    <button class="link" onclick="showPage('login')">
-      ← Login पर वापस
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- ================= PROFILE ================= -->
-<section id="profile" class="page">
-
-  <div class="profile-header">
-    <div class="profile-icon">👤</div>
-    <div class="title">Student Profile</div>
-    <div class="sub">
-      अपनी basic information भरें
-    </div>
-  </div>
-
-  <div class="card">
-
-    <div class="input-group">
-      <label>Name</label>
-      <input
-        id="profileName"
-        class="input"
-        placeholder="आपका पूरा नाम"
-      >
-    </div>
-
-    <div class="input-group">
-      <label>Board</label>
-      <select id="profileBoard">
-        <option value="BSEB">BSEB</option>
-        <option value="CBSE">CBSE</option>
-      </select>
-    </div>
-
-    <div class="input-group">
-      <label>Class</label>
-      <select id="profileClass" onchange="updateStream()">
-        <option value="9">Class 9</option>
-        <option value="10">Class 10</option>
-        <option value="11">Class 11</option>
-        <option value="12">Class 12</option>
-      </select>
-    </div>
-
-    <div id="streamGroup" class="input-group">
-      <label>Stream</label>
-      <select id="profileStream">
-        <option value="Science">Science</option>
-        <option value="Commerce">Commerce</option>
-        <option value="Arts">Arts</option>
-      </select>
-    </div>
-
-    <div class="input-group">
-      <label>Subject</label>
-      <input
-        class="input"
-        value="Mathematics"
-        disabled
-      >
-    </div>
-
-    <button class="btn" onclick="saveProfile()">
-      Save & Continue →
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- ================= DASHBOARD ================= -->
-<section id="dashboard" class="page">
-
-  <div class="topbar">
-
-    <div>
-      <div class="sub" style="margin:0">
-        Welcome back 👋
-      </div>
-
-      <div class="user-name" id="dashboardName">
-        Student
-      </div>
-    </div>
-
-    <div class="avatar" id="dashboardAvatar">
-      S
-    </div>
-
-  </div>
-
-
-  <div class="stats">
-
-    <div class="stat">
-      <b id="totalTests">0</b>
-      <span>Total Tests</span>
-    </div>
-
-    <div class="stat">
-      <b id="averageScore">0%</b>
-      <span>Average</span>
-    </div>
-
-    <div class="stat">
-      <b id="bestScore">0%</b>
-      <span>Best</span>
-    </div>
-
-  </div>
-
-
-  <div class="section-title">
-    Learn Mathematics
-  </div>
-
-
-  <div class="feature-grid">
-
-    <div class="card feature" onclick="openDiagnostic()">
-      <div class="feature-icon">📝</div>
-      <div class="feature-title">Diagnostic Test</div>
-      <div class="feature-desc">
-        Chapter-wise test
-      </div>
-    </div>
-
-    <div class="card feature" onclick="openPractice()">
-      <div class="feature-icon">🎯</div>
-      <div class="feature-title">Math Practice</div>
-      <div class="feature-desc">
-        Topic practice
-      </div>
-    </div>
-
-    <div class="card feature" onclick="openAnalysis()">
-      <div class="feature-icon">📊</div>
-      <div class="feature-title">My Progress</div>
-      <div class="feature-desc">
-        Score & weak topics
-      </div>
-    </div>
-
-    <div class="card feature" onclick="openAI()">
-      <div class="feature-icon">🤖</div>
-      <div class="feature-title">AI Assistant</div>
-      <div class="feature-desc">
-        Ask your Maths doubt
-      </div>
-    </div>
-
-  </div>
-
-
-  <div class="section-title">
-    More
-  </div>
-
-  <div class="card feature" onclick="openSettings()">
-    <div class="feature-icon">⚙️</div>
-    <div class="feature-title">Settings</div>
-    <div class="feature-desc">
-      Student profile
-    </div>
-  </div>
-
-</section>
-
-
-<!-- ================= DIAGNOSTIC CHAPTERS ================= -->
-<section id="diagnostic" class="page">
-
-  <button class="link" onclick="showPage('dashboard')">
-    ← Dashboard
-  </button>
-
-  <div class="title">
-    Diagnostic Test
-  </div>
-
-  <div class="sub">
-    अपने class के Mathematics chapter को चुनें।
-  </div>
-
-  <div id="chapterList"></div>
-
-</section>
-
-
-<!-- ================= TEST SETTINGS ================= -->
-<section id="testSettings" class="page">
-
-  <button class="link" onclick="showPage('diagnostic')">
-    ← Chapters
-  </button>
-
-  <div class="title" id="selectedChapterTitle">
-    Test Settings
-  </div>
-
-  <div class="sub">
-    Test शुरू करने से पहले settings चुनें।
-  </div>
-
-  <div class="card">
-
-    <div class="input-group">
-      <label>Number of Questions</label>
-
-      <select id="questionCount">
-        <option value="5">5 Questions</option>
-        <option value="10">10 Questions</option>
-        <option value="15">15 Questions</option>
-        <option value="20">20 Questions</option>
-      </select>
-    </div>
-
-
-    <div class="input-group">
-      <label>Language</label>
-
-      <select id="testLanguage">
-        <option value="Hindi">Hindi</option>
-        <option value="English">English</option>
-      </select>
-    </div>
-
-
-    <div class="input-group">
-      <label>Time</label>
-
-      <select id="testTime">
-        <option value="5">5 Minutes</option>
-        <option value="10">10 Minutes</option>
-        <option value="20">20 Minutes</option>
-        <option value="30">30 Minutes</option>
-      </select>
-    </div>
-
-
-    <button class="btn" onclick="startDiagnosticTest()">
-      Start Test →
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- ================= TEST RUN ================= -->
-<section id="testRun" class="page">
-
-  <div class="test-top">
-
-    <button
-      class="link"
-      style="width:auto;padding:5px"
-      onclick="confirmExitTest()"
-    >
-      ← Exit
-    </button>
-
-    <div class="timer" id="timer">
-      10:00
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <div class="sub" id="questionNumber">
-      Question 1
-    </div>
-
-    <div class="question" id="questionText">
-      Question
-    </div>
-
-    <div id="questionOptions"></div>
-
-    <button
-      class="btn"
-      id="nextQuestionButton"
-      onclick="nextQuestion()"
-    >
-      Next Question
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- ================= RESULT ================= -->
-<section id="result" class="page">
-
-  <div class="title">
-    Test Result 🎉
-  </div>
-
-  <div class="card" style="text-align:center">
-
-    <div class="score-circle" id="resultPercentage">
-      0%
-    </div>
-
-    <div class="result-stats">
-
-      <div class="result-box">
-        <b id="resultCorrect">0</b>
-        Correct
-      </div>
-
-      <div class="result-box">
-        <b id="resultWrong">0</b>
-        Wrong
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="title" style="font-size:20px">
-    Weak Topics
-  </div>
-
-  <div id="weakTopicsBox"></div>
-
-
-  <div class="title" style="font-size:20px">
-    Wrong Questions
-  </div>
-
-  <div id="wrongQuestionsBox"></div>
-
-
-  <button class="btn" onclick="openTargetedPractice()">
-    🎯 Targeted Practice
-  </button>
-
-  <button
-    class="btn secondary"
-    onclick="showPage('dashboard')"
-  >
-    Go to Dashboard
-  </button>
-
-</section>
-
-
-<!-- ================= PRACTICE ================= -->
-<section id="practice" class="page">
-
-  <button class="link" onclick="showPage('dashboard')">
-    ← Dashboard
-  </button>
-
-  <div class="title">
-    Math Practice
-  </div>
-
-  <div class="sub">
-    Chapter चुनकर practice शुरू करें।
-  </div>
-
-  <div id="practiceChapterList"></div>
-
-</section>
-
-
-<!-- ================= PRACTICE RUN ================= -->
-<section id="practiceRun" class="page">
-
-  <button class="link" onclick="showPage('practice')">
-    ← Practice
-  </button>
-
-  <div class="title" id="practiceTitle">
-    Practice
-  </div>
-
-  <div class="card">
-
-    <div class="sub" id="practiceNumber">
-      Question 1
-    </div>
-
-    <div class="question" id="practiceQuestion">
-      Question
-    </div>
-
-    <div id="practiceOptions"></div>
-
-  </div>
-
-</section>
-
-
-<!-- ================= ANALYSIS ================= -->
-<section id="analysis" class="page">
-
-  <button class="link" onclick="showPage('dashboard')">
-    ← Dashboard
-  </button>
-
-  <div class="title">
-    My Progress
-  </div>
-
-  <div class="sub">
-    आपकी test performance
-  </div>
-
-  <div id="analysisData"></div>
-
-</section>
-
-
-<!-- ================= AI ================= -->
-<section id="ai" class="page">
-
-  <button class="link" onclick="showPage('dashboard')">
-    ← Dashboard
-  </button>
-
-  <div class="title">
-    🤖 Ask EXAMOS AI
-  </div>
-
-  <div class="sub">
-    Mathematics का कोई भी doubt पूछें।
-  </div>
-
-  <div class="chat-box" id="chatBox">
-
-    <div class="chat-msg chat-ai">
-      नमस्ते! 👋 मैं EXAMOS AI हूँ।
-      अपना Mathematics question पूछिए।
-    </div>
-
-  </div>
-
-  <div class="chat-row">
-
-    <input
-      id="chatInput"
-      class="input"
-      placeholder="अपना सवाल लिखें..."
-      onkeydown="if(event.key==='Enter')sendAI()"
-    >
-
-    <button
-      class="btn"
-      onclick="sendAI()"
-    >
-      Send
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- ================= SETTINGS ================= -->
-<section id="settings" class="page">
-
-  <button class="link" onclick="showPage('dashboard')">
-    ← Dashboard
-  </button>
-
-  <div class="title">
-    Student Settings
-  </div>
-
-  <div class="card">
-
-    <div class="input-group">
-      <label>Name</label>
-      <input id="editName" class="input">
-    </div>
-
-    <div class="input-group">
-      <label>Board</label>
-      <select id="editBoard">
-        <option>BSEB</option>
-        <option>CBSE</option>
-      </select>
-    </div>
-
-    <div class="input-group">
-      <label>Class</label>
-      <select id="editClass">
-        <option>9</option>
-        <option>10</option>
-        <option>11</option>
-        <option>12</option>
-      </select>
-    </div>
-
-    <button class="btn" onclick="updateProfile()">
-      Save Changes
-    </button>
-
-    <button class="btn secondary" onclick="logout()">
-      Logout
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- ================= BOTTOM NAV ================= -->
-<nav class="bottom-nav" id="bottomNav">
-
-  <button onclick="showPage('dashboard')" class="active">
-    <b>⌂</b>
-    Home
-  </button>
-
-  <button onclick="openDiagnostic()">
-    <b>📝</b>
-    Test
-  </button>
-
-  <button onclick="openPractice()">
-    <b>🎯</b>
-    Practice
-  </button>
-
-  <button onclick="openAI()">
-    <b>🤖</b>
-    AI
-  </button>
-
-  <button onclick="openAnalysis()">
-    <b>📊</b>
-    Progress
-  </button>
-
-</nav>
-
-
-<!-- FLOATING AI BUTTON -->
 <button
-  id="aiFloat"
-  class="ai-float"
-  onclick="openAI()"
+class="btn"
+onclick="goFromWelcome()"
 >
-  🤖
+Get Started →
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+ LOGIN
+====================================================== -->
+
+<section id="login" class="screen">
+
+<div class="top">
+
+<button
+class="back"
+onclick="showScreen('welcome')"
+>
+← Back
+</button>
+
+<div class="title">
+Student Login
+</div>
+
+<span></span>
+
+</div>
+
+<div class="card">
+
+<div style="text-align:center">
+
+<div class="profileIcon" style="margin:auto">
+E
+</div>
+
+<div class="title" style="margin-top:10px">
+EXAMOS AI
+</div>
+
+<div class="sub">
+Login करके अपनी learning continue करें
+</div>
+
+</div>
+
+<div id="loginError" class="error"></div>
+
+<label>Student ID</label>
+
+<input
+id="loginId"
+placeholder="जैसे vishal123"
+autocomplete="username"
+>
+
+<label>Password</label>
+
+<input
+id="loginPassword"
+type="password"
+placeholder="Password"
+autocomplete="current-password"
+>
+
+<button
+class="btn"
+id="loginBtn"
+onclick="loginStudent()"
+>
+Login
+</button>
+
+<button
+class="btn secondary"
+onclick="showScreen('register')"
+>
+Create New Student ID
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+ REGISTER
+====================================================== -->
+
+<section id="register" class="screen">
+
+<div class="top">
+
+<button
+class="back"
+onclick="showScreen('login')"
+>
+← Login
+</button>
+
+<div class="title">
+Create ID
+</div>
+
+<span></span>
+
+</div>
+
+<div class="card">
+
+<div style="text-align:center">
+
+<div class="profileIcon" style="margin:auto">
+E
+</div>
+
+<div class="title" style="margin-top:10px">
+Create Student ID
+</div>
+
+<div class="sub">
+नया EXAMOS account बनाएं
+</div>
+
+</div>
+
+<div id="registerError" class="error"></div>
+<div id="registerSuccess" class="success"></div>
+
+<label>Student ID</label>
+
+<input
+id="registerId"
+maxlength="30"
+placeholder="जैसे vishal123"
+autocomplete="username"
+>
+
+<label>Password</label>
+
+<input
+id="registerPassword"
+type="password"
+maxlength="64"
+placeholder="कम से कम 6 characters"
+autocomplete="new-password"
+>
+
+<label>Confirm Password</label>
+
+<input
+id="registerConfirm"
+type="password"
+maxlength="64"
+placeholder="Password फिर से डालें"
+autocomplete="new-password"
+>
+
+<button
+class="btn"
+id="registerBtn"
+onclick="registerStudent()"
+>
+Create Student ID
+</button>
+
+<button
+class="link"
+onclick="showScreen('login')"
+style="
+background:none;
+color:#9d8cff;
+width:100%;
+padding:14px;
+"
+>
+← Login पर वापस
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+ PROFILE
+====================================================== -->
+
+<section id="profile" class="screen">
+
+<div class="top">
+
+<div>
+
+<div class="title">
+Student Profile
+</div>
+
+<div class="sub">
+अपनी basic जानकारी भरें
+</div>
+
+</div>
+
+<div class="profileIcon">
+E
+</div>
+
+</div>
+
+<div class="card">
+
+<label>Student Name</label>
+
+<input
+id="studentName"
+maxlength="80"
+placeholder="अपना नाम लिखें"
+>
+
+<label>Board</label>
+
+<select id="studentBoard">
+
+<option value="">
+Board चुनें
+</option>
+
+<option value="BSEB">
+Bihar Board (BSEB)
+</option>
+
+<option value="CBSE">
+CBSE
+</option>
+
+</select>
+
+<label>Class</label>
+
+<select
+id="studentClass"
+onchange="updateStream()"
+>
+
+<option value="">
+Class चुनें
+</option>
+
+<option value="9">
+Class 9
+</option>
+
+<option value="10">
+Class 10
+</option>
+
+<option value="11">
+Class 11
+</option>
+
+<option value="12">
+Class 12
+</option>
+
+</select>
+
+<div id="streamBox" class="hidden">
+
+<label>Stream</label>
+
+<select id="studentStream">
+
+<option value="">
+Stream चुनें
+</option>
+
+<option value="Science">
+Science
+</option>
+
+<option value="Commerce">
+Commerce
+</option>
+
+<option value="Arts">
+Arts
+</option>
+
+</select>
+
+</div>
+
+<label>Subject</label>
+
+<input
+value="Mathematics"
+readonly
+>
+
+<button
+id="saveProfileBtn"
+class="btn"
+onclick="saveStudentProfile()"
+>
+Save & Continue →
+</button>
+
+<div
+id="profileError"
+class="error"
+></div>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+ DASHBOARD
+====================================================== -->
+
+<section id="dashboard" class="screen">
+
+<div class="top">
+
+<div>
+
+<div class="sub">
+Welcome back 👋
+</div>
+
+<div
+class="title"
+id="dashName"
+>
+Student
+</div>
+
+</div>
+
+<div
+class="profileIcon"
+id="dashAvatar"
+>
+S
+</div>
+
+</div>
+
+
+<div class="card hero">
+
+<span class="badge">
+EXAMOS AI • Mathematics
+</span>
+
+<h1 style="margin-top:10px">
+Smart learning starts here.
+</h1>
+
+<p style="margin-top:8px">
+Test दो, mistakes समझो और weak topics पर
+targeted practice करो.
+</p>
+
+</div>
+
+
+<div class="grid">
+
+<button
+class="option"
+onclick="openTestSetup()"
+>
+
+<b>📝 Diagnostic Test</b>
+
+<span>
+Class और chapter के अनुसार AI test
+</span>
+
+</button>
+
+
+<button
+class="option"
+onclick="openPracticeSetup()"
+>
+
+<b>🎯 Personalized Practice</b>
+
+<span>
+Topic + difficulty practice
+</span>
+
+</button>
+
+
+<button
+class="option"
+onclick="openAnalysis()"
+>
+
+<b>📊 My Progress</b>
+
+<span>
+Score और weak topics
+</span>
+
+</button>
+
+
+<button
+class="option"
+onclick="toggleAI()"
+>
+
+<b>🤖 Ask EXAMOS AI</b>
+
+<span>
+Math doubt पूछें
+</span>
+
 </button>
 
 </div>
 
 
-<script>
+<div class="card" style="margin-top:14px">
 
-/* =========================================================
-   EXAMOS AI
-   Complete Frontend MVP
-   ========================================================= */
+<div class="feature">
+
+<div class="featureIcon">
+🧠
+</div>
+
+<div>
+
+<b>AI Learning Engine</b>
+
+<p>
+AI questions generate करेगा और आपके
+answers के आधार पर learning improve होगी।
+</p>
+
+</div>
+
+</div>
+
+</div>
 
 
-/* ---------- DATA ---------- */
+<div class="card">
 
-const chaptersByClass = {
+<div class="qMeta">
+<span>Total Tests</span>
+<b id="totalTests">
+0
+</b>
+</div>
 
-  "9":[
-    "Number Systems",
-    "Polynomials",
-    "Coordinate Geometry",
-    "Linear Equations in Two Variables",
-    "Introduction to Euclid's Geometry",
-    "Lines and Angles",
-    "Triangles",
-    "Quadrilaterals",
-    "Circles",
-    "Heron's Formula",
-    "Surface Areas and Volumes",
-    "Statistics",
-    "Probability"
-  ],
+<div class="statGrid">
 
-  "10":[
-    "Real Numbers",
-    "Polynomials",
-    "Pair of Linear Equations in Two Variables",
-    "Quadratic Equations",
-    "Arithmetic Progressions",
-    "Triangles",
-    "Coordinate Geometry",
-    "Introduction to Trigonometry",
-    "Some Applications of Trigonometry",
-    "Circles",
-    "Areas Related to Circles",
-    "Surface Areas and Volumes",
-    "Statistics",
-    "Probability"
-  ],
+<div class="stat">
 
-  "11":[
-    "Sets",
-    "Relations and Functions",
-    "Trigonometric Functions",
-    "Principle of Mathematical Induction",
-    "Complex Numbers and Quadratic Equations",
-    "Linear Inequalities",
-    "Permutations and Combinations",
-    "Binomial Theorem",
-    "Sequences and Series",
-    "Straight Lines",
-    "Conic Sections",
-    "Introduction to Three Dimensional Geometry",
-    "Limits and Derivatives",
-    "Statistics",
-    "Probability"
-  ],
+<b id="dashTests">
+0
+</b>
 
-  "12":[
-    "Relations and Functions",
-    "Inverse Trigonometric Functions",
-    "Matrices",
-    "Determinants",
-    "Continuity and Differentiability",
-    "Application of Derivatives",
-    "Integrals",
-    "Application of Integrals",
-    "Differential Equations",
-    "Vector Algebra",
-    "Three Dimensional Geometry",
-    "Linear Programming",
-    "Probability"
-  ]
+<span>
+Tests
+</span>
+
+</div>
+
+
+<div class="stat">
+
+<b id="dashBest">
+0%
+</b>
+
+<span>
+Best Score
+</span>
+
+</div>
+
+
+<div class="stat">
+
+<b id="dashPractice">
+0
+</b>
+
+<span>
+Practice
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+
+<button
+class="btn secondary"
+onclick="openSettings()"
+>
+⚙️ Student Profile / Settings
+</button>
+
+<button
+class="btn secondary"
+onclick="logout()"
+>
+Logout
+</button>
+
+</section>
+
+
+<!-- ======================================================
+ TEST SETUP
+====================================================== -->
+
+<section id="testSetup" class="screen">
+
+<div class="top">
+
+<button
+class="back"
+onclick="showScreen('dashboard')"
+>
+← Back
+</button>
+
+<div class="title">
+Create Test
+</div>
+
+<span></span>
+
+</div>
+
+
+<div class="card">
+
+<label>Class</label>
+
+<select
+id="testClass"
+onchange="loadTestChapters()"
+>
+<option value="9">Class 9</option>
+<option value="10">Class 10</option>
+<option value="11">Class 11</option>
+<option value="12">Class 12</option>
+</select>
+
+
+<label>Chapter</label>
+
+<select id="testChapter">
+</select>
+
+
+<label>Number of Questions</label>
+
+<select id="testCount">
+
+<option value="5">
+5 Questions
+</option>
+
+<option value="10">
+10 Questions
+</option>
+
+<option value="15">
+15 Questions
+</option>
+
+<option value="20">
+20 Questions
+</option>
+
+</select>
+
+
+<label>Language</label>
+
+<select id="testLanguage">
+
+<option value="Hindi">
+Hindi
+</option>
+
+<option value="English">
+English
+</option>
+
+</select>
+
+
+<label>Difficulty</label>
+
+<select id="testDifficulty">
+
+<option value="Easy">
+Easy
+</option>
+
+<option value="Medium">
+Medium
+</option>
+
+<option value="Hard">
+Hard
+</option>
+
+</select>
+
+
+<label>Time</label>
+
+<select id="testTime">
+
+<option value="5">
+5 Minutes
+</option>
+
+<option value="10">
+10 Minutes
+</option>
+
+<option value="20">
+20 Minutes
+</option>
+
+<option value="30">
+30 Minutes
+</option>
+
+</select>
+
+
+<button
+class="btn"
+id="generateTestBtn"
+onclick="generateAITest()"
+>
+🤖 Generate AI Test →
+</button>
+
+<div
+id="testError"
+class="error"
+></div>
+
+<div class="notice">
+
+<b>AI Test:</b>
+EXAMOS AI backend से fresh Mathematics
+questions generate करेगा।
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+ TEST
+====================================================== -->
+
+<section id="test" class="screen">
+
+<div class="top">
+
+<div>
+
+<div class="title">
+Diagnostic Test
+</div>
+
+<div
+class="sub"
+id="testChapterLabel"
+>
+</div>
+
+</div>
+
+<span
+class="badge"
+id="timer"
+>
+10:00
+</span>
+
+</div>
+
+
+<div class="card">
+
+<div class="qMeta">
+
+<span id="qNumber">
+Question 1
+</span>
+
+<span id="qScore">
+0 / 0
+</span>
+
+</div>
+
+
+<div class="progress">
+
+<i id="testProgress"></i>
+
+</div>
+
+
+<div
+class="question"
+id="questionText"
+>
+Question
+</div>
+
+
+<div
+class="answers"
+id="answers"
+>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+ RESULT
+====================================================== -->
+
+<section id="result" class="screen">
+
+<div class="top">
+
+<button
+class="back"
+onclick="showScreen('dashboard')"
+>
+← Dashboard
+</button>
+
+<div class="title">
+Test Result
+</div>
+
+<span></span>
+
+</div>
+
+
+<div class="card center">
+
+<div class="muted">
+Your Score
+</div>
+
+<div
+class="resultScore"
+id="resultScore"
+>
+0%
+</div>
+
+<div
+id="resultMessage"
+class="muted"
+>
+</div>
+
+
+<div class="statGrid">
+
+<div class="stat">
+
+<b id="correctCount">
+0
+</b>
+
+<span>
+Correct
+</span>
+
+</div>
+
+
+<div class="stat">
+
+<b id="wrongCount">
+0
+</b>
+
+<span>
+Wrong
+</span>
+
+</div>
+
+
+<div class="stat">
+
+<b id="resultTotal">
+0
+</b>
+
+<span>
+Total
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="feature">
+
+<div class="featureIcon">
+🧠
+</div>
+
+<div>
+
+<b>
+Weak Topic Analysis
+</b>
+
+<p id="weakTopic">
+Analysis loading...
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div id="wrongQuestionsBox"></div>
+
+
+<button
+class="btn"
+onclick="openTargetedPractice()"
+>
+🎯 Targeted Practice
+</button>
+
+
+<button
+class="btn secondary"
+onclick="openPracticeSetup()"
+>
+🎯 General Practice
+</button>
+
+</section>
+
+
+<!-- ======================================================
+ PRACTICE SETUP
+====================================================== -->
+
+<section id="practiceSetup" class="screen">
+
+<div class="top">
+
+<button
+class="back"
+onclick="showScreen('dashboard')"
+>
+← Back
+</button>
+
+<div class="title">
+AI Practice
+</div>
+
+<span></span>
+
+</div>
+
+
+<div class="card">
+
+<label>Class</label>
+
+<select
+id="practiceClass"
+onchange="loadPracticeChapters()"
+>
+<option value="9">Class 9</option>
+<option value="10">Class 10</option>
+<option value="11">Class 11</option>
+<option value="12">Class 12</option>
+</select>
+
+
+<label>Chapter</label>
+
+<select id="practiceChapter">
+</select>
+
+
+<label>Topic</label>
+
+<input
+id="practiceTopic"
+placeholder="जैसे Factorisation"
+value="Basic Concepts"
+>
+
+
+<label>Number of Questions</label>
+
+<select id="practiceCount">
+
+<option value="5">
+5 Questions
+</option>
+
+<option value="10">
+10 Questions
+</option>
+
+<option value="15">
+15 Questions
+</option>
+
+</select>
+
+
+<label>Difficulty</label>
+
+<select id="practiceDifficulty">
+
+<option value="Easy">
+Easy
+</option>
+
+<option value="Medium">
+Medium
+</option>
+
+<option value="Hard">
+Hard
+</option>
+
+</select>
+
+
+<button
+class="btn"
+id="generatePracticeBtn"
+onclick="generateAIPractice()"
+>
+🤖 Start AI Practice →
+</button>
+
+
+<div
+id="practiceError"
+class="error"
+></div>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+ PRACTICE
+====================================================== -->
+
+<section id="practice" class="screen">
+
+<div class="top">
+
+<div>
+
+<div class="title">
+AI Practice
+</div>
+
+<div
+class="sub"
+id="practiceMeta"
+>
+</div>
+
+</div>
+
+<span
+class="badge"
+id="practiceQNumber"
+>
+</span>
+
+</div>
+
+
+<div class="card">
+
+<div
+class="question"
+id="practiceQuestion"
+>
+</div>
+
+<div
+class="answers"
+id="practiceAnswers"
+>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+ ANALYSIS
+====================================================== -->
+
+<section id="analysis" class="screen">
+
+<div class="top">
+
+<button
+class="back"
+onclick="showScreen('dashboard')"
+>
+← Dashboard
+</button>
+
+<div class="title">
+My Progress
+</div>
+
+<span></span>
+
+</div>
+
+
+<div id="analysisData"></div>
+
+</section>
+
+
+<!-- ======================================================
+ SETTINGS
+====================================================== -->
+
+<section id="settings" class="screen">
+
+<div class="top">
+
+<button
+class="back"
+onclick="showScreen('dashboard')"
+>
+← Dashboard
+</button>
+
+<div class="title">
+Settings
+</div>
+
+<span></span>
+
+</div>
+
+
+<div class="card">
+
+<label>
+Student Name
+</label>
+
+<input id="editName">
+
+
+<label>
+Board
+</label>
+
+<select id="editBoard">
+
+<option value="BSEB">
+BSEB
+</option>
+
+<option value="CBSE">
+CBSE
+</option>
+
+</select>
+
+
+<label>
+Class
+</label>
+
+<select id="editClass">
+
+<option value="9">
+Class 9
+</option>
+
+<option value="10">
+Class 10
+</option>
+
+<option value="11">
+Class 11
+</option>
+
+<option value="12">
+Class 12
+</option>
+
+</select>
+
+
+<button
+class="btn"
+onclick="updateProfile()"
+>
+Save Changes
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+ AI CHAT
+====================================================== -->
+
+<div
+id="aiPanel"
+class="aiPanel"
+>
+
+<div class="aiHead">
+
+<b>
+🤖 EXAMOS AI Assistant
+</b>
+
+<button onclick="toggleAI()">
+×
+</button>
+
+</div>
+
+
+<div
+id="aiBody"
+class="aiBody"
+>
+
+<div class="msg ai">
+
+नमस्ते! 👋
+मैं EXAMOS AI हूँ।
+
+Mathematics का कोई भी सवाल पूछिए।
+मैं step-by-step समझाने की कोशिश करूँगा।
+
+</div>
+
+</div>
+
+
+<div class="aiInput">
+
+<input
+id="aiInput"
+placeholder="Math का सवाल पूछें..."
+onkeydown="
+if(event.key==='Enter')sendAI()
+"
+>
+
+<button
+class="btn small"
+onclick="sendAI()"
+>
+Send
+</button>
+
+</div>
+
+</div>
+
+
+<button
+id="aiButton"
+class="aiButton"
+onclick="toggleAI()"
+>
+✦
+</button>
+
+
+<div
+id="toast"
+class="toast"
+>
+</div>
+
+</div>
+
+
+<!-- ======================================================
+ JAVASCRIPT + FIREBASE
+====================================================== -->
+
+<script type="module">
+
+import {
+ initializeApp
+} from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+
+import {
+ getAuth,
+ createUserWithEmailAndPassword,
+ signInWithEmailAndPassword,
+ onAuthStateChanged,
+ signOut
+} from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+
+import {
+ getFirestore,
+ doc,
+ setDoc,
+ getDoc,
+ collection,
+ addDoc,
+ getDocs,
+ serverTimestamp
+} from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+
+/* ======================================================
+ FIREBASE CONFIG
+====================================================== */
+
+const firebaseConfig={
+
+ apiKey:
+ "AIzaSyCZbvAnxLr9dAF9y8eMT-JkB86_e9oy938",
+
+ authDomain:
+ "examos-ai.firebaseapp.com",
+
+ projectId:
+ "examos-ai",
+
+ storageBucket:
+ "examos-ai.firebasestorage.app",
+
+ messagingSenderId:
+ "735786547963",
+
+ appId:
+ "1:735786547963:web:9683353daafc23accdce5e",
+
+ measurementId:
+ "G-WLNK6TGN20"
 
 };
 
 
-/* ---------- QUESTION BANK ---------- */
+const firebaseApp=
+initializeApp(firebaseConfig);
 
-const questionBank = {
+const auth=
+getAuth(firebaseApp);
 
-"Number Systems":[
- {
-  q:"Which of the following is an irrational number?",
-  options:["2","3/4","√2","5"],
-  answer:2,
-  topic:"Irrational Numbers",
-  explanation:"√2 cannot be expressed as a ratio of two integers."
- },
- {
-  q:"Which number is a rational number?",
-  options:["√2","√3","0.75","π"],
-  answer:2,
-  topic:"Rational Numbers",
-  explanation:"0.75 = 3/4, so it is rational."
- },
- {
-  q:"The decimal expansion of 1/2 is:",
-  options:["0.5","0.333...","0.125","1.5"],
-  answer:0,
-  topic:"Decimal Expansion",
-  explanation:"1 ÷ 2 = 0.5."
- }
-],
+const db=
+getFirestore(firebaseApp);
 
-"Polynomials":[
- {
-  q:"What is the degree of 5x³ + 2x + 1?",
-  options:["1","2","3","5"],
-  answer:2,
-  topic:"Degree of Polynomial",
-  explanation:"The highest power of x is 3."
- },
- {
-  q:"A polynomial of degree 2 is called:",
-  options:["Linear","Quadratic","Cubic","Constant"],
-  answer:1,
-  topic:"Types of Polynomial",
-  explanation:"A polynomial with degree 2 is quadratic."
- },
- {
-  q:"If p(x)=x+2, then p(3) is:",
-  options:["3","5","6","9"],
-  answer:1,
-  topic:"Value of Polynomial",
-  explanation:"p(3)=3+2=5."
- }
-],
 
-"Real Numbers":[
- {
-  q:"HCF of 12 and 18 is:",
-  options:["2","3","6","9"],
-  answer:2,
-  topic:"HCF",
-  explanation:"Common factors are 1,2,3,6. Highest is 6."
- },
- {
-  q:"LCM of 4 and 6 is:",
-  options:["8","10","12","24"],
-  answer:2,
-  topic:"LCM",
-  explanation:"The smallest common multiple is 12."
- }
-],
+/* ======================================================
+ STATE
+====================================================== */
 
-"Quadratic Equations":[
- {
-  q:"The highest degree of a quadratic equation is:",
-  options:["1","2","3","4"],
-  answer:1,
-  topic:"Quadratic Equation",
-  explanation:"A quadratic equation has degree 2."
- },
- {
-  q:"The roots of x² - 5x + 6 = 0 are:",
-  options:["1,6","2,3","-2,-3","0,6"],
-  answer:1,
-  topic:"Roots of Quadratic Equation",
-  explanation:"x²-5x+6=(x-2)(x-3)."
- }
-],
+let currentUser=null;
 
-"Sets":[
- {
-  q:"A set having no elements is called:",
-  options:["Universal set","Empty set","Finite set","Equal set"],
-  answer:1,
-  topic:"Types of Sets",
-  explanation:"A set containing no element is an empty set."
- },
- {
-  q:"If A={1,2,3}, number of elements in A is:",
-  options:["1","2","3","4"],
-  answer:2,
-  topic:"Cardinality",
-  explanation:"There are three elements."
- }
-],
+let profile=null;
 
-"Relations and Functions":[
- {
-  q:"A relation from A to B is a subset of:",
-  options:["A∪B","A×B","A-B","B-A"],
-  answer:1,
-  topic:"Relations",
-  explanation:"A relation from A to B is a subset of A×B."
- },
- {
-  q:"A function assigns each input:",
-  options:["No output","Exactly one output","Two outputs","Many outputs"],
-  answer:1,
-  topic:"Functions",
-  explanation:"Every input has exactly one output."
- }
-],
+let testQuestions=[];
 
-"Trigonometric Functions":[
- {
-  q:"sin 90° is:",
-  options:["0","1","-1","1/2"],
-  answer:1,
-  topic:"Trigonometric Values",
-  explanation:"sin 90° = 1."
- },
- {
-  q:"cos 0° is:",
-  options:["0","1","-1","1/2"],
-  answer:1,
-  topic:"Trigonometric Values",
-  explanation:"cos 0° = 1."
- }
-],
+let testIndex=0;
 
-"Limits and Derivatives":[
- {
-  q:"Derivative of x² is:",
-  options:["x","2x","x²","2"],
-  answer:1,
-  topic:"Derivatives",
-  explanation:"Using power rule, d(x²)/dx = 2x."
- },
- {
-  q:"Derivative of a constant is:",
-  options:["1","0","x","constant"],
-  answer:1,
-  topic:"Derivatives",
-  explanation:"The derivative of a constant is zero."
- }
-],
+let testCorrect=0;
 
-"Matrices":[
- {
-  q:"A matrix with 2 rows and 3 columns has order:",
-  options:["3×2","2×3","2×2","3×3"],
-  answer:1,
-  topic:"Order of Matrix",
-  explanation:"Rows × columns = 2×3."
- },
- {
-  q:"A matrix having same number of rows and columns is:",
-  options:["Row matrix","Column matrix","Square matrix","Zero matrix"],
-  answer:2,
-  topic:"Types of Matrices",
-  explanation:"Equal rows and columns form a square matrix."
- }
-],
+let testWrong=0;
 
-"Determinants":[
- {
-  q:"The determinant of [[a,b],[c,d]] is:",
-  options:["ab-cd","ad-bc","ac-bd","ad+bc"],
-  answer:1,
-  topic:"Determinants",
-  explanation:"For a 2×2 matrix determinant = ad-bc."
- }
-],
+let testAnswers=[];
 
-"Probability":[
- {
-  q:"Probability of a sure event is:",
-  options:["0","1/2","1","2"],
-  answer:2,
-  topic:"Basic Probability",
-  explanation:"A sure event always occurs, so probability is 1."
- },
- {
-  q:"Probability of an impossible event is:",
-  options:["0","1","2","-1"],
-  answer:0,
-  topic:"Basic Probability",
-  explanation:"An impossible event has probability zero."
- }
-]
+let timerId=null;
+
+let practiceQuestions=[];
+
+let practiceIndex=0;
+
+let practiceCorrect=0;
+
+let lastResult=null;
+
+
+/* ======================================================
+ CHAPTERS
+====================================================== */
+
+const chapters={
+
+ "9":[
+ "Number Systems",
+ "Polynomials",
+ "Coordinate Geometry",
+ "Linear Equations in Two Variables",
+ "Introduction to Euclid's Geometry",
+ "Lines and Angles",
+ "Triangles",
+ "Quadrilaterals",
+ "Circles",
+ "Heron's Formula",
+ "Surface Areas and Volumes",
+ "Statistics",
+ "Probability"
+ ],
+
+ "10":[
+ "Real Numbers",
+ "Polynomials",
+ "Pair of Linear Equations in Two Variables",
+ "Quadratic Equations",
+ "Arithmetic Progressions",
+ "Triangles",
+ "Coordinate Geometry",
+ "Introduction to Trigonometry",
+ "Some Applications of Trigonometry",
+ "Circles",
+ "Areas Related to Circles",
+ "Surface Areas and Volumes",
+ "Statistics",
+ "Probability"
+ ],
+
+ "11":[
+ "Sets",
+ "Relations and Functions",
+ "Trigonometric Functions",
+ "Principle of Mathematical Induction",
+ "Complex Numbers and Quadratic Equations",
+ "Linear Inequalities",
+ "Permutations and Combinations",
+ "Binomial Theorem",
+ "Sequences and Series",
+ "Straight Lines",
+ "Conic Sections",
+ "Introduction to Three Dimensional Geometry",
+ "Limits and Derivatives",
+ "Statistics",
+ "Probability"
+ ],
+
+ "12":[
+ "Relations and Functions",
+ "Inverse Trigonometric Functions",
+ "Matrices",
+ "Determinants",
+ "Continuity and Differentiability",
+ "Application of Derivatives",
+ "Integrals",
+ "Application of Integrals",
+ "Differential Equations",
+ "Vector Algebra",
+ "Three Dimensional Geometry",
+ "Linear Programming",
+ "Probability"
+ ]
 
 };
 
 
-/* ---------- USER DATABASE ---------- */
+/* ======================================================
+ PAGE NAVIGATION
+====================================================== */
 
-let users = JSON.parse(
-  localStorage.getItem("EXAMOS_USERS") || "{}"
-);
+function showScreen(id){
 
-let currentStudentId =
-  localStorage.getItem("EXAMOS_CURRENT_ID") || "";
+ document
+ .querySelectorAll(".screen")
+ .forEach(s=>
+  s.classList.remove("active")
+ );
 
-let student = null;
+ const el=
+ document.getElementById(id);
+
+ if(!el)return;
+
+ el.classList.add("active");
+
+ const showAI=
+ id!=="welcome" &&
+ id!=="login" &&
+ id!=="register" &&
+ id!=="profile";
+
+ document.getElementById("aiButton")
+ .style.display=
+ showAI?"flex":"none";
+
+ if(id==="dashboard"){
+  loadStats();
+ }
+
+ window.scrollTo(0,0);
+
+}
+
+window.showScreen=showScreen;
 
 
-/* ---------- TEST VARIABLES ---------- */
+/* ======================================================
+ WELCOME
+====================================================== */
 
-let selectedChapter = "";
+function goFromWelcome(){
 
-let currentQuestions = [];
+ showScreen("login");
 
-let currentAnswers = [];
+}
 
-let currentQuestionIndex = 0;
-
-let testTimer = null;
-
-let testSeconds = 0;
-
-let lastResult = null;
+window.goFromWelcome=goFromWelcome;
 
 
-/* ---------- PRACTICE VARIABLES ---------- */
+/* ======================================================
+ STUDENT ID EMAIL
+====================================================== */
 
-let practiceQuestions = [];
+function cleanStudentId(value){
 
-let practiceIndex = 0;
+ return String(value||"")
+ .trim()
+ .toLowerCase()
+ .replace(/\s+/g,"");
 
-
-/* =========================================================
-   PAGE NAVIGATION
-   ========================================================= */
-
-function showPage(id){
-
-  document.querySelectorAll(".page").forEach(page=>{
-    page.classList.remove("active");
-  });
-
-  const page=document.getElementById(id);
-
-  if(page){
-    page.classList.add("active");
-  }
-
-  const authPages=[
-    "welcome",
-    "login",
-    "register",
-    "profile"
-  ];
-
-  const bottom=document.getElementById("bottomNav");
-  const ai=document.getElementById("aiFloat");
-
-  if(authPages.includes(id)){
-    bottom.style.display="none";
-    ai.style.display="none";
-  }else{
-    bottom.style.display="flex";
-    ai.style.display=(id==="dashboard")?"block":"none";
-  }
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-  if(id==="dashboard"){
-    loadDashboard();
-  }
 }
 
 
-/* =========================================================
-   REGISTER
-   ========================================================= */
+function studentEmail(id){
 
-function registerStudent(){
+ return cleanStudentId(id)+
+ "@student.examos.local";
 
-  const id=document
-    .getElementById("registerId")
-    .value
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g,"");
-
-  const password=document
-    .getElementById("registerPassword")
-    .value;
-
-  const confirm=document
-    .getElementById("registerConfirm")
-    .value;
-
-  const error=document.getElementById("registerError");
-
-  const success=document.getElementById("registerSuccess");
-
-  error.style.display="none";
-  success.style.display="none";
+}
 
 
-  if(id.length<3){
+/* ======================================================
+ FIREBASE AUTH STATE
+====================================================== */
 
-    error.textContent=
-      "Student ID कम से कम 3 characters का होना चाहिए।";
+onAuthStateChanged(
+ auth,
+ async user=>{
 
-    error.style.display="block";
+  currentUser=user;
 
-    return;
+  if(!user){
+   return;
   }
 
+  try{
 
-  if(password.length<6){
+   const snap=
+   await getDoc(
+    doc(
+     db,
+     "users",
+     user.uid
+    )
+   );
 
-    error.textContent=
-      "Password कम से कम 6 characters का रखें।";
+   if(snap.exists()){
 
-    error.style.display="block";
+    profile=snap.data();
 
-    return;
+    fillDashboard();
+
+    showScreen("dashboard");
+
+   }
+
+  }catch(error){
+
+   console.error(
+    "Profile load error:",
+    error
+   );
+
   }
 
-
-  if(password!==confirm){
-
-    error.textContent=
-      "Password और Confirm Password समान नहीं हैं।";
-
-    error.style.display="block";
-
-    return;
-  }
+ }
+);
 
 
-  if(users[id]){
+/* ======================================================
+ REGISTER
+====================================================== */
 
-    error.textContent=
-      "यह Student ID पहले से मौजूद है। दूसरा ID चुनें।";
+async function registerStudent(){
 
-    error.style.display="block";
+ const id=
+ cleanStudentId(
+  document
+  .getElementById("registerId")
+  .value
+ );
 
-    return;
-  }
+ const password=
+ document
+ .getElementById("registerPassword")
+ .value;
+
+ const confirm=
+ document
+ .getElementById("registerConfirm")
+ .value;
+
+ const error=
+ document
+ .getElementById("registerError");
+
+ const success=
+ document
+ .getElementById("registerSuccess");
+
+ error.style.display="none";
+ success.style.display="none";
 
 
-  users[id]={
-    id:id,
-    password:password,
-    profile:null,
-    tests:[],
-    practice:0
-  };
+ if(id.length<3){
+
+  error.textContent=
+  "Student ID कम से कम 3 characters का होना चाहिए।";
+
+  error.style.display="block";
+
+  return;
+
+ }
 
 
-  saveUsers();
+ if(!/^[a-z0-9._-]+$/.test(id)){
+
+  error.textContent=
+  "Student ID में केवल a-z, 0-9, dot, dash और underscore रखें।";
+
+  error.style.display="block";
+
+  return;
+
+ }
+
+
+ if(password.length<6){
+
+  error.textContent=
+  "Password कम से कम 6 characters का रखें।";
+
+  error.style.display="block";
+
+  return;
+
+ }
+
+
+ if(password!==confirm){
+
+  error.textContent=
+  "Password और Confirm Password समान नहीं हैं।";
+
+  error.style.display="block";
+
+  return;
+
+ }
+
+
+ const btn=
+ document.getElementById(
+  "registerBtn"
+ );
+
+ btn.disabled=true;
+
+ btn.textContent=
+ "Creating...";
+
+
+ try{
+
+  const credential=
+  await createUserWithEmailAndPassword(
+   auth,
+   studentEmail(id),
+   password
+  );
+
+
+  await setDoc(
+   doc(
+    db,
+    "users",
+    credential.user.uid
+   ),
+   {
+    studentId:id,
+    profileCompleted:false,
+    subject:"Mathematics",
+    createdAt:serverTimestamp()
+   },
+   {merge:true}
+  );
 
 
   success.textContent=
-    "✅ Student ID successfully create हो गई! अब Login करें।";
+  "✅ Student ID successfully create हो गई!";
 
   success.style.display="block";
 
 
-  document.getElementById("registerId").value="";
-  document.getElementById("registerPassword").value="";
-  document.getElementById("registerConfirm").value="";
+  document
+  .getElementById("registerId")
+  .value="";
+
+  document
+  .getElementById("registerPassword")
+  .value="";
+
+  document
+  .getElementById("registerConfirm")
+  .value="";
 
 
   setTimeout(()=>{
-    showPage("login");
-  },1200);
+
+   showScreen("profile");
+
+  },800);
+
+
+ }catch(errorObj){
+
+  console.error(errorObj);
+
+  let message=
+  "Student ID create नहीं हो सकी।";
+
+
+  if(
+   errorObj.code===
+   "auth/email-already-in-use"
+  ){
+
+   message=
+   "यह Student ID पहले से मौजूद है।";
+
+  }else if(
+   errorObj.code===
+   "auth/invalid-email"
+  ){
+
+   message=
+   "Student ID format सही नहीं है।";
+
+  }else if(
+   errorObj.code===
+   "auth/operation-not-allowed"
+  ){
+
+   message=
+   "Firebase में Email/Password Authentication ON करें।";
+
+  }
+
+
+  error.textContent=message;
+
+  error.style.display="block";
+
+
+ }finally{
+
+  btn.disabled=false;
+
+  btn.textContent=
+  "Create Student ID";
+
+ }
 
 }
 
-
-/* =========================================================
-   LOGIN
-   ========================================================= */
-
-function loginStudent(){
-
-  const id=document
-    .getElementById("loginId")
-    .value
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g,"");
-
-  const password=document
-    .getElementById("loginPassword")
-    .value;
-
-  const error=document.getElementById("loginError");
-
-  error.style.display="none";
+window.registerStudent=
+registerStudent;
 
 
-  if(!users[id]){
+/* ======================================================
+ LOGIN
+====================================================== */
 
-    error.textContent=
-      "Student ID नहीं मिला। पहले Create New Student ID करें।";
+async function loginStudent(){
 
-    error.style.display="block";
+ const id=
+ cleanStudentId(
+  document
+  .getElementById("loginId")
+  .value
+ );
 
-    return;
-  }
+ const password=
+ document
+ .getElementById("loginPassword")
+ .value;
+
+ const error=
+ document.getElementById(
+  "loginError"
+ );
+
+ error.style.display="none";
 
 
-  if(users[id].password!==password){
+ if(!id || !password){
 
-    error.textContent=
-      "Password गलत है।";
+  error.textContent=
+  "Student ID और Password डालें।";
 
-    error.style.display="block";
+  error.style.display="block";
 
-    return;
-  }
+  return;
+
+ }
 
 
-  currentStudentId=id;
+ const btn=
+ document.getElementById(
+  "loginBtn"
+ );
 
-  localStorage.setItem(
-    "EXAMOS_CURRENT_ID",
-    currentStudentId
+ btn.disabled=true;
+
+ btn.textContent="Logging in...";
+
+
+ try{
+
+  const credential=
+  await signInWithEmailAndPassword(
+   auth,
+   studentEmail(id),
+   password
   );
 
 
-  student=users[id];
+  const snap=
+  await getDoc(
+   doc(
+    db,
+    "users",
+    credential.user.uid
+   )
+  );
 
 
-  if(student.profile){
+  if(
+   snap.exists() &&
+   snap.data().profileCompleted
+  ){
 
-    showPage("dashboard");
+   profile=snap.data();
+
+   fillDashboard();
+
+   showScreen("dashboard");
 
   }else{
 
-    showPage("profile");
+   showScreen("profile");
 
   }
 
+
+ }catch(errorObj){
+
+  console.error(errorObj);
+
+  let message=
+  "Login failed।";
+
+
+  if(
+   errorObj.code===
+   "auth/invalid-credential" ||
+   errorObj.code===
+   "auth/wrong-password" ||
+   errorObj.code===
+   "auth/user-not-found"
+  ){
+
+   message=
+   "Student ID या Password गलत है।";
+
+  }else if(
+   errorObj.code===
+   "auth/too-many-requests"
+  ){
+
+   message=
+   "बहुत ज्यादा attempts हुए हैं। थोड़ी देर बाद कोशिश करें।";
+
+  }
+
+
+  error.textContent=message;
+
+  error.style.display="block";
+
+
+ }finally{
+
+  btn.disabled=false;
+
+  btn.textContent="Login";
+
+ }
+
 }
 
+window.loginStudent=
+loginStudent;
 
-/* =========================================================
-   PROFILE
-   ========================================================= */
+
+/* ======================================================
+ PROFILE
+====================================================== */
 
 function updateStream(){
 
-  const cls=document
-    .getElementById("profileClass")
-    .value;
+ const cls=
+ document
+ .getElementById("studentClass")
+ .value;
 
-  const stream=document
-    .getElementById("streamGroup");
+ const box=
+ document
+ .getElementById("streamBox");
 
-  if(cls==="11" || cls==="12"){
-    stream.style.display="block";
-  }else{
-    stream.style.display="none";
-  }
+
+ if(
+  cls==="11" ||
+  cls==="12"
+ ){
+
+  box.classList.remove("hidden");
+
+ }else{
+
+  box.classList.add("hidden");
+
+ }
 
 }
 
-
-function saveProfile(){
-
-  const name=document
-    .getElementById("profileName")
-    .value
-    .trim();
-
-  if(!name){
-
-    alert("कृपया अपना नाम डालें।");
-
-    return;
-  }
+window.updateStream=
+updateStream;
 
 
-  student.profile={
+async function saveStudentProfile(){
 
-    name:name,
+ const name=
+ document
+ .getElementById("studentName")
+ .value
+ .trim();
 
-    board:document
-      .getElementById("profileBoard")
-      .value,
+ const board=
+ document
+ .getElementById("studentBoard")
+ .value;
 
-    class:document
-      .getElementById("profileClass")
-      .value,
+ const cls=
+ document
+ .getElementById("studentClass")
+ .value;
 
-    stream:document
-      .getElementById("profileStream")
-      .value,
+ const stream=
+ document
+ .getElementById("studentStream")
+ .value;
 
-    subject:"Mathematics"
+ const error=
+ document
+ .getElementById("profileError");
+
+
+ error.style.display="none";
+
+
+ if(!currentUser){
+
+  error.textContent=
+  "Firebase login अभी ready नहीं है।";
+
+  error.style.display="block";
+
+  return;
+
+ }
+
+
+ if(!name || !board || !cls){
+
+  error.textContent=
+  "Name, Board और Class भरें।";
+
+  error.style.display="block";
+
+  return;
+
+ }
+
+
+ if(
+  (cls==="11" || cls==="12") &&
+  !stream
+ ){
+
+  error.textContent=
+  "Class 11/12 के लिए Stream चुनें।";
+
+  error.style.display="block";
+
+  return;
+
+ }
+
+
+ const btn=
+ document.getElementById(
+  "saveProfileBtn"
+ );
+
+ btn.disabled=true;
+
+ btn.textContent=
+ "Saving...";
+
+
+ try{
+
+  profile={
+
+   studentId:
+   profile?.studentId || "",
+
+   name:name,
+
+   board:board,
+
+   class:cls,
+
+   stream:
+   (cls==="11"||cls==="12")
+   ?stream
+   :"",
+
+   subject:"Mathematics",
+
+   profileCompleted:true
 
   };
 
 
-  users[currentStudentId]=student;
-
-  saveUsers();
-
-
-  showPage("dashboard");
-
-}
-
-
-/* =========================================================
-   DASHBOARD
-   ========================================================= */
-
-function loadDashboard(){
-
-  if(!student) return;
-
-  if(!student.profile){
-
-    showPage("profile");
-
-    return;
-  }
-
-
-  document.getElementById("dashboardName")
-    .textContent=student.profile.name;
-
-
-  document.getElementById("dashboardAvatar")
-    .textContent=
-      student.profile.name
-      .charAt(0)
-      .toUpperCase();
-
-
-  const tests=student.tests || [];
-
-
-  document.getElementById("totalTests")
-    .textContent=tests.length;
-
-
-  if(tests.length){
-
-    const scores=tests.map(x=>x.percentage);
-
-    const average=Math.round(
-      scores.reduce((a,b)=>a+b,0)/scores.length
-    );
-
-    const best=Math.max(...scores);
-
-    document.getElementById("averageScore")
-      .textContent=average+"%";
-
-    document.getElementById("bestScore")
-      .textContent=best+"%";
-
-  }else{
-
-    document.getElementById("averageScore")
-      .textContent="0%";
-
-    document.getElementById("bestScore")
-      .textContent="0%";
-
-  }
-
-}
-
-
-/* =========================================================
-   DIAGNOSTIC
-   ========================================================= */
-
-function openDiagnostic(){
-
-  const list=document.getElementById(
-    "chapterList"
+  await setDoc(
+   doc(
+    db,
+    "users",
+    currentUser.uid
+   ),
+   {
+    ...profile,
+    updatedAt:serverTimestamp()
+   },
+   {merge:true}
   );
 
-  list.innerHTML="";
+
+  fillDashboard();
+
+  toast(
+   "Profile Firebase में save हो गई ✅"
+  );
 
 
-  const cls=student?.profile?.class || "10";
+  setTimeout(()=>{
 
-  const chapters=
-    chaptersByClass[cls] ||
-    chaptersByClass["10"];
+   showScreen("dashboard");
 
-
-  chapters.forEach((chapter,index)=>{
-
-    const div=document.createElement("div");
-
-    div.className="chapter";
-
-    div.innerHTML=`
-      <b>${index+1}. ${chapter}</b>
-      <br>
-      <small>Chapter-wise Diagnostic Test →</small>
-    `;
+  },500);
 
 
-    div.onclick=()=>{
+ }catch(errorObj){
 
-      selectedChapter=chapter;
+  console.error(errorObj);
 
-      document.getElementById(
-        "selectedChapterTitle"
-      ).textContent=
-        chapter+" — Test Settings";
+  error.textContent=
+  "Profile save नहीं हुई। Firestore Rules check करें।";
 
-      showPage("testSettings");
-
-    };
+  error.style.display="block";
 
 
-    list.appendChild(div);
+ }finally{
+
+  btn.disabled=false;
+
+  btn.textContent=
+  "Save & Continue →";
+
+ }
+
+}
+
+window.saveStudentProfile=
+saveStudentProfile;
+
+
+/* ======================================================
+ DASHBOARD
+====================================================== */
+
+function fillDashboard(){
+
+ if(!profile)return;
+
+
+ document
+ .getElementById("dashName")
+ .textContent=
+ profile.name ||
+ "Student";
+
+
+ document
+ .getElementById("dashAvatar")
+ .textContent=
+ (
+  profile.name ||
+  "S"
+ )
+ .charAt(0)
+ .toUpperCase();
+
+
+ const cls=
+ profile.class ||
+ "9";
+
+
+ document
+ .getElementById("testClass")
+ .value=cls;
+
+
+ document
+ .getElementById("practiceClass")
+ .value=cls;
+
+
+ loadTestChapters();
+
+ loadPracticeChapters();
+
+}
+
+
+/* ======================================================
+ STATS
+====================================================== */
+
+async function loadStats(){
+
+ if(!currentUser)return;
+
+
+ try{
+
+  const testsSnap=
+  await getDocs(
+   collection(
+    db,
+    "users",
+    currentUser.uid,
+    "tests"
+   )
+  );
+
+
+  let best=0;
+
+  testsSnap.forEach(
+   item=>{
+
+    const data=
+    item.data();
+
+    best=
+    Math.max(
+     best,
+     Number(data.score||0)
+    );
+
+   }
+  );
+
+
+  document
+  .getElementById("dashTests")
+  .textContent=
+  testsSnap.size;
+
+
+  document
+  .getElementById("totalTests")
+  .textContent=
+  testsSnap.size;
+
+
+  document
+  .getElementById("dashBest")
+  .textContent=
+  best+"%";
+
+
+  const practiceSnap=
+  await getDocs(
+   collection(
+    db,
+    "users",
+    currentUser.uid,
+    "practice"
+   )
+  );
+
+
+  document
+  .getElementById("dashPractice")
+  .textContent=
+  practiceSnap.size;
+
+
+ }catch(error){
+
+  console.error(
+   "Stats error:",
+   error
+  );
+
+ }
+
+}
+
+
+/* ======================================================
+ TEST SETUP
+====================================================== */
+
+function openTestSetup(){
+
+ showScreen("testSetup");
+
+ const cls=
+ profile?.class || "10";
+
+ document
+ .getElementById("testClass")
+ .value=cls;
+
+ loadTestChapters();
+
+}
+
+window.openTestSetup=
+openTestSetup;
+
+
+function loadTestChapters(){
+
+ const cls=
+ document
+ .getElementById("testClass")
+ .value;
+
+ const select=
+ document
+ .getElementById("testChapter");
+
+ select.innerHTML="";
+
+
+ (
+  chapters[cls] ||
+  chapters["10"]
+ ).forEach(
+  chapter=>{
+
+   const option=
+   document.createElement("option");
+
+   option.value=chapter;
+
+   option.textContent=chapter;
+
+   select.appendChild(option);
+
+  }
+ );
+
+}
+
+
+/* ======================================================
+ PRACTICE SETUP
+====================================================== */
+
+function openPracticeSetup(){
+
+ showScreen("practiceSetup");
+
+ const cls=
+ profile?.class || "10";
+
+ document
+ .getElementById("practiceClass")
+ .value=cls;
+
+ loadPracticeChapters();
+
+}
+
+window.openPracticeSetup=
+openPracticeSetup;
+
+
+function loadPracticeChapters(){
+
+ const cls=
+ document
+ .getElementById("practiceClass")
+ .value;
+
+ const select=
+ document
+ .getElementById("practiceChapter");
+
+ select.innerHTML="";
+
+
+ (
+  chapters[cls] ||
+  chapters["10"]
+ ).forEach(
+  chapter=>{
+
+   const option=
+   document.createElement("option");
+
+   option.value=chapter;
+
+   option.textContent=chapter;
+
+   select.appendChild(option);
+
+  }
+ );
+
+}
+
+
+/* ======================================================
+ AI API HELPER
+====================================================== */
+
+async function callAI(payload){
+
+ const response=
+ await fetch(
+  "/api/ai",
+  {
+   method:"POST",
+
+   headers:{
+    "Content-Type":
+    "application/json"
+   },
+
+   body:
+   JSON.stringify(payload)
+  }
+ );
+
+
+ if(!response.ok){
+
+  throw new Error(
+   "AI API HTTP "+response.status
+  );
+
+ }
+
+
+ const data=
+ await response.json();
+
+
+ return data;
+
+}
+
+
+/* ======================================================
+ EXTRACT AI TEXT
+====================================================== */
+
+function extractAIText(data){
+
+ if(!data)return "";
+
+ if(typeof data==="string"){
+  return data;
+ }
+
+ if(typeof data.answer==="string"){
+  return data.answer;
+ }
+
+ if(typeof data.reply==="string"){
+  return data.reply;
+ }
+
+ if(typeof data.text==="string"){
+  return data.text;
+ }
+
+ if(
+  data.message &&
+  typeof data.message==="string"
+ ){
+  return data.message;
+ }
+
+ if(
+  data.output_text &&
+  typeof data.output_text==="string"
+ ){
+  return data.output_text;
+ }
+
+ if(
+  data.choices &&
+  data.choices[0]
+ ){
+
+  const choice=
+  data.choices[0];
+
+  if(
+   choice.message &&
+   typeof choice.message.content==="string"
+  ){
+   return choice.message.content;
+  }
+
+  if(
+   typeof choice.text==="string"
+  ){
+   return choice.text;
+  }
+
+ }
+
+ return "";
+
+}
+
+
+/* ======================================================
+ CLEAN AI JSON
+====================================================== */
+
+function cleanJSON(text){
+
+ let value=
+ String(text||"")
+ .trim();
+
+
+ value=
+ value
+ .replace(/^```json/i,"")
+ .replace(/^```/i,"")
+ .replace(/```$/i,"")
+ .trim();
+
+
+ const first=
+ value.indexOf("{");
+
+ const last=
+ value.lastIndexOf("}");
+
+
+ if(
+  first>=0 &&
+  last>first
+ ){
+
+  value=
+  value.slice(
+   first,
+   last+1
+  );
+
+ }
+
+
+ return value;
+
+}
+
+
+/* ======================================================
+ GENERATE AI TEST
+====================================================== */
+
+async function generateAITest(){
+
+ const cls=
+ document
+ .getElementById("testClass")
+ .value;
+
+ const chapter=
+ document
+ .getElementById("testChapter")
+ .value;
+
+ const count=
+ Number(
+  document
+  .getElementById("testCount")
+  .value
+ );
+
+ const language=
+ document
+ .getElementById("testLanguage")
+ .value;
+
+ const difficulty=
+ document
+ .getElementById("testDifficulty")
+ .value;
+
+ const time=
+ Number(
+  document
+  .getElementById("testTime")
+  .value
+ );
+
+
+ const error=
+ document
+ .getElementById("testError");
+
+ error.style.display="none";
+
+
+ const btn=
+ document
+ .getElementById("generateTestBtn");
+
+ btn.disabled=true;
+
+ btn.textContent=
+ "🤖 AI Questions बना रहा है...";
+
+
+ try{
+
+  const prompt=`
+
+You are EXAMOS AI, a Mathematics teacher.
+
+Create a ${count}-question MCQ diagnostic test.
+
+Class: ${cls}
+Board: ${profile?.board || "BSEB"}
+Subject: Mathematics
+Chapter: ${chapter}
+Language: ${language}
+Difficulty: ${difficulty}
+
+Requirements:
+- Every question must be relevant to the chapter.
+- Four options for every question.
+- Exactly one correct answer.
+- Include a topic for every question.
+- Include a short explanation.
+- Questions should be educational and not repeated if possible.
+
+Return ONLY valid JSON in this exact structure:
+
+{
+ "questions":[
+  {
+   "question":"...",
+   "options":["A","B","C","D"],
+   "correctAnswer":0,
+   "topic":"...",
+   "explanation":"..."
+  }
+ ]
+}
+
+correctAnswer must be 0,1,2 or 3.
+`;
+
+
+  const data=
+  await callAI({
+
+   mode:
+   "generate_questions",
+
+   class:
+   cls,
+
+   board:
+   profile?.board || "BSEB",
+
+   subject:
+   "Mathematics",
+
+   chapter:
+   chapter,
+
+   count:
+   count,
+
+   language:
+   language,
+
+   difficulty:
+   difficulty,
+
+   prompt:
+   prompt
 
   });
 
 
-  showPage("diagnostic");
-
-}
-
-
-/* =========================================================
-   QUESTION CREATION
-   ========================================================= */
-
-function createQuestions(chapter,count){
-
-  let source=questionBank[chapter];
+  const raw=
+  extractAIText(data);
 
 
-  if(!source){
+  let parsed;
 
-    source=[
+  try{
 
-      {
-        q:"इस chapter का basic concept कौन सा है?",
-        options:[
-          "Concept A",
-          "Concept B",
-          "Concept C",
-          "Concept D"
-        ],
-        answer:0,
-        topic:chapter+" Basics",
-        explanation:
-          "यह demo question है। Real AI question generation backend से questions आएंगे।"
-      },
+   parsed=
+   JSON.parse(
+    cleanJSON(raw)
+   );
 
-      {
-        q:chapter+" में सही mathematical approach क्या होगी?",
-        options:[
-          "Method A",
-          "Method B",
-          "Method C",
-          "Method D"
-        ],
-        answer:1,
-        topic:chapter+" Concept",
-        explanation:
-          "यह demonstration question है।"
-      },
+  }catch(parseError){
 
-      {
-        q:chapter+" को समझने के लिए क्या जरूरी है?",
-        options:[
-          "Basic concepts",
-          "Random guessing",
-          "No practice",
-          "Only memorisation"
-        ],
-        answer:0,
-        topic:chapter+" Understanding",
-        explanation:
-          "Mathematics में basic concepts समझना जरूरी है।"
-      }
+   console.error(
+    "AI JSON parse error:",
+    raw
+   );
 
-    ];
+   throw new Error(
+    "AI ने valid questions नहीं भेजे।"
+   );
 
   }
 
 
-  let result=[];
+  if(
+   !parsed.questions ||
+   !Array.isArray(parsed.questions) ||
+   !parsed.questions.length
+  ){
 
-  for(let i=0;i<count;i++){
-
-    result.push(
-      JSON.parse(
-        JSON.stringify(
-          source[i % source.length]
-        )
-      )
-    );
+   throw new Error(
+    "AI questions खाली हैं।"
+   );
 
   }
 
 
-  return result;
+  testQuestions=
+  parsed.questions
+  .slice(0,count)
+  .map(q=>({
 
-}
+   question:
+   String(q.question||""),
 
+   options:
+   Array.isArray(q.options)
+   ?q.options.slice(0,4)
+   :[],
 
-/* =========================================================
-   START TEST
-   ========================================================= */
+   correctAnswer:
+   Number(q.correctAnswer),
 
-function startDiagnosticTest(){
+   topic:
+   String(
+    q.topic ||
+    chapter
+   ),
 
-  const count=parseInt(
-    document.getElementById("questionCount").value
+   explanation:
+   String(
+    q.explanation ||
+    "Concept को दोबारा देखें।"
+   )
+
+  }))
+  .filter(q=>
+   q.question &&
+   q.options.length===4 &&
+   q.correctAnswer>=0 &&
+   q.correctAnswer<=3
   );
 
 
-  currentQuestions=
-    createQuestions(
-      selectedChapter,
-      count
+  if(!testQuestions.length){
+
+   throw new Error(
+    "AI questions का format सही नहीं है।"
+   );
+
+  }
+
+
+  testIndex=0;
+
+  testCorrect=0;
+
+  testWrong=0;
+
+  testAnswers=
+  new Array(
+   testQuestions.length
+  ).fill(null);
+
+
+  document
+  .getElementById(
+   "testChapterLabel"
+  )
+  .textContent=
+   "Class "+
+   cls+
+   " • "+
+   chapter+
+   " • "+
+   difficulty;
+
+
+  startTimer(time*60);
+
+  showScreen("test");
+
+  renderTestQuestion();
+
+
+ }catch(errorObj){
+
+  console.error(errorObj);
+
+  error.textContent=
+  "AI Test generate नहीं हुआ। "+errorObj.message;
+
+  error.style.display="block";
+
+
+ }finally{
+
+  btn.disabled=false;
+
+  btn.textContent=
+  "🤖 Generate AI Test →";
+
+ }
+
+}
+
+window.generateAITest=
+generateAITest;
+
+
+/* ======================================================
+ TIMER
+====================================================== */
+
+function startTimer(seconds){
+
+ clearInterval(timerId);
+
+ let left=seconds;
+
+
+ const el=
+ document.getElementById(
+  "timer"
+ );
+
+
+ function tick(){
+
+  const min=
+  String(
+   Math.floor(left/60)
+  ).padStart(2,"0");
+
+  const sec=
+  String(
+   left%60
+  ).padStart(2,"0");
+
+
+  el.textContent=
+  min+":"+sec;
+
+
+  if(left<=0){
+
+   clearInterval(timerId);
+
+   finishTest();
+
+   return;
+
+  }
+
+
+  left--;
+
+ }
+
+
+ tick();
+
+ timerId=
+ setInterval(
+  tick,
+  1000
+ );
+
+}
+
+
+/* ======================================================
+ RENDER TEST QUESTION
+====================================================== */
+
+function renderTestQuestion(){
+
+ const q=
+ testQuestions[testIndex];
+
+ if(!q)return;
+
+
+ document
+ .getElementById("qNumber")
+ .textContent=
+ "Question "+
+ (testIndex+1)+
+ " / "+
+ testQuestions.length;
+
+
+ document
+ .getElementById("qScore")
+ .textContent=
+ testCorrect+
+ " Correct";
+
+
+ document
+ .getElementById("testProgress")
+ .style.width=
+ (
+  testIndex/
+  testQuestions.length*
+  100
+ )+"%";
+
+
+ document
+ .getElementById("questionText")
+ .textContent=
+ q.question;
+
+
+ const box=
+ document
+ .getElementById("answers");
+
+
+ box.innerHTML="";
+
+
+ q.options.forEach(
+  (answer,index)=>{
+
+   const button=
+   document.createElement(
+    "button"
+   );
+
+   button.className="answer";
+
+   button.textContent=
+   String.fromCharCode(
+    65+index
+   )+
+   ". "+
+   answer;
+
+
+   button.onclick=
+   ()=>{
+    answerTest(
+     index,
+     button
     );
+   };
 
 
-  currentAnswers=
-    new Array(currentQuestions.length)
-      .fill(null);
+   box.appendChild(button);
 
-
-  currentQuestionIndex=0;
-
-
-  testSeconds=
-    parseInt(
-      document.getElementById("testTime").value
-    )*60;
-
-
-  document.getElementById("timer")
-    .textContent=formatTime(testSeconds);
-
-
-  showPage("testRun");
-
-  renderQuestion();
-
-  startTimer();
+  }
+ );
 
 }
 
 
-/* =========================================================
-   TIMER
-   ========================================================= */
+/* ======================================================
+ ANSWER TEST
+====================================================== */
 
-function startTimer(){
+function answerTest(index,button){
 
-  clearInterval(testTimer);
+ const q=
+ testQuestions[testIndex];
 
-
-  testTimer=setInterval(()=>{
-
-    testSeconds--;
-
-    document.getElementById("timer")
-      .textContent=formatTime(testSeconds);
+ if(!q)return;
 
 
-    if(testSeconds<=0){
+ document
+ .querySelectorAll(
+  "#answers .answer"
+ )
+ .forEach(
+  b=>b.disabled=true
+ );
 
-      clearInterval(testTimer);
 
-      finishTest();
+ testAnswers[testIndex]=index;
+
+
+ if(
+  index===
+  q.correctAnswer
+ ){
+
+  testCorrect++;
+
+  button.classList.add(
+   "correct"
+  );
+
+ }else{
+
+  testWrong++;
+
+  button.classList.add(
+   "wrong"
+  );
+
+
+  document
+  .querySelectorAll(
+   "#answers .answer"
+  )
+  .forEach(
+   (b,i)=>{
+
+    if(
+     i===
+     q.correctAnswer
+    ){
+
+     b.classList.add(
+      "correct"
+     );
 
     }
 
-  },1000);
+   }
+  );
+
+ }
+
+
+ setTimeout(()=>{
+
+  testIndex++;
+
+
+  if(
+   testIndex>=
+   testQuestions.length
+  ){
+
+   finishTest();
+
+  }else{
+
+   renderTestQuestion();
+
+  }
+
+ },500);
 
 }
 
 
-function formatTime(seconds){
+/* ======================================================
+ FINISH TEST
+====================================================== */
 
-  const min=Math.floor(seconds/60)
-    .toString()
-    .padStart(2,"0");
+async function finishTest(){
 
-  const sec=(seconds%60)
-    .toString()
-    .padStart(2,"0");
-
-  return min+":"+sec;
-
-}
+ clearInterval(timerId);
 
 
-/* =========================================================
-   RENDER QUESTION
-   ========================================================= */
-
-function renderQuestion(){
-
-  const q=
-    currentQuestions[currentQuestionIndex];
+ if(!testQuestions.length)return;
 
 
-  document.getElementById("questionNumber")
-    .textContent=
-      "Question "+
-      (currentQuestionIndex+1)+
-      " of "+
-      currentQuestions.length;
+ const total=
+ testQuestions.length;
 
 
-  document.getElementById("questionText")
-    .textContent=q.q;
+ const score=
+ Math.round(
+  testCorrect/
+  total*
+  100
+ );
 
 
-  const options=
-    document.getElementById("questionOptions");
+ const wrongQuestions=[];
+
+ const topicCount={};
 
 
-  options.innerHTML="";
+ testQuestions.forEach(
+  (q,index)=>{
+
+   const studentAnswer=
+   testAnswers[index];
 
 
-  q.options.forEach((option,index)=>{
+   if(
+    studentAnswer!==
+    q.correctAnswer
+   ){
 
-    const button=
-      document.createElement("button");
+    wrongQuestions.push({
 
-    button.className="option";
+     question:
+     q.question,
 
-    button.textContent=
-      String.fromCharCode(65+index)+
-      ". "+
-      option;
+     options:
+     q.options,
+
+     studentAnswer:
+     studentAnswer===null
+     ?"Not Answered"
+     :q.options[
+      studentAnswer
+     ],
+
+     correctAnswer:
+     q.options[
+      q.correctAnswer
+     ],
+
+     topic:
+     q.topic,
+
+     explanation:
+     q.explanation
+
+    });
 
 
-    if(currentAnswers[currentQuestionIndex]===index){
+    topicCount[q.topic]=
+    (
+     topicCount[q.topic]||0
+    )+1;
 
-      button.classList.add("selected");
+   }
+
+  }
+ );
+
+
+ const weakTopics=
+ Object
+ .entries(topicCount)
+ .sort(
+  (a,b)=>b[1]-a[1]
+ )
+ .map(
+  x=>x[0]
+ );
+
+
+ lastResult={
+
+  total:
+
+   total,
+
+  correct:
+
+   testCorrect,
+
+  wrong:
+
+   testWrong,
+
+  score:
+
+   score,
+
+  chapter:
+
+   document
+   .getElementById(
+    "testChapter"
+   ).value,
+
+  weakTopics:
+
+   weakTopics,
+
+  wrongQuestions:
+
+   wrongQuestions
+
+ };
+
+
+ document
+ .getElementById("resultScore")
+ .textContent=
+ score+"%";
+
+
+ document
+ .getElementById("correctCount")
+ .textContent=
+ testCorrect;
+
+
+ document
+ .getElementById("wrongCount")
+ .textContent=
+ testWrong;
+
+
+ document
+ .getElementById("resultTotal")
+ .textContent=
+ total;
+
+
+ document
+ .getElementById("resultMessage")
+ .textContent=
+ score>=80
+ ?"Excellent! 🔥"
+ :score>=50
+ ?"Good! थोड़ी और practice करो 💪"
+ :"Practice की जरूरत है — weak topics पर काम करेंगे 🎯";
+
+
+ if(weakTopics.length){
+
+  document
+  .getElementById("weakTopic")
+  .textContent=
+   weakTopics.join(", ");
+
+ }else{
+
+  document
+  .getElementById("weakTopic")
+  .textContent=
+   "कोई weak topic नहीं मिला। बहुत बढ़िया!";
+
+ }
+
+
+ renderWrongQuestions();
+
+
+ showScreen("result");
+
+
+ /* Firebase save */
+
+ if(currentUser){
+
+  try{
+
+   await addDoc(
+    collection(
+     db,
+     "users",
+     currentUser.uid,
+     "tests"
+    ),
+    {
+
+     class:
+     profile?.class || "",
+
+     board:
+     profile?.board || "",
+
+     subject:
+     "Mathematics",
+
+     chapter:
+     lastResult.chapter,
+
+     total:
+     total,
+
+     correct:
+     testCorrect,
+
+     wrong:
+     testWrong,
+
+     score:
+     score,
+
+     weakTopics:
+     weakTopics,
+
+     wrongQuestions:
+     wrongQuestions,
+
+     createdAt:
+     serverTimestamp()
 
     }
+   );
+
+  }catch(error){
+
+   console.error(
+    "Test save error:",
+    error
+   );
+
+  }
+
+ }
+
+}
+
+window.finishTest=
+finishTest;
 
 
-    button.onclick=()=>{
+/* ======================================================
+ WRONG QUESTIONS
+====================================================== */
 
-      currentAnswers[currentQuestionIndex]=index;
+function renderWrongQuestions(){
 
-      renderQuestion();
+ const box=
+ document.getElementById(
+  "wrongQuestionsBox"
+ );
 
-    };
+
+ if(
+  !lastResult ||
+  !lastResult.wrongQuestions.length
+ ){
+
+  box.innerHTML=`
+
+   <div class="card center">
+
+    <div style="font-size:40px">
+     🎉
+    </div>
+
+    <b>
+     सभी questions सही हैं!
+    </b>
+
+   </div>
+
+  `;
+
+  return;
+
+ }
 
 
-    options.appendChild(button);
+ box.innerHTML=`
+
+  <div class="title" style="font-size:20px;margin:15px 0">
+   ❌ Wrong Questions
+  </div>
+
+ `;
+
+
+ lastResult.wrongQuestions
+ .forEach(
+  (item,index)=>{
+
+   const div=
+   document.createElement(
+    "div"
+   );
+
+   div.className=
+   "card wrongItem";
+
+
+   div.innerHTML=`
+
+    <b>
+     ${index+1}. ${escapeHTML(item.question)}
+    </b>
+
+    <p
+     class="wrongText"
+     style="margin-top:10px"
+    >
+     Your Answer:
+     ${escapeHTML(item.studentAnswer)}
+    </p>
+
+    <p
+     class="correctText"
+     style="margin-top:6px"
+    >
+     Correct Answer:
+     ${escapeHTML(item.correctAnswer)}
+    </p>
+
+    <p
+     class="muted"
+     style="margin-top:8px"
+    >
+     Topic:
+     ${escapeHTML(item.topic)}
+    </p>
+
+    <p
+     style="margin-top:8px"
+    >
+     <b>Explanation:</b>
+     ${escapeHTML(item.explanation)}
+    </p>
+
+   `;
+
+
+   box.appendChild(div);
+
+  }
+ );
+
+}
+
+
+/* ======================================================
+ AI PRACTICE
+====================================================== */
+
+async function generateAIPractice(){
+
+ const cls=
+ document
+ .getElementById("practiceClass")
+ .value;
+
+ const chapter=
+ document
+ .getElementById("practiceChapter")
+ .value;
+
+ const topic=
+ document
+ .getElementById("practiceTopic")
+ .value
+ .trim();
+
+ const count=
+ Number(
+  document
+  .getElementById("practiceCount")
+  .value
+ );
+
+ const difficulty=
+ document
+ .getElementById("practiceDifficulty")
+ .value;
+
+
+ const error=
+ document
+ .getElementById(
+  "practiceError"
+ );
+
+ error.style.display="none";
+
+
+ if(!topic){
+
+  error.textContent=
+  "Topic डालें।";
+
+  error.style.display="block";
+
+  return;
+
+ }
+
+
+ const btn=
+ document
+ .getElementById(
+  "generatePracticeBtn"
+ );
+
+
+ btn.disabled=true;
+
+ btn.textContent=
+ "🤖 AI Practice बना रहा है...";
+
+
+ try{
+
+  const prompt=`
+
+You are EXAMOS AI Mathematics tutor.
+
+Generate ${count} MCQ practice questions.
+
+Class: ${cls}
+Board: ${profile?.board || "BSEB"}
+Subject: Mathematics
+Chapter: ${chapter}
+Topic: ${topic}
+Difficulty: ${difficulty}
+
+Each question must have:
+- question
+- four options
+- exactly one correct answer
+- short explanation
+
+Return ONLY valid JSON:
+
+{
+ "questions":[
+  {
+   "question":"...",
+   "options":["A","B","C","D"],
+   "correctAnswer":0,
+   "topic":"${topic}",
+   "explanation":"..."
+  }
+ ]
+}
+
+`;
+
+
+  const data=
+  await callAI({
+
+   mode:
+   "generate_questions",
+
+   class:
+   cls,
+
+   board:
+   profile?.board || "BSEB",
+
+   subject:
+   "Mathematics",
+
+   chapter:
+   chapter,
+
+   topic:
+   topic,
+
+   count:
+   count,
+
+   difficulty:
+   difficulty,
+
+   language:
+   "Hindi",
+
+   prompt:
+   prompt
 
   });
 
 
-  const next=
-    document.getElementById(
-      "nextQuestionButton"
-    );
+  const raw=
+  extractAIText(data);
 
 
-  next.textContent=
-    currentQuestionIndex===
-    currentQuestions.length-1
-
-    ? "Finish Test ✓"
-
-    : "Next Question →";
-
-}
+  let parsed;
 
 
-/* =========================================================
-   NEXT QUESTION
-   ========================================================= */
+  try{
 
-function nextQuestion(){
+   parsed=
+   JSON.parse(
+    cleanJSON(raw)
+   );
 
-  if(
-    currentAnswers[currentQuestionIndex]===null
-  ){
+  }catch(errorObj){
 
-    alert("पहले कोई answer select करें।");
-
-    return;
+   throw new Error(
+    "AI response JSON में नहीं आया।"
+   );
 
   }
 
 
-  if(
-    currentQuestionIndex===
-    currentQuestions.length-1
-  ){
+  practiceQuestions=
+  (parsed.questions||[])
+  .slice(0,count)
+  .filter(
+   q=>
+    q.question &&
+    Array.isArray(q.options) &&
+    q.options.length===4
+  )
+  .map(
+   q=>({
 
-    finishTest();
+    question:
+    String(q.question),
 
-  }else{
+    options:
+    q.options,
 
-    currentQuestionIndex++;
+    correctAnswer:
+    Number(q.correctAnswer),
 
-    renderQuestion();
+    topic:
+    q.topic || topic,
 
-  }
+    explanation:
+    q.explanation || ""
 
-}
-
-
-/* =========================================================
-   EXIT TEST
-   ========================================================= */
-
-function confirmExitTest(){
-
-  if(confirm(
-    "क्या आप test छोड़ना चाहते हैं?"
-  )){
-
-    clearInterval(testTimer);
-
-    showPage("dashboard");
-
-  }
-
-}
-
-
-/* =========================================================
-   FINISH TEST
-   ========================================================= */
-
-function finishTest(){
-
-  clearInterval(testTimer);
-
-
-  let correct=0;
-
-  let wrong=[];
-
-  let topicMap={};
-
-
-  currentQuestions.forEach((q,index)=>{
-
-    const selected=
-      currentAnswers[index];
-
-
-    if(selected===q.answer){
-
-      correct++;
-
-    }else{
-
-      wrong.push({
-
-        question:q.q,
-
-        correctAnswer:
-          q.options[q.answer],
-
-        studentAnswer:
-          selected===null
-            ? "Not Answered"
-            : q.options[selected],
-
-        topic:q.topic,
-
-        explanation:q.explanation
-
-      });
-
-
-      topicMap[q.topic]=
-        (topicMap[q.topic]||0)+1;
-
-    }
-
-  });
-
-
-  const total=currentQuestions.length;
-
-  const percentage=
-    Math.round(
-      (correct/total)*100
-    );
-
-
-  const weakTopics=
-    Object.entries(topicMap)
-      .sort((a,b)=>b[1]-a[1])
-      .map(x=>x[0]);
-
-
-  lastResult={
-
-    total:total,
-
-    correct:correct,
-
-    wrong:wrong.length,
-
-    percentage:percentage,
-
-    chapter:selectedChapter,
-
-    wrongQuestions:wrong,
-
-    weakTopics:weakTopics,
-
-    createdAt:Date.now()
-
-  };
-
-
-  student.tests=
-    student.tests || [];
-
-
-  student.tests.push(
-    lastResult
+   })
   );
-
-
-  users[currentStudentId]=student;
-
-  saveUsers();
-
-
-  showResult();
-
-}
-
-
-/* =========================================================
-   RESULT
-   ========================================================= */
-
-function showResult(){
-
-  document.getElementById(
-    "resultPercentage"
-  ).textContent=
-    lastResult.percentage+"%";
-
-
-  document.getElementById(
-    "resultCorrect"
-  ).textContent=
-    lastResult.correct;
-
-
-  document.getElementById(
-    "resultWrong"
-  ).textContent=
-    lastResult.wrong;
-
-
-  const weak=
-    document.getElementById(
-      "weakTopicsBox"
-    );
-
-
-  if(lastResult.weakTopics.length){
-
-    weak.innerHTML=
-      lastResult.weakTopics
-      .map(topic=>`
-        <div class="card">
-          <b>⚠️ ${topic}</b>
-          <div class="sub" style="margin:5px 0 0">
-            इस topic में targeted practice करें।
-          </div>
-        </div>
-      `)
-      .join("");
-
-  }else{
-
-    weak.innerHTML=`
-      <div class="card">
-        🎉 कोई weak topic नहीं मिला।
-      </div>
-    `;
-
-  }
-
-
-  const wrongBox=
-    document.getElementById(
-      "wrongQuestionsBox"
-    );
-
-
-  if(!lastResult.wrongQuestions.length){
-
-    wrongBox.innerHTML=`
-      <div class="card">
-        🎉 सभी questions सही हैं!
-      </div>
-    `;
-
-  }else{
-
-    wrongBox.innerHTML=
-      lastResult.wrongQuestions
-      .map((item,index)=>`
-
-        <div class="card wrong-card">
-
-          <b>
-            ${index+1}. ${escapeHTML(item.question)}
-          </b>
-
-          <p class="answer-wrong" style="margin-top:10px">
-            Your Answer:
-            ${escapeHTML(item.studentAnswer)}
-          </p>
-
-          <p class="answer-correct" style="margin-top:6px">
-            Correct Answer:
-            ${escapeHTML(item.correctAnswer)}
-          </p>
-
-          <p style="margin-top:8px;color:#737b8e">
-            Topic: ${escapeHTML(item.topic)}
-          </p>
-
-          <p style="margin-top:8px">
-            <b>Explanation:</b>
-            ${escapeHTML(item.explanation)}
-          </p>
-
-        </div>
-
-      `)
-      .join("");
-
-  }
-
-
-  showPage("result");
-
-}
-
-
-/* =========================================================
-   TARGETED PRACTICE
-   ========================================================= */
-
-function openTargetedPractice(){
-
-  if(
-    !lastResult ||
-    !lastResult.weakTopics.length
-  ){
-
-    alert(
-      "अभी कोई weak topic नहीं मिला।"
-    );
-
-    return;
-
-  }
-
-
-  const topic=
-    lastResult.weakTopics[0];
-
-
-  const questions=
-    lastResult.wrongQuestions
-      .filter(x=>x.topic===topic);
-
-
-  practiceQuestions=questions.map(x=>({
-
-    q:
-      "Weak Topic Practice: "+
-      x.topic+
-      "\n\n"+x.question,
-
-    options:[
-      x.correctAnswer,
-      "Try another method",
-      "Review concept",
-      "Need more practice"
-    ],
-
-    answer:0,
-
-    topic:x.topic
-
-  }));
 
 
   if(!practiceQuestions.length){
 
-    practiceQuestions=
-      createQuestions(
-        lastResult.chapter,
-        5
-      );
+   throw new Error(
+    "AI practice questions नहीं मिले।"
+   );
 
   }
 
 
   practiceIndex=0;
 
-  document.getElementById(
-    "practiceTitle"
-  ).textContent=
-    "🎯 Targeted Practice — "+topic;
+  practiceCorrect=0;
 
 
-  showPage("practiceRun");
+  document
+  .getElementById(
+   "practiceMeta"
+  )
+  .textContent=
+   "Class "+
+   cls+
+   " • "+
+   chapter+
+   " • "+
+   topic+
+   " • "+
+   difficulty;
+
+
+  showScreen("practice");
 
   renderPractice();
 
-}
+
+ }catch(errorObj){
+
+  console.error(errorObj);
+
+  error.textContent=
+  "AI Practice start नहीं हुई। "+
+  errorObj.message;
+
+  error.style.display="block";
 
 
-/* =========================================================
-   GENERAL PRACTICE
-   ========================================================= */
+ }finally{
 
-function openPractice(){
+  btn.disabled=false;
 
-  const list=
-    document.getElementById(
-      "practiceChapterList"
-    );
+  btn.textContent=
+  "🤖 Start AI Practice →";
 
-
-  list.innerHTML="";
-
-
-  const cls=
-    student?.profile?.class || "10";
-
-
-  const chapters=
-    chaptersByClass[cls] ||
-    chaptersByClass["10"];
-
-
-  chapters.forEach((chapter,index)=>{
-
-    const div=
-      document.createElement("div");
-
-    div.className="chapter";
-
-    div.innerHTML=`
-      <b>${index+1}. ${chapter}</b>
-      <br>
-      <small>Practice Questions →</small>
-    `;
-
-
-    div.onclick=()=>{
-
-      practiceQuestions=
-        createQuestions(chapter,5);
-
-      practiceIndex=0;
-
-      document.getElementById(
-        "practiceTitle"
-      ).textContent=
-        "🎯 "+chapter+" Practice";
-
-      showPage("practiceRun");
-
-      renderPractice();
-
-    };
-
-
-    list.appendChild(div);
-
-  });
-
-
-  showPage("practice");
+ }
 
 }
 
+window.generateAIPractice=
+generateAIPractice;
 
-/* =========================================================
-   RENDER PRACTICE
-   ========================================================= */
+
+/* ======================================================
+ PRACTICE RENDER
+====================================================== */
 
 function renderPractice(){
 
-  if(
-    practiceIndex>=practiceQuestions.length
-  ){
+ const q=
+ practiceQuestions[
+  practiceIndex
+ ];
 
-    completePractice();
-
-    return;
-
-  }
+ if(!q)return;
 
 
-  const q=
-    practiceQuestions[practiceIndex];
+ document
+ .getElementById(
+  "practiceQNumber"
+ )
+ .textContent=
+ (
+  practiceIndex+1
+ )+
+ "/"+
+ practiceQuestions.length;
 
 
-  document.getElementById(
-    "practiceNumber"
-  ).textContent=
-    "Question "+
-    (practiceIndex+1)+
-    " of "+
-    practiceQuestions.length;
+ document
+ .getElementById(
+  "practiceQuestion"
+ )
+ .textContent=
+ q.question;
 
 
-  document.getElementById(
-    "practiceQuestion"
-  ).textContent=q.q;
+ const box=
+ document
+ .getElementById(
+  "practiceAnswers"
+ );
 
 
-  const box=
-    document.getElementById(
-      "practiceOptions"
+ box.innerHTML="";
+
+
+ q.options.forEach(
+  (answer,index)=>{
+
+   const button=
+   document.createElement(
+    "button"
+   );
+
+   button.className="answer";
+
+   button.textContent=
+   String.fromCharCode(
+    65+index
+   )+
+   ". "+
+   answer;
+
+
+   button.onclick=
+   ()=>{
+
+    answerPractice(
+     index,
+     button
     );
 
-
-  box.innerHTML="";
-
-
-  q.options.forEach((option,index)=>{
-
-    const button=
-      document.createElement("button");
-
-    button.className="option";
-
-    button.textContent=
-      String.fromCharCode(65+index)+
-      ". "+
-      option;
+   };
 
 
-    button.onclick=()=>{
+   box.appendChild(
+    button
+   );
 
-      if(q.answer===index){
-
-        button.classList.add("selected");
-
-        setTimeout(()=>{
-
-          practiceIndex++;
-
-          renderPractice();
-
-        },400);
-
-      }else{
-
-        alert(
-          "यह answer सही नहीं है। Concept दोबारा देखें।"
-        );
-
-      }
-
-    };
-
-
-    box.appendChild(button);
-
-  });
+  }
+ );
 
 }
 
 
-/* =========================================================
-   COMPLETE PRACTICE
-   ========================================================= */
+/* ======================================================
+ ANSWER PRACTICE
+====================================================== */
 
-function completePractice(){
+async function answerPractice(
+ index,
+ button
+){
 
-  student.practice=
-    (student.practice||0)+1;
-
-  users[currentStudentId]=student;
-
-  saveUsers();
+ const q=
+ practiceQuestions[
+  practiceIndex
+ ];
 
 
-  alert(
-    "🎉 Practice completed!"
+ document
+ .querySelectorAll(
+  "#practiceAnswers .answer"
+ )
+ .forEach(
+  b=>b.disabled=true
+ );
+
+
+ if(
+  index===
+  q.correctAnswer
+ ){
+
+  practiceCorrect++;
+
+  button.classList.add(
+   "correct"
+  );
+
+ }else{
+
+  button.classList.add(
+   "wrong"
   );
 
 
-  showPage("dashboard");
+  document
+  .querySelectorAll(
+   "#practiceAnswers .answer"
+  )
+  .forEach(
+   (b,i)=>{
+
+    if(
+     i===
+     q.correctAnswer
+    ){
+
+     b.classList.add(
+      "correct"
+     );
+
+    }
+
+   }
+  );
+
+ }
+
+
+ setTimeout(async()=>{
+
+  practiceIndex++;
+
+
+  if(
+   practiceIndex>=
+   practiceQuestions.length
+  ){
+
+   if(currentUser){
+
+    try{
+
+     await addDoc(
+      collection(
+       db,
+       "users",
+       currentUser.uid,
+       "practice"
+      ),
+      {
+
+       class:
+       profile?.class || "",
+
+       board:
+       profile?.board || "",
+
+       chapter:
+       document
+       .getElementById(
+        "practiceChapter"
+       ).value,
+
+       topic:
+       document
+       .getElementById(
+        "practiceTopic"
+       ).value,
+
+       difficulty:
+       document
+       .getElementById(
+        "practiceDifficulty"
+       ).value,
+
+       total:
+       practiceQuestions.length,
+
+       correct:
+       practiceCorrect,
+
+       score:
+       Math.round(
+        practiceCorrect/
+        practiceQuestions.length*
+        100
+       ),
+
+       createdAt:
+       serverTimestamp()
+
+      }
+     );
+
+    }catch(error){
+
+     console.error(
+      "Practice save error:",
+      error
+     );
+
+    }
+
+   }
+
+
+   toast(
+    "🎯 Practice completed!"
+   );
+
+
+   showScreen("dashboard");
+
+
+  }else{
+
+   renderPractice();
+
+  }
+
+ },600);
 
 }
 
 
-/* =========================================================
-   ANALYSIS
-   ========================================================= */
+/* ======================================================
+ TARGETED PRACTICE
+====================================================== */
 
-function openAnalysis(){
+function openTargetedPractice(){
 
-  const box=
-    document.getElementById(
-      "analysisData"
-    );
+ if(
+  !lastResult ||
+  !lastResult.weakTopics ||
+  !lastResult.weakTopics.length
+ ){
+
+  openPracticeSetup();
+
+  return;
+
+ }
 
 
-  const tests=
-    student?.tests || [];
+ const weakTopic=
+ lastResult.weakTopics[0];
 
 
-  if(!tests.length){
+ document
+ .getElementById(
+  "practiceTopic"
+ )
+ .value=
+ weakTopic;
 
-    box.innerHTML=`
-      <div class="card" style="text-align:center">
-        <div style="font-size:45px">📊</div>
-        <b>अभी कोई test data नहीं है।</b>
-        <p class="sub" style="margin-top:8px">
-          पहला Diagnostic Test देकर अपना progress देखें।
-        </p>
-      </div>
-    `;
 
-    showPage("analysis");
+ document
+ .getElementById(
+  "practiceChapter"
+ )
+ .value=
+ lastResult.chapter;
 
-    return;
+
+ openPracticeSetup();
+
+
+ document
+ .getElementById(
+  "practiceTopic"
+ )
+ .value=
+ weakTopic;
+
+
+ document
+ .getElementById(
+  "practiceChapter"
+ )
+ .value=
+ lastResult.chapter;
+
+
+ toast(
+  "🎯 Weak topic selected: "+
+  weakTopic
+ );
+
+}
+
+window.openTargetedPractice=
+openTargetedPractice;
+
+
+/* ======================================================
+ PROGRESS / ANALYSIS
+====================================================== */
+
+async function openAnalysis(){
+
+ showScreen("analysis");
+
+
+ const box=
+ document
+ .getElementById(
+  "analysisData"
+ );
+
+
+ box.innerHTML=`
+
+  <div class="card center">
+   Loading progress...
+  </div>
+
+ `;
+
+
+ if(!currentUser){
+
+  box.innerHTML=`
+   <div class="card">
+    Login required.
+   </div>
+  `;
+
+  return;
+
+ }
+
+
+ try{
+
+  const snap=
+  await getDocs(
+   collection(
+    db,
+    "users",
+    currentUser.uid,
+    "tests"
+   )
+  );
+
+
+  if(snap.empty){
+
+   box.innerHTML=`
+
+    <div class="card center">
+
+     <div style="font-size:45px">
+      📊
+     </div>
+
+     <b>
+      अभी कोई test data नहीं है।
+     </b>
+
+     <p class="sub">
+      पहला Diagnostic Test देकर
+      अपना progress देखें।
+     </p>
+
+    </div>
+
+   `;
+
+   return;
 
   }
 
 
+  const tests=[];
+
+
+  snap.forEach(
+   item=>{
+
+    tests.push(
+     item.data()
+    );
+
+   }
+  );
+
+
   const scores=
-    tests.map(x=>x.percentage);
+  tests.map(
+   x=>Number(x.score||0)
+  );
 
 
   const average=
-    Math.round(
-      scores.reduce((a,b)=>a+b,0)/
-      scores.length
-    );
+  Math.round(
+   scores.reduce(
+    (a,b)=>a+b,
+    0
+   )/
+   scores.length
+  );
 
 
   const best=
-    Math.max(...scores);
+  Math.max(...scores);
 
 
-  let allWeak={};
+  const weak={};
 
 
-  tests.forEach(test=>{
+  tests.forEach(
+   test=>{
 
-    (test.weakTopics||[])
-      .forEach(topic=>{
+    (
+     test.weakTopics||
+     []
+    ).forEach(
+     topic=>{
 
-        allWeak[topic]=
-          (allWeak[topic]||0)+1;
+      weak[topic]=
+      (weak[topic]||0)+1;
 
-      });
+     }
+    );
 
-  });
+   }
+  );
 
 
-  const weakTopics=
-    Object.entries(allWeak)
-      .sort((a,b)=>b[1]-a[1]);
+  const weakList=
+  Object
+  .entries(weak)
+  .sort(
+   (a,b)=>b[1]-a[1]
+  );
 
 
   box.innerHTML=`
 
-    <div class="stats">
+   <div class="statGrid">
 
-      <div class="stat">
-        <b>${tests.length}</b>
-        <span>Tests</span>
-      </div>
+    <div class="stat">
+     <b>${tests.length}</b>
+     <span>Tests</span>
+    </div>
 
-      <div class="stat">
-        <b>${average}%</b>
-        <span>Average</span>
-      </div>
+    <div class="stat">
+     <b>${average}%</b>
+     <span>Average</span>
+    </div>
 
-      <div class="stat">
-        <b>${best}%</b>
-        <span>Best</span>
-      </div>
+    <div class="stat">
+     <b>${best}%</b>
+     <span>Best</span>
+    </div>
+
+   </div>
+
+
+   <div class="card">
+
+    <b>
+     Overall Performance
+    </b>
+
+    <div class="progress">
+
+     <i
+      style="width:${average}%"
+     ></i>
 
     </div>
 
+    <p class="sub">
+     Average Score: ${average}%
+    </p>
 
-    <div class="card">
+   </div>
 
-      <b>Overall Performance</b>
 
-      <div style="margin-top:12px">
-        <div class="progress-bar">
-          <div
-            class="progress-fill"
-            style="width:${average}%"
-          ></div>
-        </div>
+   <div class="title" style="font-size:20px;margin:15px 0">
+    Weak Topics
+   </div>
+
+   ${
+    weakList.length
+
+    ?
+
+    weakList.map(
+     item=>`
+
+      <div class="analysisItem">
+
+       <b>
+        ⚠️ ${escapeHTML(item[0])}
+       </b>
+
+       <p class="sub">
+        ${item[1]} test(s) में weak
+       </p>
+
       </div>
 
-      <p class="sub" style="margin:8px 0 0">
-        Average score: ${average}%
-      </p>
+     `
+    ).join("")
 
-    </div>
+    :
 
-
-    <div class="title" style="font-size:20px">
-      Weak Topics
-    </div>
-
-    ${
-      weakTopics.length
-
-      ? weakTopics.map(x=>`
-
-        <div class="card">
-
-          <b>⚠️ ${escapeHTML(x[0])}</b>
-
-          <p class="sub" style="margin:5px 0 0">
-            Weak in ${x[1]} test(s)
-          </p>
-
-        </div>
-
-      `).join("")
-
-      : `
-        <div class="card">
-          🎉 अभी कोई weak topic नहीं मिला।
-        </div>
-      `
-    }
+    `
+     <div class="card">
+      🎉 अभी कोई weak topic नहीं मिला।
+     </div>
+    `
+   }
 
 
-    <div class="title" style="font-size:20px">
-      Recent Tests
-    </div>
+   <div class="title" style="font-size:20px;margin:15px 0">
+    Recent Tests
+   </div>
 
-    ${
-      tests.slice(-5).reverse().map((test,i)=>`
+   ${
+    tests
+    .slice(-8)
+    .reverse()
+    .map(
+     test=>`
 
-        <div class="card">
+      <div class="analysisItem">
 
-          <b>${escapeHTML(test.chapter)}</b>
+       <b>
+        ${escapeHTML(
+         test.chapter ||
+         "Mathematics"
+        )}
+       </b>
 
-          <div style="
-            display:flex;
-            justify-content:space-between;
-            margin-top:9px;
-          ">
+       <div
+        style="
+        display:flex;
+        justify-content:space-between;
+        margin-top:8px
+        "
+       >
 
-            <span>
-              ${test.correct}/${test.total} correct
-            </span>
+        <span>
+         ${test.correct||0}/
+         ${test.total||0}
+        </span>
 
-            <b style="color:#624cff">
-              ${test.percentage}%
-            </b>
+        <b>
+         ${test.score||0}%
+        </b>
 
-          </div>
+       </div>
 
-        </div>
+      </div>
 
-      `).join("")
-    }
+     `
+    ).join("")
+   }
 
   `;
 
 
-  showPage("analysis");
+ }catch(error){
 
-}
+  console.error(error);
 
+  box.innerHTML=`
 
-/* =========================================================
-   AI ASSISTANT
-   ========================================================= */
+   <div class="card">
+    Progress load नहीं हो सका।
+    Firestore Rules check करें।
+   </div>
 
-function openAI(){
-
-  showPage("ai");
-
-}
-
-
-function sendAI(){
-
-  const input=
-    document.getElementById(
-      "chatInput"
-    );
-
-
-  const text=
-    input.value.trim();
-
-
-  if(!text) return;
-
-
-  const chat=
-    document.getElementById(
-      "chatBox"
-    );
-
-
-  const userMsg=
-    document.createElement("div");
-
-
-  userMsg.className=
-    "chat-msg chat-user";
-
-
-  userMsg.textContent=text;
-
-
-  chat.appendChild(userMsg);
-
-
-  input.value="";
-
-
-  const aiMsg=
-    document.createElement("div");
-
-
-  aiMsg.className=
-    "chat-msg chat-ai";
-
-
-  aiMsg.innerHTML=
-    getLocalAIAnswer(text);
-
-
-  chat.appendChild(aiMsg);
-
-
-  chat.scrollTop=
-    chat.scrollHeight;
-
-}
-
-
-/* ---------- DEMO AI RESPONSE ---------- */
-
-function getLocalAIAnswer(text){
-
-  const t=text.toLowerCase();
-
-
-  if(
-    t.includes("derivative") ||
-    t.includes("अवकलन")
-  ){
-
-    return `
-      <b>Derivative का basic idea:</b><br><br>
-      किसी function में x के छोटे change के कारण
-      output में होने वाले change की rate को derivative
-      कहते हैं।<br><br>
-      Example: d(x²)/dx = 2x
-    `;
-
-  }
-
-
-  if(
-    t.includes("probability") ||
-    t.includes("प्रायिकता")
-  ){
-
-    return `
-      <b>Probability:</b><br><br>
-      किसी घटना के होने की संभावना को probability कहते हैं।<br><br>
-      Basic formula:<br>
-      Probability =
-      Favourable Outcomes /
-      Total Outcomes
-    `;
-
-  }
-
-
-  if(
-    t.includes("matrix") ||
-    t.includes("मैट्रिक्स")
-  ){
-
-    return `
-      <b>Matrix:</b><br><br>
-      Numbers को rows और columns में rectangular form
-      में arrange करने को matrix कहते हैं।<br><br>
-      उदाहरण: 2 × 3 matrix में 2 rows और 3 columns होते हैं।
-    `;
-
-  }
-
-
-  if(
-    t.includes("sin") ||
-    t.includes("cos") ||
-    t.includes("tan")
-  ){
-
-    return `
-      <b>Trigonometry:</b><br><br>
-      याद रखें:<br>
-      sin 90° = 1<br>
-      cos 0° = 1<br>
-      tan 45° = 1
-    `;
-
-  }
-
-
-  return `
-    <b>EXAMOS AI:</b><br><br>
-    आपका सवाल मिला। 👍<br><br>
-    इस MVP में AI Assistant का frontend तैयार है।
-    Real AI answer के लिए आपके existing
-    <b>/api/ai</b> backend को connect किया जा सकता है।
   `;
 
+ }
+
 }
 
+window.openAnalysis=
+openAnalysis;
 
-/* =========================================================
-   SETTINGS
-   ========================================================= */
+
+/* ======================================================
+ SETTINGS
+====================================================== */
 
 function openSettings(){
 
-  if(!student || !student.profile) return;
+ if(!profile)return;
 
 
-  document.getElementById("editName")
-    .value=student.profile.name || "";
+ document
+ .getElementById("editName")
+ .value=
+ profile.name||"";
 
 
-  document.getElementById("editBoard")
-    .value=student.profile.board || "BSEB";
+ document
+ .getElementById("editBoard")
+ .value=
+ profile.board||"BSEB";
 
 
-  document.getElementById("editClass")
-    .value=student.profile.class || "10";
+ document
+ .getElementById("editClass")
+ .value=
+ profile.class||"10";
 
 
-  showPage("settings");
+ showScreen("settings");
 
 }
 
-
-function updateProfile(){
-
-  const name=
-    document.getElementById(
-      "editName"
-    ).value.trim();
+window.openSettings=
+openSettings;
 
 
-  if(!name){
+async function updateProfile(){
 
-    alert("Name खाली नहीं हो सकता।");
+ const name=
+ document
+ .getElementById("editName")
+ .value
+ .trim();
 
-    return;
+ const board=
+ document
+ .getElementById("editBoard")
+ .value;
+
+ const cls=
+ document
+ .getElementById("editClass")
+ .value;
+
+
+ if(!name){
+
+  toast(
+   "Name खाली नहीं हो सकता।"
+  );
+
+  return;
+
+ }
+
+
+ try{
+
+  profile={
+   ...profile,
+   name:name,
+   board:board,
+   class:cls,
+   subject:"Mathematics"
+  };
+
+
+  await setDoc(
+   doc(
+    db,
+    "users",
+    currentUser.uid
+   ),
+   {
+    ...profile,
+    updatedAt:
+    serverTimestamp()
+   },
+   {merge:true}
+  );
+
+
+  fillDashboard();
+
+  toast(
+   "✅ Profile updated!"
+  );
+
+  showScreen("dashboard");
+
+
+ }catch(error){
+
+  console.error(error);
+
+  toast(
+   "Profile update नहीं हुई।"
+  );
+
+ }
+
+}
+
+window.updateProfile=
+updateProfile;
+
+
+/* ======================================================
+ AI CHAT
+====================================================== */
+
+function toggleAI(){
+
+ document
+ .getElementById("aiPanel")
+ .classList.toggle("open");
+
+}
+
+window.toggleAI=
+toggleAI;
+
+
+async function sendAI(){
+
+ const input=
+ document
+ .getElementById("aiInput");
+
+ const text=
+ input.value.trim();
+
+
+ if(!text)return;
+
+
+ const body=
+ document
+ .getElementById("aiBody");
+
+
+ body.insertAdjacentHTML(
+  "beforeend",
+  `
+   <div class="msg user">
+    ${escapeHTML(text)}
+   </div>
+  `
+ );
+
+
+ input.value="";
+
+
+ const loading=
+ document.createElement("div");
+
+ loading.className=
+ "msg ai loading";
+
+ loading.textContent=
+ "EXAMOS AI सोच रहा है...";
+
+ body.appendChild(
+  loading
+ );
+
+
+ body.scrollTop=
+ body.scrollHeight;
+
+
+ try{
+
+  const prompt=`
+
+You are EXAMOS AI, a friendly Mathematics tutor.
+
+Student:
+Name: ${profile?.name||"Student"}
+Board: ${profile?.board||"BSEB"}
+Class: ${profile?.class||"Not specified"}
+Subject: Mathematics
+
+Answer the student's question:
+${text}
+
+Rules:
+- Explain in simple language.
+- Prefer Hindi/Hinglish unless the student asks for English.
+- Show steps for numerical questions.
+- Do not invent facts.
+- Keep the answer suitable for a school student.
+`;
+
+
+  const data=
+  await callAI({
+
+   mode:"chat",
+
+   message:text,
+
+   prompt:prompt,
+
+   student:{
+    name:
+    profile?.name||"Student",
+
+    board:
+    profile?.board||"BSEB",
+
+    class:
+    profile?.class||"",
+
+    subject:
+    "Mathematics"
+   }
+
+  });
+
+
+  const reply=
+  extractAIText(data);
+
+
+  if(!reply){
+
+   throw new Error(
+    "AI response empty"
+   );
 
   }
 
 
-  student.profile.name=name;
+  loading.classList.remove(
+   "loading"
+  );
 
-  student.profile.board=
-    document.getElementById(
-      "editBoard"
-    ).value;
-
-  student.profile.class=
-    document.getElementById(
-      "editClass"
-    ).value;
+  loading.textContent=
+  reply;
 
 
-  users[currentStudentId]=student;
+ }catch(error){
 
-  saveUsers();
-
-
-  alert("✅ Profile updated!");
-
-  showPage("dashboard");
-
-}
-
-
-/* =========================================================
-   LOGOUT
-   ========================================================= */
-
-function logout(){
-
-  if(
-    !confirm("क्या आप logout करना चाहते हैं?")
-  ) return;
-
-
-  clearInterval(testTimer);
-
-
-  currentStudentId="";
-
-  student=null;
-
-  localStorage.removeItem(
-    "EXAMOS_CURRENT_ID"
+  console.error(
+   "AI chat error:",
+   error
   );
 
 
-  showPage("welcome");
-
-}
-
-
-/* =========================================================
-   STORAGE
-   ========================================================= */
-
-function saveUsers(){
-
-  localStorage.setItem(
-    "EXAMOS_USERS",
-    JSON.stringify(users)
+  loading.classList.remove(
+   "loading"
   );
 
+
+  loading.textContent=
+  "AI अभी response नहीं दे पा रहा है। थोड़ी देर बाद फिर कोशिश करें।";
+
+ }
+
+
+ body.scrollTop=
+ body.scrollHeight;
+
+}
+
+window.sendAI=
+sendAI;
+
+
+/* ======================================================
+ LOGOUT
+====================================================== */
+
+async function logout(){
+
+ try{
+
+  await signOut(auth);
+
+ }catch(error){
+
+  console.error(error);
+
+ }
+
+
+ currentUser=null;
+
+ profile=null;
+
+ clearInterval(timerId);
+
+ showScreen("welcome");
+
+}
+
+window.logout=
+logout;
+
+
+/* ======================================================
+ TOAST
+====================================================== */
+
+function toast(message){
+
+ const el=
+ document
+ .getElementById("toast");
+
+
+ el.textContent=
+ message;
+
+ el.style.display=
+ "block";
+
+
+ clearTimeout(
+  window.__toastTimer
+ );
+
+
+ window.__toastTimer=
+ setTimeout(
+  ()=>{
+   el.style.display="none";
+  },
+  2500
+ );
+
 }
 
 
-/* =========================================================
-   HTML ESCAPE
-   ========================================================= */
+/* ======================================================
+ HTML ESCAPE
+====================================================== */
 
 function escapeHTML(value){
 
-  return String(value)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+ return String(value||"")
+ .replace(
+  /[&<>"']/g,
+  character=>({
+
+   "&":"&amp;",
+   "<":"&lt;",
+   ">":"&gt;",
+   '"':"&quot;",
+   "'":"&#039;"
+
+  })[character]
+ );
 
 }
 
 
-/* =========================================================
-   APP START
-   ========================================================= */
+/* ======================================================
+ INITIAL SETUP
+====================================================== */
 
-function initializeApp(){
+loadTestChapters();
 
-  if(currentStudentId &&
-     users[currentStudentId]){
-
-    student=
-      users[currentStudentId];
-
-
-    if(student.profile){
-
-      showPage("dashboard");
-
-    }else{
-
-      showPage("profile");
-
-    }
-
-  }else{
-
-    showPage("welcome");
-
-  }
-
-}
-
-
-/* ---------- START ---------- */
+loadPracticeChapters();
 
 updateStream();
 
-initializeApp();
+
+/* ======================================================
+ EXPOSE FUNCTIONS
+====================================================== */
+
+window.openTestSetup=
+openTestSetup;
+
+window.openPracticeSetup=
+openPracticeSetup;
+
+window.loadTestChapters=
+loadTestChapters;
+
+window.loadPracticeChapters=
+loadPracticeChapters;
+
+window.answerTest=
+answerTest;
+
+window.answerPractice=
+answerPractice;
 
 </script>
 
