@@ -2,940 +2,777 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#5b5cf0">
 <title>EXAMOS AI</title>
 
+<!-- Math rendering -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)'],['$','$']],
+    displayMath: [['\\[','\\]'],['$$','$$']]
+  },
+  svg: {fontCache:'global'}
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
 <style>
+*{box-sizing:border-box}
 :root{
   --primary:#5b5cf0;
   --primary2:#7c3aed;
-  --bg:#f5f7ff;
+  --blue:#4f7cff;
+  --bg:#f6f7fb;
   --card:#fff;
-  --text:#171a2b;
-  --muted:#73778d;
-  --border:#e7e8f1;
-  --green:#10b981;
-  --red:#ef4444;
-  --orange:#f59e0b;
+  --text:#17182b;
+  --muted:#74788c;
+  --border:#e8e9f2;
+  --green:#16a66a;
+  --red:#e5484d;
+  --shadow:0 10px 30px rgba(45,45,90,.08);
 }
-
-*{
-  box-sizing:border-box;
+html,body{
   margin:0;
   padding:0;
-  font-family:Arial,Helvetica,sans-serif;
-}
-
-html,body{
   width:100%;
   min-height:100%;
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
   background:var(--bg);
   color:var(--text);
 }
-
-body{
-  overflow-x:hidden;
-}
-
-button,input,select,textarea{
-  font:inherit;
-}
-
-button{
-  border:0;
-  cursor:pointer;
-}
-
-.hidden{
-  display:none!important;
-}
+body{padding-bottom:0}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
 
 .app{
   width:100%;
-  max-width:1200px;
-  min-height:100vh;
+  max-width:520px;
   margin:auto;
+  min-height:100vh;
+  background:var(--bg);
+  position:relative;
 }
 
 .header{
   position:sticky;
   top:0;
-  left:0;
-  width:100%;
-  height:70px;
   z-index:100;
   background:rgba(255,255,255,.96);
-  border-bottom:1px solid var(--border);
   backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
 }
-
 .header-inner{
-  height:100%;
-  max-width:1200px;
-  margin:auto;
-  padding:10px 20px;
+  height:66px;
+  padding:0 18px;
   display:flex;
   align-items:center;
   justify-content:space-between;
 }
-
-.brand{
+.logo{
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:9px;
   font-weight:900;
-  font-size:20px;
+  font-size:18px;
 }
-
-.brand img{
-  width:42px;
-  height:42px;
-  object-fit:contain;
-  border-radius:12px;
+.logo-icon{
+  width:34px;
+  height:34px;
+  border-radius:11px;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  color:#fff;
+  display:grid;
+  place-items:center;
+  font-weight:900;
 }
-
 .profile-mini{
   display:flex;
   align-items:center;
   gap:8px;
-  background:#f3f3ff;
-  padding:6px 10px;
-  border-radius:14px;
+  font-size:13px;
 }
-
 .profile-circle{
-  width:35px;
-  height:35px;
+  width:34px;
+  height:34px;
   border-radius:50%;
-  background:linear-gradient(135deg,#7c3aed,#ec4899);
-  color:#fff;
+  background:#ecebff;
+  color:var(--primary);
   display:grid;
   place-items:center;
-  font-weight:bold;
+  font-weight:900;
 }
 
-main{
+main{padding:18px 15px 100px}
+.page{display:none}
+.page.active{display:block}
+body.welcome-mode .header{display:none}
+body.welcome-mode main{padding:0}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:18px;
+  box-shadow:var(--shadow);
+}
+
+.setup-box{
+  margin:28px auto;
+  max-width:470px;
+}
+
+.section-title{
+  margin:0 0 6px;
+  font-size:23px;
+  font-weight:900;
+}
+.section-subtitle{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.55;
+  margin:0 0 18px;
+}
+
+.btn{
   width:100%;
-  padding:0 20px 100px;
+  border:0;
+  min-height:48px;
+  padding:12px 16px;
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  color:white;
+  font-weight:800;
+  box-shadow:0 8px 20px rgba(91,92,240,.22);
+}
+.btn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+.btn.secondary{
+  background:#fff;
+  color:var(--primary);
+  border:1px solid #dfe0f2;
+  box-shadow:none;
+}
+.btn.red{
+  background:#fff0f0;
+  color:var(--red);
+  border:1px solid #ffd3d3;
+  box-shadow:none;
+}
+.btn-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
 }
 
-.page{
-  display:none;
-  width:100%;
-  min-height:calc(100vh - 70px);
-  animation:pageIn .22s ease;
-}
-
-.page.active{
+.input-group{margin-bottom:15px}
+.input-group label{
   display:block;
+  font-size:13px;
+  font-weight:800;
+  margin-bottom:7px;
+}
+.input-group input,
+.input-group select,
+.chat-input textarea{
+  width:100%;
+  border:1px solid var(--border);
+  background:#fafaff;
+  border-radius:13px;
+  padding:13px;
+  outline:none;
+  color:var(--text);
+}
+.input-group input:focus,
+.input-group select:focus,
+.chat-input textarea:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(91,92,240,.08);
 }
 
-@keyframes pageIn{
-  from{opacity:0;transform:translateY(8px)}
-  to{opacity:1;transform:translateY(0)}
-}
-
-/* WELCOME */
-
-#welcomePage{
+.welcome-screen{
   min-height:100vh;
-}
-
-.welcome{
-  min-height:100vh;
+  padding:70px 25px 45px;
   display:flex;
   flex-direction:column;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
   text-align:center;
-  padding:25px;
 }
-
-.logo-wrap{
-  width:140px;
-  height:140px;
+.welcome-logo-wrap{
+  width:130px;
+  height:130px;
   position:relative;
   display:grid;
   place-items:center;
-  margin-bottom:20px;
+  margin-bottom:25px;
 }
-
+.welcome-logo{
+  width:100px;
+  height:100px;
+  object-fit:contain;
+  border-radius:28px;
+  position:relative;
+  z-index:2;
+  animation:logoFloat 2.8s ease-in-out infinite;
+}
 .logo-glow{
   position:absolute;
   width:110px;
   height:110px;
   border-radius:35px;
-  background:linear-gradient(135deg,var(--primary),var(--primary2));
-  filter:blur(25px);
-  opacity:.35;
-  animation:glow 2s infinite;
+  background:linear-gradient(135deg,#5b5cf0,#7c3aed);
+  filter:blur(24px);
+  opacity:.28;
 }
-
-.logo-wrap img{
-  width:110px;
-  height:110px;
-  object-fit:contain;
-  border-radius:28px;
-  position:relative;
-  z-index:2;
-  animation:floatLogo 2.8s ease-in-out infinite;
-}
-
-@keyframes floatLogo{
+@keyframes logoFloat{
   0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-8px)}
+  50%{transform:translateY(-7px)}
 }
-
-@keyframes glow{
-  0%,100%{transform:scale(.85);opacity:.25}
-  50%{transform:scale(1.1);opacity:.45}
-}
-
-.welcome h1{
+.welcome-title{
   font-size:42px;
-  font-weight:900;
+  margin:0 0 7px;
+  font-weight:950;
 }
-
-.welcome h1 span{
-  color:var(--primary);
-}
-
-.welcome p{
-  color:var(--muted);
-  margin:10px 0 32px;
+.welcome-title span{color:var(--primary)}
+.welcome-tagline{
+  margin:0 0 8px;
+  color:#55586b;
   font-size:16px;
+  font-weight:700;
 }
-
-/* COMMON */
-
-.card{
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:18px;
-  box-shadow:0 6px 25px rgba(40,45,100,.04);
-}
-
-.flow{
-  max-width:720px;
-  margin:30px auto;
-}
-
-.setup{
-  max-width:460px;
-  margin:30px auto;
-}
-
-.title{
-  font-size:25px;
-  font-weight:900;
-  margin-bottom:8px;
-}
-
-.subtitle{
+.welcome-sub{
+  margin:0 0 28px;
   color:var(--muted);
   font-size:14px;
-  line-height:1.5;
-  margin-bottom:20px;
 }
-
-.btn{
-  width:100%;
-  padding:14px;
-  border-radius:14px;
-  color:#fff;
-  background:linear-gradient(135deg,var(--primary),var(--primary2));
-  font-weight:800;
-  transition:.2s;
-}
-
-.btn:active{
-  transform:scale(.98);
-}
-
-.btn:disabled{
-  opacity:.6;
-  cursor:not-allowed;
-}
-
-.btn.secondary{
-  background:#eeeeff;
-  color:var(--primary);
-}
-
-.btn.green{
-  background:linear-gradient(135deg,#10b981,#059669);
-}
-
-.btn.red{
-  background:#ef4444;
-}
-
-.btn-row{
-  display:flex;
-  gap:10px;
-}
-
-.btn-row .btn{
-  flex:1;
-}
-
-.input-group{
-  margin-bottom:15px;
-}
-
-.input-group label{
-  display:block;
-  font-size:14px;
-  font-weight:800;
-  margin-bottom:7px;
-}
-
-.input-group input,
-.input-group select,
-.input-group textarea{
-  width:100%;
-  padding:13px;
-  border:1px solid var(--border);
-  border-radius:13px;
-  outline:none;
-  background:#fafbff;
-}
-
-.input-group input:focus,
-.input-group select:focus,
-.input-group textarea:focus{
-  border-color:var(--primary);
-}
-
-/* AUTH */
-
-.auth{
-  max-width:430px;
-  margin:35px auto;
-}
-
-.auth-logo{
-  text-align:center;
-  margin-bottom:20px;
-}
-
-.auth-logo img{
-  width:80px;
-  height:80px;
-  object-fit:contain;
-  border-radius:20px;
-}
-
-.auth h1{
-  text-align:center;
-  font-size:29px;
-  margin-bottom:5px;
-}
-
-.auth-sub{
-  text-align:center;
-  color:var(--muted);
-  margin-bottom:25px;
-}
-
-.auth-error{
-  display:none;
-  color:#b91c1c;
-  background:#fff1f2;
-  border:1px solid #fecdd3;
-  padding:10px;
-  border-radius:12px;
-  margin-bottom:15px;
-  font-size:13px;
-}
-
-.auth-link{
-  width:100%;
-  background:none;
-  color:var(--primary);
-  padding:12px;
-  font-weight:800;
-}
-
-/* DASHBOARD */
 
 .hero{
-  margin:25px 0 20px;
-  color:#fff;
-  padding:25px;
-  border-radius:25px;
   background:linear-gradient(135deg,#5b5cf0,#7c3aed);
+  color:white;
+  border-radius:22px;
+  padding:22px;
+  margin-bottom:15px;
+  box-shadow:0 12px 28px rgba(91,92,240,.22);
 }
-
 .hero h1{
-  font-size:26px;
-  margin-bottom:8px;
+  margin:0 0 7px;
+  font-size:24px;
 }
-
 .hero p{
+  margin:0;
   opacity:.9;
+  font-size:13px;
   line-height:1.5;
 }
 
 .stats{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:12px;
+  gap:10px;
   margin-bottom:20px;
 }
-
-.stat{
-  background:#fff;
+.stat-card{
+  background:white;
   border:1px solid var(--border);
-  border-radius:18px;
-  padding:15px;
+  border-radius:16px;
+  padding:14px 8px;
+  text-align:center;
+  box-shadow:var(--shadow);
 }
-
-.stat span{
+.stat-card span{
   display:block;
+  font-size:11px;
   color:var(--muted);
-  font-size:12px;
-  margin-bottom:7px;
+  margin-bottom:5px;
 }
-
-.stat strong{
+.stat-card strong{
   font-size:21px;
 }
 
 .feature-grid{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px;
+  grid-template-columns:1fr 1fr;
+  gap:11px;
 }
-
-.feature{
+.feature-card{
   background:#fff;
   border:1px solid var(--border);
-  border-radius:20px;
-  padding:18px;
-  cursor:pointer;
-  transition:.2s;
+  border-radius:18px;
+  padding:16px;
+  min-height:145px;
+  box-shadow:var(--shadow);
+  transition:.15s;
 }
-
-.feature:active{
-  transform:scale(.98);
-}
-
+.feature-card:active{transform:scale(.98)}
 .feature-icon{
-  width:45px;
-  height:45px;
+  width:42px;
+  height:42px;
+  border-radius:13px;
+  background:#efeeff;
   display:grid;
   place-items:center;
-  border-radius:14px;
-  background:#f0f0ff;
-  font-size:22px;
-  margin-bottom:12px;
+  font-size:21px;
+  margin-bottom:10px;
 }
-
-.feature h3{
+.feature-card h3{
+  margin:0 0 5px;
   font-size:16px;
-  margin-bottom:7px;
 }
-
-.feature p{
+.feature-card p{
+  margin:0;
   color:var(--muted);
-  font-size:13px;
-  line-height:1.4;
+  font-size:12px;
+  line-height:1.45;
 }
 
-/* STEPS */
-
-.steps{
-  display:flex;
-  gap:6px;
-  margin-bottom:20px;
-}
-
-.step{
-  height:6px;
-  flex:1;
-  background:#e6e7ef;
-  border-radius:10px;
-}
-
-.step.active{
-  background:var(--primary);
-}
-
+.flow-box{max-width:500px;margin:auto}
 .option-grid{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:12px;
+  gap:10px;
 }
-
 .option{
-  padding:16px;
   background:#fff;
-  border:2px solid var(--border);
-  border-radius:16px;
-  text-align:center;
-  cursor:pointer;
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:15px;
+  transition:.15s;
 }
-
 .option:active{
-  transform:scale(.98);
+  transform:scale(.985);
 }
-
+.option.selected{
+  border-color:var(--primary);
+  background:#f4f3ff;
+}
 .option h4{
-  margin-bottom:5px;
+  margin:0 0 5px;
+  font-size:15px;
 }
-
 .option p{
+  margin:0;
   color:var(--muted);
   font-size:12px;
 }
-
 .selected-info{
-  background:#f3f3ff;
-  color:#4b4dc7;
-  padding:12px;
+  background:#f5f4ff;
+  border:1px solid #e3e1ff;
+  color:#4d4bb0;
   border-radius:13px;
-  margin-bottom:15px;
+  padding:11px;
   font-size:13px;
+  margin-bottom:12px;
 }
-
-.topic-list{
-  display:grid;
-  gap:10px;
+.step-indicator{
+  display:flex;
+  gap:6px;
+  margin-bottom:15px;
 }
-
-.topic-item{
-  padding:15px;
-  border:1px solid var(--border);
-  border-radius:14px;
-  background:#fff;
-  cursor:pointer;
+.step{
+  height:5px;
+  flex:1;
+  background:#dedfec;
+  border-radius:99px;
 }
-
-/* TEST */
+.step.active{
+  background:linear-gradient(90deg,var(--primary),var(--primary2));
+}
 
 .test-top{
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  gap:10px;
-  margin-bottom:15px;
+  align-items:center;
+  margin-bottom:13px;
 }
-
 .timer{
-  background:#fff3e0;
-  color:#b45309;
-  padding:10px 12px;
+  background:#fff0f0;
+  color:#d83b43;
   border-radius:12px;
+  padding:9px 12px;
   font-weight:900;
+  font-variant-numeric:tabular-nums;
 }
-
+.question-card{padding:17px}
 .question-number{
   color:var(--primary);
   font-size:13px;
   font-weight:900;
   margin-bottom:10px;
 }
-
 .question-text{
   font-size:18px;
-  line-height:1.5;
-  margin-bottom:20px;
+  font-weight:800;
+  line-height:1.55;
+  margin-bottom:18px;
 }
-
 .answer-option{
+  display:block;
   width:100%;
   text-align:left;
-  padding:14px;
   border:1px solid var(--border);
   background:#fff;
-  border-radius:13px;
+  padding:14px;
+  border-radius:14px;
   margin-bottom:10px;
+  line-height:1.5;
 }
-
 .answer-option.selected{
-  border:2px solid var(--primary);
-  background:#f2f2ff;
+  border-color:var(--primary);
+  background:#f1f0ff;
+  color:#433fc0;
+  font-weight:700;
 }
-
-.loading{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  padding:30px;
-  color:var(--muted);
+.answer-option:hover{
+  border-color:#aaa8f2;
 }
-
-.loader{
-  width:20px;
-  height:20px;
-  border:3px solid #ddd;
-  border-top-color:var(--primary);
-  border-radius:50%;
-  animation:spin 1s linear infinite;
-}
-
-@keyframes spin{
-  to{transform:rotate(360deg)}
-}
-
-/* RESULT */
+#nextQuestionBtn{margin-top:7px}
 
 .result-score{
   text-align:center;
   font-size:45px;
-  font-weight:900;
   color:var(--primary);
-  margin:20px 0;
+  font-weight:950;
+  margin:12px 0 20px;
 }
-
 .result-grid{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:12px;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
 }
-
 .result-stat{
-  background:#f7f7ff;
+  background:#f7f7fb;
   padding:14px;
-  border-radius:15px;
+  border-radius:14px;
   text-align:center;
 }
-
-.result-stat strong{
+.result-stat span{
   display:block;
-  font-size:25px;
-  margin-top:5px;
+  color:var(--muted);
+  font-size:12px;
 }
+.result-stat strong{font-size:23px}
 
 .wrong-card{
-  background:#fffafa;
-  border:1px solid #ffd4d4;
-  padding:14px;
+  background:#fff;
+  border:1px solid #e8e8ef;
   border-radius:16px;
-  margin:10px 0;
+  padding:15px;
+  margin-bottom:10px;
   line-height:1.55;
 }
-
-.correct-answer{
-  color:#059669;
-  font-weight:800;
-}
-
-.student-answer{
-  color:#dc2626;
-  font-weight:800;
-}
-
-.weak-btn{
-  width:100%;
-  text-align:left;
-  padding:14px;
-  margin:7px 0;
-  background:#f5f4ff;
-  border:1px solid #e2e0ff;
-  border-radius:14px;
-}
-
-.weak-btn strong{
+.correct-answer{color:var(--green);font-weight:800}
+.student-answer{color:var(--red);font-weight:800}
+.pill{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:999px;
+  background:#eeeeff;
   color:var(--primary);
+  font-size:11px;
+  font-weight:800;
 }
-
-/* ANALYSIS */
 
 .analysis-grid{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.analysis-card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:15px;
+  box-shadow:var(--shadow);
+}
+.analysis-card h3{
+  margin:0 0 8px;
+  font-size:14px;
+}
+.analysis-card p{
+  margin:0;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
+}
+.progress-bar{
+  height:11px;
+  background:#e9e9f2;
+  border-radius:99px;
+  overflow:hidden;
+}
+.progress-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--primary),var(--primary2));
+  border-radius:99px;
+  transition:.4s;
 }
 
-.analysis-card{
+.weak-topic-btn{
+  width:100%;
+  text-align:left;
+  border:1px solid #e2e1f5;
+  background:#fafaff;
+  border-radius:14px;
+  padding:13px;
+  margin-bottom:9px;
+}
+.weak-topic-btn strong{
+  color:#3936a7;
+}
+.weak-topic-btn small{
+  color:var(--muted);
+}
+
+.loading{
+  text-align:center;
+  color:var(--muted);
+  padding:25px 10px;
+}
+.loader{
+  width:30px;
+  height:30px;
+  border:3px solid #ddd;
+  border-top-color:var(--primary);
+  border-radius:50%;
+  margin:0 auto 10px;
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.ai-rich{
+  font-size:15px;
+  line-height:1.75;
+}
+.ai-rich strong{color:#413eb8}
+.ai-rich code{
+  background:#f1f1f7;
+  padding:2px 5px;
+  border-radius:5px;
+}
+
+.chat-box{
+  background:#f0f1f7;
+  border-radius:18px;
+  padding:13px;
+  min-height:390px;
+  max-height:60vh;
+  overflow:auto;
+}
+.message{
+  max-width:88%;
+  padding:11px 13px;
+  border-radius:15px;
+  margin-bottom:9px;
+  font-size:14px;
+  line-height:1.55;
+  white-space:normal;
+}
+.message.ai{
+  background:white;
+  border:1px solid var(--border);
+  margin-right:auto;
+}
+.message.user{
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  color:white;
+  margin-left:auto;
+}
+.chat-input{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
+}
+.chat-input textarea{
+  min-height:48px;
+  max-height:120px;
+  resize:none;
+}
+.send-btn{
+  width:52px;
+  min-width:52px;
+  border:0;
+  border-radius:14px;
+  color:#fff;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  font-size:20px;
+}
+
+.concept-box{
   background:#fff;
   border:1px solid var(--border);
   border-radius:18px;
   padding:17px;
+  box-shadow:var(--shadow);
 }
-
-.analysis-card h3{
+.concept-content{
+  line-height:1.7;
   font-size:15px;
-  margin-bottom:10px;
+  color:#292a3b;
+}
+.concept-content h3{
+  color:#4844c4;
 }
 
-.progress-bar{
+.photo-drop{
+  border:2px dashed #d6d6eb;
+  border-radius:18px;
+  padding:25px 15px;
+  text-align:center;
+  background:#fafaff;
+}
+.photo-preview{
   width:100%;
-  height:10px;
-  background:#e8e9f1;
-  border-radius:10px;
-  overflow:hidden;
+  max-height:330px;
+  object-fit:contain;
+  border-radius:14px;
+  margin-top:13px;
 }
 
-.progress-fill{
-  height:100%;
-  background:linear-gradient(90deg,var(--primary),#8b5cf6);
-}
-
-/* CHAT */
-
-.ai-container{
-  max-width:800px;
-  margin:30px auto;
-}
-
-.chat-box{
-  height:450px;
-  overflow-y:auto;
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:15px;
-  margin-bottom:12px;
-}
-
-.message{
-  max-width:85%;
-  padding:12px 15px;
-  border-radius:17px;
-  margin-bottom:12px;
-  line-height:1.5;
-  font-size:14px;
-  white-space:pre-wrap;
-}
-
-.message.user{
-  margin-left:auto;
-  color:#fff;
-  background:linear-gradient(135deg,var(--primary),var(--primary2));
-  border-bottom-right-radius:4px;
-}
-
-.message.ai{
-  background:#f1f2f6;
-  border-bottom-left-radius:4px;
-}
-
-.chat-input{
-  display:flex;
-  gap:10px;
-}
-
-.chat-input textarea{
-  flex:1;
-  min-height:52px;
-  max-height:130px;
-  padding:14px;
-  border:1px solid var(--border);
-  border-radius:15px;
-  resize:none;
-  outline:none;
-}
-
-.send-btn{
-  width:55px;
-  border-radius:15px;
-  background:var(--primary);
-  color:#fff;
-  font-size:20px;
-}
-
-/* FLOATING AI */
-
-.floating-ai{
+.bottom-nav{
   position:fixed;
-  right:18px;
-  bottom:82px;
+  z-index:150;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:520px;
+  height:70px;
+  background:rgba(255,255,255,.97);
+  backdrop-filter:blur(12px);
+  border-top:1px solid var(--border);
+}
+.nav-inner{
+  height:100%;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+}
+.nav-btn{
+  border:0;
+  background:transparent;
+  color:#85879a;
+  font-size:10px;
+  font-weight:700;
+}
+.nav-btn span{
+  display:block;
+  font-size:21px;
+  margin-bottom:2px;
+}
+.nav-btn.active{color:var(--primary)}
+
+.ai-float{
+  position:fixed;
+  right:max(18px,calc((100vw - 520px)/2 + 15px));
+  bottom:84px;
+  z-index:140;
   width:58px;
   height:58px;
+  border:0;
   border-radius:50%;
-  display:grid;
-  place-items:center;
   background:linear-gradient(135deg,var(--primary),var(--primary2));
-  color:#fff;
+  color:white;
   font-size:25px;
-  box-shadow:0 12px 30px rgba(91,92,240,.35);
-  z-index:500;
+  box-shadow:0 12px 28px rgba(91,92,240,.3);
 }
-
 .ai-panel{
   position:fixed;
-  right:18px;
+  z-index:160;
+  right:max(15px,calc((100vw - 520px)/2 + 15px));
   bottom:150px;
-  width:min(370px,calc(100vw - 36px));
-  height:520px;
-  background:#fff;
+  width:min(390px,calc(100vw - 30px));
+  background:white;
   border:1px solid var(--border);
-  border-radius:22px;
-  box-shadow:0 20px 60px rgba(30,35,80,.22);
-  z-index:499;
+  border-radius:20px;
+  box-shadow:0 20px 50px rgba(20,20,50,.18);
   overflow:hidden;
-  display:flex;
-  flex-direction:column;
 }
-
-.ai-head{
-  flex:none;
-  padding:14px 16px;
+.ai-panel-head{
+  padding:13px 15px;
   background:linear-gradient(135deg,var(--primary),var(--primary2));
   color:#fff;
   display:flex;
   justify-content:space-between;
   align-items:center;
 }
-
-.ai-close{
-  background:none;
-  color:#fff;
-  font-size:22px;
-}
-
-.ai-panel .chat-box{
-  flex:1;
-  min-height:0;
-  height:auto;
+.ai-panel-head button{
   border:0;
-  border-radius:0;
-  margin:0;
-}
-
-.ai-panel .chat-input{
-  flex:none;
-  padding:10px;
-  border-top:1px solid var(--border);
-}
-
-/* BOTTOM NAV */
-
-.bottom-nav{
-  position:fixed;
-  left:0;
-  right:0;
-  bottom:0;
-  height:65px;
-  background:#fff;
-  border-top:1px solid var(--border);
-  z-index:200;
-  display:none;
-}
-
-.bottom-inner{
-  max-width:700px;
-  margin:auto;
-  height:100%;
-  display:flex;
-}
-
-.nav-btn{
-  flex:1;
-  background:none;
-  color:var(--muted);
-  font-size:11px;
-}
-
-.nav-btn span{
-  display:block;
+  background:transparent;
+  color:white;
   font-size:20px;
-  margin-bottom:2px;
 }
-
-.nav-btn.active{
-  color:var(--primary);
-  font-weight:900;
+.floating-chat{
+  height:300px;
+  overflow:auto;
+  padding:12px;
+  background:#f5f5fa;
 }
-
-/* TOAST */
-
-.toast{
-  position:fixed;
-  left:50%;
-  bottom:85px;
-  transform:translateX(-50%) translateY(20px);
-  background:#171a2b;
-  color:#fff;
-  padding:12px 18px;
+.floating-input{
+  display:flex;
+  padding:9px;
+  gap:7px;
+}
+.floating-input input{
+  flex:1;
+  border:1px solid var(--border);
   border-radius:12px;
-  z-index:1000;
-  opacity:0;
-  pointer-events:none;
-  transition:.25s;
-  max-width:90%;
+  padding:10px;
+  outline:none;
+}
+.floating-input button{
+  border:0;
+  border-radius:12px;
+  width:45px;
+  background:var(--primary);
+  color:#fff;
+}
+
+.empty{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:18px;
+  color:var(--muted);
   text-align:center;
 }
 
-.toast.show{
-  opacity:1;
-  transform:translateX(-50%) translateY(0);
+.feedback-stars{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:7px;
+}
+.feedback-stars button{
+  border:1px solid var(--border);
+  background:#fff;
+  border-radius:12px;
+  padding:12px 5px;
+  font-size:19px;
+}
+.feedback-stars button.active{
+  background:#fff4cf;
+  border-color:#f0c94b;
 }
 
-@media(max-width:600px){
-  main{
-    padding:0 15px 90px;
-  }
-
-  .header{
-    height:64px;
-  }
-
-  .header-inner{
-    padding:8px 14px;
-  }
-
-  .brand{
-    font-size:17px;
-  }
-
-  .brand img{
-    width:38px;
-    height:38px;
-  }
-
-  .welcome h1{
-    font-size:36px;
-  }
-
-  .stats{
-    gap:8px;
-  }
-
-  .stat{
-    padding:12px 8px;
-  }
-
-  .stat strong{
-    font-size:17px;
-  }
-
-  .feature-grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .analysis-grid{
-    grid-template-columns:1fr;
-  }
-
-  .option-grid{
-    grid-template-columns:1fr;
-  }
-
-  .ai-panel{
-    height:70vh;
-    bottom:145px;
-  }
+@media(max-width:370px){
+  .feature-grid{grid-template-columns:1fr}
+  .welcome-title{font-size:35px}
 }
 </style>
 </head>
 
-<body>
+<body class="welcome-mode">
 
 <div class="app">
 
-<header class="header hidden" id="mainHeader">
+<header class="header hidden">
   <div class="header-inner">
-    <div class="brand">
-      <img src="examos-logo.png" onerror="this.style.display='none'">
-      <span>EXAMOS AI</span>
+    <div class="logo">
+      <div class="logo-icon">E</div>
+      <div>EXAMOS AI</div>
     </div>
-
     <div class="profile-mini">
       <div class="profile-circle" id="profileInitial">S</div>
       <strong id="headerName">Student</strong>
@@ -946,125 +783,114 @@ main{
 <main>
 
 <!-- WELCOME -->
-
 <section class="page active" id="welcomePage">
-  <div class="welcome">
-    <div class="logo-wrap">
+  <div class="welcome-screen">
+    <div class="welcome-logo-wrap">
+      <img src="logopng.png" class="welcome-logo" alt="EXAMOS AI">
       <div class="logo-glow"></div>
-      <img src="examos-logo.png" alt="EXAMOS AI">
     </div>
-
-    <h1>EXAMOS <span>AI</span></h1>
-    <p>Smart Practice. Better Results.</p>
-
-    <button class="btn" style="max-width:360px" onclick="showPage('loginPage')">
+    <h1 class="welcome-title">EXAMOS <span>AI</span></h1>
+    <p class="welcome-tagline">Smart Practice. Better Results.</p>
+    <p class="welcome-sub">AI-Powered Learning for Smart Students</p>
+    <button class="btn welcome-btn" onclick="showPage('loginPage')">
       Get Started →
     </button>
   </div>
 </section>
 
-
 <!-- LOGIN -->
-
 <section class="page" id="loginPage">
-  <div class="auth">
-    <div class="auth-logo">
-      <img src="examos-logo.png">
-    </div>
-
-    <h1>Student Login</h1>
-    <p class="auth-sub">अपने EXAMOS account में login करें</p>
-
-    <div class="card">
-
-      <div class="auth-error" id="loginError"></div>
-
-      <div class="input-group">
-        <label>Student ID</label>
-        <input id="loginId" maxlength="30" placeholder="अपना Student ID">
-      </div>
-
-      <div class="input-group">
-        <label>Password</label>
-        <input id="loginPassword" type="password" placeholder="Password">
-      </div>
-
-      <button class="btn" id="loginBtn" onclick="loginStudent()">
-        Login
-      </button>
-
-      <button class="auth-link" onclick="showPage('registerPage')">
-        नया Student ID बनाएँ
-      </button>
-
-      <button class="auth-link" onclick="showPage('welcomePage')">
-        ← वापस
-      </button>
-
-    </div>
-  </div>
-</section>
-
-
-<!-- REGISTER -->
-
-<section class="page" id="registerPage">
-  <div class="auth">
-    <div class="auth-logo">
-      <img src="examos-logo.png">
-    </div>
-
-    <h1>Create Student ID</h1>
-    <p class="auth-sub">EXAMOS पर नया account बनाएँ</p>
-
-    <div class="card">
-
-      <div class="auth-error" id="registerError"></div>
-
-      <div class="input-group">
-        <label>Student ID</label>
-        <input id="registerId" maxlength="30" placeholder="जैसे vishal123">
-      </div>
-
-      <div class="input-group">
-        <label>Password</label>
-        <input id="registerPassword" type="password" placeholder="कम से कम 6 characters">
-      </div>
-
-      <div class="input-group">
-        <label>Confirm Password</label>
-        <input id="registerConfirm" type="password" placeholder="Password दोबारा डालें">
-      </div>
-
-      <button class="btn" id="registerBtn" onclick="registerStudent()">
-        Create Student ID
-      </button>
-
-      <button class="auth-link" onclick="showPage('loginPage')">
-        ← Login पर वापस जाएँ
-      </button>
-
-    </div>
-  </div>
-</section>
-
-
-<!-- PROFILE -->
-
-<section class="page" id="profilePage">
-  <div class="setup card">
-
+  <div class="setup-box card">
     <div style="text-align:center;margin-bottom:20px">
-      <img src="examos-logo.png" style="width:75px;height:75px;object-fit:contain">
-      <h1 class="title" style="margin-top:10px">Student Profile</h1>
-      <p class="subtitle">
-        अपनी जानकारी भरें ताकि EXAMOS आपके लिए सही Mathematics learning experience तैयार कर सके।
-      </p>
+      <img src="logopng.png" alt="EXAMOS" style="width:82px;height:82px;object-fit:contain;border-radius:22px">
+      <h1 class="section-title" style="margin-top:12px">EXAMOS AI</h1>
+      <p class="section-subtitle">Student Login</p>
     </div>
 
     <div class="input-group">
+      <label>Student ID</label>
+      <input id="loginId" maxlength="30" autocomplete="username"
+             placeholder="अपनी Student ID डालें">
+    </div>
+
+    <div class="input-group">
+      <label>Password</label>
+      <input id="loginPassword" type="password" maxlength="64"
+             autocomplete="current-password" placeholder="Password डालें">
+    </div>
+
+    <button class="btn" onclick="loginStudent()">Login</button>
+
+    <br><br>
+
+    <button class="btn secondary" onclick="showPage('registerPage')">
+      Create New Student ID
+    </button>
+
+    <p class="section-subtitle" style="margin-top:12px;margin-bottom:0;text-align:center">
+      OTP की जरूरत नहीं है।
+    </p>
+  </div>
+</section>
+
+<!-- REGISTER -->
+<section class="page" id="registerPage">
+  <div class="setup-box card">
+
+    <div style="text-align:center;margin-bottom:18px">
+      <img src="logopng.png" alt="EXAMOS"
+           style="width:82px;height:82px;object-fit:contain;border-radius:22px">
+      <h1 class="section-title" style="margin-top:12px">Create Student Account</h1>
+      <p class="section-subtitle">OTP के बिना नया account बनाएं।</p>
+    </div>
+
+    <div class="input-group">
+      <label>Student ID</label>
+      <input id="registerId" maxlength="30"
+             placeholder="जैसे: student123">
+    </div>
+
+    <div class="input-group">
+      <label>Password</label>
+      <input id="registerPassword" type="password" maxlength="64"
+             placeholder="कम से कम 6 characters">
+    </div>
+
+    <div class="input-group">
+      <label>Confirm Password</label>
+      <input id="registerPassword2" type="password" maxlength="64"
+             placeholder="Password फिर से डालें">
+    </div>
+
+    <button class="btn" onclick="registerStudent()">Create Account</button>
+
+    <br><br>
+
+    <button class="btn secondary" onclick="showPage('loginPage')">
+      ← Login पर वापस
+    </button>
+  </div>
+</section>
+
+<!-- PROFILE -->
+<section class="page" id="profilePage">
+  <div class="setup-box card">
+
+    <div style="text-align:center;margin-bottom:18px">
+      <img src="logopng.png" alt="EXAMOS"
+           style="width:82px;height:82px;object-fit:contain;border-radius:22px">
+      <h1 class="section-title" style="margin-top:12px">EXAMOS AI</h1>
+      <p class="section-subtitle">Smart Practice. Better Results.</p>
+    </div>
+
+    <h2 class="section-title">Student Profile</h2>
+    <p class="section-subtitle">
+      अपनी जानकारी भरें ताकि EXAMOS आपके लिए सही learning experience तैयार कर सके।
+    </p>
+
+    <div class="input-group">
       <label>आपका नाम</label>
-      <input id="studentName" maxlength="80" placeholder="अपना नाम">
+      <input id="studentName" maxlength="80" placeholder="अपना नाम लिखें">
     </div>
 
     <div class="input-group">
@@ -1103,157 +929,135 @@ main{
     </div>
 
     <button class="btn" onclick="saveStudentProfile()">
-      Continue to EXAMOS →
+      Continue →
     </button>
-
   </div>
 </section>
 
-
 <!-- HOME -->
-
 <section class="page" id="homePage">
 
   <div class="hero">
     <h1 id="welcomeText">नमस्ते Student 👋</h1>
-    <p id="studentInfo">Mathematics learning शुरू करें।</p>
+    <p id="studentInfo">Mathematics को smart तरीके से सीखें।</p>
   </div>
 
   <div class="stats">
-    <div class="stat">
-      <span>Total Tests</span>
+    <div class="stat-card">
+      <span>Tests</span>
       <strong id="totalTests">0</strong>
     </div>
-
-    <div class="stat">
+    <div class="stat-card">
       <span>Practice</span>
       <strong id="totalPractice">0</strong>
     </div>
-
-    <div class="stat">
-      <span>Average</span>
+    <div class="stat-card">
+      <span>Progress</span>
       <strong id="progressPercent">0%</strong>
     </div>
   </div>
 
-  <h2 class="title">आज क्या करना चाहते हैं?</h2>
-  <p class="subtitle">अपनी Mathematics preparation को smart बनाइए।</p>
+  <h2 class="section-title">आज क्या करना चाहते हैं?</h2>
+  <p class="section-subtitle">अपनी learning journey शुरू करें।</p>
 
   <div class="feature-grid">
 
-    <div class="feature" onclick="openTest()">
+    <div class="feature-card" onclick="openTest()">
       <div class="feature-icon">📝</div>
       <h3>Diagnostic Test</h3>
-      <p>AI से verified Mathematics test बनाइए।</p>
+      <p>AI-generated verified Mathematics test दें।</p>
     </div>
 
-    <div class="feature" onclick="openPractice()">
+    <div class="feature-card" onclick="openPractice()">
       <div class="feature-icon">🎯</div>
-      <h3>Practice</h3>
+      <h3>Math Practice</h3>
       <p>Chapter और topic के अनुसार practice करें।</p>
     </div>
 
-    <div class="feature" onclick="openAskAI()">
-      <div class="feature-icon">🤖</div>
-      <h3>Ask AI</h3>
-      <p>Mathematics का कोई भी doubt पूछें।</p>
-    </div>
-
-    <div class="feature" onclick="openAnalysis()">
+    <div class="feature-card" onclick="openAnalysis()">
       <div class="feature-icon">📊</div>
       <h3>Analysis</h3>
-      <p>Weak topics और mistakes देखें।</p>
+      <p>गलत questions और weak topics देखें।</p>
     </div>
 
-    <div class="feature" onclick="openTargetedPractice()">
-      <div class="feature-icon">🎯</div>
-      <h3>Targeted Practice</h3>
-      <p>गलत हुए topics पर practice करें।</p>
-    </div>
-
-    <div class="feature" onclick="openProgress()">
+    <div class="feature-card" onclick="openProgress()">
       <div class="feature-icon">📈</div>
-      <h3>Progress</h3>
-      <p>अपनी performance देखें।</p>
+      <h3>My Progress</h3>
+      <p>अपनी learning progress देखें।</p>
     </div>
 
-    <div class="feature" onclick="editProfile()">
+    <div class="feature-card" onclick="openTargetedPractice()">
+      <div class="feature-icon">🔥</div>
+      <h3>Targeted Practice</h3>
+      <p>Weak topics पर focused practice करें।</p>
+    </div>
+
+    <div class="feature-card" onclick="openSolutionAnalysis()">
+      <div class="feature-icon">📷</div>
+      <h3>Solution Analysis</h3>
+      <p>अपने handwritten solution को AI से check करें।</p>
+    </div>
+
+    <div class="feature-card" onclick="openFeedback()">
+      <div class="feature-icon">💬</div>
+      <h3>Student Feedback</h3>
+      <p>EXAMOS के बारे में अपना feedback दें।</p>
+    </div>
+
+    <div class="feature-card" onclick="editProfile()">
       <div class="feature-icon">⚙️</div>
       <h3>Settings</h3>
-      <p>Profile update करें।</p>
-    </div>
-
-    <div class="feature" onclick="logoutStudent()">
-      <div class="feature-icon">🚪</div>
-      <h3>Logout</h3>
-      <p>Account से logout करें।</p>
+      <p>Profile information update करें।</p>
     </div>
 
   </div>
 </section>
 
-
-<!-- TEST -->
-
+<!-- TEST SETUP -->
 <section class="page" id="testPage">
+  <div class="flow-box">
 
-  <div class="flow">
-
-    <h1 class="title">Create AI Test</h1>
-    <p class="subtitle">
-      EXAMOS AI आपके Class, Board और selected chapter के अनुसार questions बनाएगा।
+    <h1 class="section-title">Create AI Test</h1>
+    <p class="section-subtitle">
+      AI आपके Class, Board और selected chapter के अनुसार questions बनाएगा।
     </p>
 
-    <div class="steps">
-      <div class="step active" id="testStep1"></div>
-      <div class="step" id="testStep2"></div>
-      <div class="step" id="testStep3"></div>
+    <div class="step-indicator">
+      <div class="step active"></div>
+      <div class="step active"></div>
+      <div class="step"></div>
     </div>
 
-    <div class="card" id="testSubjectStep">
-
-      <h2 class="title">Subject</h2>
-
+    <div class="card">
+      <h3 class="section-title" style="font-size:18px">Subject</h3>
       <div class="selected-info" id="testStudentInfo"></div>
-
       <div class="option selected">
-        <h4>📐 Mathematics</h4>
+        <h4>Mathematics</h4>
         <p>Selected Subject</p>
       </div>
-
-      <br>
-
-      <button class="btn" onclick="showTestChapters()">
-        Continue →
-      </button>
-
     </div>
 
+    <br>
 
-    <div class="card hidden" id="testChapterStep">
-
-      <h2 class="title">Chapter चुनें</h2>
-      <p class="subtitle">जिस chapter का test देना है उसे चुनें।</p>
-
+    <div class="card" id="testChapterStep">
+      <h3 class="section-title" style="font-size:18px">Chapter चुनें</h3>
       <div class="option-grid" id="chapterOptions"></div>
-
       <br>
-
-      <button class="btn secondary" onclick="backTestStep(1)">
-        ← वापस
-      </button>
-
+      <button class="btn secondary" onclick="goHome()">← वापस</button>
     </div>
 
+    <br>
 
     <div class="card hidden" id="testConfigStep">
+      <h3 class="section-title" style="font-size:18px">Test Settings</h3>
 
-      <h2 class="title">Test Settings</h2>
-
-      <div class="selected-info" id="selectedChapterInfo"></div>
+      <div class="selected-info">
+        Selected Chapter:
+        <strong id="selectedTestChapterText"></strong>
+      </div>
 
       <div class="input-group">
-        <label>Questions</label>
+        <label>Number of Questions</label>
         <select id="testQuestionCount">
           <option value="5">5 Questions</option>
           <option value="10" selected>10 Questions</option>
@@ -1290,49 +1094,34 @@ main{
         </select>
       </div>
 
-      <div id="aiTestStatus"></div>
-
       <div class="btn-row">
-        <button class="btn secondary" onclick="backTestStep(2)">
-          ← वापस
-        </button>
-
-        <button class="btn" id="startTestBtn" onclick="startTest()">
-          🤖 Start AI Test
-        </button>
+        <button class="btn secondary" onclick="backToTestChapters()">← Back</button>
+        <button class="btn" id="startTestBtn" onclick="startTest()">Start AI Test</button>
       </div>
-
     </div>
 
   </div>
 </section>
 
-
 <!-- TEST RUN -->
-
 <section class="page" id="testRunPage">
-
-  <div class="flow">
+  <div class="flow-box">
 
     <div class="test-top">
       <div>
-        <strong id="testTitle">AI Test</strong>
+        <strong id="testTitle">Mathematics Test</strong>
         <div style="font-size:12px;color:var(--muted)" id="testQuestionProgress">
           Question 1
         </div>
       </div>
-
       <div class="timer" id="testTimer">20:00</div>
     </div>
 
-    <div class="card">
-
-      <div class="question-number" id="questionNumber">
-        Question 1
-      </div>
+    <div class="card question-card">
+      <div class="question-number" id="questionNumber">Question 1</div>
 
       <div class="question-text" id="questionText">
-        Loading...
+        Question loading...
       </div>
 
       <div id="answerOptions"></div>
@@ -1340,107 +1129,111 @@ main{
       <button class="btn" id="nextQuestionBtn" onclick="nextQuestion()">
         Next Question
       </button>
-
     </div>
 
   </div>
 </section>
 
-
 <!-- RESULT -->
-
 <section class="page" id="resultPage">
-
-  <div class="flow">
+  <div class="flow-box">
 
     <div class="card">
-
-      <h1 class="title">Test Completed 🎉</h1>
-      <p class="subtitle">आपका AI test result</p>
+      <h1 class="section-title">Test Completed 🎉</h1>
+      <p class="section-subtitle">आपका verified test performance:</p>
 
       <div class="result-score" id="resultScore">0%</div>
 
       <div class="result-grid">
-
         <div class="result-stat">
           <span>Correct</span>
           <strong id="resultCorrect">0</strong>
         </div>
-
         <div class="result-stat">
           <span>Wrong</span>
           <strong id="resultWrong">0</strong>
         </div>
-
       </div>
 
-      <br>
-
-      <div id="resultSummary"></div>
-
-      <div id="wrongQuestionsBox"></div>
-
-      <div id="weakTopicsBox"></div>
-
-      <br>
-
-      <div class="btn-row">
-        <button class="btn" onclick="openAnalysis()">
-          📊 Analysis
-        </button>
-
-        <button class="btn green" onclick="openTargetedPractice()">
-          🎯 Practice
-        </button>
-      </div>
-
-      <br>
-
-      <button class="btn secondary" onclick="goHome()">
-        Home
-      </button>
-
+      <div id="resultSummary" style="margin-top:15px"></div>
     </div>
+
+    <br>
+
+    <div id="weakTopicsResult"></div>
+
+    <br>
+
+    <div id="allQuestionsBox"></div>
+
+    <br>
+
+    <div id="wrongQuestionsBox"></div>
+
+    <br>
+
+    <button class="btn" onclick="openTargetedPractice()">
+      🎯 Weak Topic Practice
+    </button>
+
+    <br><br>
+
+    <button class="btn secondary" onclick="goHome()">
+      ← Home
+    </button>
+
   </div>
 </section>
 
-
 <!-- PRACTICE -->
-
 <section class="page" id="practicePage">
+  <div class="flow-box">
 
-  <div class="flow">
-
-    <h1 class="title">Mathematics Practice</h1>
-    <p class="subtitle">
-      कोई भी chapter और topic चुनकर AI practice questions बनाइए।
+    <h1 class="section-title">Math Practice</h1>
+    <p class="section-subtitle">
+      पहले chapter और topic चुनें। उसके बाद AI concept समझाएगा।
     </p>
 
     <div class="card" id="practiceChapterStep">
-
-      <h2 class="title">Chapter</h2>
-
+      <h3 class="section-title" style="font-size:18px">1. Chapter चुनें</h3>
       <div class="option-grid" id="practiceChapterOptions"></div>
-
     </div>
 
+    <br>
+
     <div class="card hidden" id="practiceTopicStep">
+      <h3 class="section-title" style="font-size:18px">2. Topic चुनें</h3>
+      <div id="practiceTopicOptions"></div>
+    </div>
 
-      <h2 class="title">Topic</h2>
+  </div>
+</section>
 
-      <div class="topic-list" id="topicOptions"></div>
+<!-- CONCEPT -->
+<section class="page" id="practiceConceptPage">
+  <div class="flow-box">
+
+    <div class="concept-box">
+      <h1 class="section-title" id="conceptTitle">Topic</h1>
+      <p class="section-subtitle" id="conceptMeta"></p>
+
+      <div class="concept-content" id="conceptContent">
+        <div class="loading">
+          <div class="loader"></div>
+          AI concept समझा रहा है...
+        </div>
+      </div>
 
       <br>
 
-      <button class="btn secondary" onclick="backPractice(1)">
-        ← वापस
-      </button>
-
-    </div>
-
-    <div class="card hidden" id="practiceConfigStep">
-
-      <h2 class="title">Practice Settings</h2>
+      <div class="input-group">
+        <label>Practice Questions</label>
+        <select id="practiceQuestionCount">
+          <option value="5">5 Questions</option>
+          <option value="10" selected>10 Questions</option>
+          <option value="15">15 Questions</option>
+        </select>
+      </div>
 
       <div class="input-group">
         <label>Difficulty</label>
@@ -1451,46 +1244,34 @@ main{
         </select>
       </div>
 
-      <div class="input-group">
-        <label>Questions</label>
-        <select id="practiceQuestionCount">
-          <option value="5">5 Questions</option>
-          <option value="10" selected>10 Questions</option>
-          <option value="15">15 Questions</option>
-          <option value="20">20 Questions</option>
-        </select>
-      </div>
+      <button class="btn" id="conceptStartBtn"
+              onclick="startPracticeQuestionsFromConcept()">
+        अब Practice Questions शुरू करें →
+      </button>
 
-      <div class="btn-row">
-        <button class="btn secondary" onclick="backPractice(2)">
-          ← वापस
-        </button>
+      <br><br>
 
-        <button class="btn green" id="startPracticeBtn" onclick="startPractice()">
-          🤖 Start Practice
-        </button>
-      </div>
-
+      <button class="btn secondary" onclick="backFromConcept()">
+        ← Topic पर वापस
+      </button>
     </div>
 
   </div>
 </section>
 
-
 <!-- PRACTICE RUN -->
-
 <section class="page" id="practiceRunPage">
-
-  <div class="flow">
+  <div class="flow-box">
 
     <div class="card">
+      <strong id="practiceTitle">Mathematics Practice</strong>
+      <div style="font-size:12px;color:var(--muted);margin-top:4px"
+           id="practiceSubtitle"></div>
+    </div>
 
-      <h2 class="title" id="practiceTitle">
-        Practice
-      </h2>
+    <br>
 
-      <p class="subtitle" id="practiceSubtitle"></p>
-
+    <div class="card question-card">
       <div class="question-number" id="practiceQuestionNumber">
         Question 1
       </div>
@@ -1501,158 +1282,171 @@ main{
 
       <div id="practiceAnswerOptions"></div>
 
-      <button class="btn green" id="practiceNextBtn" onclick="nextPracticeQuestion()">
+      <button class="btn" id="practiceNextBtn"
+              onclick="nextPracticeQuestion()">
         Next Question
       </button>
-
     </div>
 
   </div>
 </section>
 
+<!-- ANALYSIS -->
+<section class="page" id="analysisPage">
+  <div class="flow-box">
 
-<!-- TARGETED -->
-
-<section class="page" id="targetedPage">
-
-  <div class="flow">
-
-    <h1 class="title">Targeted Practice 🎯</h1>
-
-    <p class="subtitle">
-      आपके latest test में जिन topics में mistakes हुईं, उन्हीं पर practice करें।
+    <h1 class="section-title">Performance Analysis</h1>
+    <p class="section-subtitle">
+      आपके latest test के आधार पर analysis।
     </p>
 
     <div class="card">
-      <div id="targetedTopicsList"></div>
-    </div>
-
-  </div>
-</section>
-
-
-<!-- ANALYSIS -->
-
-<section class="page" id="analysisPage">
-
-  <div class="flow">
-
-    <h1 class="title">AI Analysis 📊</h1>
-
-    <p class="subtitle">
-      आपके latest test की performance और weak topics।
-    </p>
-
-    <div class="analysis-grid">
-
-      <div class="analysis-card">
-        <h3>📉 Weak Topics</h3>
-        <div id="weakTopics">कोई test data नहीं है।</div>
-      </div>
-
-      <div class="analysis-card">
-        <h3>❌ Mistake Analysis</h3>
-        <div id="mistakeAnalysis">
-          Test देने के बाद यहाँ analysis आएगा।
-        </div>
-      </div>
-
-      <div class="analysis-card">
-        <h3>🎯 Recommended Practice</h3>
-        <div id="recommendedPractice">
-          Test देने के बाद recommendation आएगा।
-        </div>
-      </div>
-
-      <div class="analysis-card">
-        <h3>📈 Improvement</h3>
-        <div id="improvementAdvice">
-          Regular practice करें।
-        </div>
-      </div>
-
+      <h3>🔥 Weak Topics</h3>
+      <div id="weakTopics">Loading...</div>
     </div>
 
     <br>
 
-    <button class="btn" onclick="openTargetedPractice()">
-      🎯 Weak Topics Practice
-    </button>
+    <div class="analysis-grid">
+      <div class="analysis-card">
+        <h3>Mistake Analysis</h3>
+        <p id="mistakeAnalysis">-</p>
+      </div>
+
+      <div class="analysis-card">
+        <h3>Recommended</h3>
+        <p id="recommendedPractice">-</p>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="card">
+      <h3>Improvement Advice</h3>
+      <p id="improvementAdvice">-</p>
+    </div>
 
   </div>
 </section>
 
+<!-- TARGETED -->
+<section class="page" id="targetedPage">
+  <div class="flow-box">
+
+    <h1 class="section-title">Targeted Practice 🎯</h1>
+    <p class="section-subtitle">
+      जिन topics में गलतियाँ हुई हैं, उन पर AI revision + practice करें।
+    </p>
+
+    <div id="targetedTopicsList"></div>
+
+  </div>
+</section>
+
+<!-- SOLUTION ANALYSIS -->
+<section class="page" id="solutionPage">
+  <div class="flow-box">
+
+    <h1 class="section-title">Solution Analysis 📷</h1>
+    <p class="section-subtitle">
+      अपने Mathematics solution की photo upload करें।
+    </p>
+
+    <div class="card">
+
+      <div class="photo-drop">
+        <div style="font-size:38px">📷</div>
+        <strong>Handwritten Solution Upload करें</strong>
+        <p style="color:var(--muted);font-size:12px">
+          साफ और पूरा solution photo लें।
+        </p>
+
+        <input id="solutionFile" type="file"
+               accept="image/*"
+               style="display:none"
+               onchange="previewSolutionImage(event)">
+
+        <button class="btn secondary"
+                onclick="document.getElementById('solutionFile').click()">
+          Choose Image
+        </button>
+
+        <img id="solutionPreview"
+             class="photo-preview hidden"
+             alt="Solution preview">
+      </div>
+
+      <br>
+
+      <div class="input-group">
+        <label>Question / Topic</label>
+        <input id="solutionTopic"
+               placeholder="जैसे: Quadratic Equation">
+      </div>
+
+      <button class="btn"
+              id="analyzeSolutionBtn"
+              onclick="analyzeSolution()">
+        Analyze with AI
+      </button>
+
+      <br><br>
+
+      <div id="solutionResult"></div>
+
+    </div>
+
+  </div>
+</section>
 
 <!-- ASK AI -->
-
 <section class="page" id="askAIPage">
+  <div class="flow-box">
 
-  <div class="ai-container">
-
-    <h1 class="title">Ask EXAMOS AI 🤖</h1>
-
-    <p class="subtitle">
-      Mathematics का कोई भी doubt पूछें। AI concept और steps के साथ समझाएगा।
+    <h1 class="section-title">Ask EXAMOS AI 🤖</h1>
+    <p class="section-subtitle">
+      Mathematics का कोई भी doubt पूछें।
     </p>
 
     <div class="chat-box" id="chatBox">
-
       <div class="message ai">
-        नमस्ते! 👋 मैं EXAMOS AI हूँ।
-        
-Mathematics का कोई भी सवाल पूछिए।
+        नमस्ते! 👋 मैं EXAMOS AI हूँ।<br><br>
+        आप Mathematics से जुड़ा कोई भी सवाल पूछ सकते हैं।
       </div>
-
     </div>
 
     <div class="chat-input">
-
-      <textarea
-        id="aiPrompt"
-        placeholder="अपना Mathematics सवाल लिखें..."
-        onkeydown="handleChatKey(event)"
-      ></textarea>
-
+      <textarea id="aiPrompt"
+                placeholder="अपना Mathematics सवाल लिखें..."
+                onkeydown="handleChatKey(event)"></textarea>
       <button class="send-btn" onclick="askAI()">➤</button>
-
     </div>
 
   </div>
 </section>
 
-
 <!-- PROGRESS -->
-
 <section class="page" id="progressPage">
+  <div class="flow-box">
 
-  <div class="flow">
-
-    <h1 class="title">Your Progress 📈</h1>
-
-    <p class="subtitle">
-      आपकी EXAMOS learning journey।
+    <h1 class="section-title">Your Progress 📈</h1>
+    <p class="section-subtitle">
+      अपनी learning journey देखें।
     </p>
 
     <div class="card">
-
-      <h3>Overall Average</h3>
-
-      <br>
-
+      <h3>Overall Progress</h3>
       <div class="progress-bar">
-        <div class="progress-fill" id="overallProgressBar" style="width:0%"></div>
+        <div class="progress-fill" id="overallProgressBar"
+             style="width:0%"></div>
       </div>
-
       <br>
-
       <strong id="overallProgressText">0%</strong>
-
     </div>
 
     <br>
 
     <div class="analysis-grid">
-
       <div class="analysis-card">
         <h3>Total Tests</h3>
         <strong style="font-size:28px" id="progressTests">0</strong>
@@ -1662,36 +1456,21 @@ Mathematics का कोई भी सवाल पूछिए।
         <h3>Practice Sessions</h3>
         <strong style="font-size:28px" id="progressPractice">0</strong>
       </div>
-
     </div>
 
   </div>
 </section>
 
-
 <!-- SETTINGS -->
-
 <section class="page" id="settingsPage">
+  <div class="setup-box card">
 
-  <div class="setup card">
-
-    <h1 class="title">Student Settings</h1>
-
-    <p class="subtitle">
-      अपनी profile जानकारी update करें।
-    </p>
+    <h1 class="section-title">Student Settings</h1>
+    <p class="section-subtitle">अपनी profile update करें।</p>
 
     <div class="input-group">
       <label>नाम</label>
       <input id="editName">
-    </div>
-
-    <div class="input-group">
-      <label>Board</label>
-      <select id="editBoard">
-        <option value="BSEB">Bihar Board (BSEB)</option>
-        <option value="CBSE">CBSE</option>
-      </select>
     </div>
 
     <div class="input-group">
@@ -1701,6 +1480,14 @@ Mathematics का कोई भी सवाल पूछिए।
         <option value="10">Class 10</option>
         <option value="11">Class 11</option>
         <option value="12">Class 12</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label>Board</label>
+      <select id="editBoard">
+        <option value="BSEB">Bihar Board (BSEB)</option>
+        <option value="CBSE">CBSE</option>
       </select>
     </div>
 
@@ -1724,134 +1511,151 @@ Mathematics का कोई भी सवाल पूछिए।
 
     <br><br>
 
-    <button class="btn red" onclick="logoutStudent()">
+    <button class="btn secondary" onclick="openFeedback()">
+      💬 Student Feedback
+    </button>
+
+    <br><br>
+
+    <button class="btn secondary" onclick="logoutStudent()">
       Logout
     </button>
 
   </div>
 </section>
 
-</main>
+<!-- FEEDBACK -->
+<section class="page" id="feedbackPage">
+  <div class="setup-box card">
 
+    <h1 class="section-title">Student Feedback 💬</h1>
+    <p class="section-subtitle">
+      EXAMOS को बेहतर बनाने के लिए अपना honest feedback दें।
+    </p>
 
-<!-- FLOATING AI -->
+    <label style="font-size:13px;font-weight:800">
+      Rating
+    </label>
 
-<button
-  id="floatingAiBtn"
-  class="floating-ai hidden"
-  onclick="toggleFloatingAI()"
->
-  🤖
-</button>
-
-<div id="aiPanel" class="ai-panel hidden">
-
-  <div class="ai-head">
-    <strong>🤖 EXAMOS AI</strong>
-
-    <button class="ai-close" onclick="toggleFloatingAI()">
-      ×
-    </button>
-  </div>
-
-  <div class="chat-box" id="floatingChatBox">
-
-    <div class="message ai">
-      नमस्ते! Mathematics का सवाल पूछिए। 👋
+    <div class="feedback-stars" style="margin:9px 0 18px">
+      <button onclick="setRating(1)">⭐</button>
+      <button onclick="setRating(2)">⭐</button>
+      <button onclick="setRating(3)">⭐</button>
+      <button onclick="setRating(4)">⭐</button>
+      <button onclick="setRating(5)">⭐</button>
     </div>
 
-  </div>
+    <input type="hidden" id="feedbackRating" value="5">
 
-  <div class="chat-input">
+    <div class="input-group">
+      <label>आपका Feedback</label>
+      <textarea id="feedbackText"
+                rows="6"
+                style="width:100%;border:1px solid var(--border);border-radius:14px;padding:13px;resize:vertical"
+                placeholder="EXAMOS में आपको क्या अच्छा लगा और क्या improve होना चाहिए?"></textarea>
+    </div>
 
-    <textarea
-      id="floatingAiPrompt"
-      placeholder="सवाल लिखें..."
-      onkeydown="handleFloatingKey(event)"
-    ></textarea>
-
-    <button class="send-btn" onclick="askFloatingAI()">
-      ➤
+    <button class="btn" id="feedbackBtn" onclick="submitFeedback()">
+      Feedback भेजें
     </button>
 
+    <p id="feedbackStatus"
+       class="hidden"
+       style="text-align:center;color:var(--green);font-weight:700;margin-top:12px">
+    </p>
+
   </div>
+</section>
 
-</div>
-
+</main>
 
 <!-- BOTTOM NAV -->
+<nav class="bottom-nav hidden" id="bottomNav">
+  <div class="nav-inner">
 
-<nav class="bottom-nav" id="bottomNav">
-
-  <div class="bottom-inner">
-
-    <button class="nav-btn" onclick="goHome()">
-      <span>🏠</span>
-      Home
+    <button class="nav-btn" data-page="homePage" onclick="goHome()">
+      <span>⌂</span>Home
     </button>
 
-    <button class="nav-btn" onclick="openTest()">
-      <span>📝</span>
-      Test
+    <button class="nav-btn" data-page="testPage" onclick="openTest()">
+      <span>📝</span>Test
     </button>
 
-    <button class="nav-btn" onclick="openPractice()">
-      <span>🎯</span>
-      Practice
+    <button class="nav-btn" data-page="practicePage" onclick="openPractice()">
+      <span>🎯</span>Practice
     </button>
 
-    <button class="nav-btn" onclick="openAnalysis()">
-      <span>📊</span>
-      Analysis
+    <button class="nav-btn" data-page="progressPage" onclick="openProgress()">
+      <span>📈</span>Progress
     </button>
 
-    <button class="nav-btn" onclick="openProgress()">
-      <span>📈</span>
-      Progress
+    <button class="nav-btn" data-page="settingsPage" onclick="editProfile()">
+      <span>⚙️</span>Settings
     </button>
 
   </div>
-
 </nav>
 
+<!-- FLOATING AI -->
+<button class="ai-float hidden" id="aiFloat"
+        onclick="toggleFloatingAI()">🤖</button>
 
-<div class="toast" id="toast"></div>
+<div class="ai-panel hidden" id="aiPanel">
+
+  <div class="ai-panel-head">
+    <strong>EXAMOS AI</strong>
+    <button onclick="toggleFloatingAI()">×</button>
+  </div>
+
+  <div class="floating-chat" id="floatingChatBox">
+    <div class="message ai">
+      नमस्ते! Mathematics का doubt पूछें। 👋
+    </div>
+  </div>
+
+  <div class="floating-input">
+    <input id="floatingAiPrompt"
+           placeholder="Question पूछें..."
+           onkeydown="handleFloatingChatKey(event)">
+    <button onclick="askFloatingAI()">➤</button>
+  </div>
 
 </div>
 
+</div>
 
+<!-- FIREBASE -->
 <script type="module">
 
-/* =========================
-   FIREBASE
-========================= */
-
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut
-}
-from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
 import {
   getFirestore,
   doc,
-  setDoc,
   getDoc,
+  setDoc,
   addDoc,
   collection,
   getDocs,
   serverTimestamp
-}
-from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 
-const firebaseConfig={
+/* =========================================================
+   FIREBASE CONFIG
+========================================================= */
+
+const firebaseConfig = {
   apiKey:"AIzaSyCZbvAnxLr9dAF9y8eMT-JkB86_e9oy938",
   authDomain:"examos-ai.firebaseapp.com",
   projectId:"examos-ai",
@@ -1861,832 +1665,736 @@ const firebaseConfig={
   measurementId:"G-WLNK6TGN20"
 };
 
-const app=initializeApp(firebaseConfig);
-const auth=getAuth(app);
-const db=getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
 
-/* =========================
-   GLOBAL STATE
-========================= */
+/* =========================================================
+   STATE
+========================================================= */
 
-let uid=null;
-let student=null;
+let uid = null;
+let student = null;
 
-let testQuestions=[];
-let testAnswers=[];
-let currentQuestion=0;
-let testTimer=null;
-let remainingSeconds=0;
-let selectedTestChapter="";
+let selectedTestChapter = "";
+let targetedTopic = "";
+let practiceMode = "general";
 
-let practiceQuestions=[];
-let practiceAnswers=[];
-let practiceIndex=0;
-let practiceMode="general";
-let targetedTopic="";
-let targetedChapter="";
+let testQuestions = [];
+let testAnswers = [];
+let currentQuestion = 0;
+let remainingSeconds = 0;
+let testTimerInterval = null;
 
-let currentTestResult=null;
+let practiceQuestions = [];
+let practiceAnswers = [];
+let practiceIndex = 0;
+
+let selectedRating = 5;
+
+window.currentTestResult = null;
 
 
-/* =========================
-   FULL SYLLABUS
-========================= */
+/* =========================================================
+   SYLLABUS
+========================================================= */
 
-const syllabus={
+const SYLLABUS = {
 
 "9":[
-
-{
-chapter:"Number Systems",
-topics:["Rational Numbers","Irrational Numbers","Real Numbers"]
-},
-
-{
-chapter:"Polynomials",
-topics:["Introduction","Zeroes of Polynomial","Algebraic Expressions","Remainder Theorem","Factorisation"]
-},
-
-{
-chapter:"Coordinate Geometry",
-topics:["Cartesian Plane","Coordinates of a Point","Plotting Points"]
-},
-
-{
-chapter:"Linear Equations in Two Variables",
-topics:["Linear Equations","Solutions","Graph of Linear Equation"]
-},
-
-{
-chapter:"Introduction to Euclid's Geometry",
-topics:["Euclid Definitions","Axioms","Postulates"]
-},
-
-{
-chapter:"Lines and Angles",
-topics:["Lines","Angles","Parallel Lines","Transversal"]
-},
-
-{
-chapter:"Triangles",
-topics:["Congruence","SSS","SAS","ASA","RHS","Properties"]
-},
-
-{
-chapter:"Quadrilaterals",
-topics:["Parallelogram","Rectangle","Square","Rhombus","Properties"]
-},
-
-{
-chapter:"Circles",
-topics:["Circle","Chord","Arc","Angle Properties"]
-},
-
-{
-chapter:"Heron's Formula",
-topics:["Area of Triangle","Heron's Formula","Applications"]
-},
-
-{
-chapter:"Surface Areas and Volumes",
-topics:["Surface Area","Volume","Cube","Cuboid","Cylinder"]
-},
-
-{
-chapter:"Statistics",
-topics:["Data","Mean","Median","Mode","Frequency"]
-},
-
-{
-chapter:"Probability",
-topics:["Probability","Experimental Probability","Simple Events"]
-}
-
+ {
+  chapter:"Number Systems",
+  topics:["Rational Numbers","Irrational Numbers","Real Numbers","Laws of Exponents"]
+ },
+ {
+  chapter:"Polynomials",
+  topics:["Introduction to Polynomials","Zeroes of Polynomial","Remainder Theorem","Factorisation"]
+ },
+ {
+  chapter:"Coordinate Geometry",
+  topics:["Cartesian Plane","Coordinates","Plotting Points","Quadrants"]
+ },
+ {
+  chapter:"Linear Equations in Two Variables",
+  topics:["Linear Equations","Solutions","Graph of Equation","Applications"]
+ },
+ {
+  chapter:"Introduction to Euclid's Geometry",
+  topics:["Euclid's Definitions","Axioms","Postulates","Geometrical Reasoning"]
+ },
+ {
+  chapter:"Lines and Angles",
+  topics:["Types of Angles","Parallel Lines","Transversal","Angle Properties"]
+ },
+ {
+  chapter:"Triangles",
+  topics:["Congruence","SSS","SAS","ASA","RHS"]
+ },
+ {
+  chapter:"Quadrilaterals",
+  topics:["Parallelogram","Properties","Midpoint Theorem","Special Quadrilaterals"]
+ },
+ {
+  chapter:"Circles",
+  topics:["Circle","Chord","Arc","Angles in a Circle"]
+ },
+ {
+  chapter:"Heron's Formula",
+  topics:["Area of Triangle","Semi-perimeter","Heron's Formula","Applications"]
+ },
+ {
+  chapter:"Surface Areas and Volumes",
+  topics:["Cube","Cuboid","Cylinder","Cone","Sphere"]
+ },
+ {
+  chapter:"Statistics",
+  topics:["Data","Frequency Distribution","Mean","Graphs"]
+ },
+ {
+  chapter:"Probability",
+  topics:["Probability","Experimental Probability","Simple Events"]
+ }
 ],
 
 "10":[
-
-{
-chapter:"Real Numbers",
-topics:["Euclid Division Lemma","Fundamental Theorem of Arithmetic","Irrational Numbers","HCF and LCM"]
-},
-
-{
-chapter:"Polynomials",
-topics:["Zeroes","Relationship Between Zeroes and Coefficients","Division Algorithm"]
-},
-
-{
-chapter:"Pair of Linear Equations in Two Variables",
-topics:["Graphical Method","Substitution Method","Elimination Method","Consistency"]
-},
-
-{
-chapter:"Quadratic Equations",
-topics:["Standard Form","Factorisation","Quadratic Formula","Discriminant"]
-},
-
-{
-chapter:"Arithmetic Progressions",
-topics:["AP","nth Term","Sum of n Terms"]
-},
-
-{
-chapter:"Triangles",
-topics:["Similarity","Basic Proportionality Theorem","Pythagoras Theorem"]
-},
-
-{
-chapter:"Coordinate Geometry",
-topics:["Distance Formula","Section Formula","Area of Triangle"]
-},
-
-{
-chapter:"Introduction to Trigonometry",
-topics:["Trigonometric Ratios","Trigonometric Identities","Values of Ratios"]
-},
-
-{
-chapter:"Some Applications of Trigonometry",
-topics:["Heights","Distances","Angle of Elevation","Angle of Depression"]
-},
-
-{
-chapter:"Circles",
-topics:["Tangent","Radius","Tangent Properties"]
-},
-
-{
-chapter:"Areas Related to Circles",
-topics:["Area of Circle","Sector","Segment","Circumference"]
-},
-
-{
-chapter:"Surface Areas and Volumes",
-topics:["Combination of Solids","Cylinder","Cone","Sphere"]
-},
-
-{
-chapter:"Statistics",
-topics:["Mean","Median","Mode","Grouped Data"]
-},
-
-{
-chapter:"Probability",
-topics:["Classical Probability","Events","Probability of an Event"]
-}
-
+ {
+  chapter:"Real Numbers",
+  topics:["Euclid Division Lemma","HCF","LCM","Irrational Numbers","Fundamental Theorem of Arithmetic"]
+ },
+ {
+  chapter:"Polynomials",
+  topics:["Zeroes","Relationship Between Zeroes and Coefficients","Division Algorithm"]
+ },
+ {
+  chapter:"Pair of Linear Equations in Two Variables",
+  topics:["Graphical Method","Substitution","Elimination","Consistency","Applications"]
+ },
+ {
+  chapter:"Quadratic Equations",
+  topics:["Standard Form","Factorisation","Quadratic Formula","Discriminant","Nature of Roots"]
+ },
+ {
+  chapter:"Arithmetic Progressions",
+  topics:["AP","nth Term","Sum of n Terms","Applications"]
+ },
+ {
+  chapter:"Triangles",
+  topics:["Similarity","BPT","Similarity Criteria","Areas of Similar Triangles","Pythagoras"]
+ },
+ {
+  chapter:"Coordinate Geometry",
+  topics:["Distance Formula","Section Formula","Midpoint","Area of Triangle"]
+ },
+ {
+  chapter:"Introduction to Trigonometry",
+  topics:["Trigonometric Ratios","Identities","Values of Ratios","Complementary Angles"]
+ },
+ {
+  chapter:"Some Applications of Trigonometry",
+  topics:["Heights and Distances","Angle of Elevation","Angle of Depression"]
+ },
+ {
+  chapter:"Circles",
+  topics:["Tangents","Radius and Tangent","Number of Tangents","Theorems"]
+ },
+ {
+  chapter:"Areas Related to Circles",
+  topics:["Circumference","Area","Sector","Segment","Applications"]
+ },
+ {
+  chapter:"Surface Areas and Volumes",
+  topics:["Combination of Solids","Cylinder","Cone","Sphere","Frustum"]
+ },
+ {
+  chapter:"Statistics",
+  topics:["Mean","Median","Mode","Grouped Data","Ogive"]
+ },
+ {
+  chapter:"Probability",
+  topics:["Theoretical Probability","Simple Events","Complementary Events"]
+ }
 ],
 
 "11":[
-
-{
-chapter:"Sets",
-topics:["Types of Sets","Subsets","Power Set","Operations on Sets","Venn Diagrams"]
-},
-
-{
-chapter:"Relations and Functions",
-topics:["Relations","Functions","Domain","Range","Types of Functions"]
-},
-
-{
-chapter:"Trigonometric Functions",
-topics:["Angles","Trigonometric Ratios","Identities","Graphs"]
-},
-
-{
-chapter:"Principle of Mathematical Induction",
-topics:["Principle","Base Step","Induction Step"]
-},
-
-{
-chapter:"Complex Numbers and Quadratic Equations",
-topics:["Complex Numbers","Algebra of Complex Numbers","Quadratic Equations"]
-},
-
-{
-chapter:"Linear Inequalities",
-topics:["Linear Inequalities","Solution Sets","Graphical Representation"]
-},
-
-{
-chapter:"Permutations and Combinations",
-topics:["Fundamental Principle","Permutations","Combinations"]
-},
-
-{
-chapter:"Binomial Theorem",
-topics:["Binomial Expansion","General Term","Middle Term"]
-},
-
-{
-chapter:"Sequences and Series",
-topics:["Sequences","AP","GP","Sum of Series"]
-},
-
-{
-chapter:"Straight Lines",
-topics:["Slope","Equation of Line","Distance","Angle Between Lines"]
-},
-
-{
-chapter:"Conic Sections",
-topics:["Circle","Parabola","Ellipse","Hyperbola"]
-},
-
-{
-chapter:"Introduction to Three Dimensional Geometry",
-topics:["Coordinates","Distance","Section Formula"]
-},
-
-{
-chapter:"Limits and Derivatives",
-topics:["Limits","Continuity Basics","Derivatives"]
-},
-
-{
-chapter:"Statistics",
-topics:["Measures of Dispersion","Mean Deviation","Standard Deviation"]
-},
-
-{
-chapter:"Probability",
-topics:["Probability","Events","Conditional Concepts"]
-}
-
+ {
+  chapter:"Sets",
+  topics:["Types of Sets","Subsets","Operations","Venn Diagrams"]
+ },
+ {
+  chapter:"Relations and Functions",
+  topics:["Relations","Functions","Domain","Range","Types of Functions"]
+ },
+ {
+  chapter:"Trigonometric Functions",
+  topics:["Angles","Trigonometric Ratios","Identities","Graphs","Equations"]
+ },
+ {
+  chapter:"Principle of Mathematical Induction",
+  topics:["Induction Principle","Base Step","Inductive Step","Applications"]
+ },
+ {
+  chapter:"Complex Numbers and Quadratic Equations",
+  topics:["Complex Numbers","Algebra","Argand Plane","Quadratic Equations"]
+ },
+ {
+  chapter:"Linear Inequalities",
+  topics:["Linear Inequalities","Number Line","Algebraic Solution","Graphical Solution"]
+ },
+ {
+  chapter:"Permutations and Combinations",
+  topics:["Fundamental Principle","Permutations","Combinations","Applications"]
+ },
+ {
+  chapter:"Binomial Theorem",
+  topics:["Binomial Expansion","General Term","Middle Term","Applications"]
+ },
+ {
+  chapter:"Sequences and Series",
+  topics:["Sequences","AP","GP","Special Series"]
+ },
+ {
+  chapter:"Straight Lines",
+  topics:["Slope","Equation of Line","Forms of Line","Distance"]
+ },
+ {
+  chapter:"Conic Sections",
+  topics:["Circle","Parabola","Ellipse","Hyperbola"]
+ },
+ {
+  chapter:"Introduction to Three Dimensional Geometry",
+  topics:["Coordinates","Distance","Section Formula","Direction Ratios"]
+ },
+ {
+  chapter:"Limits and Derivatives",
+  topics:["Limits","Continuity Idea","Derivative","Derivative Rules"]
+ },
+ {
+  chapter:"Statistics",
+  topics:["Measures of Dispersion","Mean Deviation","Variance","Standard Deviation"]
+ },
+ {
+  chapter:"Probability",
+  topics:["Random Experiments","Events","Probability","Axiomatic Approach"]
+ }
 ],
 
 "12":[
-
-{
-chapter:"Relations and Functions",
-topics:["Relations","Functions","Types of Functions","Composition"]
-},
-
-{
-chapter:"Inverse Trigonometric Functions",
-topics:["Inverse Functions","Principal Values","Properties"]
-},
-
-{
-chapter:"Matrices",
-topics:["Types of Matrices","Operations","Transpose","Inverse"]
-},
-
-{
-chapter:"Determinants",
-topics:["Determinant","Properties","Minors","Cofactors","Applications"]
-},
-
-{
-chapter:"Continuity and Differentiability",
-topics:["Continuity","Differentiability","Derivatives","Chain Rule"]
-},
-
-{
-chapter:"Application of Derivatives",
-topics:["Increasing Decreasing","Maxima","Minima","Tangent"]
-},
-
-{
-chapter:"Integrals",
-topics:["Indefinite Integrals","Methods of Integration","Definite Integrals"]
-},
-
-{
-chapter:"Application of Integrals",
-topics:["Area Under Curve","Area Between Curves"]
-},
-
-{
-chapter:"Differential Equations",
-topics:["Order","Degree","Formation","Solutions"]
-},
-
-{
-chapter:"Vector Algebra",
-topics:["Vectors","Magnitude","Dot Product","Cross Product"]
-},
-
-{
-chapter:"Three Dimensional Geometry",
-topics:["Direction Cosines","Lines","Planes","Distance"]
-},
-
-{
-chapter:"Linear Programming",
-topics:["Constraints","Objective Function","Feasible Region","Optimization"]
-},
-
-{
-chapter:"Probability",
-topics:["Conditional Probability","Bayes Theorem","Random Variables","Probability Distribution"]
-}
-
+ {
+  chapter:"Relations and Functions",
+  topics:["Relations","Functions","Types of Functions","Composition","Inverse"]
+ },
+ {
+  chapter:"Inverse Trigonometric Functions",
+  topics:["Principal Values","Properties","Graphs","Identities"]
+ },
+ {
+  chapter:"Matrices",
+  topics:["Types of Matrices","Operations","Transpose","Inverse","Applications"]
+ },
+ {
+  chapter:"Determinants",
+  topics:["Determinant","Properties","Minors","Cofactors","Applications"]
+ },
+ {
+  chapter:"Continuity and Differentiability",
+  topics:["Continuity","Differentiability","Derivatives","Chain Rule","Implicit Differentiation"]
+ },
+ {
+  chapter:"Application of Derivatives",
+  topics:["Increasing Decreasing","Maxima","Minima","Tangent","Normal"]
+ },
+ {
+  chapter:"Integrals",
+  topics:["Indefinite Integral","Substitution","Integration by Parts","Definite Integral"]
+ },
+ {
+  chapter:"Application of Integrals",
+  topics:["Area Under Curve","Area Between Curves","Applications"]
+ },
+ {
+  chapter:"Differential Equations",
+  topics:["Order","Degree","Variable Separation","General Solution"]
+ },
+ {
+  chapter:"Vector Algebra",
+  topics:["Vectors","Magnitude","Direction","Dot Product","Cross Product"]
+ },
+ {
+  chapter:"Three Dimensional Geometry",
+  topics:["Direction Cosines","Lines","Planes","Distance","Angles"]
+ },
+ {
+  chapter:"Linear Programming",
+  topics:["Constraints","Objective Function","Feasible Region","Optimization"]
+ },
+ {
+  chapter:"Probability",
+  topics:["Conditional Probability","Bayes Theorem","Random Variables","Distributions"]
+ }
 ]
 
 };
 
 
-/* =========================
-   PAGE SYSTEM
-========================= */
+/* =========================================================
+   HELPERS
+========================================================= */
 
-function showPage(id){
+function normalizeStudentId(id){
+  return String(id||"")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9._-]/g,"");
+}
+
+function authEmail(id){
+  return normalizeStudentId(id)+"@student.examos.local";
+}
+
+function escapeHtml(s){
+  return String(s??"").replace(/[&<>"']/g,c=>({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  }[c]));
+}
+
+function normalizeAnswer(value){
+  const v = String(value ?? "")
+    .trim()
+    .toUpperCase();
+
+  if(["A","B","C","D"].includes(v)) return v;
+
+  const match = v.match(/\b([ABCD])\b/);
+  return match ? match[1] : v;
+}
+
+function storageKey(name){
+  return "examos_"+(student?.studentId||"guest")+"_"+name;
+}
+
+function getChapters(){
+  return SYLLABUS[String(student?.class)] || [];
+}
+
+function makeProfileKey(data){
+  return [
+    data?.board||"",
+    data?.class||"",
+    data?.stream||"common",
+    "Mathematics"
+  ].join("_").replace(/\s+/g,"_");
+}
+
+function getStoredResult(){
+  try{
+    return JSON.parse(
+      localStorage.getItem(storageKey("lastTestResult")) || "null"
+    );
+  }catch{
+    return null;
+  }
+}
+
+function setStoredResult(result){
+  localStorage.setItem(
+    storageKey("lastTestResult"),
+    JSON.stringify(result)
+  );
+}
+
+function getStoredTests(){
+  try{
+    return JSON.parse(
+      localStorage.getItem(storageKey("tests")) || "[]"
+    );
+  }catch{
+    return [];
+  }
+}
+
+function getStoredPracticeStats(){
+  try{
+    return JSON.parse(
+      localStorage.getItem(storageKey("practiceStats")) ||
+      '{"sessions":0}'
+    );
+  }catch{
+    return {sessions:0};
+  }
+}
+
+function setStoredPracticeStats(data){
+  localStorage.setItem(
+    storageKey("practiceStats"),
+    JSON.stringify(data)
+  );
+}
+
+
+/* =========================================================
+   PAGE NAVIGATION
+========================================================= */
+
+window.showPage = function(id){
 
   document.querySelectorAll(".page")
     .forEach(p=>p.classList.remove("active"));
 
-  const page=document.getElementById(id);
-
-  if(!page)return;
+  const page = document.getElementById(id);
+  if(!page) return;
 
   page.classList.add("active");
 
-  const isWelcome=id==="welcomePage";
-  const isAuth=id==="loginPage"||id==="registerPage"||id==="profilePage";
+  const welcome = id==="welcomePage";
 
-  document.getElementById("mainHeader")
-    .classList.toggle("hidden",isWelcome||isAuth);
+  document.body.classList.toggle("welcome-mode",welcome);
 
-  document.getElementById("bottomNav")
-    .style.display=(!isWelcome&&!isAuth&&student)?"block":"none";
+  const header = document.querySelector(".header");
+  if(header) header.classList.toggle("hidden",welcome);
+
+  const nav = document.getElementById("bottomNav");
+
+  const navPages = [
+    "homePage",
+    "testPage",
+    "practicePage",
+    "analysisPage",
+    "progressPage",
+    "targetedPage",
+    "settingsPage",
+    "feedbackPage",
+    "solutionPage"
+  ];
+
+  if(nav){
+    nav.classList.toggle(
+      "hidden",
+      !student || !navPages.includes(id)
+    );
+  }
+
+  document.querySelectorAll(".nav-btn")
+    .forEach(b=>{
+      b.classList.toggle(
+        "active",
+        b.dataset.page===id
+      );
+    });
 
   if(id==="homePage"){
-    document.getElementById("floatingAiBtn")
-      .classList.remove("hidden");
+    showFloatingAI();
+    updateProgressUI();
   }else{
-    document.getElementById("floatingAiBtn")
-      .classList.add("hidden");
-
-    document.getElementById("aiPanel")
-      .classList.add("hidden");
+    hideFloatingAI();
   }
 
   window.scrollTo(0,0);
-}
-
-window.showPage=showPage;
+};
 
 
-/* =========================
-   TOAST
-========================= */
+/* =========================================================
+   AUTH
+========================================================= */
 
-function toast(msg){
+window.registerStudent = async function(){
 
-  const t=document.getElementById("toast");
-
-  t.textContent=msg;
-  t.classList.add("show");
-
-  clearTimeout(window.toastTimer);
-
-  window.toastTimer=setTimeout(()=>{
-    t.classList.remove("show");
-  },2800);
-}
-
-
-/* =========================
-   STUDENT ID
-========================= */
-
-function cleanStudentId(v){
-
-  return String(v||"")
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g,"");
-}
-
-function studentEmail(id){
-
-  return cleanStudentId(id)+"@student.examos.local";
-}
-
-
-/* =========================
-   AUTH ERROR
-========================= */
-
-function authError(id,msg){
-
-  const el=document.getElementById(id);
-
-  el.textContent=msg;
-  el.style.display="block";
-}
-
-function clearAuthError(id){
-
-  const el=document.getElementById(id);
-
-  el.textContent="";
-  el.style.display="none";
-}
-
-
-/* =========================
-   REGISTER
-========================= */
-
-window.registerStudent=async()=>{
-
-  clearAuthError("registerError");
-
-  const id=cleanStudentId(
+  const id = normalizeStudentId(
     document.getElementById("registerId").value
   );
 
-  const password=
+  const password =
     document.getElementById("registerPassword").value;
 
-  const confirm=
-    document.getElementById("registerConfirm").value;
+  const confirm =
+    document.getElementById("registerPassword2").value;
 
   if(!/^[a-z0-9._-]{3,30}$/.test(id)){
-    authError(
-      "registerError",
-      "Student ID में 3–30 characters रखें: a-z, 0-9, . _ -"
-    );
+    alert("Student ID में 3-30 characters रखें: a-z, 0-9, . _ -");
     return;
   }
 
   if(password.length<6){
-    authError(
-      "registerError",
-      "Password कम से कम 6 characters का होना चाहिए।"
-    );
+    alert("Password कम से कम 6 characters का होना चाहिए।");
     return;
   }
 
   if(password!==confirm){
-    authError(
-      "registerError",
-      "दोनों Password समान नहीं हैं।"
-    );
+    alert("दोनों Password समान नहीं हैं।");
     return;
   }
-
-  const btn=document.getElementById("registerBtn");
-
-  btn.disabled=true;
-  btn.textContent="Creating...";
 
   try{
 
-    await createUserWithEmailAndPassword(
-      auth,
-      studentEmail(id),
-      password
-    );
-
-    document.getElementById("studentName").value="";
-    document.getElementById("studentBoard").value="";
-    document.getElementById("studentClass").value="";
-    document.getElementById("studentStream").value="";
-
-    document.getElementById("streamBox")
-      .classList.add("hidden");
-
-    toast("Student ID बन गया ✅");
-
-    showPage("profilePage");
-
-  }catch(e){
-
-    let msg="Student ID create नहीं हुआ।";
-
-    if(e.code==="auth/email-already-in-use"){
-      msg="यह Student ID पहले से मौजूद है।";
-    }
-
-    if(e.code==="auth/network-request-failed"){
-      msg="Internet connection check करें।";
-    }
-
-    if(e.code==="auth/invalid-api-key"){
-      msg="Firebase configuration में समस्या है।";
-    }
-
-    authError("registerError",msg);
-
-  }finally{
-
-    btn.disabled=false;
-    btn.textContent="Create Student ID";
-
-  }
-};
-
-
-/* =========================
-   LOGIN
-========================= */
-
-window.loginStudent=async()=>{
-
-  clearAuthError("loginError");
-
-  const id=cleanStudentId(
-    document.getElementById("loginId").value
-  );
-
-  const password=
-    document.getElementById("loginPassword").value;
-
-  if(!/^[a-z0-9._-]{3,30}$/.test(id)){
-    authError(
-      "loginError",
-      "Valid Student ID डालें।"
-    );
-    return;
-  }
-
-  if(!password){
-    authError(
-      "loginError",
-      "Password डालें।"
-    );
-    return;
-  }
-
-  const btn=document.getElementById("loginBtn");
-
-  btn.disabled=true;
-  btn.textContent="Logging in...";
-
-  try{
-
-    const cred=
-      await signInWithEmailAndPassword(
+    const credential =
+      await createUserWithEmailAndPassword(
         auth,
-        studentEmail(id),
+        authEmail(id),
         password
       );
 
-    uid=cred.user.uid;
-
-    const snap=
-      await getDoc(doc(db,"users",uid));
-
-    if(snap.exists()){
-
-      student=snap.data();
-
-      localStorage.setItem(
-        "examosStudent",
-        JSON.stringify(student)
-      );
-
-      updateStudentUI();
-      await updateProgressUI();
-
-      toast("Login successful ✅");
-
-      showPage("homePage");
-
-    }else{
-
-      showPage("profilePage");
-
-    }
-
-  }catch(e){
-
-    let msg="Student ID या Password गलत है।";
-
-    if(e.code==="auth/user-not-found"){
-      msg="यह Student ID registered नहीं है।";
-    }
-
-    if(e.code==="auth/invalid-credential"){
-      msg="Student ID या Password गलत है।";
-    }
-
-    if(e.code==="auth/too-many-requests"){
-      msg="बहुत ज्यादा attempts हुए हैं। बाद में कोशिश करें।";
-    }
-
-    authError("loginError",msg);
-
-  }finally{
-
-    btn.disabled=false;
-    btn.textContent="Login";
-
-  }
-};
-
-
-/* =========================
-   AUTH STATE
-========================= */
-
-onAuthStateChanged(auth,async user=>{
-
-  uid=user?user.uid:null;
-
-  if(!user){
-    student=null;
-    return;
-  }
-
-  try{
-
-    const snap=
-      await getDoc(doc(db,"users",user.uid));
-
-    if(snap.exists()){
-
-      student=snap.data();
-
-      localStorage.setItem(
-        "examosStudent",
-        JSON.stringify(student)
-      );
-
-      updateStudentUI();
-
-      if(
-        document.getElementById("welcomePage")
-          .classList.contains("active") ||
-        document.getElementById("loginPage")
-          .classList.contains("active")
-      ){
-        showPage("homePage");
-      }
-
-      updateProgressUI();
-
-    }
-
-  }catch(e){
-
-    console.error("Auth profile load:",e);
-
-  }
-
-});
-
-
-/* =========================
-   PROFILE
-========================= */
-
-document.getElementById("studentClass")
-.addEventListener("change",()=>{
-
-  const cls=
-    document.getElementById("studentClass").value;
-
-  document.getElementById("streamBox")
-    .classList.toggle(
-      "hidden",
-      !["11","12"].includes(cls)
-    );
-
-});
-
-
-document.getElementById("editClass")
-.addEventListener("change",()=>{
-
-  const cls=
-    document.getElementById("editClass").value;
-
-  document.getElementById("editStreamBox")
-    .classList.toggle(
-      "hidden",
-      !["11","12"].includes(cls)
-    );
-
-});
-
-
-window.saveStudentProfile=async()=>{
-
-  if(!auth.currentUser){
-
-    toast("पहले Student ID से login करें।");
-
-    showPage("loginPage");
-
-    return;
-  }
-
-  const name=
-    document.getElementById("studentName").value.trim();
-
-  const board=
-    document.getElementById("studentBoard").value;
-
-  const cls=
-    document.getElementById("studentClass").value;
-
-  const stream=
-    document.getElementById("studentStream").value;
-
-  if(!name||!board||!cls){
-
-    toast("Name, Board और Class भरें।");
-
-    return;
-  }
-
-  if(["11","12"].includes(cls)&&!stream){
-
-    toast("Class 11/12 के लिए Stream चुनें।");
-
-    return;
-  }
-
-  student={
-    name,
-    board,
-    class:cls,
-    stream:stream||"common",
-    subject:"Mathematics",
-    studentId:
-      cleanStudentId(
-        auth.currentUser.email.split("@")[0]
-      )
-  };
-
-  try{
-
-    await setDoc(
-      doc(db,"users",auth.currentUser.uid),
-      {
-        ...student,
-        updatedAt:serverTimestamp()
-      },
-      {merge:true}
-    );
+    uid = credential.user.uid;
+
+    student = {
+      studentId:id,
+      profileKey:"",
+      name:"",
+      board:"",
+      class:"",
+      stream:"common",
+      subject:"Mathematics"
+    };
 
     localStorage.setItem(
       "examosStudent",
       JSON.stringify(student)
     );
 
-    updateStudentUI();
-    toast("Profile saved ✅");
-    showPage("homePage");
-    updateProgressUI();
+    showPage("profilePage");
 
-  }catch(e){
+  }catch(error){
 
-    console.error(e);
+    if(error.code==="auth/email-already-in-use"){
+      alert("यह Student ID पहले से मौजूद है।");
+    }else{
+      alert(error.message || "Account create नहीं हुआ।");
+    }
+  }
+};
 
-    toast("Profile save नहीं हो पाई।");
 
+window.loginStudent = async function(){
+
+  const id = normalizeStudentId(
+    document.getElementById("loginId").value
+  );
+
+  const password =
+    document.getElementById("loginPassword").value;
+
+  if(!id || !password){
+    alert("Student ID और Password दोनों भरें।");
+    return;
   }
 
+  try{
+
+    const credential =
+      await signInWithEmailAndPassword(
+        auth,
+        authEmail(id),
+        password
+      );
+
+    uid = credential.user.uid;
+
+    const snap = await getDoc(
+      doc(db,"users",uid)
+    );
+
+    if(snap.exists()){
+
+      student = snap.data();
+      student.studentId = id;
+      student.profileKey =
+        student.profileKey ||
+        makeProfileKey(student);
+
+      localStorage.setItem(
+        "examosStudent",
+        JSON.stringify(student)
+      );
+
+      updateStudentUI();
+      fillProfileForm();
+      await updateProgressUI();
+
+      showPage("homePage");
+
+    }else{
+
+      student = {
+        studentId:id,
+        profileKey:"",
+        name:"",
+        board:"",
+        class:"",
+        stream:"common",
+        subject:"Mathematics"
+      };
+
+      localStorage.setItem(
+        "examosStudent",
+        JSON.stringify(student)
+      );
+
+      showPage("profilePage");
+    }
+
+  }catch(error){
+
+    alert("Student ID या Password गलत है।");
+  }
+};
+
+
+window.logoutStudent = async function(){
+
+  clearInterval(testTimerInterval);
+
+  await signOut(auth).catch(()=>{});
+
+  uid = null;
+  student = null;
+  window.currentTestResult = null;
+
+  hideFloatingAI();
+
+  showPage("loginPage");
+};
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+async function saveProfile(){
+
+  if(!uid || !student) return;
+
+  await setDoc(
+    doc(db,"users",uid),
+    {
+      ...student,
+      updatedAt:serverTimestamp()
+    },
+    {merge:true}
+  );
+}
+
+window.saveStudentProfile = async function(){
+
+  const name =
+    document.getElementById("studentName").value.trim();
+
+  const board =
+    document.getElementById("studentBoard").value;
+
+  const cls =
+    document.getElementById("studentClass").value;
+
+  const stream =
+    document.getElementById("studentStream").value;
+
+  if(!name || !board || !cls){
+    alert("कृपया Name, Board और Class भरें।");
+    return;
+  }
+
+  if(["11","12"].includes(cls) && !stream){
+    alert("कृपया Stream चुनें।");
+    return;
+  }
+
+  student = {
+    ...(student||{}),
+    name,
+    board,
+    class:cls,
+    stream:stream||"common",
+    subject:"Mathematics"
+  };
+
+  student.profileKey =
+    student.profileKey ||
+    makeProfileKey(student);
+
+  localStorage.setItem(
+    "examosStudent",
+    JSON.stringify(student)
+  );
+
+  try{
+    await saveProfile();
+  }catch(e){
+    console.error(e);
+  }
+
+  updateStudentUI();
+  await updateProgressUI();
+
+  showPage("homePage");
 };
 
 
 function updateStudentUI(){
 
-  if(!student)return;
+  if(!student) return;
 
-  document.getElementById("headerName")
-    .textContent=student.name||"Student";
+  const name =
+    student.name || "Student";
 
-  document.getElementById("profileInitial")
-    .textContent=
-      (student.name||"S").charAt(0).toUpperCase();
+  document.getElementById("headerName").textContent =
+    name;
 
-  document.getElementById("welcomeText")
-    .textContent=
-      "नमस्ते "+(student.name||"Student")+" 👋";
+  document.getElementById("profileInitial").textContent =
+    name.charAt(0).toUpperCase();
 
-  document.getElementById("studentInfo")
-    .textContent=
-      "Class "+student.class+
-      " • "+student.board+
-      " • Mathematics";
+  document.getElementById("welcomeText").textContent =
+    `नमस्ते ${name} 👋`;
+
+  document.getElementById("studentInfo").textContent =
+    `Class ${student.class} • ${student.board} • Mathematics`;
+
 }
 
 
-/* =========================
-   SETTINGS
-========================= */
+function fillProfileForm(){
 
-window.editProfile=()=>{
+  if(!student) return;
+
+  document.getElementById("studentName").value =
+    student.name||"";
+
+  document.getElementById("studentBoard").value =
+    student.board||"";
+
+  document.getElementById("studentClass").value =
+    student.class||"";
+
+  document.getElementById("studentStream").value =
+    student.stream==="common" ? "" : student.stream;
+
+  document.getElementById("streamBox")
+    .classList.toggle(
+      "hidden",
+      !["11","12"].includes(student.class)
+    );
+}
+
+
+window.editProfile = function(){
 
   if(!student){
     showPage("loginPage");
     return;
   }
 
-  document.getElementById("editName").value=student.name||"";
-  document.getElementById("editBoard").value=student.board||"";
-  document.getElementById("editClass").value=student.class||"";
-  document.getElementById("editStream").value=
-    student.stream==="common"?"":student.stream||"";
+  document.getElementById("editName").value =
+    student.name||"";
+
+  document.getElementById("editClass").value =
+    student.class||"9";
+
+  document.getElementById("editBoard").value =
+    student.board||"BSEB";
+
+  document.getElementById("editStream").value =
+    student.stream==="common" ? "Science" : student.stream;
 
   document.getElementById("editStreamBox")
     .classList.toggle(
@@ -2698,630 +2406,486 @@ window.editProfile=()=>{
 };
 
 
-window.updateStudentProfile=async()=>{
+document.getElementById("editClass")
+  .addEventListener("change",function(){
 
-  const name=
+    document.getElementById("editStreamBox")
+      .classList.toggle(
+        "hidden",
+        !["11","12"].includes(this.value)
+      );
+  });
+
+
+window.updateStudentProfile = async function(){
+
+  const name =
     document.getElementById("editName").value.trim();
 
-  const board=
-    document.getElementById("editBoard").value;
-
-  const cls=
+  const cls =
     document.getElementById("editClass").value;
 
-  const stream=
+  const board =
+    document.getElementById("editBoard").value;
+
+  const stream =
     document.getElementById("editStream").value;
 
-  if(!name||!board){
-
-    toast("Name और Board भरें।");
+  if(!name || !board){
+    alert("नाम और Board भरें।");
     return;
   }
 
-  if(["11","12"].includes(cls)&&!stream){
-
-    toast("Stream चुनें।");
+  if(["11","12"].includes(cls) && !stream){
+    alert("Stream चुनें।");
     return;
   }
 
-  student={
+  student = {
     ...student,
     name,
-    board,
     class:cls,
+    board,
     stream:stream||"common",
-    subject:"Mathematics"
+    subject:"Mathematics",
+    profileKey:makeProfileKey({
+      name,
+      class:cls,
+      board,
+      stream:stream||"common"
+    })
   };
 
+  localStorage.setItem(
+    "examosStudent",
+    JSON.stringify(student)
+  );
+
   try{
-
-    await setDoc(
-      doc(db,"users",uid),
-      {
-        ...student,
-        updatedAt:serverTimestamp()
-      },
-      {merge:true}
-    );
-
-    localStorage.setItem(
-      "examosStudent",
-      JSON.stringify(student)
-    );
-
-    updateStudentUI();
-
-    toast("Profile updated ✅");
-
-    showPage("homePage");
-
+    await saveProfile();
   }catch(e){
-
     console.error(e);
-    toast("Update failed.");
-
   }
 
+  updateStudentUI();
+  await updateProgressUI();
+
+  alert("Profile successfully updated ✅");
+
+  showPage("homePage");
 };
 
 
-/* =========================
-   LOGOUT
-========================= */
+/* =========================================================
+   TEST SETUP
+========================================================= */
 
-window.logoutStudent=async()=>{
-
-  try{
-
-    await signOut(auth);
-
-    student=null;
-    uid=null;
-
-    localStorage.removeItem("examosStudent");
-
-    document.getElementById("aiPanel")
-      .classList.add("hidden");
-
-    document.getElementById("floatingAiBtn")
-      .classList.add("hidden");
-
-    showPage("welcomePage");
-
-    toast("Logout successful");
-
-  }catch(e){
-
-    console.error(e);
-
-  }
-
-};
-
-
-/* =========================
-   SYLLABUS HELPERS
-========================= */
-
-function getChapters(){
-
-  if(!student)return[];
-
-  return syllabus[student.class]||[];
-
-}
-
-
-/* =========================
-   TEST FLOW
-========================= */
-
-window.openTest=()=>{
+window.openTest = function(){
 
   if(!student){
-
     showPage("loginPage");
     return;
   }
 
-  document.getElementById("testStudentInfo")
-    .textContent=
-      "Class "+student.class+
-      " • "+student.board+
-      " • Mathematics";
+  selectedTestChapter = "";
 
-  showPage("testPage");
+  document.getElementById("testStudentInfo").textContent =
+    `Class ${student.class} • ${student.board} • Mathematics`;
 
-  showTestSubject();
-
-};
-
-
-function showTestSubject(){
-
-  document.getElementById("testSubjectStep")
-    .classList.remove("hidden");
-
-  document.getElementById("testChapterStep")
-    .classList.add("hidden");
+  document.getElementById("selectedTestChapterText")
+    .textContent = "";
 
   document.getElementById("testConfigStep")
     .classList.add("hidden");
 
-  setTestStep(1);
+  document.getElementById("testChapterStep")
+    .classList.remove("hidden");
 
-}
-
-
-window.showTestChapters=()=>{
-
-  const container=
+  const container =
     document.getElementById("chapterOptions");
 
-  container.innerHTML="";
+  container.innerHTML = "";
 
-  getChapters().forEach(ch=>{
+  getChapters().forEach(item=>{
 
-    const d=document.createElement("div");
+    const div = document.createElement("div");
 
-    d.className="option";
+    div.className = "option";
 
-    d.innerHTML=
-      "<h4>"+escapeHtml(ch.chapter)+"</h4>"+
-      "<p>"+ch.topics.length+" Topics</p>";
+    div.innerHTML = `
+      <h4>${escapeHtml(item.chapter)}</h4>
+      <p>${item.topics.length} Topics</p>
+    `;
 
-    d.onclick=()=>{
+    div.onclick = ()=>{
 
-      selectedTestChapter=ch.chapter;
+      selectedTestChapter = item.chapter;
 
-      document.getElementById("selectedChapterInfo")
-        .textContent=
-          "Selected Chapter: "+ch.chapter;
-
-      document.getElementById("testSubjectStep")
-        .classList.add("hidden");
+      document.getElementById(
+        "selectedTestChapterText"
+      ).textContent = item.chapter;
 
       document.getElementById("testChapterStep")
         .classList.add("hidden");
 
       document.getElementById("testConfigStep")
         .classList.remove("hidden");
-
-      setTestStep(3);
-
     };
 
-    container.appendChild(d);
-
+    container.appendChild(div);
   });
 
-  document.getElementById("testSubjectStep")
+  showPage("testPage");
+};
+
+
+window.backToTestChapters = function(){
+
+  document.getElementById("testConfigStep")
     .classList.add("hidden");
 
   document.getElementById("testChapterStep")
     .classList.remove("hidden");
-
-  setTestStep(2);
-
 };
 
 
-function setTestStep(n){
-
-  ["testStep1","testStep2","testStep3"]
-    .forEach((id,i)=>{
-
-      document.getElementById(id)
-        .classList.toggle("active",i<n);
-
-    });
-
-}
-
-
-window.backTestStep=n=>{
-
-  if(n===1){
-
-    showTestSubject();
-
-  }
-
-  if(n===2){
-
-    document.getElementById("testConfigStep")
-      .classList.add("hidden");
-
-    document.getElementById("testChapterStep")
-      .classList.remove("hidden");
-
-    setTestStep(2);
-
-  }
-
-};
-
-
-/* =========================
-   REAL AI QUESTION API
-========================= */
+/* =========================================================
+   AI QUESTIONS
+========================================================= */
 
 async function aiQuestions(config){
 
-  const response=
-    await fetch("/api/ai",{
+  const response = await fetch("/api/ai",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+      mode:"generate_questions",
+      class:String(config.class||""),
+      board:config.board||"",
+      subject:"Mathematics",
+      chapter:config.chapter||"",
+      topic:config.topic||"",
+      count:Number(config.count||10),
+      difficulty:config.difficulty||"medium",
+      language:config.language||"Hindi",
+      purpose:config.purpose||"diagnostic"
+    })
+  });
 
-      method:"POST",
-
-      headers:{
-        "Content-Type":"application/json"
-      },
-
-      body:JSON.stringify({
-        mode:"generate_questions",
-
-        class:config.class,
-
-        board:config.board,
-
-        subject:"Mathematics",
-
-        chapter:config.chapter,
-
-        topic:config.topic||"",
-
-        count:Number(config.count),
-
-        difficulty:config.difficulty,
-
-        language:config.language,
-
-        purpose:config.purpose||"diagnostic"
-
-      })
-
-    });
-
-
-  let data={};
+  let data;
 
   try{
-
-    data=await response.json();
-
-  }catch(e){
-
-    throw new Error(
-      "AI server ने valid response नहीं दिया।"
-    );
-
+    data = await response.json();
+  }catch{
+    throw new Error("AI server ने valid JSON response नहीं दिया।");
   }
-
 
   if(!response.ok){
-
     throw new Error(
-      data.error||
-      "AI Test generate नहीं हो पाया।"
+      data.error ||
+      data.message ||
+      "AI question generation failed."
     );
-
   }
 
-
-  if(!data.verified){
-
+  if(!data.verified || !Array.isArray(data.questions)){
     throw new Error(
-      "AI questions verification पास नहीं कर पाए। फिर से try करें।"
+      data.error ||
+      "Verified questions नहीं मिले। कृपया फिर try करें।"
     );
-
   }
 
-
-  if(!Array.isArray(data.questions)){
-
-    throw new Error(
-      "AI ने questions नहीं भेजे।"
-    );
-
+  if(data.questions.length===0){
+    throw new Error("AI ने कोई question generate नहीं किया।");
   }
 
+  /*
+    IMPORTANT:
+    Normalize every answer before storing.
+    This prevents "B", " b ", "Option B" जैसी
+    formatting differences से result गलत होने की समस्या।
+  */
 
-  if(!data.questions.length){
+  return data.questions.map(q=>({
 
-    throw new Error(
-      "AI ने कोई question generate नहीं किया।"
-    );
+    question:String(q.question||""),
+    options:{
+      A:String(q.options?.A??""),
+      B:String(q.options?.B??""),
+      C:String(q.options?.C??""),
+      D:String(q.options?.D??"")
+    },
 
-  }
+    correctAnswer:normalizeAnswer(
+      q.verifiedCorrectAnswer ??
+      q.correctAnswer ??
+      q.answer
+    ),
 
-
-  return data.questions;
-
+    topic:String(q.topic||config.topic||config.chapter||""),
+    explanation:String(
+      q.explanation||
+      "इस question का step-by-step solution AI ने verify किया है।"
+    )
+  })).filter(q=>
+    q.question &&
+    ["A","B","C","D"].includes(q.correctAnswer)
+  );
 }
 
 
-/* =========================
-   START AI TEST
-========================= */
+/* =========================================================
+   START TEST
+========================================================= */
 
-window.startTest=async()=>{
-
-  if(!student){
-
-    showPage("loginPage");
-    return;
-  }
+window.startTest = async function(){
 
   if(!selectedTestChapter){
-
-    toast("Chapter चुनें।");
+    alert("पहले chapter चुनें।");
     return;
   }
 
-  const btn=
+  const btn =
     document.getElementById("startTestBtn");
 
-  const status=
-    document.getElementById("aiTestStatus");
-
-  const count=
-    Number(
-      document.getElementById("testQuestionCount").value
-    );
-
-  const difficulty=
-    document.getElementById("testDifficulty").value;
-
-  const language=
-    document.getElementById("testLanguage").value;
-
-  const time=
-    Number(
-      document.getElementById("testTime").value
-    );
-
-
-  btn.disabled=true;
-
-  btn.textContent="🤖 AI Questions बना रहा है...";
-
-  status.innerHTML=
-    '<div class="loading">'+
-    '<div class="loader"></div>'+
-    '<span>AI questions generate और verify कर रहा है...</span>'+
-    '</div>';
-
+  btn.disabled = true;
+  btn.textContent = "AI Test तैयार हो रहा है...";
 
   try{
 
-    testQuestions=
-      await aiQuestions({
-
-        class:student.class,
-
-        board:student.board,
-
-        chapter:selectedTestChapter,
-
-        count,
-
-        difficulty,
-
-        language,
-
-        purpose:"diagnostic"
-
-      });
-
-
-    if(!testQuestions.length){
-
-      throw new Error(
-        "Questions नहीं मिले।"
+    const count =
+      Number(
+        document.getElementById("testQuestionCount").value
       );
 
+    testQuestions = await aiQuestions({
+
+      class:student.class,
+      board:student.board,
+      subject:"Mathematics",
+
+      chapter:selectedTestChapter,
+
+      count,
+
+      difficulty:
+        document.getElementById("testDifficulty").value,
+
+      language:
+        document.getElementById("testLanguage").value,
+
+      purpose:"diagnostic"
+    });
+
+    if(testQuestions.length<count){
+
+      if(testQuestions.length<3){
+        throw new Error(
+          "AI ने पर्याप्त verified questions नहीं दिए। फिर से Start Test दबाएँ।"
+        );
+      }
+
+      console.warn(
+        "Requested:",
+        count,
+        "Received:",
+        testQuestions.length
+      );
     }
 
-
-    testAnswers=
+    testAnswers =
       new Array(testQuestions.length).fill(null);
 
-    currentQuestion=0;
+    currentQuestion = 0;
 
-    remainingSeconds=time*60;
+    remainingSeconds =
+      Number(
+        document.getElementById("testTime").value
+      ) * 60;
 
+    document.getElementById("testTitle").textContent =
+      "Mathematics • "+selectedTestChapter;
 
     showPage("testRunPage");
 
-
-    document.getElementById("testTitle")
-      .textContent=
-        "Mathematics • "+selectedTestChapter;
-
-
     renderTestQuestion();
 
+    clearInterval(testTimerInterval);
 
-    clearInterval(testTimer);
-
-    updateTimer();
-
-    testTimer=
+    testTimerInterval =
       setInterval(updateTimer,1000);
 
+  }catch(error){
 
-  }catch(e){
+    console.error(error);
 
-    console.error("AI TEST ERROR:",e);
-
-    status.innerHTML=
-      '<div style="padding:12px;background:#fff1f2;color:#b91c1c;border-radius:12px;font-size:13px">'+
-      escapeHtml(e.message)+
-      '<br><br>Internet और /api/ai backend check करें।'+
-      '</div>';
-
-    toast("AI Test generate नहीं हुआ ❌");
+    alert(
+      "AI Test शुरू नहीं हो पाया.\n\n"+
+      error.message+
+      "\n\nकृपया फिर से try करें।"
+    );
 
   }finally{
 
-    btn.disabled=false;
-
-    btn.textContent="🤖 Start AI Test";
-
+    btn.disabled = false;
+    btn.textContent = "Start AI Test";
   }
-
 };
 
 
-/* =========================
-   TIMER
-========================= */
+/* =========================================================
+   TEST TIMER
+========================================================= */
 
 function updateTimer(){
 
-  const m=
+  const minutes =
     Math.floor(remainingSeconds/60);
 
-  const s=
+  const seconds =
     remainingSeconds%60;
 
-  document.getElementById("testTimer")
-    .textContent=
-      String(m).padStart(2,"0")+
-      ":"+
-      String(s).padStart(2,"0");
-
-
-  if(remainingSeconds<=0){
-
-    clearInterval(testTimer);
-
-    finishTest();
-
-    return;
-
-  }
+  document.getElementById("testTimer").textContent =
+    String(minutes).padStart(2,"0")+
+    ":"+
+    String(seconds).padStart(2,"0");
 
   remainingSeconds--;
 
+  if(remainingSeconds<0){
+
+    clearInterval(testTimerInterval);
+
+    alert("Time Over! Test automatically submit हो रहा है।");
+
+    finishTest();
+  }
 }
 
 
-/* =========================
-   TEST QUESTION
-========================= */
+/* =========================================================
+   RENDER TEST QUESTION
+========================================================= */
 
 function renderTestQuestion(){
 
-  const q=testQuestions[currentQuestion];
+  const q = testQuestions[currentQuestion];
 
-  if(!q){
+  if(!q) return;
 
-    finishTest();
-    return;
-  }
+  document.getElementById("questionNumber").textContent =
+    "Question "+(currentQuestion+1);
 
-  document.getElementById("questionNumber")
-    .textContent=
-      "Question "+(currentQuestion+1);
+  document.getElementById("testQuestionProgress").textContent =
+    "Question "+
+    (currentQuestion+1)+
+    " of "+
+    testQuestions.length;
 
-  document.getElementById("testQuestionProgress")
-    .textContent=
-      "Question "+
-      (currentQuestion+1)+
-      " of "+
-      testQuestions.length;
+  const questionBox =
+    document.getElementById("questionText");
 
-  document.getElementById("questionText")
-    .textContent=q.question;
+  questionBox.innerHTML =
+    formatMath(q.question);
 
-
-  const container=
+  const container =
     document.getElementById("answerOptions");
 
-  container.innerHTML="";
-
+  container.innerHTML = "";
 
   ["A","B","C","D"].forEach(letter=>{
 
-    const button=
+    const button =
       document.createElement("button");
 
-    button.className=
+    button.className =
       "answer-option"+
-      (testAnswers[currentQuestion]===letter
-        ?" selected":"");
+      (
+        normalizeAnswer(testAnswers[currentQuestion])===letter
+          ? " selected"
+          : ""
+      );
 
-    button.textContent=
-      letter+") "+q.options[letter];
+    button.innerHTML =
+      "<strong>"+letter+")</strong> "+
+      formatMath(q.options[letter]);
 
-    button.onclick=()=>{
+    button.onclick = ()=>{
 
-      testAnswers[currentQuestion]=letter;
+      testAnswers[currentQuestion] = letter;
 
       renderTestQuestion();
-
     };
 
     container.appendChild(button);
-
   });
 
+  document.getElementById("nextQuestionBtn").textContent =
+    currentQuestion===testQuestions.length-1
+      ? "Finish Test"
+      : "Next Question";
 
-  document.getElementById("nextQuestionBtn")
-    .textContent=
-      currentQuestion===
-      testQuestions.length-1
-      ?"Finish Test"
-      :"Next Question";
-
+  if(window.MathJax){
+    MathJax.typesetPromise([questionBox,container])
+      .catch(()=>{});
+  }
 }
 
 
-window.nextQuestion=()=>{
+/* =========================================================
+   NEXT TEST QUESTION
+========================================================= */
+
+window.nextQuestion = function(){
 
   if(testAnswers[currentQuestion]===null){
 
-    toast("पहले answer चुनें।");
-
+    alert("कृपया answer चुनें।");
     return;
   }
 
-  if(currentQuestion<
-    testQuestions.length-1){
+  if(currentQuestion<testQuestions.length-1){
 
     currentQuestion++;
-
     renderTestQuestion();
 
   }else{
 
     finishTest();
-
   }
-
 };
 
 
-/* =========================
+/* =========================================================
    FINISH TEST
-========================= */
+========================================================= */
 
-window.finishTest=async()=>{
+window.finishTest = async function(){
 
-  clearInterval(testTimer);
+  if(window.__finishingTest) return;
 
-  if(!testQuestions.length)return;
+  window.__finishingTest = true;
 
+  clearInterval(testTimerInterval);
 
-  let correct=0;
+  let correct = 0;
 
-  const wrongQuestions=[];
+  const wrongQuestions = [];
 
+  testQuestions.forEach((q,index)=>{
 
-  testQuestions.forEach((q,i)=>{
+    const studentAnswer =
+      normalizeAnswer(testAnswers[index]);
 
-    if(testAnswers[i]===q.correctAnswer){
+    const correctAnswer =
+      normalizeAnswer(q.correctAnswer);
+
+    const isCorrect =
+      studentAnswer===correctAnswer;
+
+    if(isCorrect){
 
       correct++;
 
@@ -3330,34 +2894,30 @@ window.finishTest=async()=>{
       wrongQuestions.push({
         ...q,
         studentAnswer:
-          testAnswers[i]||"Not Answered"
+          studentAnswer || "Not Answered"
       });
-
     }
-
   });
 
+  const total = testQuestions.length;
 
-  const percentage=
-    Math.round(
-      correct/testQuestions.length*100
-    );
+  const percentage =
+    total
+      ? Math.round((correct/total)*100)
+      : 0;
 
-
-  const topicCounts={};
-
+  const topicCounts = {};
 
   wrongQuestions.forEach(q=>{
 
-    const topic=q.topic||"Unknown Topic";
+    const topic =
+      q.topic || selectedTestChapter;
 
-    topicCounts[topic]=
+    topicCounts[topic] =
       (topicCounts[topic]||0)+1;
-
   });
 
-
-  const weakTopics=
+  const weakTopics =
     Object.entries(topicCounts)
       .sort((a,b)=>b[1]-a[1])
       .map(([topic,count])=>({
@@ -3365,247 +2925,334 @@ window.finishTest=async()=>{
         count
       }));
 
-
-  currentTestResult={
-
-    board:student.board,
-
-    class:student.class,
+  const result = {
 
     subject:"Mathematics",
 
-    chapter:selectedTestChapter,
+    class:student.class,
 
-    total:testQuestions.length,
+    board:student.board,
+
+    chapter:selectedTestChapter,
 
     correct,
 
     wrong:wrongQuestions.length,
 
+    total,
+
     percentage,
 
     questions:testQuestions,
+
+    answers:testAnswers,
 
     wrongQuestions,
 
     weakTopics,
 
     createdAt:Date.now()
-
   };
 
+  window.currentTestResult = result;
+
+  setStoredResult(result);
 
   localStorage.setItem(
-    "examosLastTestResult",
-    JSON.stringify(currentTestResult)
-  );
-
-  localStorage.setItem(
-    "examosWeakTopics",
+    storageKey("weakTopics"),
     JSON.stringify(weakTopics)
   );
 
+  const oldTests =
+    getStoredTests();
 
-  renderResult();
+  oldTests.push(result);
 
+  localStorage.setItem(
+    storageKey("tests"),
+    JSON.stringify(oldTests.slice(-50))
+  );
+
+  document.getElementById("resultScore").textContent =
+    percentage+"%";
+
+  document.getElementById("resultCorrect").textContent =
+    correct;
+
+  document.getElementById("resultWrong").textContent =
+    wrongQuestions.length;
+
+  document.getElementById("resultSummary").innerHTML = `
+    <div class="selected-info">
+      <strong>Class:</strong> ${escapeHtml(student.class)}<br>
+      <strong>Board:</strong> ${escapeHtml(student.board)}<br>
+      <strong>Chapter:</strong> ${escapeHtml(selectedTestChapter)}<br>
+      <strong>Total Questions:</strong> ${total}
+    </div>
+  `;
+
+  renderWeakTopics(weakTopics);
+  renderAllQuestions(testQuestions,testAnswers);
+  renderWrongQuestions(wrongQuestions);
 
   try{
-
-    if(uid){
-
-      await addDoc(
-        collection(db,"users",uid,"tests"),
-        {
-          board:student.board,
-          class:student.class,
-          subject:"Mathematics",
-          chapter:selectedTestChapter,
-          total:testQuestions.length,
-          correct,
-          wrong:wrongQuestions.length,
-          score:percentage,
-          questions:testQuestions,
-          wrongQuestions,
-          weakTopics,
-          createdAt:serverTimestamp()
-        }
-      );
-
-    }
-
-  }catch(e){
-
-    console.error("Firestore test save:",e);
-
+    await saveTestResult();
+  }catch(error){
+    console.error("Firebase test save:",error);
   }
-
 
   await updateProgressUI();
 
   showPage("resultPage");
 
+  window.__finishingTest = false;
 };
 
 
-function renderResult(){
+/* =========================================================
+   SAVE TEST TO FIRESTORE
+========================================================= */
 
-  const r=currentTestResult;
+async function saveTestResult(){
 
-  document.getElementById("resultScore")
-    .textContent=r.percentage+"%";
+  if(!uid || !student?.profileKey) return;
 
-  document.getElementById("resultCorrect")
-    .textContent=r.correct;
+  await addDoc(
+    collection(
+      db,
+      "users",
+      uid,
+      "profiles",
+      student.profileKey,
+      "tests"
+    ),
+    {
+      class:student.class,
+      board:student.board,
+      subject:"Mathematics",
+      chapter:selectedTestChapter,
 
-  document.getElementById("resultWrong")
-    .textContent=r.wrong;
+      score:window.currentTestResult.percentage,
 
+      correct:window.currentTestResult.correct,
 
-  document.getElementById("resultSummary")
-    .innerHTML=
-      "<p><strong>Class:</strong> "+
-      escapeHtml(r.class)+
-      "</p>"+
-      "<p><strong>Board:</strong> "+
-      escapeHtml(r.board)+
-      "</p>"+
-      "<p><strong>Chapter:</strong> "+
-      escapeHtml(r.chapter)+
-      "</p>";
+      wrong:window.currentTestResult.wrong,
 
+      total:window.currentTestResult.total,
 
-  renderWrongQuestions(r.wrongQuestions);
+      weakTopics:window.currentTestResult.weakTopics,
 
-  renderWeakTopics(r.weakTopics);
+      questions:window.currentTestResult.questions,
 
+      answers:window.currentTestResult.answers,
+
+      createdAt:serverTimestamp()
+    }
+  );
 }
 
 
-/* =========================
-   WRONG QUESTIONS
-========================= */
+/* =========================================================
+   RESULT REVIEW
+========================================================= */
 
-function renderWrongQuestions(arr){
+function renderAllQuestions(questions,answers){
 
-  const box=
+  const box =
+    document.getElementById("allQuestionsBox");
+
+  box.innerHTML =
+    "<h3 class='section-title'>📋 Answer Review</h3>";
+
+  questions.forEach((q,index)=>{
+
+    const studentAnswer =
+      normalizeAnswer(answers[index]);
+
+    const correctAnswer =
+      normalizeAnswer(q.correctAnswer);
+
+    const ok =
+      studentAnswer===correctAnswer;
+
+    const div =
+      document.createElement("div");
+
+    div.className = "wrong-card";
+
+    div.style.background =
+      ok ? "#f4fff9" : "#fffafa";
+
+    div.style.borderColor =
+      ok ? "#c8f1df" : "#ffd5d5";
+
+    div.innerHTML = `
+
+      <div class="pill">
+        Q${index+1} • ${ok?"Correct":"Wrong"}
+      </div>
+
+      <p>
+        <strong>${formatMath(q.question)}</strong>
+      </p>
+
+      <p>
+        आपका answer:
+        <strong class="${ok?"correct-answer":"student-answer"}">
+          ${
+            studentAnswer
+              ? studentAnswer+") "+escapeHtml(q.options[studentAnswer])
+              : "Not Answered"
+          }
+        </strong>
+      </p>
+
+      <p>
+        सही answer:
+        <span class="correct-answer">
+          ${correctAnswer}) ${escapeHtml(q.options[correctAnswer])}
+        </span>
+      </p>
+
+      <p>
+        Topic:
+        <strong>${escapeHtml(q.topic)}</strong>
+      </p>
+
+      <p>
+        <strong>Explanation:</strong><br>
+        ${formatMath(q.explanation)}
+      </p>
+    `;
+
+    box.appendChild(div);
+  });
+
+  if(window.MathJax){
+    MathJax.typesetPromise([box]).catch(()=>{});
+  }
+}
+
+
+function renderWrongQuestions(questions){
+
+  const box =
     document.getElementById("wrongQuestionsBox");
 
-  if(!arr.length){
+  if(!questions.length){
 
-    box.innerHTML=
-      '<div class="analysis-card">'+
-      '<h3>🎉 सभी answers सही!</h3>'+
-      '<p>Excellent performance.</p>'+
-      '</div>';
-
-    return;
-  }
-
-
-  box.innerHTML=
-    '<br><h3 class="title">❌ Wrong Questions</h3>'+
-    arr.map((q,i)=>{
-
-      const correctText=
-        q.options[q.correctAnswer]||"";
-
-      return `
-      <div class="wrong-card">
-
-        <strong>Question ${i+1}</strong>
-
-        <p style="margin:10px 0">
-          ${escapeHtml(q.question)}
-        </p>
-
-        <p>
-          आपका answer:
-          <span class="student-answer">
-            ${escapeHtml(q.studentAnswer)}
-          </span>
-        </p>
-
-        <p>
-          सही answer:
-          <span class="correct-answer">
-            ${escapeHtml(q.correctAnswer)}) 
-            ${escapeHtml(correctText)}
-          </span>
-        </p>
-
-        <p>
-          Topic:
-          <strong>${escapeHtml(q.topic)}</strong>
-        </p>
-
-        <p style="color:var(--muted);margin-top:7px">
-          ${escapeHtml(q.explanation||"")}
-        </p>
-
+    box.innerHTML = `
+      <div class="analysis-card">
+        <h3>🎉 कोई गलत question नहीं!</h3>
+        <p>Excellent performance.</p>
       </div>
-      `;
+    `;
 
-    }).join("");
-
-}
-
-
-/* =========================
-   WEAK TOPICS
-========================= */
-
-function renderWeakTopics(arr){
-
-  const box=
-    document.getElementById("weakTopicsBox");
-
-  if(!arr.length){
-
-    box.innerHTML="";
     return;
   }
 
+  box.innerHTML =
+    "<h3 class='section-title'>❌ Wrong Questions</h3>";
 
-  box.innerHTML=
-    '<br><h3 class="title">📉 Weak Topics</h3>'+
-    arr.map(x=>`
+  questions.forEach((q,index)=>{
 
-      <button class="weak-btn"
-        onclick="startTargetedTopic(${JSON.stringify(x.topic)})">
+    const correctAnswer =
+      normalizeAnswer(q.correctAnswer);
 
-        <strong>
-          ${escapeHtml(x.topic)}
-        </strong>
+    const div =
+      document.createElement("div");
 
-        <br>
+    div.className="wrong-card";
 
-        <small>
-          ${x.count} गलत question${x.count>1?"s":""}
-          • Targeted Practice
-        </small>
+    div.innerHTML = `
 
-      </button>
+      <div class="pill">Wrong Question ${index+1}</div>
 
-    `).join("");
+      <p>
+        <strong>${formatMath(q.question)}</strong>
+      </p>
 
+      <p>
+        आपका answer:
+        <span class="student-answer">
+          ${escapeHtml(q.studentAnswer)}
+        </span>
+      </p>
+
+      <p>
+        सही answer:
+        <span class="correct-answer">
+          ${correctAnswer})
+          ${escapeHtml(q.options[correctAnswer])}
+        </span>
+      </p>
+
+      <p>
+        Topic:
+        <strong>${escapeHtml(q.topic)}</strong>
+      </p>
+
+      <p>
+        ${formatMath(q.explanation)}
+      </p>
+    `;
+
+    box.appendChild(div);
+  });
+
+  if(window.MathJax){
+    MathJax.typesetPromise([box]).catch(()=>{});
+  }
 }
 
 
-/* =========================
-   PRACTICE
-========================= */
+function renderWeakTopics(topics){
 
-window.openPractice=()=>{
+  const box =
+    document.getElementById("weakTopicsResult");
+
+  if(!topics.length){
+
+    box.innerHTML = `
+      <div class="analysis-card">
+        <h3>🎉 No Weak Topic</h3>
+        <p>इस test में किसी topic में repeated mistakes नहीं मिलीं।</p>
+      </div>
+    `;
+
+    return;
+  }
+
+  box.innerHTML = `
+    <div class="card">
+      <h3>🔥 Weak Topics</h3>
+      <p style="color:var(--muted);font-size:13px">
+        इन्हीं topics पर targeted practice करें।
+      </p>
+      ${topics.map(t=>`
+        <button class="weak-topic-btn"
+          onclick='startTargetedTopic(${JSON.stringify(t.topic)})'>
+          <strong>${escapeHtml(t.topic)}</strong><br>
+          <small>${t.count} गलत answer</small>
+        </button>
+      `).join("")}
+    </div>
+  `;
+}
+
+
+/* =========================================================
+   PRACTICE
+========================================================= */
+
+window.openPractice = function(){
 
   if(!student){
-
     showPage("loginPage");
     return;
   }
 
   practiceMode="general";
-
-  showPage("practicePage");
 
   document.getElementById("practiceChapterStep")
     .classList.remove("hidden");
@@ -3613,283 +3260,289 @@ window.openPractice=()=>{
   document.getElementById("practiceTopicStep")
     .classList.add("hidden");
 
-  document.getElementById("practiceConfigStep")
-    .classList.add("hidden");
-
   renderPracticeChapters();
 
+  showPage("practicePage");
 };
 
 
 function renderPracticeChapters(){
 
-  const c=
+  const box =
     document.getElementById("practiceChapterOptions");
 
-  c.innerHTML="";
+  box.innerHTML="";
 
+  getChapters().forEach(item=>{
 
-  getChapters().forEach(ch=>{
+    const div =
+      document.createElement("div");
 
-    const d=document.createElement("div");
+    div.className="option";
 
-    d.className="option";
+    div.innerHTML=`
+      <h4>${escapeHtml(item.chapter)}</h4>
+      <p>${item.topics.length} Topics</p>
+    `;
 
-    d.innerHTML=
-      "<h4>"+escapeHtml(ch.chapter)+"</h4>"+
-      "<p>"+ch.topics.length+" Topics</p>";
-
-    d.onclick=()=>{
-
-      selectedTestChapter=ch.chapter;
-
-      document.getElementById("practiceChapterStep")
-        .classList.add("hidden");
-
-      document.getElementById("practiceTopicStep")
-        .classList.remove("hidden");
-
-      renderTopics(ch);
-
+    div.onclick=()=>{
+      selectedTestChapter=item.chapter;
+      renderPracticeTopics(item);
     };
 
-    c.appendChild(d);
-
+    box.appendChild(div);
   });
-
 }
 
 
-function renderTopics(ch){
+function renderPracticeTopics(chapter){
 
-  const c=
-    document.getElementById("topicOptions");
+  const box =
+    document.getElementById("practiceTopicStep");
 
-  c.innerHTML="";
+  const container =
+    document.getElementById("practiceTopicOptions");
 
+  container.innerHTML="";
 
-  ch.topics.forEach(topic=>{
+  chapter.topics.forEach(topic=>{
 
-    const d=document.createElement("div");
+    const button =
+      document.createElement("button");
 
-    d.className="topic-item";
+    button.className="weak-topic-btn";
 
-    d.textContent=topic;
+    button.innerHTML=`
+      <strong>${escapeHtml(topic)}</strong><br>
+      <small>AI Concept + Solved Examples + Practice</small>
+    `;
 
-    d.onclick=()=>{
-
+    button.onclick=()=>{
       targetedTopic=topic;
-
-      document.getElementById("practiceTopicStep")
-        .classList.add("hidden");
-
-      document.getElementById("practiceConfigStep")
-        .classList.remove("hidden");
-
+      startConceptLearning();
     };
 
-    c.appendChild(d);
-
+    container.appendChild(button);
   });
 
+  box.classList.remove("hidden");
 }
 
 
-window.backPractice=n=>{
+async function startConceptLearning(){
 
-  if(n===1){
+  practiceMode="general";
 
-    document.getElementById("practiceTopicStep")
-      .classList.add("hidden");
+  showPage("practiceConceptPage");
 
-    document.getElementById("practiceChapterStep")
-      .classList.remove("hidden");
+  document.getElementById("conceptTitle").textContent =
+    targetedTopic;
 
-  }
+  document.getElementById("conceptMeta").textContent =
+    `${selectedTestChapter} • AI Concept Explanation`;
 
-  if(n===2){
-
-    document.getElementById("practiceConfigStep")
-      .classList.add("hidden");
-
-    document.getElementById("practiceTopicStep")
-      .classList.remove("hidden");
-
-  }
-
-};
-
-
-/* =========================
-   START PRACTICE
-========================= */
-
-window.startPractice=async()=>{
-
-  const btn=
-    document.getElementById("startPracticeBtn");
-
-  const count=
-    Number(
-      document.getElementById("practiceQuestionCount").value
-    );
-
-  const difficulty=
-    document.getElementById("practiceDifficulty").value;
-
-
-  btn.disabled=true;
-
-  btn.textContent="🤖 AI बना रहा है...";
-
+  document.getElementById("conceptContent").innerHTML=`
+    <div class="loading">
+      <div class="loader"></div>
+      AI concept समझा रहा है...
+    </div>
+  `;
 
   try{
 
-    practiceQuestions=
+    const answer =
+      await callChat(`
+Class ${student.class} के Mathematics chapter "${selectedTestChapter}"
+के topic "${targetedTopic}" को student-friendly Hindi में पढ़ाओ।
+
+पहले concept को बिल्कुल साफ और सरल भाषा में समझाओ।
+
+फिर 1 या 2 solved examples दो और हर example को
+step-by-step solve करो।
+
+सभी mathematical formulas और notation सही रखो।
+
+अंत में:
+1. याद रखने वाली मुख्य बातें
+2. common mistakes
+3. question solve करने की strategy
+
+दो।
+
+जहाँ mathematical expression हो वहाँ सही mathematical notation use करो।
+`);
+
+    document.getElementById("conceptContent").innerHTML =
+      formatAI(answer);
+
+    typesetMath(
+      document.getElementById("conceptContent")
+    );
+
+  }catch(error){
+
+    document.getElementById("conceptContent").innerHTML=
+      `<div class="analysis-card">
+        <p>AI concept load नहीं हो पाया.</p>
+        <p>${escapeHtml(error.message)}</p>
+      </div>`;
+  }
+}
+
+
+window.startPracticeQuestionsFromConcept =
+async function(){
+
+  const btn =
+    document.getElementById("conceptStartBtn");
+
+  btn.disabled=true;
+  btn.textContent="AI Questions तैयार कर रहा है...";
+
+  try{
+
+    practiceQuestions =
       await aiQuestions({
 
         class:student.class,
-
         board:student.board,
+
+        subject:"Mathematics",
 
         chapter:selectedTestChapter,
 
         topic:targetedTopic,
 
-        count,
+        count:Number(
+          document.getElementById(
+            "practiceQuestionCount"
+          ).value
+        ),
 
-        difficulty,
+        difficulty:
+          document.getElementById(
+            "practiceDifficulty"
+          ).value,
 
         language:"Hindi",
 
         purpose:"general_practice"
-
       });
 
-
-    practiceAnswers=
-      new Array(practiceQuestions.length)
-        .fill(null);
+    practiceAnswers =
+      new Array(practiceQuestions.length).fill(null);
 
     practiceIndex=0;
 
+    document.getElementById("practiceTitle").textContent =
+      "Mathematics Practice";
+
+    document.getElementById("practiceSubtitle").textContent =
+      `${selectedTestChapter} • ${targetedTopic}`;
 
     showPage("practiceRunPage");
 
-    document.getElementById("practiceTitle")
-      .textContent=
-        "Mathematics Practice";
-
-    document.getElementById("practiceSubtitle")
-      .textContent=
-        selectedTestChapter+
-        " • "+
-        targetedTopic;
-
     renderPracticeQuestion();
 
+  }catch(error){
 
-  }catch(e){
-
-    console.error(e);
-
-    toast(
-      "AI Practice नहीं बन पाई: "+
-      e.message
+    alert(
+      "Practice questions नहीं बन पाए.\n\n"+
+      error.message
     );
 
   }finally{
 
     btn.disabled=false;
 
-    btn.textContent="🤖 Start Practice";
-
+    btn.textContent =
+      "अब Practice Questions शुरू करें →";
   }
-
 };
 
 
-/* =========================
-   PRACTICE QUESTIONS
-========================= */
-
 function renderPracticeQuestion(){
 
-  const q=
+  const q =
     practiceQuestions[practiceIndex];
 
-  if(!q){
+  if(!q) return;
 
-    finishPractice();
-    return;
-  }
+  document.getElementById(
+    "practiceQuestionNumber"
+  ).textContent =
+    `Question ${practiceIndex+1} of ${practiceQuestions.length}`;
 
+  document.getElementById(
+    "practiceQuestionText"
+  ).innerHTML =
+    formatMath(q.question);
 
-  document.getElementById("practiceQuestionNumber")
-    .textContent=
-      "Question "+
-      (practiceIndex+1)+
-      " of "+
-      practiceQuestions.length;
+  const box =
+    document.getElementById(
+      "practiceAnswerOptions"
+    );
 
-
-  document.getElementById("practiceQuestionText")
-    .textContent=q.question;
-
-
-  const c=
-    document.getElementById("practiceAnswerOptions");
-
-  c.innerHTML="";
-
+  box.innerHTML="";
 
   ["A","B","C","D"].forEach(letter=>{
 
-    const b=document.createElement("button");
+    const btn =
+      document.createElement("button");
 
-    b.className=
+    btn.className =
       "answer-option"+
-      (practiceAnswers[practiceIndex]===letter
-        ?" selected":"");
+      (
+        normalizeAnswer(
+          practiceAnswers[practiceIndex]
+        )===letter
+          ? " selected"
+          : ""
+      );
 
-    b.textContent=
-      letter+") "+q.options[letter];
+    btn.innerHTML =
+      `<strong>${letter})</strong> ${
+        formatMath(q.options[letter])
+      }`;
 
-    b.onclick=()=>{
-
+    btn.onclick=()=>{
       practiceAnswers[practiceIndex]=letter;
-
       renderPracticeQuestion();
-
     };
 
-    c.appendChild(b);
-
+    box.appendChild(btn);
   });
 
+  document.getElementById(
+    "practiceNextBtn"
+  ).textContent =
+    practiceIndex===practiceQuestions.length-1
+      ? "Finish Practice"
+      : "Next Question";
 
-  document.getElementById("practiceNextBtn")
-    .textContent=
-      practiceIndex===
-      practiceQuestions.length-1
-      ?"Finish Practice"
-      :"Next Question";
-
+  typesetMath(
+    document.getElementById("practiceQuestionText")
+  );
 }
 
 
-window.nextPracticeQuestion=()=>{
+window.nextPracticeQuestion=function(){
 
   if(practiceAnswers[practiceIndex]===null){
 
-    toast("पहले answer चुनें।");
+    alert("कृपया answer चुनें।");
     return;
   }
 
-  practiceIndex++;
+  if(practiceIndex<practiceQuestions.length-1){
 
-  renderPracticeQuestion();
+    practiceIndex++;
+    renderPracticeQuestion();
 
+  }else{
+
+    finishPractice();
+  }
 };
 
 
@@ -3897,37 +3550,43 @@ async function finishPractice(){
 
   let correct=0;
 
-  practiceQuestions.forEach((q,i)=>{
+  practiceQuestions.forEach((q,index)=>{
 
     if(
-      practiceAnswers[i]===
-      q.correctAnswer
+      normalizeAnswer(practiceAnswers[index])===
+      normalizeAnswer(q.correctAnswer)
     ){
       correct++;
     }
-
   });
 
+  const total=practiceQuestions.length;
 
-  const score=
-    Math.round(
-      correct/practiceQuestions.length*100
-    );
+  const score =
+    total
+      ? Math.round((correct/total)*100)
+      : 0;
 
+  if(uid && student?.profileKey){
 
-  try{
-
-    if(uid){
+    try{
 
       await addDoc(
-        collection(db,"users",uid,"practice"),
+        collection(
+          db,
+          "users",
+          uid,
+          "profiles",
+          student.profileKey,
+          "practice"
+        ),
         {
-          board:student.board,
           class:student.class,
+          board:student.board,
           subject:"Mathematics",
           chapter:selectedTestChapter,
           topic:targetedTopic,
-          total:practiceQuestions.length,
+          total,
           correct,
           score,
           source:practiceMode,
@@ -3935,716 +3594,1089 @@ async function finishPractice(){
         }
       );
 
+    }catch(error){
+      console.error(error);
     }
-
-  }catch(e){
-
-    console.error(e);
-
   }
 
+  const stats =
+    getStoredPracticeStats();
+
+  stats.sessions =
+    Number(stats.sessions||0)+1;
+
+  setStoredPracticeStats(stats);
+
+  alert(
+    `Practice Completed!\n\nScore: ${score}%`
+  );
 
   await updateProgressUI();
 
-  toast("Practice completed: "+score+"%");
+  if(practiceMode==="targeted"){
 
-  setTimeout(()=>{
+    showPage("targetedPage");
+    renderTargetedTopics();
 
-    if(practiceMode==="targeted"){
+  }else{
 
-      showPage("targetedPage");
-      renderTargetedTopics();
-
-    }else{
-
-      showPage("homePage");
-
-    }
-
-  },500);
-
+    goHome();
+  }
 }
 
 
-/* =========================
+window.backFromConcept=function(){
+
+  showPage("practicePage");
+
+  document.getElementById("practiceChapterStep")
+    .classList.add("hidden");
+
+  document.getElementById("practiceTopicStep")
+    .classList.remove("hidden");
+};
+
+
+/* =========================================================
    TARGETED PRACTICE
-========================= */
+========================================================= */
 
-window.openTargetedPractice=()=>{
+window.openTargetedPractice=function(){
 
-  showPage("targetedPage");
+  if(!student){
+    showPage("loginPage");
+    return;
+  }
+
+  window.currentTestResult =
+    getStoredResult();
 
   renderTargetedTopics();
 
+  showPage("targetedPage");
 };
 
 
 function renderTargetedTopics(){
 
-  const c=
-    document.getElementById("targetedTopicsList");
+  const box =
+    document.getElementById(
+      "targetedTopicsList"
+    );
 
+  const result =
+    window.currentTestResult ||
+    getStoredResult();
 
-  let topics=
-    currentTestResult?.weakTopics;
+  const topics =
+    result?.weakTopics || [];
 
+  if(!topics.length){
 
-  if(!topics){
-
-    try{
-
-      topics=
-        JSON.parse(
-          localStorage.getItem(
-            "examosWeakTopics"
-          )||"[]"
-        );
-
-    }catch(e){
-
-      topics=[];
-
-    }
-
-  }
-
-
-  if(!topics?.length){
-
-    c.innerHTML=
-      '<div class="loading">पहले एक test दें ताकि EXAMOS आपके weak topics पहचान सके।</div>';
+    box.innerHTML=`
+      <div class="empty">
+        अभी कोई weak topic उपलब्ध नहीं है।<br><br>
+        पहले एक Diagnostic Test दें।
+      </div>
+    `;
 
     return;
   }
 
+  box.innerHTML =
+    topics.map(item=>`
 
-  c.innerHTML=
-    topics.map(x=>`
+      <button class="weak-topic-btn"
+        onclick='startTargetedTopic(${JSON.stringify(item.topic)})'>
 
-      <button class="weak-btn"
-        onclick="startTargetedTopic(${JSON.stringify(x.topic)})">
-
-        <strong>${escapeHtml(x.topic)}</strong>
-
-        <br>
+        <strong>${escapeHtml(item.topic)}</strong><br>
 
         <small>
-          ${x.count||0} wrong
-          • AI Targeted Practice
+          ${item.count} wrong →
+          AI Revision + Targeted Practice
         </small>
 
       </button>
 
     `).join("");
-
 }
 
 
-window.startTargetedTopic=async(topic)=>{
+window.startTargetedTopic =
+async function(topic){
 
-  if(!student)return;
-
+  const result =
+    window.currentTestResult ||
+    getStoredResult();
 
   targetedTopic=topic;
 
-  practiceMode="targeted";
-
-
-  if(currentTestResult?.chapter){
-
-    targetedChapter=
-      currentTestResult.chapter;
-
-  }
-
-
-  const sourceQuestion=
-    currentTestResult?.questions
-      ?.find(q=>q.topic===topic);
-
-
-  selectedTestChapter=
-    targetedChapter||
-    sourceQuestion?.chapter||
+  selectedTestChapter =
+    result?.chapter ||
     selectedTestChapter;
 
+  practiceMode="targeted";
 
-  if(!selectedTestChapter){
+  showPage("practiceConceptPage");
 
-    toast("Chapter information नहीं मिली।");
-    return;
-  }
+  document.getElementById("conceptTitle").textContent =
+    topic;
 
+  document.getElementById("conceptMeta").textContent =
+    `${selectedTestChapter} • Targeted Concept Revision`;
 
-  let count=
-    Number(
-      prompt(
-        "कितने questions चाहिए?",
-        "5"
-      )
-    );
-
-
-  if(![5,10,15,20].includes(count)){
-
-    toast("5, 10, 15 या 20 चुनें।");
-    return;
-
-  }
-
+  document.getElementById("conceptContent").innerHTML=`
+    <div class="loading">
+      <div class="loader"></div>
+      AI weak topic समझा रहा है...
+    </div>
+  `;
 
   try{
 
-    toast("AI targeted questions बना रहा है...");
+    const answer =
+      await callChat(`
+Class ${student.class} Mathematics में
+chapter "${selectedTestChapter}" के weak topic "${topic}"
+को पहले बिल्कुल साफ Hindi में समझाओ।
 
+Concept को आसान भाषा में समझाओ।
+फिर 1-2 solved examples step-by-step दो।
+फिर common mistakes बताओ।
+फिर 3 important points बताओ जो student को याद रखने चाहिए।
 
-    practiceQuestions=
-      await aiQuestions({
+Mathematical formulas और notation बिल्कुल सही रखो।
+`);
 
-        class:student.class,
+    document.getElementById(
+      "conceptContent"
+    ).innerHTML =
+      formatAI(answer);
 
-        board:student.board,
-
-        chapter:selectedTestChapter,
-
-        topic,
-
-        count,
-
-        difficulty:"medium",
-
-        language:"Hindi",
-
-        purpose:"targeted_practice"
-
-      });
-
-
-    practiceAnswers=
-      new Array(practiceQuestions.length)
-        .fill(null);
-
-    practiceIndex=0;
-
-
-    showPage("practiceRunPage");
-
-    document.getElementById("practiceTitle")
-      .textContent="Targeted Practice 🎯";
-
-    document.getElementById("practiceSubtitle")
-      .textContent=
-        selectedTestChapter+
-        " • "+
-        topic;
-
-    renderPracticeQuestion();
-
-
-  }catch(e){
-
-    console.error(e);
-
-    toast(
-      "Targeted AI Practice failed: "+
-      e.message
+    typesetMath(
+      document.getElementById("conceptContent")
     );
 
-  }
+  }catch(error){
 
+    document.getElementById(
+      "conceptContent"
+    ).innerHTML =
+      `<p>${escapeHtml(error.message)}</p>`;
+  }
 };
 
 
-/* =========================
+/* =========================================================
    ANALYSIS
-========================= */
+========================================================= */
 
-window.openAnalysis=()=>{
+window.openAnalysis=function(){
+
+  window.currentTestResult =
+    getStoredResult();
 
   loadAnalysis();
 
   showPage("analysisPage");
-
 };
 
 
 function loadAnalysis(){
 
-  const r=currentTestResult;
+  const result =
+    window.currentTestResult;
 
+  const weakBox =
+    document.getElementById("weakTopics");
 
-  if(!r){
+  if(!result){
 
-    document.getElementById("weakTopics")
-      .textContent=
-        "अभी कोई test data उपलब्ध नहीं है।";
+    weakBox.innerHTML=
+      `<div class="empty">
+        अभी कोई test data उपलब्ध नहीं है।
+      </div>`;
 
     document.getElementById("mistakeAnalysis")
-      .textContent=
-        "पहले एक AI test दें।";
+      .textContent="-";
+
+    document.getElementById("recommendedPractice")
+      .textContent="-";
+
+    document.getElementById("improvementAdvice")
+      .textContent="-";
 
     return;
   }
 
+  const topics =
+    result.weakTopics||[];
 
-  document.getElementById("weakTopics")
-    .innerHTML=
-      (r.weakTopics||[])
-      .map(x=>`
+  if(!topics.length){
 
-        <button class="weak-btn"
-          onclick="startTargetedTopic(${JSON.stringify(x.topic)})">
+    weakBox.innerHTML=
+      `<div class="empty">
+        कोई weak topic नहीं मिला।
+      </div>`;
 
-          <strong>
-            ${escapeHtml(x.topic)}
-          </strong>
+  }else{
 
-          <br>
+    weakBox.innerHTML =
+      topics.map(item=>`
 
-          <small>
-            ${x.count} गलत
-          </small>
+        <button class="weak-topic-btn"
+          onclick='startTargetedTopic(${JSON.stringify(item.topic)})'>
+
+          <strong>${escapeHtml(item.topic)}</strong><br>
+
+          <small>${item.count} गलत</small>
 
         </button>
 
-      `).join("")
-      ||
-      "कोई weak topic नहीं।";
-
-
-  document.getElementById("mistakeAnalysis")
-    .innerHTML=
-      "Total questions: <strong>"+
-      r.total+
-      "</strong><br><br>"+
-      "Correct: <strong>"+
-      r.correct+
-      "</strong><br>"+
-      "Wrong: <strong>"+
-      r.wrong+
-      "</strong>";
-
-
-  document.getElementById("recommendedPractice")
-    .innerHTML=
-      r.weakTopics?.length
-      ?
-      "सबसे पहले <strong>"+
-      escapeHtml(r.weakTopics[0].topic)+
-      "</strong> पर targeted practice करें।"
-      :
-      "Excellent! कोई weak topic नहीं।";
-
-
-  document.getElementById("improvementAdvice")
-    .textContent=
-      r.percentage>=80
-      ?"बहुत अच्छा प्रदर्शन। अब Hard questions try करें।"
-      :
-      r.percentage>=50
-      ?"Concepts ठीक हैं। Weak topics पर practice करें।"
-      :
-      "Basic concepts revise करके targeted practice करें।";
-
-}
-
-
-/* =========================
-   PROGRESS
-========================= */
-
-async function updateProgressUI(){
-
-  let tests=0;
-  let practice=0;
-  let scores=[];
-
-
-  if(uid){
-
-    try{
-
-      const testSnap=
-        await getDocs(
-          collection(db,"users",uid,"tests")
-        );
-
-      tests=testSnap.size;
-
-      testSnap.forEach(d=>{
-
-        const data=d.data();
-
-        if(typeof data.score==="number"){
-          scores.push(data.score);
-        }
-
-      });
-
-
-      const practiceSnap=
-        await getDocs(
-          collection(db,"users",uid,"practice")
-        );
-
-      practice=practiceSnap.size;
-
-
-    }catch(e){
-
-      console.error("Progress:",e);
-
-    }
-
+      `).join("");
   }
 
+  document.getElementById("mistakeAnalysis")
+    .innerHTML =
+      `आपके <strong>${result.wrong}</strong>
+       answers गलत हुए।`;
 
-  const avg=
-    scores.length
-    ?
-    Math.round(
-      scores.reduce((a,b)=>a+b,0)/
-      scores.length
-    )
-    :
-    0;
+  document.getElementById("recommendedPractice")
+    .innerHTML =
+      topics.length
+        ? `पहले <strong>${escapeHtml(topics[0].topic)}</strong>
+           पर targeted practice करें।`
+        : "Excellent! अभी कोई major weak topic नहीं है।";
 
-
-  document.getElementById("totalTests")
-    .textContent=tests;
-
-  document.getElementById("totalPractice")
-    .textContent=practice;
-
-  document.getElementById("progressPercent")
-    .textContent=avg+"%";
-
-  document.getElementById("progressTests")
-    .textContent=tests;
-
-  document.getElementById("progressPractice")
-    .textContent=practice;
-
-  document.getElementById("overallProgressText")
-    .textContent=avg+"%";
-
-  document.getElementById("overallProgressBar")
-    .style.width=Math.min(avg,100)+"%";
-
+  document.getElementById("improvementAdvice")
+    .textContent =
+      result.percentage>=80
+        ? "बहुत अच्छा प्रदर्शन। अब harder questions try करें।"
+        : result.percentage>=50
+          ? "Concepts ठीक हैं। Weak topics पर targeted practice करें।"
+          : "पहले basic concepts revise करें, फिर practice करें।";
 }
 
 
-window.openProgress=async()=>{
+/* =========================================================
+   PROGRESS
+========================================================= */
 
-  await updateProgressUI();
+window.openProgress=function(){
+
+  updateProgressUI();
 
   showPage("progressPage");
-
 };
 
 
-/* =========================
-   REAL AI CHAT API
-========================= */
+async function updateProgressUI(){
+
+  let tests =
+    getStoredTests();
+
+  let practiceStats =
+    getStoredPracticeStats();
+
+  let testCount =
+    tests.length;
+
+  let practiceCount =
+    Number(practiceStats.sessions||0);
+
+  let scores =
+    tests
+      .map(x=>Number(x.percentage))
+      .filter(Number.isFinite);
+
+  if(uid && student?.profileKey){
+
+    try{
+
+      const testSnapshot =
+        await getDocs(
+          collection(
+            db,
+            "users",
+            uid,
+            "profiles",
+            student.profileKey,
+            "tests"
+          )
+        );
+
+      testCount =
+        testSnapshot.size;
+
+      scores=[];
+
+      testSnapshot.forEach(docSnap=>{
+
+        const data =
+          docSnap.data();
+
+        if(Number.isFinite(Number(data.score))){
+          scores.push(Number(data.score));
+        }
+      });
+
+      const practiceSnapshot =
+        await getDocs(
+          collection(
+            db,
+            "users",
+            uid,
+            "profiles",
+            student.profileKey,
+            "practice"
+          )
+        );
+
+      practiceCount =
+        practiceSnapshot.size;
+
+    }catch(error){
+
+      console.error(
+        "Progress Firebase:",
+        error
+      );
+    }
+  }
+
+  const average =
+    scores.length
+      ? Math.round(
+          scores.reduce((a,b)=>a+b,0)/
+          scores.length
+        )
+      : 0;
+
+  const best =
+    scores.length
+      ? Math.max(...scores)
+      : 0;
+
+  document.getElementById("totalTests")
+    .textContent=testCount;
+
+  document.getElementById("totalPractice")
+    .textContent=practiceCount;
+
+  document.getElementById("progressPercent")
+    .textContent=average+"%";
+
+  document.getElementById("progressTests")
+    .textContent=testCount;
+
+  document.getElementById("progressPractice")
+    .textContent=practiceCount;
+
+  document.getElementById("overallProgressText")
+    .textContent=average+"%";
+
+  document.getElementById("overallProgressBar")
+    .style.width=average+"%";
+}
+
+
+/* =========================================================
+   ASK AI
+========================================================= */
+
+window.openAskAI=function(){
+  showPage("askAIPage");
+};
+
+
+window.handleChatKey=function(event){
+
+  if(event.key==="Enter" && !event.shiftKey){
+
+    event.preventDefault();
+
+    askAI();
+  }
+};
+
+
+window.addMessage=function(
+  text,
+  type,
+  boxId="chatBox"
+){
+
+  const box =
+    document.getElementById(boxId);
+
+  const message =
+    document.createElement("div");
+
+  message.className =
+    "message "+type;
+
+  message.innerHTML =
+    type==="ai"
+      ? formatAI(text)
+      : escapeHtml(text);
+
+  box.appendChild(message);
+
+  box.scrollTop =
+    box.scrollHeight;
+
+  if(type==="ai"){
+    typesetMath(message);
+  }
+
+  return message;
+};
+
 
 async function callChat(prompt){
 
-  if(!prompt)return"";
-
-
-  const response=
+  const response =
     await fetch("/api/ai",{
-
       method:"POST",
-
       headers:{
         "Content-Type":"application/json"
       },
-
       body:JSON.stringify({
 
         mode:"chat",
 
         prompt,
 
-        class:student?.class||"",
+        class:
+          student?.class||"",
 
-        board:student?.board||""
+        board:
+          student?.board||"",
 
+        subject:"Mathematics",
+
+        chapter:
+          selectedTestChapter||"",
+
+        language:"Hindi"
       })
-
     });
 
-
-  let data={};
+  let data;
 
   try{
-
     data=await response.json();
-
-  }catch(e){
-
+  }catch{
     throw new Error(
       "AI server response invalid है।"
     );
-
   }
-
 
   if(!response.ok){
 
     throw new Error(
-      data.error||"AI server error"
+      data.error||
+      "AI से response नहीं आया।"
     );
-
   }
 
-
-  if(!data.answer){
-
-    throw new Error(
-      "AI ने कोई answer नहीं दिया।"
-    );
-
-  }
-
-
-  return data.answer;
-
+  return data.answer||
+    data.response||
+    "AI ने जवाब नहीं दिया।";
 }
 
 
-/* =========================
-   CHAT
-========================= */
+window.askAI=async function(){
 
-function addMessage(text,type,boxId){
-
-  const box=
-    document.getElementById(boxId);
-
-  const msg=
-    document.createElement("div");
-
-  msg.className=
-    "message "+type;
-
-  msg.textContent=text;
-
-  box.appendChild(msg);
-
-  box.scrollTop=box.scrollHeight;
-
-  return msg;
-
-}
-
-
-window.askAI=async()=>{
-
-  const input=
+  const input =
     document.getElementById("aiPrompt");
 
-  const text=input.value.trim();
+  const prompt =
+    input.value.trim();
 
-  if(!text)return;
+  if(!prompt) return;
 
-
-  addMessage(text,"user","chatBox");
+  addMessage(
+    prompt,
+    "user"
+  );
 
   input.value="";
 
-
-  const loading=
+  const loading =
     addMessage(
       "AI सोच रहा है...",
-      "ai",
-      "chatBox"
+      "ai"
     );
-
 
   try{
 
-    const answer=
-      await callChat(text);
+    const answer =
+      await callChat(prompt);
 
-    loading.textContent=answer;
+    loading.innerHTML =
+      formatAI(answer);
 
-  }catch(e){
+    typesetMath(loading);
 
-    loading.textContent=
+  }catch(error){
+
+    loading.textContent =
       "AI से connection नहीं हो पाया: "+
-      e.message;
-
+      error.message;
   }
-
 };
 
 
-window.askFloatingAI=async()=>{
+/* =========================================================
+   AI FORMATTING
+========================================================= */
 
-  const input=
-    document.getElementById("floatingAiPrompt");
+function formatMath(text){
 
-  const text=input.value.trim();
+  return escapeHtml(String(text||""))
+    .replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>")
+    .replace(/\n/g,"<br>");
+}
 
-  if(!text)return;
 
+function formatAI(text){
+
+  let value =
+    escapeHtml(String(text||""));
+
+  /*
+    Markdown-style formatting
+  */
+
+  value =
+    value.replace(
+      /\*\*(.*?)\*\*/g,
+      "<strong>$1</strong>"
+    );
+
+  value =
+    value.replace(
+      /^### (.*)$/gm,
+      "<h3>$1</h3>"
+    );
+
+  value =
+    value.replace(
+      /^## (.*)$/gm,
+      "<h3>$1</h3>"
+    );
+
+  value =
+    value.replace(
+      /^# (.*)$/gm,
+      "<h3>$1</h3>"
+    );
+
+  /*
+    Preserve mathematical LaTeX.
+    HTML escaping does not break backslash
+    mathematical expressions.
+  */
+
+  value =
+    value.replace(
+      /\n/g,
+      "<br>"
+    );
+
+  return `<div class="ai-rich">${value}</div>`;
+}
+
+
+function typesetMath(element){
+
+  if(
+    window.MathJax &&
+    element
+  ){
+
+    MathJax.typesetPromise([element])
+      .catch(()=>{});
+  }
+}
+
+
+/* =========================================================
+   FLOATING AI
+========================================================= */
+
+function showFloatingAI(){
+
+  const button =
+    document.getElementById("aiFloat");
+
+  if(button)
+    button.classList.remove("hidden");
+}
+
+
+function hideFloatingAI(){
+
+  const button =
+    document.getElementById("aiFloat");
+
+  const panel =
+    document.getElementById("aiPanel");
+
+  if(button)
+    button.classList.add("hidden");
+
+  if(panel)
+    panel.classList.add("hidden");
+}
+
+
+window.toggleFloatingAI=function(){
+
+  const panel =
+    document.getElementById("aiPanel");
+
+  panel.classList.toggle("hidden");
+};
+
+
+window.handleFloatingChatKey=function(event){
+
+  if(
+    event.key==="Enter" &&
+    !event.shiftKey
+  ){
+
+    event.preventDefault();
+
+    askFloatingAI();
+  }
+};
+
+
+window.askFloatingAI=async function(){
+
+  const input =
+    document.getElementById(
+      "floatingAiPrompt"
+    );
+
+  const prompt =
+    input.value.trim();
+
+  if(!prompt) return;
 
   addMessage(
-    text,
+    prompt,
     "user",
     "floatingChatBox"
   );
 
   input.value="";
 
-
-  const loading=
+  const loading =
     addMessage(
       "AI सोच रहा है...",
       "ai",
       "floatingChatBox"
     );
 
+  try{
+
+    const answer =
+      await callChat(prompt);
+
+    loading.innerHTML =
+      formatAI(answer);
+
+    typesetMath(loading);
+
+  }catch(error){
+
+    loading.textContent =
+      "AI error: "+error.message;
+  }
+};
+
+
+/* =========================================================
+   SOLUTION IMAGE ANALYSIS
+========================================================= */
+
+window.openSolutionAnalysis=function(){
+
+  showPage("solutionPage");
+};
+
+
+window.previewSolutionImage=function(event){
+
+  const file =
+    event.target.files?.[0];
+
+  if(!file) return;
+
+  const preview =
+    document.getElementById(
+      "solutionPreview"
+    );
+
+  preview.src =
+    URL.createObjectURL(file);
+
+  preview.classList.remove("hidden");
+};
+
+
+window.analyzeSolution=async function(){
+
+  const file =
+    document.getElementById(
+      "solutionFile"
+    ).files?.[0];
+
+  const topic =
+    document.getElementById(
+      "solutionTopic"
+    ).value.trim();
+
+  const result =
+    document.getElementById(
+      "solutionResult"
+    );
+
+  const btn =
+    document.getElementById(
+      "analyzeSolutionBtn"
+    );
+
+  if(!file){
+
+    alert("पहले solution की photo चुनें।");
+    return;
+  }
+
+  btn.disabled=true;
+  btn.textContent="AI Solution check कर रहा है...";
+
+  result.innerHTML=`
+    <div class="loading">
+      <div class="loader"></div>
+      Handwritten solution analyze हो रहा है...
+    </div>
+  `;
 
   try{
 
-    const answer=
-      await callChat(text);
+    /*
+      This sends the image as base64 to the API.
+      Backend must support mode: analyze_solution.
+    */
 
-    loading.textContent=answer;
+    const base64 =
+      await fileToBase64(file);
 
-  }catch(e){
+    const response =
+      await fetch("/api/ai",{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
 
-    loading.textContent=
-      "AI से connection नहीं हो पाया: "+
-      e.message;
+          mode:"analyze_solution",
 
+          image:base64,
+
+          mimeType:file.type,
+
+          topic,
+
+          class:student?.class||"",
+
+          board:student?.board||"",
+
+          subject:"Mathematics"
+        })
+      });
+
+    let data;
+
+    try{
+      data=await response.json();
+    }catch{
+      throw new Error(
+        "AI server ने valid response नहीं दिया।"
+      );
+    }
+
+    if(!response.ok){
+
+      throw new Error(
+        data.error||
+        "Solution analysis API error"
+      );
+    }
+
+    result.innerHTML =
+      formatAI(
+        data.answer||
+        data.analysis||
+        "AI ने analysis नहीं दिया।"
+      );
+
+    typesetMath(result);
+
+  }catch(error){
+
+    result.innerHTML=`
+      <div class="analysis-card">
+        <h3>Analysis नहीं हो पाया</h3>
+        <p>${escapeHtml(error.message)}</p>
+        <br>
+        <p style="color:var(--muted);font-size:12px">
+          अगर तुम्हारे current api/ai.js में
+          <strong>analyze_solution</strong> mode नहीं है,
+          तो backend में image-analysis support जोड़ना होगा।
+        </p>
+      </div>
+    `;
+
+  }finally{
+
+    btn.disabled=false;
+    btn.textContent="Analyze with AI";
+  }
+};
+
+
+function fileToBase64(file){
+
+  return new Promise((resolve,reject)=>{
+
+    const reader =
+      new FileReader();
+
+    reader.onload=()=>{
+      resolve(reader.result);
+    };
+
+    reader.onerror=reject;
+
+    reader.readAsDataURL(file);
+  });
+}
+
+
+/* =========================================================
+   FEEDBACK
+========================================================= */
+
+window.openFeedback=function(){
+
+  showPage("feedbackPage");
+
+  setRating(selectedRating);
+};
+
+
+window.setRating=function(rating){
+
+  selectedRating=rating;
+
+  document.getElementById(
+    "feedbackRating"
+  ).value=rating;
+
+  document.querySelectorAll(
+    ".feedback-stars button"
+  ).forEach((button,index)=>{
+
+    button.classList.toggle(
+      "active",
+      index<rating
+    );
+  });
+};
+
+
+window.submitFeedback=async function(){
+
+  const rating =
+    Number(
+      document.getElementById(
+        "feedbackRating"
+      ).value
+    );
+
+  const text =
+    document.getElementById(
+      "feedbackText"
+    ).value.trim();
+
+  const status =
+    document.getElementById(
+      "feedbackStatus"
+    );
+
+  const btn =
+    document.getElementById(
+      "feedbackBtn"
+    );
+
+  if(!text){
+
+    alert("कृपया अपना feedback लिखें।");
+    return;
   }
 
-};
+  if(!uid){
 
-
-window.handleChatKey=e=>{
-
-  if(
-    e.key==="Enter"&&
-    !e.shiftKey
-  ){
-
-    e.preventDefault();
-
-    askAI();
-
+    alert("कृपया पहले login करें।");
+    return;
   }
 
-};
+  btn.disabled=true;
+  btn.textContent="Saving...";
 
+  try{
 
-window.handleFloatingKey=e=>{
+    await addDoc(
+      collection(
+        db,
+        "users",
+        uid,
+        "feedback"
+      ),
+      {
+        rating,
+        text,
+        name:student?.name||"",
+        class:student?.class||"",
+        board:student?.board||"",
+        subject:"Mathematics",
+        createdAt:serverTimestamp()
+      }
+    );
 
-  if(
-    e.key==="Enter"&&
-    !e.shiftKey
-  ){
+    document.getElementById(
+      "feedbackText"
+    ).value="";
 
-    e.preventDefault();
+    status.textContent =
+      "Feedback successfully save हो गया ✅";
 
-    askFloatingAI();
+    status.classList.remove("hidden");
 
+  }catch(error){
+
+    alert(
+      "Feedback save नहीं हुआ:\n"+
+      error.message
+    );
+
+  }finally{
+
+    btn.disabled=false;
+    btn.textContent="Feedback भेजें";
   }
-
 };
 
 
-/* =========================
-   FLOATING AI
-========================= */
-
-window.toggleFloatingAI=()=>{
-
-  const panel=
-    document.getElementById("aiPanel");
-
-  panel.classList.toggle("hidden");
-
-};
-
-
-/* =========================
-   ASK AI PAGE
-========================= */
-
-window.openAskAI=()=>{
-
-  showPage("askAIPage");
-
-};
-
-
-/* =========================
+/* =========================================================
    HOME
-========================= */
+========================================================= */
 
-window.goHome=()=>{
+window.goHome=function(){
 
   if(!student){
 
     showPage("loginPage");
 
     return;
-
   }
 
   updateStudentUI();
 
-  updateProgressUI();
-
   showPage("homePage");
 
+  updateProgressUI();
 };
 
 
-/* =========================
-   ESCAPE HTML
-========================= */
+/* =========================================================
+   CLASS STREAM CHANGE
+========================================================= */
 
-function escapeHtml(value){
+document.getElementById("studentClass")
+  .addEventListener("change",function(){
 
-  return String(value??"")
-    .replace(/[&<>"']/g,char=>({
-
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#039;"
-
-    }[char]));
-
-}
+    document.getElementById("streamBox")
+      .classList.toggle(
+        "hidden",
+        !["11","12"].includes(this.value)
+      );
+  });
 
 
-/* =========================
-   INITIALIZATION
-========================= */
+/* =========================================================
+   AUTH STATE
+========================================================= */
 
-window.addEventListener("DOMContentLoaded",()=>{
+onAuthStateChanged(auth,async user=>{
 
-  document.getElementById("mainHeader")
-    .classList.add("hidden");
+  if(user){
 
-  document.getElementById("bottomNav")
-    .style.display="none";
+    uid=user.uid;
 
-  document.getElementById("floatingAiBtn")
-    .classList.add("hidden");
+  }else{
 
-  showPage("welcomePage");
-
+    uid=null;
+  }
 });
 
+
+/* =========================================================
+   INITIAL LOAD
+========================================================= */
+
+window.addEventListener(
+  "DOMContentLoaded",
+  ()=>{
+
+    showPage("welcomePage");
+
+    setRating(5);
+
+    const saved =
+      localStorage.getItem(
+        "examosStudent"
+      );
+
+    if(saved){
+
+      try{
+
+        const data =
+          JSON.parse(saved);
+
+        /*
+          Do not automatically enter the dashboard
+          without Firebase authentication.
+        */
+
+        if(data?.studentId){
+
+          document.getElementById(
+            "loginId"
+          ).value=data.studentId;
+        }
+
+      }catch{}
+    }
+  }
+);
 
 </script>
 
