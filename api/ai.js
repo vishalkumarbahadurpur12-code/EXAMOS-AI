@@ -1,1017 +1,1256 @@
 // ============================================================
-// EXAMOS AI - FINAL AI API
-// Vercel Serverless Function
-// File: api/ai.js
+// EXAMOS AI - COMPLETE AI API
+// Test + Practice + Chat + Concept + Solution Image Analysis
+// Vercel CommonJS
 // ============================================================
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-
-// ------------------------------------------------------------
-// Models
-// ------------------------------------------------------------
 const GENERATION_MODEL = "gemini-3.5-flash-lite";
 const VERIFY_MODEL = "gemini-3.5-flash";
+const ANALYSIS_MODEL = "gemini-3.5-flash";
 
-const MAX_ATTEMPTS = 4;
 const MAX_QUESTIONS = 20;
+const MAX_GENERATION_ATTEMPTS = 3;
 
-// ------------------------------------------------------------
-// Utility
-// ------------------------------------------------------------
-function cleanText(value, fallback = "") {
-  return String(value ?? fallback)
-    .replace(/\s+/g, " ")
-    .trim();
-}
 
-function clampNumber(value, min, max, fallback) {
-  const n = Number(value);
-  if (!Number.isFinite(n)) return fallback;
-  return Math.max(min, Math.min(max, Math.round(n)));
-}
+// ============================================================
+// GEMINI CALL
+// ============================================================
 
-function normalizeAnswer(value) {
-  const s = String(value ?? "")
-    .trim()
-    .toUpperCase();
+async function callGemini(model, contents, options = {}) {
+  const apiKey = process.env.GEMINI_API_KEY;
 
-  // Accept A / B / C / D
-  if (/^[ABCD]$/.test(s)) return s;
-
-  // Accept option formats
-  const match = s.match(/\b([ABCD])\b/);
-  if (match) return match[1];
-
-  return "";
-}
-
-function normalizeQuestion(q, index) {
-  return {
-    id: cleanText(q?.id, `q${index + 1}`),
-    question: cleanText(q?.question),
-    options: {
-      A: cleanText(q?.options?.A),
-      B: cleanText(q?.options?.B),
-      C: cleanText(q?.options?.C),
-      D: cleanText(q?.options?.D)
-    },
-    correctAnswer: normalizeAnswer(q?.correctAnswer),
-    topic: cleanText(q?.topic),
-    explanation: cleanText(q?.explanation),
-    difficulty: cleanText(q?.difficulty, "Medium")
-  };
-}
-
-// ------------------------------------------------------------
-// Gemini API
-// ------------------------------------------------------------
-async function callGemini(model, contents, generationConfig = {}) {
-  if (!GEMINI_API_KEY) {
-    throw new Error("GEMINI_API_KEY is not configured on the server.");
+  if (!apiKey) {
+    throw new Error("GEMINI_API_KEY Vercel Environment Variables में नहीं मिला।");
   }
 
-  const url =
-    `https://generativelanguage.googleapis.com/v1beta/models/` +
-    `${encodeURIComponent(model)}:generateContent`;
+  const response = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
+    {
+      method: "POST",
 
-  const body = {
-    contents,
-    generationConfig: {
-      temperature: 0.15,
-      topP: 0.8,
-      maxOutputTokens: 8192,
-      ...generationConfig
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": apiKey
+      },
+
+      body: JSON.stringify({
+        contents,
+
+        generationConfig: {
+          temperature:
+            options.temperature !== undefined
+              ? options.temperature
+              : 0.15,
+
+          topP: 0.9,
+
+          maxOutputTokens:
+            options.maxOutputTokens || 5000,
+
+          ...(options.responseMimeType
+            ? {
+                responseMimeType:
+                  options.responseMimeType
+              }
+            : {})
+        }
+      })
     }
-  };
+  );
 
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-goog-api-key": GEMINI_API_KEY
-    },
-    body: JSON.stringify(body)
-  });
-
-  const text = await response.text();
+  const data = await response.json();
 
   if (!response.ok) {
-    let message = text;
-
-    try {
-      const errorJson = JSON.parse(text);
-      message =
-        errorJson?.error?.message ||
-        errorJson?.message ||
-        text;
-    } catch (_) {}
-
-    throw new Error(`Gemini API error: ${message}`);
+    throw new Error(
+      data?.error?.message ||
+      "Gemini API request failed."
+    );
   }
 
-  let data;
-
-  try {
-    data = JSON.parse(text);
-  } catch (_) {
-    throw new Error("Gemini returned invalid JSON.");
-  }
-
-  const output =
+  const text =
     data?.candidates?.[0]?.content?.parts
-      ?.map(part => part?.text || "")
+      ?.map(part => part.text || "")
       .join("")
       .trim();
 
-  if (!output) {
-    throw new Error("Gemini returned an empty response.");
+  if (!text) {
+    throw new Error(
+      "AI ने कोई valid response नहीं दिया।"
+    );
   }
 
-  return output;
+  return text;
 }
 
-// ------------------------------------------------------------
-// Extract JSON safely
-// ------------------------------------------------------------
-function extractJSON(text) {
-  let cleaned = String(text || "").trim();
 
-  // Remove markdown fences
-  cleaned = cleaned
-    .replace(/^```json\s*/i, "")
-    .replace(/^```\s*/i, "")
-    .replace(/\s*```$/i, "")
+// ============================================================
+// JSON HELPERS
+// ============================================================
+
+function cleanJson(text) {
+  return String(text || "")
+    .replace(/```json/gi, "")
+    .replace(/```/g, "")
     .trim();
+}
 
-  // Direct parse
+
+function extractJson(text) {
+  const cleaned = cleanJson(text);
+
   try {
     return JSON.parse(cleaned);
   } catch (_) {}
 
-  // Find first object
-  const firstObject = cleaned.indexOf("{");
-  const lastObject = cleaned.lastIndexOf("}");
+  const objectStart = cleaned.indexOf("{");
+  const objectEnd = cleaned.lastIndexOf("}");
 
-  if (firstObject !== -1 && lastObject > firstObject) {
-    const candidate = cleaned.slice(firstObject, lastObject + 1);
-
+  if (
+    objectStart !== -1 &&
+    objectEnd > objectStart
+  ) {
     try {
-      return JSON.parse(candidate);
+      return JSON.parse(
+        cleaned.slice(objectStart, objectEnd + 1)
+      );
     } catch (_) {}
   }
 
-  // Find first array
-  const firstArray = cleaned.indexOf("[");
-  const lastArray = cleaned.lastIndexOf("]");
+  const arrayStart = cleaned.indexOf("[");
+  const arrayEnd = cleaned.lastIndexOf("]");
 
-  if (firstArray !== -1 && lastArray > firstArray) {
-    const candidate = cleaned.slice(firstArray, lastArray + 1);
-
+  if (
+    arrayStart !== -1 &&
+    arrayEnd > arrayStart
+  ) {
     try {
-      return JSON.parse(candidate);
+      return JSON.parse(
+        cleaned.slice(arrayStart, arrayEnd + 1)
+      );
     } catch (_) {}
   }
 
-  throw new Error("Could not parse Gemini JSON response.");
+  throw new Error(
+    "AI response valid JSON में नहीं आया।"
+  );
 }
 
-// ------------------------------------------------------------
-// Question validation
-// ------------------------------------------------------------
-function basicValidateQuestions(questions, expected) {
-  if (!Array.isArray(questions)) {
-    return {
-      valid: false,
-      reason: "Questions response is not an array."
-    };
-  }
 
-  if (questions.length !== expected.count) {
-    return {
-      valid: false,
-      reason:
-        `Expected ${expected.count} questions but received ${questions.length}.`
-    };
-  }
+// ============================================================
+// COMMON HELPERS
+// ============================================================
 
-  for (let i = 0; i < questions.length; i++) {
-    const q = questions[i];
-
-    if (!q.question) {
-      return {
-        valid: false,
-        reason: `Question ${i + 1} has no question text.`
-      };
-    }
-
-    if (
-      !q.options ||
-      !q.options.A ||
-      !q.options.B ||
-      !q.options.C ||
-      !q.options.D
-    ) {
-      return {
-        valid: false,
-        reason: `Question ${i + 1} does not have four complete options.`
-      };
-    }
-
-    if (!["A", "B", "C", "D"].includes(q.correctAnswer)) {
-      return {
-        valid: false,
-        reason:
-          `Question ${i + 1} has an invalid correctAnswer.`
-      };
-    }
-
-    if (!q.explanation) {
-      return {
-        valid: false,
-        reason:
-          `Question ${i + 1} does not contain an explanation.`
-      };
-    }
-  }
-
-  return {
-    valid: true,
-    reason: ""
-  };
+function normalizeAnswer(value) {
+  return String(value || "")
+    .trim()
+    .toUpperCase()
+    .replace(/[^ABCD]/g, "")
+    .slice(0, 1);
 }
 
-// ------------------------------------------------------------
-// Generate Questions
-// ------------------------------------------------------------
-async function generateQuestions(config) {
-  const className = cleanText(config.class, "10");
-  const board = cleanText(config.board, "Bihar Board");
-  const subject = cleanText(config.subject, "Mathematics");
-  const chapter = cleanText(config.chapter, "Mathematics");
-  const topic = cleanText(config.topic);
-  const language = cleanText(config.language, "Hindi");
-  const difficulty = cleanText(config.difficulty, "Medium");
-  const purpose = cleanText(config.purpose, "diagnostic");
 
-  const count = clampNumber(
-    config.count,
-    1,
-    MAX_QUESTIONS,
-    5
+function safeString(value, fallback = "") {
+  const s = String(value ?? "").trim();
+  return s || fallback;
+}
+
+
+function getCount(value, defaultCount = 10) {
+  const n = Number(value);
+
+  if (!Number.isFinite(n)) {
+    return defaultCount;
+  }
+
+  return Math.min(
+    Math.max(Math.floor(n), 1),
+    MAX_QUESTIONS
+  );
+}
+
+
+// ============================================================
+// GENERATE QUESTIONS
+// Used for TEST + PRACTICE
+// ============================================================
+
+async function generateQuestions(config = {}) {
+  const className = safeString(
+    config.class,
+    "10"
   );
 
-  const topicInstruction = topic
-    ? `
-IMPORTANT SELECTED TOPIC:
-"${topic}"
+  const chapter = safeString(
+    config.chapter,
+    "Mathematics"
+  );
 
-Every question MUST belong specifically to this topic.
-Do NOT generate questions from another topic or another chapter.
-`
-    : `
-No specific topic was selected.
-Generate questions from the selected chapter only.
-`;
+  const topic = safeString(
+    config.topic,
+    chapter
+  );
 
-  const languageInstruction =
-    language.toLowerCase().includes("english")
-      ? `
-Write the complete question, options and explanation in clear school-level English.
-`
-      : `
-Write the complete question, options and explanation in clear Hindi/Hinglish suitable for a school student.
+  const count = getCount(
+    config.count,
+    10
+  );
 
-Use proper mathematical notation.
-For example:
-x², √x, a/b, sin θ, cos θ, tan θ, π, ∫, ∑, Δ, ≥, ≤
+  const language = safeString(
+    config.language,
+    "Hindi"
+  );
 
-Do NOT write mathematics in confusing chat-style transliteration.
+  const difficulty = safeString(
+    config.difficulty,
+    "Medium"
+  );
 
-Prefer:
-"यदि 2x + 3 = 7 है, तो x का मान क्या होगा?"
-
-Instead of:
-"agar 2x plus 3 equals 7 hai x kya hoga"
-`;
+  const purpose = safeString(
+    config.purpose,
+    "test"
+  );
 
   const prompt = `
-You are EXAMOS AI, a highly accurate school Mathematics question generator.
+You are EXAMOS AI Mathematics Question Generator.
 
-Generate exactly ${count} multiple-choice questions.
+Generate EXACTLY ${count} high-quality MCQ Mathematics questions.
 
-STUDENT DETAILS
+STUDENT:
 Class: ${className}
-Board: ${board}
-Subject: ${subject}
 Chapter: ${chapter}
+Topic: ${topic}
 Difficulty: ${difficulty}
+Language: ${language}
 Purpose: ${purpose}
 
-${topicInstruction}
+VERY IMPORTANT MATHEMATICS RULES:
 
-${languageInstruction}
+1. Every question must belong to the given chapter/topic.
 
-VERY IMPORTANT MATHEMATICAL ACCURACY RULES:
+2. Use clear mathematical language.
 
-1. Every question must have exactly ONE correct option.
+3. Mathematical expressions MUST be written clearly.
 
-2. Before returning a question, SOLVE THE QUESTION YOURSELF.
+Examples:
+x² + 5x + 6 = 0
+2x + 3 = 11
+√25 = 5
+sin θ = 3/5
+(a + b)² = a² + 2ab + b²
 
-3. Independently evaluate ALL FOUR OPTIONS:
-   A
-   B
-   C
-   D
+4. Do NOT write confusing mathematical language.
 
-4. Never create a question where:
-   - two options are mathematically equivalent,
-   - two options are correct,
-   - no option is correct,
-   - the wording is ambiguous,
-   - the answer depends on an unstated assumption.
+Bad:
+"x ka square plus 5x..."
 
-5. If an option is algebraically equivalent to the correct answer,
-   treat it as another correct option and REWRITE the question.
+Good:
+"x² + 5x + 6 = 0"
 
-6. Do not use confusing negative wording such as
-   "Which is NOT incorrect?"
-   unless absolutely necessary.
+5. Every question must have EXACTLY four options:
+A
+B
+C
+D
 
-7. Avoid trick questions.
+6. There must be EXACTLY ONE correct answer.
 
-8. Avoid duplicate questions.
+7. Before returning a question, solve it yourself.
 
-9. Make the distractor options plausible but definitely incorrect.
+8. Check ALL FOUR options mathematically.
 
-10. The field correctAnswer MUST contain only:
-    A, B, C, or D.
+9. If two options are mathematically equivalent, CHANGE the options.
 
-11. The explanation must prove why the correct answer is correct.
+10. Never create a question where two options can be correct.
 
-12. The explanation should use mathematical steps.
+11. Never create an ambiguous question.
 
-13. If a formula is required, write the formula clearly.
+12. Do not duplicate questions.
 
-14. For numerical questions, calculate the final value carefully.
+13. Keep the difficulty appropriate for Class ${className}.
 
-15. Never invent a mathematical rule or formula.
+14. Explanation must show the mathematical method clearly.
 
-16. Do not put multiple possible answers into correctAnswer.
+15. The final answer must match the correct option.
 
-17. Do not say:
-    "Option B/C"
-    or
-    "Both B and C".
+16. Use Hindi for explanation when language is Hindi, but keep equations and mathematical notation correct.
 
-18. If you cannot create an unambiguous question,
-    replace it with another question.
+17. Do not put markdown code fences around JSON.
 
-OUTPUT REQUIREMENTS
+RETURN ONLY JSON.
 
-Return JSON ONLY.
-
-Use exactly this structure:
+FORMAT:
 
 {
   "questions": [
     {
-      "id": "q1",
-      "question": "Question text",
+      "question": "2x + 5 = 15 का मान क्या है?",
       "options": {
-        "A": "Option A",
-        "B": "Option B",
-        "C": "Option C",
-        "D": "Option D"
+        "A": "3",
+        "B": "5",
+        "C": "7",
+        "D": "10"
       },
-      "correctAnswer": "A",
-      "topic": "Exact topic",
-      "difficulty": "${difficulty}",
-      "explanation": "Clear step-by-step mathematical explanation."
+      "correctAnswer": "B",
+      "explanation": "2x + 5 = 15 ⇒ 2x = 10 ⇒ x = 5",
+      "topic": "${topic}",
+      "difficulty": "${difficulty}"
     }
   ]
 }
-
-Do not include markdown.
-Do not include comments.
-Do not include any text outside JSON.
 `;
 
-  let lastError = null;
-
-  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-    try {
-      const output = await callGemini(
-        GENERATION_MODEL,
-        [
-          {
-            role: "user",
-            parts: [{ text: prompt }]
-          }
-        ],
-        {
-          temperature: attempt === 1 ? 0.1 : 0.05,
-          responseMimeType: "application/json",
-          responseSchema: {
-            type: "OBJECT",
-            properties: {
-              questions: {
-                type: "ARRAY",
-                items: {
-                  type: "OBJECT",
-                  properties: {
-                    id: { type: "STRING" },
-                    question: { type: "STRING" },
-                    options: {
-                      type: "OBJECT",
-                      properties: {
-                        A: { type: "STRING" },
-                        B: { type: "STRING" },
-                        C: { type: "STRING" },
-                        D: { type: "STRING" }
-                      },
-                      required: ["A", "B", "C", "D"]
-                    },
-                    correctAnswer: { type: "STRING" },
-                    topic: { type: "STRING" },
-                    difficulty: { type: "STRING" },
-                    explanation: { type: "STRING" }
-                  },
-                  required: [
-                    "id",
-                    "question",
-                    "options",
-                    "correctAnswer",
-                    "topic",
-                    "difficulty",
-                    "explanation"
-                  ]
-                }
-              }
-            },
-            required: ["questions"]
-          }
-        }
-      );
-
-      const parsed = extractJSON(output);
-
-      let questions = parsed?.questions;
-
-      if (!Array.isArray(questions)) {
-        throw new Error("Gemini did not return questions.");
-      }
-
-      questions = questions.map(normalizeQuestion);
-
-      const basic = basicValidateQuestions(
-        questions,
-        {
-          count,
-          chapter,
-          topic,
-          className,
-          board,
-          subject
-        }
-      );
-
-      if (!basic.valid) {
-        throw new Error(basic.reason);
-      }
-
-      // Independent verification
-      const verification = await verifyQuestions(
-        questions,
-        {
-          count,
-          chapter,
-          topic,
-          className,
-          board,
-          subject,
-          difficulty
-        }
-      );
-
-      if (!verification.valid) {
-        throw new Error(
-          verification.reason ||
-          "Question verification failed."
-        );
-      }
-
-      // Use independently verified answers if available
-      if (Array.isArray(verification.verifiedQuestions)) {
-        questions = questions.map((q, index) => {
-          const verified = verification.verifiedQuestions[index];
-
-          if (!verified) return q;
-
-          const verifiedAnswer =
-            normalizeAnswer(
-              verified.verifiedCorrectAnswer ||
-              verified.correctAnswer
-            );
-
-          return {
-            ...q,
-            correctAnswer:
-              ["A", "B", "C", "D"].includes(verifiedAnswer)
-                ? verifiedAnswer
-                : q.correctAnswer,
-            explanation:
-              cleanText(verified.explanation) ||
-              q.explanation
-          };
-        });
-      }
-
-      return {
-        success: true,
-        verified: true,
-        model: GENERATION_MODEL,
-        questions
-      };
-
-    } catch (error) {
-      lastError = error;
-      console.error(
-        `Question generation attempt ${attempt} failed:`,
-        error
-      );
-    }
-  }
-
-  throw new Error(
-    lastError?.message ||
-    "AI could not generate a verified question set."
-  );
-}
-
-// ------------------------------------------------------------
-// Independent Question Verification
-// ------------------------------------------------------------
-async function verifyQuestions(questions, expected) {
-  const compactQuestions = questions.map((q, index) => ({
-    index: index + 1,
-    question: q.question,
-    options: q.options,
-    generatedCorrectAnswer: q.correctAnswer,
-    topic: q.topic,
-    explanation: q.explanation
-  }));
-
-  const prompt = `
-You are the INDEPENDENT MATHEMATICS QUALITY-CONTROL EXAMINER for EXAMOS AI.
-
-You must verify the following generated MCQ questions.
-
-Student:
-Class: ${expected.className}
-Board: ${expected.board}
-Subject: ${expected.subject}
-Chapter: ${expected.chapter}
-Selected Topic: ${expected.topic || "Not specified"}
-Difficulty: ${expected.difficulty}
-
-QUESTIONS:
-${JSON.stringify(compactQuestions, null, 2)}
-
-For EVERY question perform an independent mathematical solution.
-
-CHECK ALL OF THESE:
-
-1. Solve the question yourself.
-
-2. Evaluate option A independently.
-
-3. Evaluate option B independently.
-
-4. Evaluate option C independently.
-
-5. Evaluate option D independently.
-
-6. Confirm EXACTLY ONE option is correct.
-
-7. Check whether any two options are:
-   - numerically equal,
-   - algebraically equivalent,
-   - mathematically equivalent,
-   - different forms of the same answer.
-
-8. Check the generated correctAnswer.
-
-9. Check the explanation.
-
-10. Check that the question belongs to the selected chapter/topic.
-
-11. Check that the wording is unambiguous.
-
-12. Check signs, powers, roots, fractions, units and calculations.
-
-CRITICAL RULE:
-
-If TWO OR MORE options are mathematically correct,
-the question is INVALID.
-
-If NO option is correct,
-the question is INVALID.
-
-If the generated correctAnswer is wrong,
-the question is INVALID.
-
-Do NOT approve a question just because the generated answer says it is correct.
-
-For every valid question, return the independently verified answer.
-
-Return JSON ONLY:
-
-{
-  "valid": true,
-  "reason": "",
-  "verifiedQuestions": [
-    {
-      "index": 1,
-      "valid": true,
-      "verifiedCorrectAnswer": "A",
-      "explanation": "Short mathematically correct explanation."
-    }
-  ]
-}
-
-If ANY question is invalid:
-
-{
-  "valid": false,
-  "reason": "Question 2 has two mathematically correct options: B and C.",
-  "verifiedQuestions": []
-}
-
-Do not return markdown.
-`;
-
-  const output = await callGemini(
-    VERIFY_MODEL,
-    [
-      {
-        role: "user",
-        parts: [{ text: prompt }]
-      }
-    ],
-    {
-      temperature: 0.0,
-      responseMimeType: "application/json",
-      responseSchema: {
-        type: "OBJECT",
-        properties: {
-          valid: { type: "BOOLEAN" },
-          reason: { type: "STRING" },
-          verifiedQuestions: {
-            type: "ARRAY",
-            items: {
-              type: "OBJECT",
-              properties: {
-                index: { type: "INTEGER" },
-                valid: { type: "BOOLEAN" },
-                verifiedCorrectAnswer: { type: "STRING" },
-                explanation: { type: "STRING" }
-              },
-              required: [
-                "index",
-                "valid",
-                "verifiedCorrectAnswer",
-                "explanation"
-              ]
-            }
-          }
-        },
-        required: [
-          "valid",
-          "reason",
-          "verifiedQuestions"
-        ]
-      }
-    }
-  );
-
-  const result = extractJSON(output);
-
-  return {
-    valid: result?.valid === true,
-    reason: cleanText(result?.reason),
-    verifiedQuestions:
-      Array.isArray(result?.verifiedQuestions)
-        ? result.verifiedQuestions
-        : []
-  };
-}
-
-// ------------------------------------------------------------
-// AI Chat / Ask AI
-// ------------------------------------------------------------
-async function chat(config) {
-  const prompt = cleanText(config.prompt);
-
-  if (!prompt) {
-    throw new Error("Please enter a question.");
-  }
-
-  const className = cleanText(config.class, "");
-  const board = cleanText(config.board, "");
-
-  const systemPrompt = `
-You are EXAMOS AI, a Mathematics learning assistant for school students.
-
-STUDENT CLASS:
-${className || "Not specified"}
-
-BOARD:
-${board || "Not specified"}
-
-Your job is to teach, not just give an answer.
-
-LANGUAGE:
-- Respond primarily in clear Hindi/Hinglish.
-- Use simple school-level language.
-- Do not use unnecessarily difficult English.
-- Mathematical terms may remain in standard English where useful.
-
-MATHEMATICAL LANGUAGE:
-Always use proper mathematical notation.
-
-Examples:
-x²
-x³
-√x
-a/b
-sin θ
-cos θ
-tan θ
-π
-Δ
-∠
-≥
-≤
-∫
-d/dx
-
-Use clear equations such as:
-
-2x + 3 = 7
-2x = 4
-x = 2
-
-Do NOT write mathematics in confusing phonetic chat language.
-
-For example, avoid:
-"x square plus 2x plus 1"
-
-Prefer:
-"x² + 2x + 1"
-
-TEACHING STYLE:
-
-1. First understand the student's question.
-
-2. Give the concept in simple language.
-
-3. Write the relevant formula when needed.
-
-4. Solve step-by-step.
-
-5. Show intermediate calculations.
-
-6. Clearly identify the final answer.
-
-7. If the student has made a mistake, politely identify:
-   - where the mistake happened,
-   - why it is wrong,
-   - how to correct it.
-
-8. Never invent formulas.
-
-9. Verify calculations before responding.
-
-10. If there are multiple possible interpretations,
-    ask a short clarification rather than guessing.
-
-For numerical Mathematics problems:
-- calculate carefully,
-- check the result again,
-- make sure signs and units are correct.
-
-For formulas:
-- write the formula first,
-- substitute values clearly,
-- simplify step-by-step.
-
-For MCQs:
-- identify the correct option,
-- explain why,
-- briefly explain why the important distractors are wrong when useful.
-
-Do not over-explain a very simple question.
-
-The response should look like a good Mathematics teacher's explanation.
-`;
-
-  const output = await callGemini(
+  const text = await callGemini(
     GENERATION_MODEL,
     [
       {
         role: "user",
         parts: [
           {
-            text:
-              systemPrompt +
-              "\n\nSTUDENT QUESTION:\n" +
-              prompt
+            text: prompt
+          }
+        ]
+      }
+    ],
+    {
+      temperature: 0.1,
+      maxOutputTokens: 5500,
+      responseMimeType: "application/json"
+    }
+  );
+
+  const result = extractJson(text);
+
+  if (
+    !result ||
+    !Array.isArray(result.questions)
+  ) {
+    throw new Error(
+      "AI ने questions नहीं भेजे।"
+    );
+  }
+
+  const questions = result.questions
+    .slice(0, count)
+    .map((q, index) => ({
+      id:
+        q.id ||
+        `q_${Date.now()}_${index}`,
+
+      question: safeString(
+        q.question,
+        "Question unavailable"
+      ),
+
+      options: {
+        A: safeString(q.options?.A),
+        B: safeString(q.options?.B),
+        C: safeString(q.options?.C),
+        D: safeString(q.options?.D)
+      },
+
+      correctAnswer:
+        normalizeAnswer(
+          q.correctAnswer
+        ),
+
+      explanation: safeString(
+        q.explanation,
+        "Solution unavailable."
+      ),
+
+      topic: safeString(
+        q.topic,
+        topic
+      ),
+
+      difficulty: safeString(
+        q.difficulty,
+        difficulty
+      )
+    }));
+
+  if (questions.length === 0) {
+    throw new Error(
+      "कोई question generate नहीं हुआ।"
+    );
+  }
+
+  // Basic local validation before sending to verifier
+  for (const q of questions) {
+    if (
+      !q.question ||
+      !q.options.A ||
+      !q.options.B ||
+      !q.options.C ||
+      !q.options.D ||
+      !["A", "B", "C", "D"].includes(
+        q.correctAnswer
+      )
+    ) {
+      throw new Error(
+        "AI ने incomplete Mathematics question बनाया।"
+      );
+    }
+  }
+
+  return questions;
+}
+
+
+// ============================================================
+// VERIFY QUESTIONS
+// ============================================================
+
+async function verifyQuestions(questions) {
+  const prompt = `
+You are EXAMOS AI's strict Mathematics Answer Verifier.
+
+Independently solve EVERY question.
+
+For each question:
+
+1. Solve the question yourself.
+2. Check option A.
+3. Check option B.
+4. Check option C.
+5. Check option D.
+6. Identify ALL mathematically correct options.
+7. There MUST be exactly ONE correct option.
+8. Check the supplied correctAnswer.
+9. Check equivalent mathematical forms.
+10. Reject ambiguous questions.
+11. Reject questions where two or more options are correct.
+12. Reject questions where the supplied answer is wrong.
+
+Return ONLY JSON:
+
+{
+  "valid": true,
+  "questions": [
+    {
+      "index": 0,
+      "valid": true,
+      "correctAnswer": "A",
+      "reason": "Only option A is mathematically correct."
+    }
+  ]
+}
+
+QUESTIONS:
+
+${JSON.stringify(questions)}
+`;
+
+  const text = await callGemini(
+    VERIFY_MODEL,
+    [
+      {
+        role: "user",
+        parts: [
+          {
+            text: prompt
+          }
+        ]
+      }
+    ],
+    {
+      temperature: 0,
+      maxOutputTokens: 4500,
+      responseMimeType: "application/json"
+    }
+  );
+
+  return extractJson(text);
+}
+
+
+// ============================================================
+// VERIFIED QUESTIONS
+// ============================================================
+
+async function generateVerifiedQuestions(config = {}) {
+  let lastError =
+    "Verified questions generate नहीं हो पाए।";
+
+  for (
+    let attempt = 1;
+    attempt <= MAX_GENERATION_ATTEMPTS;
+    attempt++
+  ) {
+    try {
+      const questions =
+        await generateQuestions(config);
+
+      const verification =
+        await verifyQuestions(
+          questions
+        );
+
+      if (
+        !verification ||
+        verification.valid !== true
+      ) {
+        lastError =
+          verification?.reason ||
+          "Mathematical verification failed.";
+
+        continue;
+      }
+
+      if (
+        !Array.isArray(
+          verification.questions
+        )
+      ) {
+        lastError =
+          "Verification response incomplete.";
+
+        continue;
+      }
+
+      if (
+        verification.questions.length !==
+        questions.length
+      ) {
+        lastError =
+          "Verification में सभी questions check नहीं हुए।";
+
+        continue;
+      }
+
+      const finalQuestions =
+        questions.map((question, index) => {
+          const verified =
+            verification.questions[index];
+
+          if (
+            !verified ||
+            verified.valid !== true
+          ) {
+            throw new Error(
+              `Question ${index + 1} verification failed.`
+            );
+          }
+
+          const answer =
+            normalizeAnswer(
+              verified.correctAnswer
+            );
+
+          if (
+            !["A", "B", "C", "D"].includes(
+              answer
+            )
+          ) {
+            throw new Error(
+              `Question ${index + 1} का verified answer invalid है।`
+            );
+          }
+
+          return {
+            ...question,
+            correctAnswer: answer
+          };
+        });
+
+      return finalQuestions;
+
+    } catch (error) {
+      lastError =
+        error?.message ||
+        lastError;
+    }
+  }
+
+  throw new Error(
+    lastError
+  );
+}
+
+
+// ============================================================
+// PRACTICE QUESTIONS
+// Fast but still mathematically checked
+// ============================================================
+
+async function generatePractice(config = {}) {
+  const practiceConfig = {
+    ...config,
+    purpose: "practice",
+    count: getCount(
+      config.count,
+      5
+    )
+  };
+
+  return await generateVerifiedQuestions(
+    practiceConfig
+  );
+}
+
+
+// ============================================================
+// CHAT
+// ============================================================
+
+async function chat(config = {}) {
+  const message =
+    safeString(
+      config.message
+    );
+
+  if (!message) {
+    throw new Error(
+      "Message required."
+    );
+  }
+
+  const prompt = `
+You are EXAMOS AI Mathematics Assistant.
+
+Student asks:
+
+${message}
+
+Answer in simple Hindi/Hinglish.
+
+RULES:
+
+1. Explain clearly.
+2. Use proper mathematical notation.
+3. Never write confusing mathematical expressions.
+4. Show calculation step-by-step when needed.
+5. Use equations such as:
+
+x² + 5x + 6 = 0
+
+2x + 3 = 11
+
+√25 = 5
+
+sin θ = 3/5
+
+6. Do not invent formulas.
+7. If solving a numerical question, calculate carefully.
+8. If the student asks for an exam answer, keep it concise but complete.
+`;
+
+  return await callGemini(
+    GENERATION_MODEL,
+    [
+      {
+        role: "user",
+        parts: [
+          {
+            text: prompt
           }
         ]
       }
     ],
     {
       temperature: 0.15,
-      maxOutputTokens: 4096
+      maxOutputTokens: 3000
     }
   );
-
-  return {
-    success: true,
-    answer: output
-  };
 }
 
-// ------------------------------------------------------------
-// Concept Explanation
-// ------------------------------------------------------------
-async function concept(config) {
-  const chapter = cleanText(config.chapter);
-  const topic = cleanText(config.topic);
-  const className = cleanText(config.class, "");
-  const board = cleanText(config.board, "");
 
-  if (!chapter || !topic) {
-    throw new Error(
-      "Chapter and topic are required for concept explanation."
+// ============================================================
+// CONCEPT TEACHER
+// ============================================================
+
+async function concept(config = {}) {
+  const className =
+    safeString(config.class, "10");
+
+  const chapter =
+    safeString(config.chapter);
+
+  const topic =
+    safeString(
+      config.topic,
+      chapter
     );
-  }
 
   const prompt = `
-You are EXAMOS AI Mathematics teacher.
+You are EXAMOS AI Mathematics Teacher.
+
+Teach:
 
 Class: ${className}
-Board: ${board}
 Chapter: ${chapter}
 Topic: ${topic}
 
-Teach this topic before practice questions.
+Use this structure:
 
-Use clear Hindi/Hinglish.
+1. Concept
+Explain in very simple Hindi/Hinglish.
 
-Structure:
+2. Important Formula
+Write formulas using correct mathematical notation.
 
-1. Topic ka simple meaning
-2. Main concept
-3. Important formula/rule
-4. Step-by-step explanation
-5. Example 1 - solved
-6. Example 2 - solved
-7. Common mistake
-8. Practice ke liye short tip
+3. Solved Example 1
+Step-by-step.
 
-Use proper mathematical notation.
+4. Solved Example 2
+Step-by-step.
 
-For example:
-x², √x, sin θ, cos θ, tan θ, ∫, ∑, Δ
+5. Common Mistakes
+Give 3 common mistakes.
 
-Do not use confusing phonetic mathematical language.
+6. Quick Check
+Give 2 short questions.
 
-Make the explanation understandable to a Class ${className || "school"} student.
+IMPORTANT:
 
-Do not generate practice questions yet.
+Do NOT write:
+"x ka square"
+
+Prefer:
+"x²"
+
+Do NOT write confusing equations in words.
+
+Use proper notation:
+√x
+x²
+x³
+sin θ
+cos θ
+tan θ
+(a+b)²
 `;
 
-  const output = await callGemini(
+  return await callGemini(
     GENERATION_MODEL,
     [
       {
         role: "user",
-        parts: [{ text: prompt }]
+        parts: [
+          {
+            text: prompt
+          }
+        ]
       }
     ],
     {
       temperature: 0.15,
-      maxOutputTokens: 5000
+      maxOutputTokens: 4000
     }
   );
+}
+
+
+// ============================================================
+// IMAGE DATA PREPARATION
+// ============================================================
+
+function prepareImage(imageInput) {
+  let value =
+    String(imageInput || "").trim();
+
+  if (!value) {
+    throw new Error(
+      "Solution image नहीं मिली।"
+    );
+  }
+
+  let mimeType =
+    "image/jpeg";
+
+  let base64Data =
+    value;
+
+  const dataUrlMatch =
+    value.match(
+      /^data:(image\/[^;]+);base64,(.+)$/i
+    );
+
+  if (dataUrlMatch) {
+    mimeType =
+      dataUrlMatch[1];
+
+    base64Data =
+      dataUrlMatch[2];
+  }
+
+  base64Data =
+    base64Data
+      .replace(/\s/g, "");
+
+  // Remove accidental data URL prefix
+  base64Data =
+    base64Data.replace(
+      /^data:image\/[^;]+;base64,/i,
+      ""
+    );
+
+  if (!base64Data) {
+    throw new Error(
+      "Image data empty है।"
+    );
+  }
+
+  // Gemini inline image request size safety.
+  // Do not allow very large payloads.
+  if (base64Data.length > 18_000_000) {
+    throw new Error(
+      "Image बहुत बड़ी है। कृपया छोटी/compressed image upload करें।"
+    );
+  }
 
   return {
-    success: true,
-    answer: output
+    mimeType,
+    base64Data
   };
 }
 
-// ------------------------------------------------------------
-// Request Handler
-// ------------------------------------------------------------
-async function handler(req, res) {
-  // CORS
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "*"
-  );
 
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "POST, OPTIONS"
-  );
+// ============================================================
+// SOLUTION IMAGE ANALYSIS
+// ============================================================
 
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Content-Type"
-  );
+async function analyzeSolution(config = {}) {
+  const imageInput =
+    config.imageBase64 ||
+    config.image ||
+    config.imageData ||
+    config.photo ||
+    "";
 
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
-  }
+  const image =
+    prepareImage(imageInput);
+
+  const className =
+    safeString(
+      config.class,
+      "10"
+    );
+
+  const chapter =
+    safeString(
+      config.chapter,
+      ""
+    );
+
+  const topic =
+    safeString(
+      config.topic,
+      ""
+    );
+
+  const prompt = `
+You are EXAMOS AI's expert handwritten Mathematics Solution Analyzer.
+
+Analyze the uploaded student solution image.
+
+STUDENT:
+Class: ${className}
+Chapter: ${chapter || "Not specified"}
+Topic: ${topic || "Not specified"}
+
+YOUR JOB:
+
+1. Read the Mathematics question if visible.
+2. Read the student's handwritten solution carefully.
+3. Understand every visible step.
+4. Independently solve the problem.
+5. Compare the student's work with the correct mathematics.
+6. Determine whether the student's solution is correct.
+7. If wrong, find the FIRST incorrect mathematical step.
+8. Identify the mistake type.
+
+Allowed mistake types:
+
+Calculation Error
+Formula Error
+Concept Error
+Sign Error
+Algebra Error
+Substitution Error
+Arithmetic Error
+No Error
+Image Unclear
+
+IMPORTANT:
+Do NOT invent handwriting that is not visible.
+
+If something is unclear, say:
+"यह हिस्सा image में साफ दिखाई नहीं दे रहा है।"
+
+MATHEMATICAL LANGUAGE:
+
+Use proper notation.
+
+Correct:
+x² - 5x + 6 = 0
+
+Correct:
+2x + 5 = 15
+
+Correct:
+√25 = 5
+
+Correct:
+sin θ = 3/5
+
+Avoid:
+"x ka square minus..."
+
+ANALYSIS MUST INCLUDE:
+
+- Question
+- Student final answer
+- Correct/Incorrect
+- Mistake type
+- Exact wrong step
+- What student did
+- Why it is wrong
+- Correct method
+- Correct answer
+- Weak topic
+- Concept check
+- Hindi explanation
+- Practice topic
+
+If student's solution is correct:
+mistake.type = "No Error"
+
+Return ONLY valid JSON.
+
+FORMAT:
+
+{
+  "success": true,
+  "readable": true,
+
+  "question": "...",
+
+  "studentFinalAnswer": "...",
+
+  "isCorrect": false,
+
+  "mistake": {
+    "type": "Calculation Error",
+    "step": "...",
+    "whatStudentDid": "...",
+    "whyWrong": "..."
+  },
+
+  "correctMethod": [
+    "Step 1: ...",
+    "Step 2: ...",
+    "Step 3: ..."
+  ],
+
+  "correctAnswer": "...",
+
+  "weakTopic": "...",
+
+  "conceptCheck": "...",
+
+  "explanationHindi": "...",
+
+  "practiceTopic": "..."
+}
+`;
+
+  const text =
+    await callGemini(
+      ANALYSIS_MODEL,
+      [
+        {
+          role: "user",
+          parts: [
+            {
+              text: prompt
+            },
+
+            {
+              inline_data: {
+                mime_type:
+                  image.mimeType,
+
+                data:
+                  image.base64Data
+              }
+            }
+          ]
+        }
+      ],
+      {
+        temperature: 0.05,
+        maxOutputTokens: 5000,
+        responseMimeType:
+          "application/json"
+      }
+    );
+
+  const result =
+    extractJson(text);
+
+  return {
+    success: true,
+
+    readable:
+      result.readable !== false,
+
+    question:
+      safeString(
+        result.question
+      ),
+
+    studentFinalAnswer:
+      safeString(
+        result.studentFinalAnswer
+      ),
+
+    isCorrect:
+      result.isCorrect === true,
+
+    mistake: {
+      type:
+        safeString(
+          result.mistake?.type,
+          "Image Unclear"
+        ),
+
+      step:
+        safeString(
+          result.mistake?.step
+        ),
+
+      whatStudentDid:
+        safeString(
+          result.mistake?.whatStudentDid
+        ),
+
+      whyWrong:
+        safeString(
+          result.mistake?.whyWrong
+        )
+    },
+
+    correctMethod:
+      Array.isArray(
+        result.correctMethod
+      )
+        ? result.correctMethod
+            .map(
+              x =>
+                String(x || "").trim()
+            )
+            .filter(Boolean)
+        : [],
+
+    correctAnswer:
+      safeString(
+        result.correctAnswer
+      ),
+
+    weakTopic:
+      safeString(
+        result.weakTopic
+      ),
+
+    conceptCheck:
+      safeString(
+        result.conceptCheck
+      ),
+
+    explanationHindi:
+      safeString(
+        result.explanationHindi
+      ),
+
+    practiceTopic:
+      safeString(
+        result.practiceTopic
+      )
+  };
+}
+
+
+// ============================================================
+// MAIN VERCEL HANDLER
+// ============================================================
+
+module.exports = async function handler(
+  req,
+  res
+) {
+  // ----------------------------------------------------------
+  // Method
+  // ----------------------------------------------------------
 
   if (req.method !== "POST") {
     return res.status(405).json({
       success: false,
-      error: "Method not allowed. Use POST."
+      error:
+        "Only POST requests are allowed."
     });
   }
 
   try {
-    if (!GEMINI_API_KEY) {
-      return res.status(500).json({
-        success: false,
-        error:
-          "GEMINI_API_KEY is missing in Vercel Environment Variables."
+    const body =
+      req.body || {};
+
+    const mode =
+      safeString(
+        body.mode
+      );
+
+    // ========================================================
+    // TEST
+    // ========================================================
+
+    if (
+      mode ===
+      "generate_questions"
+    ) {
+      const questions =
+        await generateVerifiedQuestions(
+          body
+        );
+
+      return res.status(200).json({
+        success: true,
+        verified: true,
+
+        mode:
+          "generate_questions",
+
+        model:
+          GENERATION_MODEL,
+
+        questions
       });
     }
 
-    const body =
-      typeof req.body === "string"
-        ? JSON.parse(req.body)
-        : (req.body || {});
 
-    const mode = cleanText(body.mode).toLowerCase();
+    // ========================================================
+    // PRACTICE
+    // ========================================================
 
-    // --------------------------------------------------------
-    // Generate Questions
-    // --------------------------------------------------------
     if (
-      mode === "generate_questions" ||
-      mode === "generate" ||
-      mode === "test"
+      mode ===
+      "generate_practice"
     ) {
-      const result = await generateQuestions(body);
+      const questions =
+        await generatePractice(
+          body
+        );
 
-      return res.status(200).json(result);
+      return res.status(200).json({
+        success: true,
+        verified: true,
+
+        mode:
+          "generate_practice",
+
+        model:
+          GENERATION_MODEL,
+
+        questions
+      });
     }
 
-    // --------------------------------------------------------
-    // Chat
-    // --------------------------------------------------------
+
+    // ========================================================
+    // CHAT
+    // ========================================================
+
     if (
-      mode === "chat" ||
-      mode === "ask_ai"
+      mode ===
+      "chat"
     ) {
-      const result = await chat(body);
+      const answer =
+        await chat(
+          body
+        );
 
-      return res.status(200).json(result);
+      return res.status(200).json({
+        success: true,
+
+        mode:
+          "chat",
+
+        answer
+      });
     }
 
-    // --------------------------------------------------------
-    // Concept
-    // --------------------------------------------------------
-    if (mode === "concept") {
-      const result = await concept(body);
 
-      return res.status(200).json(result);
+    // ========================================================
+    // CONCEPT
+    // ========================================================
+
+    if (
+      mode ===
+      "concept"
+    ) {
+      const answer =
+        await concept(
+          body
+        );
+
+      return res.status(200).json({
+        success: true,
+
+        mode:
+          "concept",
+
+        answer
+      });
     }
+
+
+    // ========================================================
+    // SOLUTION ANALYSIS
+    // ========================================================
+
+    if (
+      mode ===
+      "analyze_solution"
+    ) {
+      const analysis =
+        await analyzeSolution(
+          body
+        );
+
+      return res.status(200).json({
+        success: true,
+
+        mode:
+          "analyze_solution",
+
+        analysis
+      });
+    }
+
+
+    // ========================================================
+    // INVALID MODE
+    // ========================================================
 
     return res.status(400).json({
       success: false,
+
       error:
-        "Invalid mode. Supported modes: generate_questions, chat, concept."
+        "Invalid mode. Supported modes: generate_questions, generate_practice, chat, concept, analyze_solution."
     });
 
   } catch (error) {
-    console.error("EXAMOS AI API ERROR:", error);
+    console.error(
+      "EXAMOS AI ERROR:",
+      error
+    );
 
     return res.status(500).json({
       success: false,
+
       error:
         error?.message ||
-        "EXAMOS AI server error. Please try again."
+        "EXAMOS AI में error आया।"
     });
   }
-}
-
-// ------------------------------------------------------------
-// Vercel CommonJS export
-// ------------------------------------------------------------
-module.exports = handler;
+};
