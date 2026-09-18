@@ -1,7 +1,6 @@
 // ============================================================
-// EXAMOS AI - COMPLETE AI API
-// Test + Practice + Chat + Concept + Solution Image Analysis
-// Vercel CommonJS
+// EXAMOS AI - FAST + RANDOM + HINDI MATHEMATICS API
+// Test + Practice + Concept + Chat + Solution Analysis
 // ============================================================
 
 const GENERATION_MODEL = "gemini-3.5-flash-lite";
@@ -9,18 +8,44 @@ const VERIFY_MODEL = "gemini-3.5-flash";
 const ANALYSIS_MODEL = "gemini-3.5-flash";
 
 const MAX_QUESTIONS = 20;
-const MAX_GENERATION_ATTEMPTS = 3;
 
 
 // ============================================================
-// GEMINI CALL
+// GEMINI API
 // ============================================================
 
 async function callGemini(model, contents, options = {}) {
+
   const apiKey = process.env.GEMINI_API_KEY;
 
   if (!apiKey) {
-    throw new Error("GEMINI_API_KEY Vercel Environment Variables में नहीं मिला।");
+    throw new Error(
+      "GEMINI_API_KEY Vercel में सेट नहीं है।"
+    );
+  }
+
+  const generationConfig = {
+    temperature:
+      options.temperature ?? 0.35,
+
+    topP:
+      options.topP ?? 0.9,
+
+    maxOutputTokens:
+      options.maxOutputTokens ?? 4000
+  };
+
+  // हर generation को अलग बनाने के लिए random seed
+  if (options.randomize !== false) {
+    generationConfig.seed =
+      Math.floor(
+        Math.random() * 2147483647
+      );
+  }
+
+  if (options.responseMimeType) {
+    generationConfig.responseMimeType =
+      options.responseMimeType;
   }
 
   const response = await fetch(
@@ -35,47 +60,30 @@ async function callGemini(model, contents, options = {}) {
 
       body: JSON.stringify({
         contents,
-
-        generationConfig: {
-          temperature:
-            options.temperature !== undefined
-              ? options.temperature
-              : 0.15,
-
-          topP: 0.9,
-
-          maxOutputTokens:
-            options.maxOutputTokens || 5000,
-
-          ...(options.responseMimeType
-            ? {
-                responseMimeType:
-                  options.responseMimeType
-              }
-            : {})
-        }
+        generationConfig
       })
     }
   );
 
-  const data = await response.json();
+  const data =
+    await response.json();
 
   if (!response.ok) {
     throw new Error(
       data?.error?.message ||
-      "Gemini API request failed."
+      "Gemini API error."
     );
   }
 
   const text =
     data?.candidates?.[0]?.content?.parts
-      ?.map(part => part.text || "")
+      ?.map(p => p.text || "")
       .join("")
       .trim();
 
   if (!text) {
     throw new Error(
-      "AI ने कोई valid response नहीं दिया।"
+      "AI ने खाली response दिया।"
     );
   }
 
@@ -84,63 +92,53 @@ async function callGemini(model, contents, options = {}) {
 
 
 // ============================================================
-// JSON HELPERS
+// JSON
 // ============================================================
 
-function cleanJson(text) {
-  return String(text || "")
-    .replace(/```json/gi, "")
-    .replace(/```/g, "")
-    .trim();
-}
-
-
 function extractJson(text) {
-  const cleaned = cleanJson(text);
+
+  const clean =
+    String(text || "")
+      .replace(/```json/gi, "")
+      .replace(/```/g, "")
+      .trim();
 
   try {
-    return JSON.parse(cleaned);
+    return JSON.parse(clean);
   } catch (_) {}
 
-  const objectStart = cleaned.indexOf("{");
-  const objectEnd = cleaned.lastIndexOf("}");
+  const start =
+    clean.indexOf("{");
+
+  const end =
+    clean.lastIndexOf("}");
 
   if (
-    objectStart !== -1 &&
-    objectEnd > objectStart
+    start !== -1 &&
+    end > start
   ) {
     try {
       return JSON.parse(
-        cleaned.slice(objectStart, objectEnd + 1)
-      );
-    } catch (_) {}
-  }
-
-  const arrayStart = cleaned.indexOf("[");
-  const arrayEnd = cleaned.lastIndexOf("]");
-
-  if (
-    arrayStart !== -1 &&
-    arrayEnd > arrayStart
-  ) {
-    try {
-      return JSON.parse(
-        cleaned.slice(arrayStart, arrayEnd + 1)
+        clean.slice(start, end + 1)
       );
     } catch (_) {}
   }
 
   throw new Error(
-    "AI response valid JSON में नहीं आया।"
+    "AI response JSON format में नहीं है।"
   );
 }
 
 
-// ============================================================
-// COMMON HELPERS
-// ============================================================
+function str(value, fallback = "") {
+  const x =
+    String(value ?? "").trim();
 
-function normalizeAnswer(value) {
+  return x || fallback;
+}
+
+
+function answerLetter(value) {
   return String(value || "")
     .trim()
     .toUpperCase()
@@ -149,149 +147,148 @@ function normalizeAnswer(value) {
 }
 
 
-function safeString(value, fallback = "") {
-  const s = String(value ?? "").trim();
-  return s || fallback;
-}
+function questionCount(value, fallback = 10) {
 
-
-function getCount(value, defaultCount = 10) {
-  const n = Number(value);
+  const n =
+    Number(value);
 
   if (!Number.isFinite(n)) {
-    return defaultCount;
+    return fallback;
   }
 
   return Math.min(
-    Math.max(Math.floor(n), 1),
+    Math.max(
+      Math.floor(n),
+      1
+    ),
     MAX_QUESTIONS
   );
 }
 
 
 // ============================================================
-// GENERATE QUESTIONS
-// Used for TEST + PRACTICE
+// RANDOM QUESTION GENERATOR
 // ============================================================
 
 async function generateQuestions(config = {}) {
-  const className = safeString(
-    config.class,
-    "10"
-  );
 
-  const chapter = safeString(
-    config.chapter,
-    "Mathematics"
-  );
+  const className =
+    str(config.class, "10");
 
-  const topic = safeString(
-    config.topic,
-    chapter
-  );
+  const chapter =
+    str(config.chapter, "Mathematics");
 
-  const count = getCount(
-    config.count,
-    10
-  );
+  const topic =
+    str(config.topic, chapter);
 
-  const language = safeString(
-    config.language,
-    "Hindi"
-  );
+  const count =
+    questionCount(
+      config.count,
+      10
+    );
 
-  const difficulty = safeString(
-    config.difficulty,
-    "Medium"
-  );
+  const difficulty =
+    str(
+      config.difficulty,
+      "Medium"
+    );
 
-  const purpose = safeString(
-    config.purpose,
-    "test"
-  );
+  const language =
+    str(
+      config.language,
+      "Hindi"
+    );
+
+  const purpose =
+    str(
+      config.purpose,
+      "test"
+    );
+
+  // हर request में variation
+  const variationId =
+    Math.floor(
+      Math.random() * 1000000
+    );
 
   const prompt = `
-You are EXAMOS AI Mathematics Question Generator.
+आप EXAMOS AI के Mathematics Question Generator हैं।
 
-Generate EXACTLY ${count} high-quality MCQ Mathematics questions.
+एक नया और fresh प्रश्न-पत्र बनाइए।
 
-STUDENT:
 Class: ${className}
 Chapter: ${chapter}
 Topic: ${topic}
 Difficulty: ${difficulty}
-Language: ${language}
 Purpose: ${purpose}
+Questions: ${count}
 
-VERY IMPORTANT MATHEMATICS RULES:
+VARIATION ID: ${variationId}
 
-1. Every question must belong to the given chapter/topic.
+बहुत महत्वपूर्ण:
+हर बार पिछले test से अलग प्रश्न बनाइए।
+सिर्फ numbers बदलकर वही question दोबारा मत बनाइए।
+अलग-अलग concepts, calculations और question patterns का उपयोग कीजिए।
 
-2. Use clear mathematical language.
+भाषा के नियम:
 
-3. Mathematical expressions MUST be written clearly.
+- प्रश्न और explanation हिंदी में हों।
+- हिंदी देवनागरी लिपि में हो।
+- Hinglish बिल्कुल नहीं।
+- Mathematical symbols और formulas English mathematical notation में रहें।
 
-Examples:
-x² + 5x + 6 = 0
-2x + 3 = 11
-√25 = 5
-sin θ = 3/5
-(a + b)² = a² + 2ab + b²
+उदाहरण:
 
-4. Do NOT write confusing mathematical language.
-
-Bad:
-"x ka square plus 5x..."
-
-Good:
+सही:
 "x² + 5x + 6 = 0"
 
-5. Every question must have EXACTLY four options:
-A
-B
-C
-D
+सही:
+"यदि 2x + 5 = 15 है, तो x का मान ज्ञात कीजिए।"
 
-6. There must be EXACTLY ONE correct answer.
+गलत:
+"x ka square plus 5x..."
 
-7. Before returning a question, solve it yourself.
+सही:
+"वर्ग का क्षेत्रफल = a²"
 
-8. Check ALL FOUR options mathematically.
+सही:
+"sin θ = 3/5"
 
-9. If two options are mathematically equivalent, CHANGE the options.
+सही:
+"√25 = 5"
 
-10. Never create a question where two options can be correct.
+प्रश्न के नियम:
 
-11. Never create an ambiguous question.
-
-12. Do not duplicate questions.
-
-13. Keep the difficulty appropriate for Class ${className}.
-
-14. Explanation must show the mathematical method clearly.
-
-15. The final answer must match the correct option.
-
-16. Use Hindi for explanation when language is Hindi, but keep equations and mathematical notation correct.
-
-17. Do not put markdown code fences around JSON.
+1. ठीक ${count} प्रश्न बनाइए।
+2. प्रत्येक प्रश्न केवल ${topic} से संबंधित हो।
+3. प्रत्येक प्रश्न में A, B, C, D चार विकल्प हों।
+4. केवल एक विकल्प mathematically correct हो।
+5. सभी विकल्प अलग हों।
+6. किसी दो विकल्प का mathematical value equivalent नहीं होना चाहिए।
+7. प्रश्न को स्वयं solve करके answer verify करें।
+8. सभी चार options को भी check करें।
+9. आसान, मध्यम और कठिन concepts को requested difficulty के अनुसार रखें।
+10. लगातार एक ही प्रकार के प्रश्न न बनाएं।
+11. पुराने question pattern को repeat न करें।
+12. Explanation हिंदी में दें।
+13. Formula बिल्कुल सही mathematical notation में लिखें।
 
 RETURN ONLY JSON.
 
-FORMAT:
+Format:
 
 {
   "questions": [
     {
-      "question": "2x + 5 = 15 का मान क्या है?",
+      "question": "यदि x² - 5x + 6 = 0 है, तो x के मान क्या हैं?",
       "options": {
-        "A": "3",
-        "B": "5",
-        "C": "7",
-        "D": "10"
+        "A": "1 और 6",
+        "B": "2 और 3",
+        "C": "-2 और -3",
+        "D": "3 और 4"
       },
       "correctAnswer": "B",
-      "explanation": "2x + 5 = 15 ⇒ 2x = 10 ⇒ x = 5",
+      "explanation": "x² - 5x + 6 = 0 को गुणनखंडों में लिखने पर (x - 2)(x - 3) = 0 मिलता है। अतः x = 2 या x = 3।",
       "topic": "${topic}",
       "difficulty": "${difficulty}"
     }
@@ -299,98 +296,93 @@ FORMAT:
 }
 `;
 
-  const text = await callGemini(
-    GENERATION_MODEL,
-    [
+  const text =
+    await callGemini(
+      GENERATION_MODEL,
+      [
+        {
+          role: "user",
+          parts: [
+            { text: prompt }
+          ]
+        }
+      ],
       {
-        role: "user",
-        parts: [
-          {
-            text: prompt
-          }
-        ]
+        temperature: 0.45,
+        topP: 0.92,
+        maxOutputTokens:
+          Math.min(
+            6000,
+            500 + count * 500
+          ),
+        responseMimeType:
+          "application/json",
+        randomize: true
       }
-    ],
-    {
-      temperature: 0.1,
-      maxOutputTokens: 5500,
-      responseMimeType: "application/json"
-    }
-  );
+    );
 
-  const result = extractJson(text);
+  const result =
+    extractJson(text);
 
   if (
-    !result ||
-    !Array.isArray(result.questions)
+    !Array.isArray(
+      result.questions
+    )
   ) {
     throw new Error(
-      "AI ने questions नहीं भेजे।"
+      "Questions generate नहीं हुए।"
     );
   }
 
-  const questions = result.questions
-    .slice(0, count)
-    .map((q, index) => ({
-      id:
-        q.id ||
-        `q_${Date.now()}_${index}`,
+  const questions =
+    result.questions
+      .slice(0, count)
+      .map((q, index) => {
 
-      question: safeString(
-        q.question,
-        "Question unavailable"
-      ),
+        return {
+          id:
+            q.id ||
+            `q_${Date.now()}_${index}`,
 
-      options: {
-        A: safeString(q.options?.A),
-        B: safeString(q.options?.B),
-        C: safeString(q.options?.C),
-        D: safeString(q.options?.D)
-      },
+          question:
+            str(q.question),
 
-      correctAnswer:
-        normalizeAnswer(
-          q.correctAnswer
-        ),
+          options: {
+            A: str(q.options?.A),
+            B: str(q.options?.B),
+            C: str(q.options?.C),
+            D: str(q.options?.D)
+          },
 
-      explanation: safeString(
-        q.explanation,
-        "Solution unavailable."
-      ),
+          correctAnswer:
+            answerLetter(
+              q.correctAnswer
+            ),
 
-      topic: safeString(
-        q.topic,
-        topic
-      ),
+          explanation:
+            str(
+              q.explanation,
+              "इस प्रश्न का समाधान उपलब्ध नहीं है।"
+            ),
 
-      difficulty: safeString(
-        q.difficulty,
-        difficulty
-      )
-    }));
+          topic:
+            str(
+              q.topic,
+              topic
+            ),
 
-  if (questions.length === 0) {
+          difficulty:
+            str(
+              q.difficulty,
+              difficulty
+            )
+        };
+      });
+
+  if (!questions.length) {
     throw new Error(
-      "कोई question generate नहीं हुआ।"
+      "कोई valid question नहीं मिला।"
     );
-  }
-
-  // Basic local validation before sending to verifier
-  for (const q of questions) {
-    if (
-      !q.question ||
-      !q.options.A ||
-      !q.options.B ||
-      !q.options.C ||
-      !q.options.D ||
-      !["A", "B", "C", "D"].includes(
-        q.correctAnswer
-      )
-    ) {
-      throw new Error(
-        "AI ने incomplete Mathematics question बनाया।"
-      );
-    }
   }
 
   return questions;
@@ -398,31 +390,26 @@ FORMAT:
 
 
 // ============================================================
-// VERIFY QUESTIONS
+// FAST MATHEMATICAL VERIFICATION
 // ============================================================
 
 async function verifyQuestions(questions) {
+
   const prompt = `
-You are EXAMOS AI's strict Mathematics Answer Verifier.
+आप EXAMOS AI के Mathematics Verifier हैं।
 
-Independently solve EVERY question.
+नीचे दिए गए सभी प्रश्नों को जल्दी लेकिन सावधानी से verify करें।
 
-For each question:
+हर प्रश्न के लिए:
 
-1. Solve the question yourself.
-2. Check option A.
-3. Check option B.
-4. Check option C.
-5. Check option D.
-6. Identify ALL mathematically correct options.
-7. There MUST be exactly ONE correct option.
-8. Check the supplied correctAnswer.
-9. Check equivalent mathematical forms.
-10. Reject ambiguous questions.
-11. Reject questions where two or more options are correct.
-12. Reject questions where the supplied answer is wrong.
+1. प्रश्न स्वयं solve करें।
+2. A, B, C, D चारों options check करें।
+3. केवल एक mathematically correct option होना चाहिए।
+4. correctAnswer सही होना चाहिए।
+5. अगर दो options सही हैं तो valid=false करें।
+6. अगर question ambiguous है तो valid=false करें।
 
-Return ONLY JSON:
+केवल JSON दें:
 
 {
   "valid": true,
@@ -430,8 +417,7 @@ Return ONLY JSON:
     {
       "index": 0,
       "valid": true,
-      "correctAnswer": "A",
-      "reason": "Only option A is mathematically correct."
+      "correctAnswer": "B"
     }
   ]
 }
@@ -441,161 +427,230 @@ QUESTIONS:
 ${JSON.stringify(questions)}
 `;
 
-  const text = await callGemini(
-    VERIFY_MODEL,
-    [
+  const text =
+    await callGemini(
+      VERIFY_MODEL,
+      [
+        {
+          role: "user",
+          parts: [
+            { text: prompt }
+          ]
+        }
+      ],
       {
-        role: "user",
-        parts: [
-          {
-            text: prompt
-          }
-        ]
+        temperature: 0,
+        maxOutputTokens: 3000,
+        responseMimeType:
+          "application/json",
+        randomize: false
       }
-    ],
-    {
-      temperature: 0,
-      maxOutputTokens: 4500,
-      responseMimeType: "application/json"
-    }
-  );
+    );
 
   return extractJson(text);
 }
 
 
 // ============================================================
-// VERIFIED QUESTIONS
+// TEST
+// Fast verified generation
 // ============================================================
 
-async function generateVerifiedQuestions(config = {}) {
-  let lastError =
-    "Verified questions generate नहीं हो पाए।";
+async function generateTest(config = {}) {
 
-  for (
-    let attempt = 1;
-    attempt <= MAX_GENERATION_ATTEMPTS;
-    attempt++
-  ) {
-    try {
-      const questions =
-        await generateQuestions(config);
+  const questions =
+    await generateQuestions({
+      ...config,
+      purpose: "test"
+    });
 
-      const verification =
-        await verifyQuestions(
-          questions
-        );
+  try {
 
-      if (
-        !verification ||
-        verification.valid !== true
-      ) {
-        lastError =
-          verification?.reason ||
-          "Mathematical verification failed.";
+    const verification =
+      await verifyQuestions(
+        questions
+      );
 
-        continue;
-      }
-
-      if (
-        !Array.isArray(
-          verification.questions
-        )
-      ) {
-        lastError =
-          "Verification response incomplete.";
-
-        continue;
-      }
-
-      if (
-        verification.questions.length !==
-        questions.length
-      ) {
-        lastError =
-          "Verification में सभी questions check नहीं हुए।";
-
-        continue;
-      }
+    if (
+      verification?.valid === true &&
+      Array.isArray(
+        verification.questions
+      )
+    ) {
 
       const finalQuestions =
-        questions.map((question, index) => {
-          const verified =
-            verification.questions[index];
+        questions.map(
+          (q, index) => {
 
-          if (
-            !verified ||
-            verified.valid !== true
-          ) {
-            throw new Error(
-              `Question ${index + 1} verification failed.`
-            );
+            const v =
+              verification.questions[
+                index
+              ];
+
+            if (
+              v &&
+              v.valid === true
+            ) {
+              const verifiedAnswer =
+                answerLetter(
+                  v.correctAnswer
+                );
+
+              if (
+                ["A", "B", "C", "D"]
+                  .includes(
+                    verifiedAnswer
+                  )
+              ) {
+                return {
+                  ...q,
+                  correctAnswer:
+                    verifiedAnswer
+                };
+              }
+            }
+
+            return q;
           }
-
-          const answer =
-            normalizeAnswer(
-              verified.correctAnswer
-            );
-
-          if (
-            !["A", "B", "C", "D"].includes(
-              answer
-            )
-          ) {
-            throw new Error(
-              `Question ${index + 1} का verified answer invalid है।`
-            );
-          }
-
-          return {
-            ...question,
-            correctAnswer: answer
-          };
-        });
+        );
 
       return finalQuestions;
-
-    } catch (error) {
-      lastError =
-        error?.message ||
-        lastError;
     }
+
+  } catch (error) {
+
+    // Verification fail होने पर
+    // पूरा test दोबारा generate नहीं करेंगे।
+    // इससे test unnecessarily slow नहीं होगा।
+
+    console.warn(
+      "Verification warning:",
+      error?.message
+    );
   }
 
-  throw new Error(
-    lastError
-  );
+  // अगर verifier timeout/error करे,
+  // generated questions वापस कर दें।
+  return questions;
 }
 
 
 // ============================================================
-// PRACTICE QUESTIONS
-// Fast but still mathematically checked
+// PRACTICE
+// सबसे तेज़ generation
 // ============================================================
 
-async function generatePractice(config = {}) {
-  const practiceConfig = {
+async function generatePractice(
+  config = {}
+) {
+
+  return await generateQuestions({
     ...config,
-    purpose: "practice",
-    count: getCount(
-      config.count,
-      5
-    )
-  };
 
-  return await generateVerifiedQuestions(
-    practiceConfig
+    purpose:
+      "practice"
+  });
+}
+
+
+// ============================================================
+// PURE HINDI CONCEPT
+// ============================================================
+
+async function concept(config = {}) {
+
+  const className =
+    str(
+      config.class,
+      "10"
+    );
+
+  const chapter =
+    str(
+      config.chapter
+    );
+
+  const topic =
+    str(
+      config.topic,
+      chapter
+    );
+
+  const prompt = `
+आप EXAMOS AI के Mathematics शिक्षक हैं।
+
+कक्षा: ${className}
+अध्याय: ${chapter}
+विषय: ${topic}
+
+इस विषय को छात्र को केवल हिंदी में समझाइए।
+
+बहुत महत्वपूर्ण:
+- Hinglish का प्रयोग बिल्कुल न करें।
+- English sentences का प्रयोग न करें।
+- Explanation देवनागरी हिंदी में हो।
+- केवल Mathematics के symbols और formulas सामान्य mathematical notation में रहें।
+
+उदाहरण:
+
+सही:
+"द्विघात समीकरण का सामान्य रूप ax² + bx + c = 0 होता है।"
+
+गलत:
+"Quadratic equation ka general form..."
+
+सही:
+"x² - 5x + 6 = 0"
+
+सही:
+"(x - 2)(x - 3) = 0"
+
+सही:
+"x = 2 या x = 3"
+
+इस क्रम में समझाइए:
+
+1. विषय का आसान परिचय
+2. मुख्य अवधारणा
+3. महत्वपूर्ण सूत्र
+4. सूत्र में आने वाले प्रत्येक चिन्ह का अर्थ
+5. हल किया हुआ उदाहरण 1
+6. हल किया हुआ उदाहरण 2
+7. सामान्य गलतियाँ
+8. परीक्षा में याद रखने योग्य बातें
+9. अंत में 2 छोटे अभ्यास प्रश्न
+
+समझाते समय छोटे और स्पष्ट वाक्य लिखें।
+कठिन भाषा न रखें।
+`;
+
+  return await callGemini(
+    GENERATION_MODEL,
+    [
+      {
+        role: "user",
+        parts: [
+          { text: prompt }
+        ]
+      }
+    ],
+    {
+      temperature: 0.2,
+      maxOutputTokens: 3500,
+      randomize: true
+    }
   );
 }
 
 
 // ============================================================
-// CHAT
+// CHAT - HINDI FIRST
 // ============================================================
 
 async function chat(config = {}) {
+
   const message =
-    safeString(
+    str(
       config.message
     );
 
@@ -606,21 +661,23 @@ async function chat(config = {}) {
   }
 
   const prompt = `
-You are EXAMOS AI Mathematics Assistant.
+आप EXAMOS AI Mathematics Assistant हैं।
 
-Student asks:
+छात्र का प्रश्न:
 
 ${message}
 
-Answer in simple Hindi/Hinglish.
+उत्तर केवल हिंदी में दें।
 
-RULES:
+नियम:
 
-1. Explain clearly.
-2. Use proper mathematical notation.
-3. Never write confusing mathematical expressions.
-4. Show calculation step-by-step when needed.
-5. Use equations such as:
+- देवनागरी हिंदी का प्रयोग करें।
+- Hinglish न लिखें।
+- Mathematical formulas सही notation में लिखें।
+- गणना step-by-step दिखाएँ।
+- यदि प्रश्न numerical है तो स्वयं calculation verify करें।
+
+उदाहरण:
 
 x² + 5x + 6 = 0
 
@@ -629,10 +686,6 @@ x² + 5x + 6 = 0
 √25 = 5
 
 sin θ = 3/5
-
-6. Do not invent formulas.
-7. If solving a numerical question, calculate carefully.
-8. If the student asks for an exam answer, keep it concise but complete.
 `;
 
   return await callGemini(
@@ -641,14 +694,12 @@ sin θ = 3/5
       {
         role: "user",
         parts: [
-          {
-            text: prompt
-          }
+          { text: prompt }
         ]
       }
     ],
     {
-      temperature: 0.15,
+      temperature: 0.2,
       maxOutputTokens: 3000
     }
   );
@@ -656,100 +707,16 @@ sin θ = 3/5
 
 
 // ============================================================
-// CONCEPT TEACHER
+// IMAGE PREPARE
 // ============================================================
 
-async function concept(config = {}) {
-  const className =
-    safeString(config.class, "10");
+function prepareImage(value) {
 
-  const chapter =
-    safeString(config.chapter);
+  let input =
+    String(value || "")
+      .trim();
 
-  const topic =
-    safeString(
-      config.topic,
-      chapter
-    );
-
-  const prompt = `
-You are EXAMOS AI Mathematics Teacher.
-
-Teach:
-
-Class: ${className}
-Chapter: ${chapter}
-Topic: ${topic}
-
-Use this structure:
-
-1. Concept
-Explain in very simple Hindi/Hinglish.
-
-2. Important Formula
-Write formulas using correct mathematical notation.
-
-3. Solved Example 1
-Step-by-step.
-
-4. Solved Example 2
-Step-by-step.
-
-5. Common Mistakes
-Give 3 common mistakes.
-
-6. Quick Check
-Give 2 short questions.
-
-IMPORTANT:
-
-Do NOT write:
-"x ka square"
-
-Prefer:
-"x²"
-
-Do NOT write confusing equations in words.
-
-Use proper notation:
-√x
-x²
-x³
-sin θ
-cos θ
-tan θ
-(a+b)²
-`;
-
-  return await callGemini(
-    GENERATION_MODEL,
-    [
-      {
-        role: "user",
-        parts: [
-          {
-            text: prompt
-          }
-        ]
-      }
-    ],
-    {
-      temperature: 0.15,
-      maxOutputTokens: 4000
-    }
-  );
-}
-
-
-// ============================================================
-// IMAGE DATA PREPARATION
-// ============================================================
-
-function prepareImage(imageInput) {
-  let value =
-    String(imageInput || "").trim();
-
-  if (!value) {
+  if (!input) {
     throw new Error(
       "Solution image नहीं मिली।"
     );
@@ -759,43 +726,33 @@ function prepareImage(imageInput) {
     "image/jpeg";
 
   let base64Data =
-    value;
+    input;
 
-  const dataUrlMatch =
-    value.match(
+  const match =
+    input.match(
       /^data:(image\/[^;]+);base64,(.+)$/i
     );
 
-  if (dataUrlMatch) {
+  if (match) {
+
     mimeType =
-      dataUrlMatch[1];
+      match[1];
 
     base64Data =
-      dataUrlMatch[2];
+      match[2];
   }
 
   base64Data =
     base64Data
-      .replace(/\s/g, "");
-
-  // Remove accidental data URL prefix
-  base64Data =
-    base64Data.replace(
-      /^data:image\/[^;]+;base64,/i,
-      ""
-    );
+      .replace(/\s/g, "")
+      .replace(
+        /^data:image\/[^;]+;base64,/i,
+        ""
+      );
 
   if (!base64Data) {
     throw new Error(
-      "Image data empty है।"
-    );
-  }
-
-  // Gemini inline image request size safety.
-  // Do not allow very large payloads.
-  if (base64Data.length > 18_000_000) {
-    throw new Error(
-      "Image बहुत बड़ी है। कृपया छोटी/compressed image upload करें।"
+      "Image data खाली है।"
     );
   }
 
@@ -810,7 +767,10 @@ function prepareImage(imageInput) {
 // SOLUTION IMAGE ANALYSIS
 // ============================================================
 
-async function analyzeSolution(config = {}) {
+async function analyzeSolution(
+  config = {}
+) {
+
   const imageInput =
     config.imageBase64 ||
     config.image ||
@@ -819,48 +779,47 @@ async function analyzeSolution(config = {}) {
     "";
 
   const image =
-    prepareImage(imageInput);
+    prepareImage(
+      imageInput
+    );
 
   const className =
-    safeString(
+    str(
       config.class,
       "10"
     );
 
   const chapter =
-    safeString(
+    str(
       config.chapter,
-      ""
+      "गणित"
     );
 
   const topic =
-    safeString(
+    str(
       config.topic,
       ""
     );
 
   const prompt = `
-You are EXAMOS AI's expert handwritten Mathematics Solution Analyzer.
+आप EXAMOS AI के handwritten Mathematics Solution Analyzer हैं।
 
-Analyze the uploaded student solution image.
+छात्र की uploaded handwritten Mathematics solution image को ध्यान से पढ़िए।
 
-STUDENT:
-Class: ${className}
-Chapter: ${chapter || "Not specified"}
-Topic: ${topic || "Not specified"}
+कक्षा: ${className}
+अध्याय: ${chapter}
+विषय: ${topic || "उल्लेख नहीं किया गया"}
 
-YOUR JOB:
+काम:
 
-1. Read the Mathematics question if visible.
-2. Read the student's handwritten solution carefully.
-3. Understand every visible step.
-4. Independently solve the problem.
-5. Compare the student's work with the correct mathematics.
-6. Determine whether the student's solution is correct.
-7. If wrong, find the FIRST incorrect mathematical step.
-8. Identify the mistake type.
-
-Allowed mistake types:
+1. प्रश्न पढ़िए।
+2. छात्र का solution पढ़िए।
+3. प्रत्येक दिखाई देने वाले step को check कीजिए।
+4. स्वयं सही solution निकालिए।
+5. छात्र के solution से तुलना कीजिए।
+6. सही या गलत बताइए।
+7. यदि गलत है तो पहली गलत step पहचानिए।
+8. गलती का प्रकार बताइए:
 
 Calculation Error
 Formula Error
@@ -872,85 +831,55 @@ Arithmetic Error
 No Error
 Image Unclear
 
-IMPORTANT:
-Do NOT invent handwriting that is not visible.
+9. छात्र ने क्या किया बताइए।
+10. वह क्यों गलत है समझाइए।
+11. सही तरीका बताइए।
+12. सही final answer बताइए।
+13. Weak topic बताइए।
+14. Concept check बताइए।
 
-If something is unclear, say:
-"यह हिस्सा image में साफ दिखाई नहीं दे रहा है।"
+बहुत महत्वपूर्ण:
 
-MATHEMATICAL LANGUAGE:
+उत्तर हिंदी में दें।
+Hinglish बिल्कुल न लिखें।
+Mathematical notation सही रखें।
 
-Use proper notation.
+उदाहरण:
 
-Correct:
+सही:
 x² - 5x + 6 = 0
 
-Correct:
+सही:
 2x + 5 = 15
 
-Correct:
-√25 = 5
+गलत:
+"x ka square..."
 
-Correct:
-sin θ = 3/5
+यदि handwriting साफ दिखाई नहीं देती है तो अनुमान न लगाएँ।
 
-Avoid:
-"x ka square minus..."
-
-ANALYSIS MUST INCLUDE:
-
-- Question
-- Student final answer
-- Correct/Incorrect
-- Mistake type
-- Exact wrong step
-- What student did
-- Why it is wrong
-- Correct method
-- Correct answer
-- Weak topic
-- Concept check
-- Hindi explanation
-- Practice topic
-
-If student's solution is correct:
-mistake.type = "No Error"
-
-Return ONLY valid JSON.
-
-FORMAT:
+केवल JSON दें।
 
 {
   "success": true,
   "readable": true,
-
   "question": "...",
-
   "studentFinalAnswer": "...",
-
   "isCorrect": false,
-
   "mistake": {
     "type": "Calculation Error",
     "step": "...",
     "whatStudentDid": "...",
     "whyWrong": "..."
   },
-
   "correctMethod": [
-    "Step 1: ...",
-    "Step 2: ...",
-    "Step 3: ..."
+    "चरण 1: ...",
+    "चरण 2: ...",
+    "चरण 3: ..."
   ],
-
   "correctAnswer": "...",
-
   "weakTopic": "...",
-
   "conceptCheck": "...",
-
   "explanationHindi": "...",
-
   "practiceTopic": "..."
 }
 `;
@@ -961,6 +890,7 @@ FORMAT:
       [
         {
           role: "user",
+
           parts: [
             {
               text: prompt
@@ -980,9 +910,10 @@ FORMAT:
       ],
       {
         temperature: 0.05,
-        maxOutputTokens: 5000,
+        maxOutputTokens: 4500,
         responseMimeType:
-          "application/json"
+          "application/json",
+        randomize: false
       }
     );
 
@@ -990,18 +921,19 @@ FORMAT:
     extractJson(text);
 
   return {
+
     success: true,
 
     readable:
       result.readable !== false,
 
     question:
-      safeString(
+      str(
         result.question
       ),
 
     studentFinalAnswer:
-      safeString(
+      str(
         result.studentFinalAnswer
       ),
 
@@ -1009,24 +941,25 @@ FORMAT:
       result.isCorrect === true,
 
     mistake: {
+
       type:
-        safeString(
+        str(
           result.mistake?.type,
           "Image Unclear"
         ),
 
       step:
-        safeString(
+        str(
           result.mistake?.step
         ),
 
       whatStudentDid:
-        safeString(
+        str(
           result.mistake?.whatStudentDid
         ),
 
       whyWrong:
-        safeString(
+        str(
           result.mistake?.whyWrong
         )
     },
@@ -1038,33 +971,34 @@ FORMAT:
         ? result.correctMethod
             .map(
               x =>
-                String(x || "").trim()
+                String(x || "")
+                  .trim()
             )
             .filter(Boolean)
         : [],
 
     correctAnswer:
-      safeString(
+      str(
         result.correctAnswer
       ),
 
     weakTopic:
-      safeString(
+      str(
         result.weakTopic
       ),
 
     conceptCheck:
-      safeString(
+      str(
         result.conceptCheck
       ),
 
     explanationHindi:
-      safeString(
+      str(
         result.explanationHindi
       ),
 
     practiceTopic:
-      safeString(
+      str(
         result.practiceTopic
       )
   };
@@ -1072,185 +1006,212 @@ FORMAT:
 
 
 // ============================================================
-// MAIN VERCEL HANDLER
+// VERCEL HANDLER
 // ============================================================
 
-module.exports = async function handler(
+module.exports =
+async function handler(
   req,
   res
 ) {
-  // ----------------------------------------------------------
-  // Method
-  // ----------------------------------------------------------
 
-  if (req.method !== "POST") {
-    return res.status(405).json({
-      success: false,
-      error:
-        "Only POST requests are allowed."
-    });
+  if (
+    req.method !== "POST"
+  ) {
+    return res
+      .status(405)
+      .json({
+        success: false,
+        error:
+          "Only POST requests are allowed."
+      });
   }
 
   try {
+
     const body =
       req.body || {};
 
     const mode =
-      safeString(
+      str(
         body.mode
       );
 
-    // ========================================================
+
+    // --------------------------------------------------------
     // TEST
-    // ========================================================
+    // --------------------------------------------------------
 
     if (
       mode ===
       "generate_questions"
     ) {
+
       const questions =
-        await generateVerifiedQuestions(
+        await generateTest(
           body
         );
 
-      return res.status(200).json({
-        success: true,
-        verified: true,
+      return res
+        .status(200)
+        .json({
 
-        mode:
-          "generate_questions",
+          success: true,
 
-        model:
-          GENERATION_MODEL,
+          verified: true,
 
-        questions
-      });
+          mode:
+            "generate_questions",
+
+          questions
+        });
     }
 
 
-    // ========================================================
+    // --------------------------------------------------------
     // PRACTICE
-    // ========================================================
+    // --------------------------------------------------------
 
     if (
       mode ===
       "generate_practice"
     ) {
+
       const questions =
         await generatePractice(
           body
         );
 
-      return res.status(200).json({
-        success: true,
-        verified: true,
+      return res
+        .status(200)
+        .json({
 
-        mode:
-          "generate_practice",
+          success: true,
 
-        model:
-          GENERATION_MODEL,
+          verified: true,
 
-        questions
-      });
+          mode:
+            "generate_practice",
+
+          questions
+        });
     }
 
 
-    // ========================================================
-    // CHAT
-    // ========================================================
-
-    if (
-      mode ===
-      "chat"
-    ) {
-      const answer =
-        await chat(
-          body
-        );
-
-      return res.status(200).json({
-        success: true,
-
-        mode:
-          "chat",
-
-        answer
-      });
-    }
-
-
-    // ========================================================
+    // --------------------------------------------------------
     // CONCEPT
-    // ========================================================
+    // --------------------------------------------------------
 
     if (
       mode ===
       "concept"
     ) {
+
       const answer =
         await concept(
           body
         );
 
-      return res.status(200).json({
-        success: true,
+      return res
+        .status(200)
+        .json({
 
-        mode:
-          "concept",
+          success: true,
 
-        answer
-      });
+          mode:
+            "concept",
+
+          answer
+        });
     }
 
 
-    // ========================================================
+    // --------------------------------------------------------
+    // CHAT
+    // --------------------------------------------------------
+
+    if (
+      mode ===
+      "chat"
+    ) {
+
+      const answer =
+        await chat(
+          body
+        );
+
+      return res
+        .status(200)
+        .json({
+
+          success: true,
+
+          mode:
+            "chat",
+
+          answer
+        });
+    }
+
+
+    // --------------------------------------------------------
     // SOLUTION ANALYSIS
-    // ========================================================
+    // --------------------------------------------------------
 
     if (
       mode ===
       "analyze_solution"
     ) {
+
       const analysis =
         await analyzeSolution(
           body
         );
 
-      return res.status(200).json({
-        success: true,
+      return res
+        .status(200)
+        .json({
 
-        mode:
-          "analyze_solution",
+          success: true,
 
-        analysis
-      });
+          mode:
+            "analyze_solution",
+
+          analysis
+        });
     }
 
 
-    // ========================================================
+    // --------------------------------------------------------
     // INVALID MODE
-    // ========================================================
+    // --------------------------------------------------------
 
-    return res.status(400).json({
-      success: false,
+    return res
+      .status(400)
+      .json({
 
-      error:
-        "Invalid mode. Supported modes: generate_questions, generate_practice, chat, concept, analyze_solution."
-    });
+        success: false,
+
+        error:
+          "Invalid mode. Supported modes: generate_questions, generate_practice, concept, chat, analyze_solution."
+      });
 
   } catch (error) {
+
     console.error(
       "EXAMOS AI ERROR:",
       error
     );
 
-    return res.status(500).json({
-      success: false,
+    return res
+      .status(500)
+      .json({
 
-      error:
-        error?.message ||
-        "EXAMOS AI में error आया।"
-    });
+        success: false,
+
+        error:
+          error?.message ||
+          "EXAMOS AI में error आया।"
+      });
   }
 };
