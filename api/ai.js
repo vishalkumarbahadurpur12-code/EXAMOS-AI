@@ -5,9 +5,12 @@ const API_BASE =
   "https://generativelanguage.googleapis.com/v1beta/models/";
 
 const MAX_QUESTIONS = 20;
-const REQUEST_TIMEOUT = 45000;
+const REQUEST_TIMEOUT = 50000;
 
 module.exports = async function handler(req, res) {
+
+  res.setHeader("Cache-Control", "no-store");
+
   if (req.method !== "POST") {
     return res.status(405).json({
       success:false,
@@ -15,212 +18,333 @@ module.exports = async function handler(req, res) {
     });
   }
 
+  const apiKey = process.env.GEMINI_API_KEY;
+
+  if (!apiKey) {
+    return res.status(500).json({
+      success:false,
+      error:"GEMINI_API_KEY is missing in Vercel Environment Variables."
+    });
+  }
+
   try {
+
     const body = req.body || {};
-    const mode = body.mode;
+    const mode = String(body.mode || "").trim();
 
     if (!mode) {
       return res.status(400).json({
         success:false,
-        error:"Mode required"
+        error:"Mode required."
       });
     }
 
-    switch (mode) {
-      case "chat":
-        return await handleChat(req, res, body);
-
-      case "concept":
-        return await handleConcept(req, res, body);
-
-      case "generate_questions":
-        return await handleGenerateQuestions(req, res, body);
-
-      case "generate_practice":
-        return await handleGeneratePractice(req, res, body);
-
-      case "analyze_solution":
-        return await handleAnalyzeSolution(req, res, body);
-
-      default:
-        return res.status(400).json({
-          success:false,
-          error:
-            "Invalid mode. Supported modes: chat, concept, generate_questions, generate_practice, analyze_solution"
-        });
+    if (mode === "chat") {
+      return await handleChat(body,res,apiKey);
     }
 
+    if (mode === "concept") {
+      return await handleConcept(body,res,apiKey);
+    }
+
+    if (mode === "generate_questions") {
+      return await handleQuestions(body,res,apiKey,false);
+    }
+
+    if (mode === "generate_practice") {
+      return await handleQuestions(body,res,apiKey,true);
+    }
+
+    if (mode === "analyze_solution") {
+      return await handleSolutionAnalysis(body,res,apiKey);
+    }
+
+    return res.status(400).json({
+      success:false,
+      error:
+        "Invalid mode. Supported modes: chat, concept, generate_questions, generate_practice, analyze_solution."
+    });
+
   } catch (error) {
-    console.error("AI API ERROR:", error);
+
+    console.error("AI API ERROR:",error);
 
     return res.status(500).json({
       success:false,
-      error:error?.message || "AI server error"
+      error:
+        error?.message ||
+        "AI server error."
     });
   }
 };
 
+
 /* =========================================================
-   COMMON
+   COMMON HELPERS
 ========================================================= */
 
-function clean(value, fallback="") {
-  return String(value ?? fallback).trim();
-}
-
-function getKey() {
-  return process.env.GEMINI_API_KEY || "";
-}
-
 function context(body) {
+
   return `
-Board: ${clean(body.board,"CBSE")}
-Class: ${clean(body.class)}
-Stream: ${clean(body.stream,"Not applicable")}
-Subject: ${clean(body.subject,"Not specified")}
-Chapter: ${clean(body.chapter,"Not specified")}
-Topic: ${clean(body.topic,"Not specified")}
+Board: ${body.board || "CBSE"}
+Class: ${body.class || "10"}
+Stream: ${body.stream || "Not applicable"}
+Subject: ${body.subject || "General"}
+Chapter: ${body.chapter || "Not specified"}
+Topic: ${body.topic || "Not specified"}
 `;
 }
 
-async function gemini(model, contents, config={}) {
-  const key = getKey();
 
-  if (!key) {
-    throw new Error("GEMINI_API_KEY is not configured in Vercel");
-  }
+async function callGemini(
+  model,
+  contents,
+  apiKey,
+  generationConfig={}
+) {
+
+  const url =
+    API_BASE +
+    model +
+    ":generateContent?key=" +
+    encodeURIComponent(apiKey);
 
   const controller = new AbortController();
 
-  const timer = setTimeout(
-    () => controller.abort(),
+  const timeout=setTimeout(
+    ()=>controller.abort(),
     REQUEST_TIMEOUT
   );
 
   try {
-    const response = await fetch(
-      `${API_BASE}${model}:generateContent?key=${encodeURIComponent(key)}`,
-      {
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-          contents,
-          ...config
-        }),
-        signal:controller.signal
-      }
-    );
 
-    const data = await response.json();
+    const response=await fetch(url,{
+      method:"POST",
 
-    if (!response.ok) {
-      console.error("Gemini:",data);
-      throw new Error(
+      headers:{
+        "Content-Type":"application/json"
+      },
+
+      body:JSON.stringify({
+
+        contents,
+
+        generationConfig
+
+      }),
+
+      signal:controller.signal
+
+    });
+
+    const data=await response.json();
+
+    if(!response.ok){
+
+      const msg =
         data?.error?.message ||
-        "Gemini API request failed"
-      );
+        "Gemini API request failed.";
+
+      throw new Error(msg);
     }
 
     const text =
       data?.candidates?.[0]?.content?.parts
-        ?.map(p => p.text || "")
-        .join("") || "";
+        ?.map(x=>x.text || "")
+        .join("")
+        .trim();
 
-    if (!text) {
-      throw new Error("Gemini returned an empty response");
+    if(!text){
+
+      throw new Error(
+        "Gemini returned an empty response."
+      );
     }
 
     return text;
 
   } finally {
-    clearTimeout(timer);
+
+    clearTimeout(timeout);
+
   }
 }
 
-function jsonConfig(schema) {
+
+function extractJSON(text){
+
+  let clean=String(text||"").trim();
+
+  clean=clean
+    .replace(/^```json/i,"")
+    .replace(/^```/i,"")
+    .replace(/```$/,"")
+    .trim();
+
+  const first=clean.indexOf("{");
+  const last=clean.lastIndexOf("}");
+
+  if(first>=0 && last>first){
+
+    clean=clean.slice(
+      first,
+      last+1
+    );
+  }
+
+  return JSON.parse(clean);
+}
+
+
+function normalizeQuestion(q,index){
+
+  const options=Array.isArray(q.options)
+    ? q.options.slice(0,4).map(String)
+    : [];
+
+  let answer=String(
+    q.correctAnswer ||
+    q.answer ||
+    ""
+  ).trim().toUpperCase();
+
+  answer=answer
+    .replace(/[^ABCD]/g,"")
+    .slice(0,1);
+
   return {
-    generationConfig:{
-      responseMimeType:"application/json",
-      responseSchema:schema
-    }
+
+    id:q.id || `q_${Date.now()}_${index}`,
+
+    question:String(
+      q.question ||
+      q.questionText ||
+      ""
+    ).trim(),
+
+    options,
+
+    correctAnswer:answer,
+
+    explanation:String(
+      q.explanation || ""
+    ).trim(),
+
+    topic:String(
+      q.topic || ""
+    ).trim(),
+
+    chapter:String(
+      q.chapter || ""
+    ).trim(),
+
+    difficulty:String(
+      q.difficulty || ""
+    ).trim()
+
   };
 }
 
-function parseJSON(text) {
-  try {
-    return JSON.parse(text);
-  } catch {}
 
-  const match = text.match(/\{[\s\S]*\}/);
+function validateQuestions(questions,count){
 
-  if (match) {
-    try {
-      return JSON.parse(match[0]);
-    } catch {}
+  if(!Array.isArray(questions))
+    return false;
+
+  if(questions.length<Math.min(3,count))
+    return false;
+
+  for(const q of questions){
+
+    if(!q.question)
+      return false;
+
+    if(!Array.isArray(q.options))
+      return false;
+
+    if(q.options.length!==4)
+      return false;
+
+    if(!["A","B","C","D"].includes(q.correctAnswer))
+      return false;
   }
 
-  throw new Error("AI returned invalid JSON");
+  return true;
 }
+
 
 /* =========================================================
    CHAT
 ========================================================= */
 
-async function handleChat(req,res,body) {
+async function handleChat(body,res,apiKey){
 
-  const message =
-    clean(body.message) ||
-    clean(body.prompt);
+  const message=
+    String(
+      body.message ||
+      body.prompt ||
+      ""
+    ).trim();
 
-  if (!message && !body.imageBase64) {
+  if(!message){
+
     return res.status(400).json({
       success:false,
-      error:"Message or image required"
+      error:"Message required."
     });
   }
 
-  const imagePart = makeImagePart(body.imageBase64);
+  const prompt=`
 
-  const prompt = `
-You are EXAMOS AI, a friendly personal study assistant for school students.
+You are EXAMOS AI, an Indian student learning assistant.
 
+Student context:
 ${context(body)}
 
-Student language preference:
-${clean(body.language,"Match the student's language")}
+Student question:
+${message}
 
 Rules:
-1. Answer according to the selected class, board and subject.
-2. Never randomly switch the subject.
-3. Explain difficult concepts simply.
-4. For Mathematics/Physics/Chemistry, keep formulas mathematically correct.
-5. For numerical problems, show steps.
-6. For Biology/Social Science/languages, explain according to school level.
-7. If the student's question is unclear, ask one short clarification.
-8. Match the student's language: Hindi, English or Hinglish.
-9. Do not pretend a syllabus fact is certain when it depends on a board.
-10. Be concise but useful.
 
-Student question:
-${message || "Analyze the attached study photo."}
+1. Answer according to the student's selected board, class,
+   stream, subject and chapter whenever relevant.
+
+2. If the subject is Mathematics, use correct mathematical notation.
+
+3. If the subject is Science, explain concepts scientifically.
+
+4. For Social Science, answer according to the academic context.
+
+5. For Hindi/English/Sanskrit, answer in the relevant language
+   and explain difficult concepts simply.
+
+6. Prefer simple Hindi/Hinglish unless the student asks for English.
+
+7. Do not invent facts.
+
+8. For exam questions, give an exam-ready answer after explaining it.
+
+9. If the student asks for a calculation, show steps.
+
+10. Keep the answer student-friendly.
+
+Return only the answer.
 `;
 
-  const parts = [
-    {text:prompt}
-  ];
-
-  if (imagePart) {
-    parts.push(imagePart);
-  }
-
-  const answer = await gemini(
+  let answer=await callGemini(
     GENERATION_MODEL,
-    [{
-      role:"user",
-      parts
-    }]
+    [
+      {
+        role:"user",
+        parts:[
+          {text:prompt}
+        ]
+      }
+    ],
+    apiKey,
+    {
+      maxOutputTokens:1400
+    }
   );
 
   return res.status(200).json({
@@ -230,479 +354,451 @@ ${message || "Analyze the attached study photo."}
   });
 }
 
+
 /* =========================================================
    CONCEPT
 ========================================================= */
 
-async function handleConcept(req,res,body) {
+async function handleConcept(body,res,apiKey){
 
-  const prompt = `
-You are EXAMOS AI concept teacher.
+  const prompt=`
 
+You are the concept-teaching engine of EXAMOS AI.
+
+Student context:
 ${context(body)}
 
-Teach the selected school topic in a simple student-friendly way.
+Teach the selected concept in simple student-friendly Hindi.
 
-Return JSON.
+Include:
 
-The explanation should:
-- start from the basic idea
-- use simple language
-- use correct definitions
-- use formulas where necessary
-- give 1 or 2 solved examples when useful
-- mention common mistakes
-- end with short revision points
+1. Concept / definition
+2. Important points
+3. Formula or rules if applicable
+4. One or two solved examples
+5. Common mistakes
+6. Quick revision points
+7. Three things to remember for exams
 
-Use Hindi + English terminology naturally.
+Use correct academic terminology.
 
-Topic:
-${clean(body.topic) || clean(body.chapter)}
+Do not make the explanation unnecessarily advanced.
+
+Return clean educational text.
 `;
 
-  const schema = {
-    type:"object",
-    properties:{
-      title:{type:"string"},
-      explanation:{type:"string"},
-      examples:{type:"string"},
-      commonMistakes:{type:"string"},
-      revisionPoints:{type:"string"}
-    },
-    required:[
-      "title",
-      "explanation",
-      "examples",
-      "commonMistakes",
-      "revisionPoints"
-    ]
-  };
-
-  const text = await gemini(
+  const answer=await callGemini(
     GENERATION_MODEL,
-    [{role:"user",parts:[{text:prompt}]}],
-    jsonConfig(schema)
+    [
+      {
+        role:"user",
+        parts:[
+          {text:prompt}
+        ]
+      }
+    ],
+    apiKey,
+    {
+      maxOutputTokens:1800
+    }
   );
-
-  const result = parseJSON(text);
 
   return res.status(200).json({
     success:true,
     mode:"concept",
-    ...result
+    answer
   });
 }
 
-/* =========================================================
-   QUESTION SCHEMA
-========================================================= */
-
-const questionSchema = {
-  type:"object",
-  properties:{
-    question:{type:"string"},
-    options:{
-      type:"array",
-      items:{type:"string"}
-    },
-    correctAnswer:{type:"string"},
-    explanation:{type:"string"},
-    topic:{type:"string"},
-    difficulty:{type:"string"}
-  },
-  required:[
-    "question",
-    "options",
-    "correctAnswer",
-    "explanation",
-    "topic",
-    "difficulty"
-  ]
-};
-
-const questionsSchema = {
-  type:"object",
-  properties:{
-    questions:{
-      type:"array",
-      items:questionSchema
-    }
-  },
-  required:["questions"]
-};
 
 /* =========================================================
-   GENERATE QUESTIONS
+   QUESTION GENERATION
 ========================================================= */
 
-async function handleGenerateQuestions(req,res,body) {
+async function handleQuestions(
+  body,
+  res,
+  apiKey,
+  practice
+){
 
-  let count = Number(body.count || 10);
+  let count=Number(body.count || 10);
 
-  count = Math.max(
-    1,
+  if(!Number.isFinite(count))
+    count=10;
+
+  count=Math.max(
+    3,
     Math.min(MAX_QUESTIONS,count)
   );
 
-  const previous =
+  const difficulty=
+    String(body.difficulty || "Mixed");
+
+  const chapter=
+    String(body.chapter || "All Chapters");
+
+  const topic=
+    String(body.topic || "");
+
+  const previous=
     Array.isArray(body.previousQuestions)
-      ? body.previousQuestions.slice(0,30)
+      ? body.previousQuestions
+          .slice(-15)
+          .map(x=>String(x).slice(0,200))
       : [];
 
-  const prompt = `
-You are EXAMOS AI's question generator.
+  const prompt=`
 
+You are the question generation engine for EXAMOS AI.
+
+Student context:
 ${context(body)}
 
-Generate exactly ${count} fresh multiple-choice questions.
+Task:
+Generate ${count} high-quality multiple-choice questions.
 
-Difficulty:
-${clean(body.difficulty,"Mixed")}
-
-Language:
-${clean(body.language,"Hindi + English")}
-
-Important:
-- Questions must match the selected class.
-- Questions must match the selected subject.
-- Questions must match the chapter when provided.
-- Do not generate questions from another class.
-- Do not use college-level content.
-- Do not repeat previous questions.
-- Every question must have exactly 4 options.
-- correctAnswer must be exactly A, B, C or D.
-- explanation must explain why the answer is correct.
-- topic must identify the exact concept.
-- Avoid ambiguous questions.
-- Do not include markdown outside the JSON.
-
-Previous questions:
-${JSON.stringify(previous)}
-
-Return JSON only.
-`;
-
-  const text = await gemini(
-    GENERATION_MODEL,
-    [{role:"user",parts:[{text:prompt}]}],
-    jsonConfig(questionsSchema)
-  );
-
-  let result = parseJSON(text);
-
-  let questions = validateQuestions(
-    result.questions,
-    count
-  );
-
-  if (questions.length < count) {
-    const retryPrompt = `
-Generate ${count} completely fresh MCQs.
-
-${context(body)}
-
-Return only valid JSON.
-
-Requirements:
-4 options per question.
-correctAnswer must be A/B/C/D.
-No duplicates.
-School level only.
-`;
-
-    const retryText = await gemini(
-      GENERATION_MODEL,
-      [{role:"user",parts:[{text:retryPrompt}]}],
-      jsonConfig(questionsSchema)
-    );
-
-    const retry = parseJSON(retryText);
-
-    questions = validateQuestions(
-      retry.questions,
-      count
-    );
-  }
-
-  if (!questions.length) {
-    throw new Error("Valid AI questions could not be generated");
-  }
-
-  return res.status(200).json({
-    success:true,
-    mode:"generate_questions",
-    verified:true,
-    requestId:body.requestId || "",
-    questions
-  });
-}
-
-/* =========================================================
-   GENERATE PRACTICE
-========================================================= */
-
-async function handleGeneratePractice(req,res,body) {
-
-  let count = Number(body.count || 10);
-
-  count = Math.max(
-    1,
-    Math.min(MAX_QUESTIONS,count)
-  );
-
-  const prompt = `
-You are EXAMOS AI personalized practice generator.
-
-${context(body)}
-
-Generate exactly ${count} MCQ practice questions.
-
-Difficulty:
-${clean(body.difficulty,"Medium")}
+Chapter:
+${chapter}
 
 Topic:
-${clean(body.topic,body.chapter)}
+${topic || "Use important topics from the chapter"}
 
-Rules:
-- Questions must target the selected topic.
-- Match class and board level.
-- Four options exactly.
-- correctAnswer = A/B/C/D.
-- Include explanation.
-- Include topic.
-- Avoid duplicate wording.
-- Do not generate unrelated content.
-- Return JSON only.
+Difficulty:
+${difficulty}
+
+Mode:
+${practice ? "Targeted Practice" : "Diagnostic Test"}
+
+Requirements:
+
+1. Questions must be appropriate for the selected class.
+
+2. Questions must match the selected subject.
+
+3. Respect the selected board when possible.
+
+4. For Class 11/12 respect the selected stream.
+
+5. Do not generate questions from unrelated subjects.
+
+6. Every question must have exactly four options.
+
+7. Exactly one option must be correct.
+
+8. Correct answer must be A, B, C or D.
+
+9. Questions must not repeat previous questions.
+
+10. Include a useful topic for every question.
+
+11. Include a short explanation.
+
+12. Mix conceptual and application-based questions.
+
+13. Avoid ambiguous questions.
+
+14. For numerical questions, verify calculations.
+
+15. For Hindi-medium students, question text may be Hindi
+    while formulas and technical notation remain correct.
+
+Previous questions to avoid:
+${JSON.stringify(previous)}
+
+Return ONLY valid JSON.
+
+Format:
+
+{
+  "questions":[
+    {
+      "question":"...",
+      "options":["...","...","...","..."],
+      "correctAnswer":"A",
+      "explanation":"...",
+      "topic":"...",
+      "chapter":"...",
+      "difficulty":"Easy"
+    }
+  ]
+}
 `;
 
-  const text = await gemini(
-    GENERATION_MODEL,
-    [{role:"user",parts:[{text:prompt}]}],
-    jsonConfig(questionsSchema)
-  );
+  let parsed;
 
-  const result = parseJSON(text);
+  for(let attempt=1;attempt<=2;attempt++){
 
-  const questions = validateQuestions(
-    result.questions,
-    count
-  );
+    try{
 
-  if (!questions.length) {
-    throw new Error("Valid practice questions could not be generated");
+      const raw=await callGemini(
+        GENERATION_MODEL,
+        [
+          {
+            role:"user",
+            parts:[
+              {text:prompt}
+            ]
+          }
+        ],
+        apiKey,
+        {
+          maxOutputTokens:
+            Math.min(
+              7000,
+              320*count
+            ),
+          responseMimeType:"application/json"
+        }
+      );
+
+      parsed=extractJSON(raw);
+
+      if(
+        validateQuestions(
+          parsed.questions,
+          count
+        )
+      ){
+        break;
+      }
+
+    }catch(error){
+
+      if(attempt===2)
+        throw error;
+    }
+  }
+
+  if(!parsed?.questions){
+
+    throw new Error(
+      "AI could not generate verified questions."
+    );
+  }
+
+  const questions=
+    parsed.questions
+      .slice(0,count)
+      .map(normalizeQuestion)
+      .filter(q=>
+        q.question &&
+        q.options.length===4 &&
+        ["A","B","C","D"].includes(
+          q.correctAnswer
+        )
+      );
+
+  if(questions.length<Math.min(3,count)){
+
+    throw new Error(
+      "Generated questions failed validation."
+    );
   }
 
   return res.status(200).json({
     success:true,
-    mode:"generate_practice",
+    mode:
+      practice
+        ? "generate_practice"
+        : "generate_questions",
     verified:true,
     requestId:body.requestId || "",
     questions
   });
 }
 
-/* =========================================================
-   VALIDATE QUESTIONS
-========================================================= */
-
-function validateQuestions(list,count) {
-
-  if (!Array.isArray(list)) {
-    return [];
-  }
-
-  const seen = new Set();
-  const output=[];
-
-  for (const q of list) {
-
-    if (!q || typeof q !== "object") continue;
-
-    const question =
-      clean(q.question);
-
-    const options =
-      Array.isArray(q.options)
-        ? q.options.map(x=>clean(x)).filter(Boolean)
-        : [];
-
-    const correct =
-      clean(q.correctAnswer).toUpperCase();
-
-    if (!question) continue;
-    if (options.length !== 4) continue;
-    if (!["A","B","C","D"].includes(correct)) continue;
-
-    const key =
-      question.toLowerCase()
-        .replace(/\s+/g," ");
-
-    if (seen.has(key)) continue;
-
-    seen.add(key);
-
-    output.push({
-      question,
-      options,
-      correctAnswer:correct,
-      explanation:clean(
-        q.explanation,
-        "Correct answer selected based on the concept."
-      ),
-      topic:clean(q.topic,"General"),
-      difficulty:clean(q.difficulty,"Medium")
-    });
-
-    if (output.length >= count) break;
-  }
-
-  return output;
-}
 
 /* =========================================================
-   SOLUTION ANALYSIS
+   SOLUTION PHOTO ANALYSIS
 ========================================================= */
 
-async function handleAnalyzeSolution(req,res,body) {
+async function handleSolutionAnalysis(
+  body,
+  res,
+  apiKey
+){
 
-  const image =
+  let image=
     body.imageBase64 ||
     body.image ||
     body.imageData ||
     body.photo;
 
-  if (!image) {
+  if(!image){
+
     return res.status(400).json({
       success:false,
-      error:"Solution image required"
+      error:"Image required."
     });
   }
 
-  const imagePart = makeImagePart(image);
+  let mimeType="image/jpeg";
+  let base64=String(image);
 
-  if (!imagePart) {
-    return res.status(400).json({
-      success:false,
-      error:"Invalid image format"
-    });
+  if(base64.startsWith("data:")){
+
+    const match=
+      base64.match(
+        /^data:([^;]+);base64,(.*)$/s
+      );
+
+    if(!match){
+
+      return res.status(400).json({
+        success:false,
+        error:"Invalid image data."
+      });
+    }
+
+    mimeType=match[1];
+    base64=match[2];
   }
 
-  const prompt = `
-You are EXAMOS AI's handwritten solution analyzer.
+  const prompt=`
 
+You are EXAMOS AI's handwritten solution analysis engine.
+
+Student context:
 ${context(body)}
 
-Analyze the student's handwritten solution image.
+Analyze the uploaded handwritten solution carefully.
 
-Your job:
-1. Read the question if visible.
-2. Read the student's work.
-3. Decide whether the final answer is correct.
-4. If wrong, identify where the mistake happened.
-5. Classify the mistake as:
+You must determine:
+
+1. What question is being solved.
+2. What the student's final answer is.
+3. Whether the answer appears correct.
+4. Where the first meaningful mistake occurs.
+5. Whether the mistake is:
    - calculation
    - formula
    - concept
-   - step
-   - reading/question understanding
-   - unknown
-6. Explain the correct method.
-7. Give the correct answer when possible.
-8. Identify the weak topic.
-9. Give a short concept check.
-10. Suggest a practice topic.
+   - method
+   - sign
+   - unit
+   - incomplete solution
+   - unclear handwriting
+6. Correct method.
+7. Correct answer if determinable.
+8. Weak topic.
+9. Concept check.
+10. Hindi explanation.
+11. Practice topic.
 
 Important:
-- Do not invent handwriting that cannot be read.
-- If image is unclear, say so.
-- Do not claim certainty when the image does not allow it.
-- Use student-friendly Hindi/Hinglish.
-- Preserve mathematical notation correctly.
 
-Return JSON only.
+- Do not invent unreadable handwriting.
+- If something cannot be read, clearly say so.
+- Check calculations carefully.
+- Follow the selected board/class/subject.
+- Use simple Hindi.
+- Mathematical formulas must remain correct.
+
+Return ONLY valid JSON.
+
+Format:
+
+{
+  "readable":true,
+  "question":"...",
+  "studentFinalAnswer":"...",
+  "isCorrect":false,
+  "mistake":"...",
+  "correctMethod":"...",
+  "correctAnswer":"...",
+  "weakTopic":"...",
+  "conceptCheck":"...",
+  "explanationHindi":"...",
+  "practiceTopic":"..."
+}
 `;
 
-  const schema = {
-    type:"object",
-    properties:{
-      readable:{type:"boolean"},
-      question:{type:"string"},
-      studentFinalAnswer:{type:"string"},
-      isCorrect:{type:"boolean"},
-      mistake:{type:"string"},
-      mistakeType:{type:"string"},
-      correctMethod:{type:"string"},
-      correctAnswer:{type:"string"},
-      weakTopic:{type:"string"},
-      conceptCheck:{type:"string"},
-      explanationHindi:{type:"string"},
-      practiceTopic:{type:"string"}
-    },
-    required:[
-      "readable",
-      "question",
-      "studentFinalAnswer",
-      "isCorrect",
-      "mistake",
-      "mistakeType",
-      "correctMethod",
-      "correctAnswer",
-      "weakTopic",
-      "conceptCheck",
-      "explanationHindi",
-      "practiceTopic"
-    ]
-  };
-
-  const text = await gemini(
+  const raw=await callGemini(
     ANALYSIS_MODEL,
-    [{
-      role:"user",
-      parts:[
-        {text:prompt},
-        imagePart
-      ]
-    }],
-    jsonConfig(schema)
+    [
+      {
+        role:"user",
+        parts:[
+          {
+            inlineData:{
+              mimeType,
+              data:base64
+            }
+          },
+          {
+            text:prompt
+          }
+        ]
+      }
+    ],
+    apiKey,
+    {
+      maxOutputTokens:2200,
+      responseMimeType:"application/json"
+    }
   );
 
-  const result=parseJSON(text);
+  let result;
+
+  try{
+    result=extractJSON(raw);
+  }catch{
+
+    return res.status(500).json({
+      success:false,
+      error:"AI returned invalid analysis JSON."
+    });
+  }
 
   return res.status(200).json({
     success:true,
     mode:"analyze_solution",
-    ...result
+
+    readable:Boolean(
+      result.readable
+    ),
+
+    question:String(
+      result.question || ""
+    ),
+
+    studentFinalAnswer:String(
+      result.studentFinalAnswer || ""
+    ),
+
+    isCorrect:Boolean(
+      result.isCorrect
+    ),
+
+    mistake:String(
+      result.mistake || ""
+    ),
+
+    correctMethod:String(
+      result.correctMethod || ""
+    ),
+
+    correctAnswer:String(
+      result.correctAnswer || ""
+    ),
+
+    weakTopic:String(
+      result.weakTopic || ""
+    ),
+
+    conceptCheck:String(
+      result.conceptCheck || ""
+    ),
+
+    explanationHindi:String(
+      result.explanationHindi || ""
+    ),
+
+    practiceTopic:String(
+      result.practiceTopic ||
+      result.weakTopic ||
+      ""
+    )
   });
-}
-
-/* =========================================================
-   IMAGE HELPER
-========================================================= */
-
-function makeImagePart(value) {
-
-  if (!value) return null;
-
-  let mimeType="image/jpeg";
-  let data=String(value);
-
-  if (data.startsWith("data:")) {
-
-    const match =
-      data.match(/^data:([^;]+);base64,(.+)$/);
-
-    if (!match) return null;
-
-    mimeType=match[1];
-    data=match[2];
-  }
-
-  if (!data) return null;
-
-  return {
-    inlineData:{
-      mimeType,
-      data
-    }
-  };
-}
+};
