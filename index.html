@@ -3,237 +3,1371 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#5b35e8">
+<meta name="theme-color" content="#5b35e7">
 <title>EXAMOS AI</title>
 
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f4f6fb;color:#151827}
+html,body{margin:0;padding:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#172033}
+body{min-height:100vh}
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
 .hidden{display:none!important}
 
-body{min-height:100vh}
-#app{max-width:520px;margin:auto;min-height:100vh;background:#f4f6fb}
+:root{
+ --primary:#6338e8;
+ --primary2:#8747f5;
+ --blue:#2878f0;
+ --green:#16a66a;
+ --red:#e5484d;
+ --dark:#171d32;
+ --muted:#6d7486;
+ --card:#fff;
+ --border:#e4e7ef;
+ --soft:#f1efff;
+}
 
-.screen{min-height:100vh;padding:20px 16px 90px}
-.center{display:flex;align-items:center;justify-content:center}
+.app{
+ max-width:520px;
+ margin:auto;
+ min-height:100vh;
+ background:#f7f8fc;
+ position:relative;
+ overflow:hidden;
+}
+
+.screen{min-height:100vh;padding-bottom:82px}
+.center-screen{
+ min-height:100vh;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+}
 
 .logo{
- width:112px;height:112px;border-radius:30px;object-fit:cover;
- box-shadow:0 12px 35px #5b35e83d;
+ width:105px;height:105px;
+ object-fit:contain;
+ border-radius:25px;
+ display:block;
+ margin:auto;
+ background:#fff;
+ box-shadow:0 10px 30px #5b35e722;
 }
 
-.welcome{text-align:center;padding-top:55px}
-.welcome h1{font-size:34px;margin:22px 0 8px;font-weight:900}
-.subtitle{color:#6b7080;font-size:16px;margin-bottom:32px}
-
-.card{
- background:white;border-radius:24px;padding:20px;
- box-shadow:0 8px 30px #17204a12;margin-bottom:15px;
+.brand{
+ text-align:center;
+ font-size:34px;
+ font-weight:900;
+ margin:16px 0 8px;
+ color:#141a2d;
+ letter-spacing:.5px;
 }
-.card h2{margin:0 0 14px;font-size:21px}
 
-.btn{
- width:100%;border:0;border-radius:16px;padding:15px 18px;
- font-weight:800;color:white;background:linear-gradient(135deg,#5935e8,#833cf3);
- margin-top:10px;
+.tagline{
+ text-align:center;
+ color:#73798a;
+ font-size:16px;
+ margin:0 0 22px;
 }
-.btn.secondary{background:#eef0ff;color:#5534dc}
-.btn.dark{background:#171b35}
-.btn.red{background:#ef4444}
-.btn:disabled{opacity:.55}
 
-.field{margin-bottom:14px}
-.field label{display:block;font-weight:750;margin-bottom:7px;font-size:14px}
-.field input,.field select,.field textarea{
- width:100%;padding:14px;border:1px solid #dfe2eb;border-radius:14px;
- background:#fff;outline:none;
+.auth-card{
+ background:#fff;
+ border:1px solid #e2e5ed;
+ border-radius:25px;
+ padding:22px;
+ box-shadow:0 15px 45px #202c4510;
 }
-.field input:focus,.field select:focus,.field textarea:focus{border-color:#7040ec}
 
 .tabs{
- display:flex;background:#eef0f5;border-radius:15px;padding:4px;margin-bottom:18px
-}
-.tabs button{
- flex:1;border:0;background:transparent;padding:12px;border-radius:12px;font-weight:800
-}
-.tabs button.active{background:white;color:#6136df;box-shadow:0 3px 10px #0000000d}
-
-.topbar{
- display:flex;align-items:center;justify-content:space-between;margin-bottom:18px
-}
-.topbar h1{font-size:25px;margin:0}
-.iconbtn{
- width:42px;height:42px;border:0;border-radius:14px;background:white;
- box-shadow:0 5px 15px #0000000b;font-size:19px
+ display:flex;
+ background:#f0f2f7;
+ padding:5px;
+ border-radius:15px;
+ margin-bottom:22px;
 }
 
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.feature{
- background:white;border:0;border-radius:20px;padding:18px;text-align:left;
- box-shadow:0 7px 22px #17204a0b;min-height:135px
-}
-.feature .emoji{font-size:28px}
-.feature b{display:block;font-size:16px;margin-top:12px}
-.feature span{display:block;color:#777d8d;font-size:12px;margin-top:5px}
-
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.stat{background:white;border-radius:18px;padding:15px;text-align:center}
-.stat b{font-size:23px;display:block}
-.stat span{font-size:11px;color:#777}
-
-.nav{
- position:fixed;bottom:0;left:50%;transform:translateX(-50%);
- width:min(520px,100%);background:#fff;border-top:1px solid #e5e6eb;
- display:grid;grid-template-columns:repeat(4,1fr);padding:8px 8px 10px;
- z-index:20
-}
-.nav button{border:0;background:none;color:#777;font-size:11px}
-.nav button.active{color:#6136df;font-weight:800}
-.nav i{display:block;font-style:normal;font-size:21px;margin-bottom:3px}
-
-.option{
- border:1px solid #e1e3ea;background:#fff;border-radius:14px;
- padding:14px;margin:8px 0;text-align:left
-}
-.option.selected{border:2px solid #6339e7;background:#f5f1ff}
-.option.correct{border:2px solid #22a06b;background:#effbf5}
-.option.wrong{border:2px solid #ef4444;background:#fff2f2}
-
-.progressbar{height:8px;background:#e7e8ee;border-radius:20px;overflow:hidden}
-.progressbar div{height:100%;background:linear-gradient(90deg,#5935e8,#8b4cff)}
-
-.question{font-size:18px;font-weight:750;line-height:1.55}
-.small{font-size:13px;color:#777d8d}
-.badge{
- display:inline-block;background:#eeeaff;color:#5d36db;
- padding:6px 10px;border-radius:99px;font-size:11px;font-weight:800
+.tab{
+ flex:1;
+ border:0;
+ background:transparent;
+ padding:13px 8px;
+ border-radius:12px;
+ font-weight:800;
+ color:#777e90;
 }
 
-.chat{
- position:fixed;right:18px;bottom:75px;width:58px;height:58px;
- border:0;border-radius:50%;background:linear-gradient(135deg,#5935e8,#873cf2);
- color:white;font-size:25px;box-shadow:0 10px 30px #5d36db55;z-index:25
+.tab.active{
+ background:#fff;
+ color:var(--primary);
+ box-shadow:0 4px 12px #202c4510;
 }
 
-.modal{
- position:fixed;inset:0;background:#0008;z-index:50;
- display:flex;align-items:flex-end;justify-content:center
-}
-.sheet{
- width:min(520px,100%);background:#fff;border-radius:26px 26px 0 0;
- max-height:88vh;overflow:auto;padding:20px
-}
-.chatbox{height:58vh;display:flex;flex-direction:column}
-.messages{flex:1;overflow:auto;padding:8px 0}
-.msg{max-width:85%;padding:12px 14px;border-radius:16px;margin:7px 0;line-height:1.45}
-.msg.me{margin-left:auto;background:#6136df;color:#fff;border-bottom-right-radius:4px}
-.msg.ai{background:#f0f1f5;border-bottom-left-radius:4px}
-.chatinput{display:flex;gap:7px;margin-top:10px}
-.chatinput input{flex:1;border:1px solid #ddd;border-radius:14px;padding:13px}
-.circle{
- width:46px;height:46px;border:0;border-radius:14px;background:#eeeaff;color:#5b35e8
+.label{
+ display:block;
+ font-size:14px;
+ font-weight:800;
+ margin:14px 0 8px;
+ color:#252b3b;
 }
 
-.drop{
- border:2px dashed #bfc2d1;border-radius:18px;padding:25px;text-align:center
+.input,.select,.textarea{
+ width:100%;
+ border:1px solid #dfe3eb;
+ background:#fff;
+ border-radius:14px;
+ padding:14px;
+ outline:none;
+ color:#172033;
 }
-.drop input{display:none}
 
-.toast{
- position:fixed;top:18px;left:50%;transform:translateX(-50%);
- background:#141827;color:white;padding:14px 18px;border-radius:14px;
- z-index:100;max-width:90%;font-size:13px;box-shadow:0 10px 30px #0003
+.input:focus,.select:focus,.textarea:focus{
+ border-color:var(--primary);
+ box-shadow:0 0 0 3px #6338e812;
+}
+
+.primary-btn{
+ width:100%;
+ border:0;
+ color:#fff;
+ background:linear-gradient(135deg,var(--primary),var(--primary2));
+ border-radius:15px;
+ padding:15px;
+ font-weight:900;
+ margin-top:18px;
+ box-shadow:0 9px 22px #6338e82b;
+}
+
+.secondary-btn{
+ width:100%;
+ border:1px solid #ddd7ff;
+ color:var(--primary);
+ background:#f5f2ff;
+ border-radius:15px;
+ padding:14px;
+ font-weight:800;
+ margin-top:10px;
+}
+
+.primary-btn:disabled,.secondary-btn:disabled{
+ opacity:.55;
+ cursor:not-allowed;
+}
+
+.small-note{
+ text-align:center;
+ color:#818798;
+ font-size:12px;
+ margin-top:15px;
+ line-height:1.5;
+}
+
+.error{
+ background:#fff0f0;
+ color:#c6292f;
+ border:1px solid #ffd1d1;
+ border-radius:12px;
+ padding:11px;
+ margin-top:12px;
+ font-size:13px;
+}
+
+.success{
+ background:#ecfff6;
+ color:#087d4e;
+ border:1px solid #b9f0d5;
+ border-radius:12px;
+ padding:11px;
+ margin-top:12px;
+ font-size:13px;
 }
 
 .loading{
- display:flex;gap:7px;align-items:center;justify-content:center;padding:25px
+ position:fixed;
+ inset:0;
+ background:#fff9;
+ backdrop-filter:blur(5px);
+ z-index:9999;
+ display:flex;
+ align-items:center;
+ justify-content:center;
 }
-.dot{width:8px;height:8px;background:#6539e8;border-radius:50%;animation:b .8s infinite alternate}
-.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
-@keyframes b{to{opacity:.25;transform:translateY(-5px)}}
 
-.answerbox{
- background:#f6f4ff;border-radius:17px;padding:15px;margin-top:14px
+.loading-box{
+ background:#fff;
+ border-radius:20px;
+ padding:25px;
+ width:85%;
+ max-width:330px;
+ text-align:center;
+ box-shadow:0 20px 60px #0002;
+}
+
+.spinner{
+ width:35px;height:35px;
+ border:4px solid #e5e1ff;
+ border-top-color:var(--primary);
+ border-radius:50%;
+ animation:spin .8s linear infinite;
+ margin:0 auto 14px;
+}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.topbar{
+ background:linear-gradient(135deg,#5631d7,#7440ec);
+ color:#fff;
+ padding:18px 18px 22px;
+ border-radius:0 0 25px 25px;
+}
+
+.topbar-row{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:12px;
+}
+
+.app-title{
+ font-size:22px;
+ font-weight:900;
+}
+
+.user-mini{
+ width:42px;height:42px;
+ border-radius:50%;
+ background:#ffffff25;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-weight:900;
+ border:1px solid #ffffff40;
+}
+
+.container{padding:17px}
+
+.welcome-card{
+ background:#fff;
+ border-radius:22px;
+ padding:18px;
+ margin-top:-8px;
+ box-shadow:0 10px 35px #222b4410;
+}
+
+.welcome-card h2{
+ margin:0 0 5px;
+ font-size:23px;
+}
+
+.welcome-card p{
+ margin:0;
+ color:var(--muted);
+ font-size:14px;
+}
+
+.stats{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:10px;
+ margin-top:16px;
+}
+
+.stat{
+ background:#fff;
+ border:1px solid var(--border);
+ border-radius:17px;
+ padding:15px 8px;
+ text-align:center;
+}
+
+.stat b{
+ display:block;
+ font-size:22px;
+ color:var(--primary);
+}
+
+.stat span{
+ color:var(--muted);
+ font-size:11px;
+}
+
+.grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:12px;
+ margin-top:16px;
+}
+
+.feature{
+ border:1px solid var(--border);
+ background:#fff;
+ border-radius:20px;
+ padding:18px 14px;
+ min-height:140px;
+ text-align:left;
+ box-shadow:0 7px 25px #1d274208;
+}
+
+.feature-icon{
+ font-size:30px;
+ margin-bottom:13px;
+}
+
+.feature b{
+ display:block;
+ font-size:16px;
+ margin-bottom:6px;
+}
+
+.feature span{
+ color:var(--muted);
+ font-size:12px;
+ line-height:1.4;
+}
+
+.section-title{
+ font-size:19px;
+ font-weight:900;
+ margin:22px 0 10px;
+}
+
+.card{
+ background:#fff;
+ border:1px solid var(--border);
+ border-radius:20px;
+ padding:17px;
+ margin-top:13px;
+}
+
+.card h3{
+ margin:0 0 8px;
+}
+
+.muted{
+ color:var(--muted);
+ font-size:13px;
+}
+
+.chip-row{
+ display:flex;
+ flex-wrap:wrap;
+ gap:8px;
+ margin-top:10px;
+}
+
+.chip{
+ padding:8px 11px;
+ border-radius:20px;
+ background:#f1efff;
+ color:var(--primary);
+ font-size:12px;
+ font-weight:800;
+}
+
+.back{
+ border:0;
+ background:#fff;
+ color:#252a39;
+ width:38px;height:38px;
+ border-radius:12px;
+ font-size:20px;
+}
+
+.page-title{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ margin:18px 0;
+}
+
+.page-title h2{
+ margin:0;
+ font-size:23px;
+}
+
+.option-list{
+ display:grid;
+ gap:10px;
+ margin-top:12px;
+}
+
+.option{
+ border:1px solid var(--border);
+ background:#fff;
+ padding:15px;
+ border-radius:15px;
+ text-align:left;
+ font-weight:800;
+}
+
+.option.selected{
+ border-color:var(--primary);
+ background:#f2efff;
+ color:var(--primary);
+}
+
+.subject-card{
+ background:#fff;
+ border:1px solid var(--border);
+ border-radius:18px;
+ padding:16px;
+ margin-top:10px;
+}
+
+.subject-title{
+ font-size:17px;
+ font-weight:900;
+}
+
+.dual-name{
+ margin-top:5px;
+ color:#697185;
+ font-size:13px;
+}
+
+.chapter{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:10px;
+ border:1px solid #e7e8ee;
+ padding:13px;
+ border-radius:14px;
+ margin-top:8px;
+ background:#fafbfe;
+}
+
+.chapter-name{
+ font-weight:800;
+ font-size:14px;
+}
+
+.chapter-hi{
+ color:#777f91;
+ font-size:12px;
+ margin-top:4px;
+}
+
+.arrow{
+ color:var(--primary);
+ font-size:20px;
+}
+
+.question-card{
+ background:#fff;
+ border:1px solid var(--border);
+ border-radius:20px;
+ padding:18px;
+ margin-top:14px;
+}
+
+.q-number{
+ color:var(--primary);
+ font-size:13px;
+ font-weight:900;
+}
+
+.question{
+ font-size:17px;
+ line-height:1.5;
+ font-weight:800;
+ margin:10px 0 14px;
+}
+
+.answer{
+ display:block;
+ width:100%;
+ text-align:left;
+ padding:13px;
+ border:1px solid var(--border);
+ background:#fff;
+ border-radius:13px;
+ margin:8px 0;
+}
+
+.answer.selected{
+ border-color:var(--primary);
+ background:#f0edff;
+ color:var(--primary);
+}
+
+.timer{
+ text-align:center;
+ background:#171d32;
+ color:#fff;
+ border-radius:15px;
+ padding:11px;
+ font-weight:900;
+ margin-bottom:12px;
+}
+
+.result-big{
+ text-align:center;
+ padding:20px 10px;
+}
+
+.score{
+ font-size:52px;
+ font-weight:900;
+ color:var(--primary);
+}
+
+.result-item{
+ background:#f7f8fc;
+ border-radius:14px;
+ padding:13px;
+ margin-top:8px;
+}
+
+.progress-bar{
+ width:100%;
+ height:10px;
+ background:#e9ebf1;
+ border-radius:20px;
+ overflow:hidden;
+ margin-top:8px;
+}
+
+.progress-fill{
+ height:100%;
+ background:linear-gradient(90deg,var(--primary),var(--blue));
+ border-radius:20px;
+}
+
+.bottom{
+ position:fixed;
+ bottom:0;
+ left:50%;
+ transform:translateX(-50%);
+ width:100%;
+ max-width:520px;
+ height:70px;
+ background:#fff;
+ border-top:1px solid #e2e5ed;
+ display:grid;
+ grid-template-columns:repeat(5,1fr);
+ z-index:1000;
+}
+
+.nav-btn{
+ border:0;
+ background:#fff;
+ color:#858b9a;
+ font-size:10px;
+ font-weight:800;
+}
+
+.nav-btn .nav-icon{
+ display:block;
+ font-size:21px;
+ margin-bottom:3px;
+}
+
+.nav-btn.active{
+ color:var(--primary);
+}
+
+.ai-fab{
+ position:fixed;
+ right:max(calc((100vw - 520px)/2 + 16px),16px);
+ bottom:88px;
+ width:58px;height:58px;
+ border-radius:50%;
+ border:0;
+ color:#fff;
+ background:linear-gradient(135deg,#6338e8,#9a48ff);
+ font-size:24px;
+ box-shadow:0 10px 28px #6338e855;
+ z-index:999;
+}
+
+.chat{
+ position:fixed;
+ inset:0;
+ z-index:3000;
+ background:#f7f8fc;
+ max-width:520px;
+ margin:auto;
+}
+
+.chat-head{
+ background:linear-gradient(135deg,#5631d7,#7440ec);
+ color:#fff;
+ padding:17px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+}
+
+.chat-messages{
+ height:calc(100vh - 150px);
+ overflow:auto;
+ padding:15px;
+}
+
+.msg{
+ max-width:86%;
+ padding:12px 14px;
+ border-radius:17px;
+ margin:8px 0;
+ line-height:1.5;
+ white-space:pre-wrap;
+ font-size:14px;
+}
+
+.msg.ai{
+ background:#fff;
+ border:1px solid var(--border);
+ margin-right:auto;
+}
+
+.msg.user{
+ background:#6338e8;
+ color:#fff;
+ margin-left:auto;
+}
+
+.chat-tools{
+ position:absolute;
+ bottom:0;
+ left:0;right:0;
+ background:#fff;
+ border-top:1px solid var(--border);
+ padding:9px;
+}
+
+.chat-input-row{
+ display:flex;
+ gap:7px;
+}
+
+.chat-input{
+ flex:1;
+ border:1px solid var(--border);
+ border-radius:14px;
+ padding:12px;
+ outline:none;
+}
+
+.circle-btn{
+ width:43px;height:43px;
+ border:0;
+ border-radius:50%;
+ background:#f0edff;
+ color:var(--primary);
+}
+
+.send-btn{
+ background:var(--primary);
+ color:#fff;
+}
+
+.profile-head{
+ text-align:center;
+ padding:18px;
+}
+
+.avatar{
+ width:75px;height:75px;
+ border-radius:50%;
+ background:linear-gradient(135deg,#6338e8,#8e4ff4);
+ color:#fff;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:30px;
+ font-weight:900;
+ margin:auto;
+}
+
+.setting-row{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ padding:15px 0;
+ border-bottom:1px solid #eee;
+}
+
+.photo-preview{
+ width:100%;
+ max-height:300px;
+ object-fit:contain;
+ border-radius:16px;
+ margin-top:12px;
+ background:#f2f3f7;
+}
+
+.feedback-stars{
+ display:flex;
+ gap:7px;
+ margin:10px 0;
+}
+
+.star{
+ border:0;
+ background:transparent;
+ font-size:28px;
+ color:#c8ccd5;
+}
+
+.star.active{color:#ffb400}
+
+.toast{
+ position:fixed;
+ top:18px;
+ left:50%;
+ transform:translateX(-50%);
+ background:#171d32;
+ color:#fff;
+ padding:12px 17px;
+ border-radius:13px;
+ z-index:10000;
+ max-width:90%;
+ font-size:13px;
+ box-shadow:0 8px 30px #0003;
+}
+
+@media(max-width:380px){
+ .brand{font-size:29px}
+ .grid{gap:8px}
+ .feature{padding:14px 10px}
 }
 </style>
 </head>
 
 <body>
-<div id="app"></div>
+
+<div id="loading" class="loading">
+ <div class="loading-box">
+  <div class="spinner"></div>
+  <b>EXAMOS AI</b>
+  <p class="muted">Loading your learning space...</p>
+ </div>
+</div>
 
 <div id="toast" class="toast hidden"></div>
 
-<!-- CHAT MODAL -->
-<div id="chatModal" class="modal hidden" onclick="closeChatOutside(event)">
- <div class="sheet" onclick="event.stopPropagation()">
-  <div class="topbar">
-   <h2 style="margin:0">🤖 EXAMOS AI</h2>
-   <button class="iconbtn" onclick="closeChat()">✕</button>
+<div class="app">
+
+<!-- ================= LOGIN ================= -->
+<div id="authScreen" class="center-screen">
+ <div style="width:100%">
+
+  <img src="logopng.png" class="logo" onerror="this.style.display='none'">
+
+  <div class="brand">EXAMOS AI</div>
+  <div class="tagline">
+   Smart Practice. Better Results. Learn with AI.
   </div>
 
-  <div class="chatbox">
-   <div id="messages" class="messages">
-    <div class="msg ai">
-     नमस्ते! 👋 मैं EXAMOS AI हूँ।<br>
-     आप कोई भी study question पूछ सकते हो।
-    </div>
+  <div class="auth-card">
+
+   <div class="tabs">
+    <button id="loginTab" class="tab active" onclick="switchAuth('login')">
+     Login
+    </button>
+    <button id="registerTab" class="tab" onclick="switchAuth('register')">
+     Create Account
+    </button>
    </div>
 
-   <div class="chatinput">
-    <button class="circle" onclick="startVoice()">🎙️</button>
+   <div id="authError" class="error hidden"></div>
+   <div id="authSuccess" class="success hidden"></div>
 
-    <label class="circle center" style="cursor:pointer">
-      📷
-      <input id="chatPhoto" type="file" accept="image/*" capture="environment"
-             onchange="chatPhotoSelected(event)">
-    </label>
+   <form id="loginForm">
+    <label class="label">Student ID / Email</label>
+    <input id="loginId" class="input" autocomplete="username"
+           placeholder="Enter Student ID or Email" required>
 
-    <input id="chatInput" placeholder="अपना सवाल लिखें...">
+    <label class="label">Password</label>
+    <input id="loginPassword" class="input" type="password"
+           autocomplete="current-password"
+           placeholder="Enter password" required>
 
-    <button class="circle" onclick="sendChat()">➤</button>
+    <button id="loginBtn" class="primary-btn" type="submit">
+     Login
+    </button>
+   </form>
+
+   <form id="registerForm" class="hidden">
+    <label class="label">Student Name</label>
+    <input id="regName" class="input"
+           placeholder="Your full name" required>
+
+    <label class="label">Student ID / Email</label>
+    <input id="regId" class="input" autocomplete="username"
+           placeholder="Example: vishal123" required>
+
+    <label class="label">Password</label>
+    <input id="regPassword" class="input" type="password"
+           autocomplete="new-password"
+           placeholder="Minimum 6 characters" minlength="6" required>
+
+    <button id="registerBtn" class="primary-btn" type="submit">
+     Create Account
+    </button>
+   </form>
+
+   <div class="small-note">
+    Your student account is securely stored with Firebase.
    </div>
-
-   <button class="btn secondary" onclick="speakLastAnswer()">🔊 AI Answer सुनें</button>
   </div>
  </div>
 </div>
 
-<script type="module">
 
-/* =========================================================
+<!-- ================= PROFILE SETUP ================= -->
+<div id="profileScreen" class="screen hidden">
+
+ <div class="topbar">
+  <div class="app-title">Create Your Learning Profile</div>
+  <div style="margin-top:7px;font-size:13px;opacity:.85">
+   Choose your board, class and stream.
+  </div>
+ </div>
+
+ <div class="container">
+
+  <div class="card">
+   <h3>Student Information</h3>
+
+   <label class="label">Student Name</label>
+   <input id="profileName" class="input">
+
+   <label class="label">Board</label>
+   <select id="boardSelect" class="select" onchange="updateClassOptions()">
+    <option value="">Select Board</option>
+    <option value="CBSE">CBSE</option>
+    <option value="BIHAR">Bihar Board</option>
+    <option value="OTHER">Other Board</option>
+   </select>
+
+   <label class="label">Class</label>
+   <select id="classSelect" class="select" onchange="updateStreamOptions()">
+    <option value="">Select Class</option>
+    <option value="9">Class 9</option>
+    <option value="10">Class 10</option>
+    <option value="11">Class 11</option>
+    <option value="12">Class 12</option>
+   </select>
+
+   <div id="streamBox" class="hidden">
+    <label class="label">Stream</label>
+    <select id="streamSelect" class="select" onchange="updateProfileSubjects()">
+     <option value="">Select Stream</option>
+     <option value="SCIENCE">Science</option>
+     <option value="COMMERCE">Commerce</option>
+     <option value="ARTS">Arts / Humanities</option>
+    </select>
+   </div>
+
+   <div id="profileSubjectsBox" class="hidden">
+    <label class="label">Your Subjects</label>
+    <div id="profileSubjects" class="chip-row"></div>
+   </div>
+
+   <button id="saveProfileBtn" class="primary-btn" onclick="saveProfile()">
+    Continue to EXAMOS AI
+   </button>
+  </div>
+
+ </div>
+</div>
+
+
+<!-- ================= MAIN APP ================= -->
+<div id="mainApp" class="screen hidden">
+
+ <div class="topbar">
+  <div class="topbar-row">
+   <div>
+    <div class="app-title">EXAMOS AI</div>
+    <div id="topContext" style="font-size:12px;opacity:.85;margin-top:4px">
+     Smart Learning
+    </div>
+   </div>
+   <div id="topAvatar" class="user-mini">E</div>
+  </div>
+ </div>
+
+ <div id="homePage" class="container page">
+
+  <div class="welcome-card">
+   <h2 id="helloName">Welcome 👋</h2>
+   <p id="helloContext">Your personalized learning space.</p>
+  </div>
+
+  <div class="stats">
+   <div class="stat">
+    <b id="statTests">0</b>
+    <span>Tests</span>
+   </div>
+   <div class="stat">
+    <b id="statScore">0%</b>
+    <span>Score</span>
+   </div>
+   <div class="stat">
+    <b id="statPractice">0</b>
+    <span>Practice</span>
+   </div>
+  </div>
+
+  <div class="section-title">Learn with AI</div>
+
+  <div class="grid">
+
+   <button class="feature" onclick="openTestSetup()">
+    <div class="feature-icon">📝</div>
+    <b>Diagnostic Test</b>
+    <span>Find weak topics with AI-powered questions.</span>
+   </button>
+
+   <button class="feature" onclick="openPracticeSetup()">
+    <div class="feature-icon">🎯</div>
+    <b>Math & Subject Practice</b>
+    <span>Practice chapter and topic-wise questions.</span>
+   </button>
+
+   <button class="feature" onclick="openAnalysis()">
+    <div class="feature-icon">📷</div>
+    <b>Solution Analysis</b>
+    <span>Upload your handwritten solution and let AI check it.</span>
+   </button>
+
+   <button class="feature" onclick="openProgress()">
+    <div class="feature-icon">📊</div>
+    <b>My Progress</b>
+    <span>See scores, tests and weak topics.</span>
+   </button>
+
+  </div>
+
+  <div class="section-title">Quick Learning</div>
+
+  <div class="card" onclick="openConceptSetup()" style="cursor:pointer">
+   <h3>💡 AI Concept</h3>
+   <div class="muted">
+    Choose a subject and chapter and learn the concept step-by-step.
+   </div>
+  </div>
+
+  <div class="card" onclick="openFeedback()" style="cursor:pointer">
+   <h3>💬 Student Feedback</h3>
+   <div class="muted">
+    Tell us what should be improved in EXAMOS AI.
+   </div>
+  </div>
+
+ </div>
+
+
+ <!-- TEST SETUP -->
+ <div id="testSetupPage" class="container page hidden">
+  <div class="page-title">
+   <button class="back" onclick="showPage('homePage')">←</button>
+   <h2>AI Diagnostic Test</h2>
+  </div>
+
+  <div class="card">
+   <label class="label">Subject</label>
+   <select id="testSubject" class="select" onchange="loadTestChapters()"></select>
+
+   <label class="label">Chapter</label>
+   <select id="testChapter" class="select" onchange="loadTestTopics()"></select>
+
+   <label class="label">Topic</label>
+   <select id="testTopic" class="select"></select>
+
+   <label class="label">Questions</label>
+   <select id="testCount" class="select">
+    <option value="10">10 Questions</option>
+    <option value="15">15 Questions</option>
+    <option value="20">20 Questions</option>
+   </select>
+
+   <label class="label">Difficulty</label>
+   <select id="testDifficulty" class="select">
+    <option value="mixed">Mixed</option>
+    <option value="easy">Easy</option>
+    <option value="medium">Medium</option>
+    <option value="hard">Hard</option>
+   </select>
+
+   <button id="startTestBtn" class="primary-btn" onclick="startTest()">
+    🤖 Generate AI Test
+   </button>
+  </div>
+ </div>
+
+
+ <!-- PRACTICE SETUP -->
+ <div id="practiceSetupPage" class="container page hidden">
+  <div class="page-title">
+   <button class="back" onclick="showPage('homePage')">←</button>
+   <h2>AI Practice</h2>
+  </div>
+
+  <div class="card">
+
+   <label class="label">Subject</label>
+   <select id="practiceSubject" class="select"
+           onchange="loadPracticeChapters()"></select>
+
+   <label class="label">Chapter</label>
+   <select id="practiceChapter" class="select"
+           onchange="loadPracticeTopics()"></select>
+
+   <label class="label">Topic</label>
+   <select id="practiceTopic" class="select"></select>
+
+   <label class="label">Difficulty</label>
+   <select id="practiceDifficulty" class="select">
+    <option value="easy">Easy</option>
+    <option value="medium">Medium</option>
+    <option value="hard">Hard</option>
+   </select>
+
+   <label class="label">Questions</label>
+   <select id="practiceCount" class="select">
+    <option value="5">5 Questions</option>
+    <option value="10">10 Questions</option>
+    <option value="15">15 Questions</option>
+   </select>
+
+   <button id="startPracticeBtn" class="primary-btn"
+           onclick="startPractice()">
+    🎯 Start AI Practice
+   </button>
+  </div>
+ </div>
+
+
+ <!-- CONCEPT SETUP -->
+ <div id="conceptSetupPage" class="container page hidden">
+  <div class="page-title">
+   <button class="back" onclick="showPage('homePage')">←</button>
+   <h2>AI Concept</h2>
+  </div>
+
+  <div class="card">
+
+   <label class="label">Subject</label>
+   <select id="conceptSubject" class="select"
+           onchange="loadConceptChapters()"></select>
+
+   <label class="label">Chapter</label>
+   <select id="conceptChapter" class="select"
+           onchange="loadConceptTopics()"></select>
+
+   <label class="label">Topic</label>
+   <select id="conceptTopic" class="select"></select>
+
+   <button class="primary-btn" onclick="loadConcept()">
+    💡 Teach Me This
+   </button>
+  </div>
+
+  <div id="conceptResult"></div>
+ </div>
+
+
+ <!-- TEST PAGE -->
+ <div id="testPage" class="container page hidden">
+  <div class="page-title">
+   <button class="back" onclick="stopCurrentTest()">←</button>
+   <h2 id="testTitle">AI Test</h2>
+  </div>
+
+  <div class="timer">
+   ⏱️ Time Left: <span id="timerText">10:00</span>
+  </div>
+
+  <div id="testQuestions"></div>
+
+  <button id="submitTestBtn" class="primary-btn"
+          onclick="submitTest()">
+   Submit Test
+  </button>
+ </div>
+
+
+ <!-- PRACTICE PAGE -->
+ <div id="practicePage" class="container page hidden">
+  <div class="page-title">
+   <button class="back" onclick="showPage('homePage')">←</button>
+   <h2 id="practiceTitle">Practice</h2>
+  </div>
+
+  <div id="practiceQuestions"></div>
+
+  <button id="submitPracticeBtn" class="primary-btn"
+          onclick="submitPractice()">
+   Submit Practice
+  </button>
+ </div>
+
+
+ <!-- RESULT PAGE -->
+ <div id="resultPage" class="container page hidden">
+  <div class="page-title">
+   <button class="back" onclick="showPage('homePage')">←</button>
+   <h2>Result</h2>
+  </div>
+
+  <div class="card result-big">
+   <div class="muted">Your Score</div>
+   <div id="resultScore" class="score">0%</div>
+   <div id="resultSummary" class="muted"></div>
+  </div>
+
+  <div id="weakTopicsBox"></div>
+
+  <button class="primary-btn" onclick="openPracticeFromResult()">
+   🎯 Practice Weak Topic
+  </button>
+
+  <button class="secondary-btn" onclick="showPage('homePage')">
+   Back to Dashboard
+  </button>
+ </div>
+
+
+ <!-- ANALYSIS PAGE -->
+ <div id="analysisPage" class="container page hidden">
+  <div class="page-title">
+   <button class="back" onclick="showPage('homePage')">←</button>
+   <h2>Solution Analysis</h2>
+  </div>
+
+  <div class="card">
+
+   <h3>📷 Upload Your Solution</h3>
+   <p class="muted">
+    Take a photo or select a handwritten solution.
+    AI will check your work.
+   </p>
+
+   <label class="primary-btn"
+          style="display:block;text-align:center">
+    📷 Camera / Gallery
+    <input id="solutionImage" type="file"
+           accept="image/*" capture="environment"
+           style="display:none"
+           onchange="previewSolution(event)">
+   </label>
+
+   <img id="solutionPreview" class="photo-preview hidden">
+
+   <label class="label">Subject</label>
+   <select id="analysisSubject" class="select"></select>
+
+   <label class="label">Chapter (optional)</label>
+   <select id="analysisChapter" class="select"></select>
+
+   <button id="analyzeBtn" class="primary-btn"
+           onclick="analyzeSolution()">
+    🤖 Analyze My Solution
+   </button>
+
+  </div>
+
+  <div id="analysisResult"></div>
+ </div>
+
+
+ <!-- PROGRESS PAGE -->
+ <div id="progressPage" class="container page hidden">
+  <div class="page-title">
+   <button class="back" onclick="showPage('homePage')">←</button>
+   <h2>My Progress</h2>
+  </div>
+
+  <div id="progressContent"></div>
+ </div>
+
+
+ <!-- FEEDBACK PAGE -->
+ <div id="feedbackPage" class="container page hidden">
+  <div class="page-title">
+   <button class="back" onclick="showPage('homePage')">←</button>
+   <h2>Feedback</h2>
+  </div>
+
+  <div class="card">
+   <h3>How is EXAMOS AI?</h3>
+
+   <div class="feedback-stars">
+    <button class="star" onclick="setRating(1)">★</button>
+    <button class="star" onclick="setRating(2)">★</button>
+    <button class="star" onclick="setRating(3)">★</button>
+    <button class="star" onclick="setRating(4)">★</button>
+    <button class="star" onclick="setRating(5)">★</button>
+   </div>
+
+   <label class="label">Your Feedback</label>
+   <textarea id="feedbackText" class="textarea"
+             rows="6"
+             placeholder="Tell us what you think..."></textarea>
+
+   <button class="primary-btn" onclick="submitFeedback()">
+    Send Feedback
+   </button>
+
+   <div id="feedbackMessage"></div>
+  </div>
+ </div>
+
+
+ <!-- PROFILE / SETTINGS -->
+ <div id="settingsPage" class="container page hidden">
+  <div class="page-title">
+   <button class="back" onclick="showPage('homePage')">←</button>
+   <h2>Profile & Settings</h2>
+  </div>
+
+  <div class="card profile-head">
+   <div id="profileAvatar" class="avatar">E</div>
+   <h3 id="settingsName">Student</h3>
+   <div id="settingsId" class="muted"></div>
+  </div>
+
+  <div class="card">
+
+   <div class="setting-row">
+    <span>Board</span>
+    <b id="settingsBoard">-</b>
+   </div>
+
+   <div class="setting-row">
+    <span>Class</span>
+    <b id="settingsClass">-</b>
+   </div>
+
+   <div class="setting-row">
+    <span>Stream</span>
+    <b id="settingsStream">-</b>
+   </div>
+
+   <div class="setting-row">
+    <span>Subjects</span>
+    <b id="settingsSubjects">-</b>
+   </div>
+
+   <button class="secondary-btn" onclick="editProfile()">
+    ✏️ Change Learning Profile
+   </button>
+
+   <button class="primary-btn"
+           style="background:#e5484d"
+           onclick="logout()">
+    Logout
+   </button>
+  </div>
+ </div>
+
+
+ <!-- BOTTOM NAV -->
+ <div id="bottomNav" class="bottom">
+  <button class="nav-btn active" onclick="showPage('homePage')">
+   <span class="nav-icon">⌂</span>Home
+  </button>
+
+  <button class="nav-btn" onclick="openTestSetup()">
+   <span class="nav-icon">📝</span>Test
+  </button>
+
+  <button class="nav-btn" onclick="openPracticeSetup()">
+   <span class="nav-icon">🎯</span>Practice
+  </button>
+
+  <button class="nav-btn" onclick="openProgress()">
+   <span class="nav-icon">📊</span>Progress
+  </button>
+
+  <button class="nav-btn" onclick="openSettings()">
+   <span class="nav-icon">👤</span>Profile
+  </button>
+ </div>
+
+</div>
+
+
+<!-- ================= AI CHATBOT ================= -->
+<div id="chatScreen" class="chat hidden">
+
+ <div class="chat-head">
+  <div>
+   <b>🤖 EXAMOS AI</b>
+   <div style="font-size:11px;opacity:.8;margin-top:3px">
+    Your AI Study Assistant
+   </div>
+  </div>
+
+  <button class="circle-btn"
+          style="background:#ffffff20;color:#fff"
+          onclick="closeChat()">✕</button>
+ </div>
+
+ <div id="chatMessages" class="chat-messages">
+  <div class="msg ai">
+   नमस्ते! 👋 मैं EXAMOS AI हूँ।<br><br>
+   आप अपने selected subject से कोई भी study question पूछ सकते हैं।
+   आप photo भी भेज सकते हैं और voice से भी question पूछ सकते हैं।
+  </div>
+ </div>
+
+ <div class="chat-tools">
+
+  <div class="chat-input-row">
+
+   <button class="circle-btn"
+           title="Photo"
+           onclick="document.getElementById('chatPhoto').click()">
+    📷
+   </button>
+
+   <input id="chatPhoto" type="file"
+          accept="image/*"
+          capture="environment"
+          style="display:none"
+          onchange="chatPhotoSelected(event)">
+
+   <button id="voiceBtn"
+           class="circle-btn"
+           title="Voice"
+           onclick="startVoiceInput()">
+    🎙️
+   </button>
+
+   <input id="chatInput"
+          class="chat-input"
+          placeholder="Ask your question..."
+          onkeydown="if(event.key==='Enter')sendChat()">
+
+   <button class="circle-btn send-btn"
+           onclick="sendChat()">
+    ➤
+   </button>
+
+  </div>
+ </div>
+</div>
+
+<button id="aiFab" class="ai-fab hidden"
+        onclick="openChat()">🤖</button>
+
+
+<!-- ================= FIREBASE ================= -->
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+
+<script>
+/* ============================================================
    FIREBASE
-========================================================= */
+============================================================ */
 
-import {initializeApp}
-from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-
-import {
- getAuth,
- createUserWithEmailAndPassword,
- signInWithEmailAndPassword,
- onAuthStateChanged,
- signOut
-}
-from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-
-import {
- getFirestore,
- doc,
- setDoc,
- getDoc,
- collection,
- addDoc,
- getDocs,
- query,
- orderBy,
- limit
-}
-from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
-
-
-const firebaseConfig={
+const firebaseConfig = {
  apiKey:"AIzaSyCZbvANxLr9dAF9y8eMT-JkB86_e9oy938",
  authDomain:"examos-ai.firebaseapp.com",
  projectId:"examos-ai",
@@ -243,1498 +1377,2347 @@ const firebaseConfig={
  measurementId:"G-WLNK6TGN20"
 };
 
-const firebaseApp=initializeApp(firebaseConfig);
-const auth=getAuth(firebaseApp);
-const db=getFirestore(firebaseApp);
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const db = firebase.firestore();
 
 
-/* =========================================================
-   STATE
-========================================================= */
-
-let user=null;
-let profile=null;
-let currentPage="home";
-
-let selectedBoard="CBSE";
-let selectedClass="10";
-let selectedStream="";
-let selectedSubject="";
-let selectedChapter="";
-
-let questions=[];
-let currentQuestion=0;
-let answers=[];
-let testMode="test";
-let testStarted=false;
-
-let lastAIAnswer="";
-
-
-/* =========================================================
+/* ============================================================
    CURRICULUM
-   Board -> Class -> Stream -> Subjects
-========================================================= */
+   English + Hindi chapter names
+============================================================ */
 
-const curriculum={
+const CURRICULUM = {
 
-CBSE:{
+ CBSE:{
+  "9":{
+   streams:["GENERAL"],
+   subjects:{
 
-"9":{
- subjects:{
-  mathematics:{
-   en:"Mathematics",hi:"गणित",
-   chapters:[
-    ["Number Systems","संख्या पद्धति"],
-    ["Polynomials","बहुपद"],
-    ["Coordinate Geometry","निर्देशांक ज्यामिति"],
-    ["Linear Equations in Two Variables","दो चरों वाले रैखिक समीकरण"],
-    ["Introduction to Euclid's Geometry","यूक्लिड की ज्यामिति का परिचय"],
-    ["Lines and Angles","रेखाएँ और कोण"],
-    ["Triangles","त्रिभुज"],
-    ["Quadrilaterals","चतुर्भुज"],
-    ["Circles","वृत्त"],
-    ["Heron's Formula","हीरोन का सूत्र"],
-    ["Surface Areas and Volumes","पृष्ठीय क्षेत्रफल और आयतन"],
-    ["Statistics","सांख्यिकी"],
-    ["Probability","प्रायिकता"]
-   ]
+    mathematics:{
+     en:"Mathematics",hi:"गणित",
+     chapters:[
+      ["Number Systems","संख्या पद्धति"],
+      ["Polynomials","बहुपद"],
+      ["Coordinate Geometry","निर्देशांक ज्यामिति"],
+      ["Linear Equations in Two Variables","दो चरों वाले रैखिक समीकरण"],
+      ["Introduction to Euclid's Geometry","यूक्लिड की ज्यामिति का परिचय"],
+      ["Lines and Angles","रेखाएँ और कोण"],
+      ["Triangles","त्रिभुज"],
+      ["Quadrilaterals","चतुर्भुज"],
+      ["Circles","वृत्त"],
+      ["Heron's Formula","हीरोन का सूत्र"],
+      ["Surface Areas and Volumes","पृष्ठीय क्षेत्रफल और आयतन"],
+      ["Statistics","सांख्यिकी"],
+      ["Probability","प्रायिकता"]
+     ]
+    },
+
+    science:{
+     en:"Science",hi:"विज्ञान",
+     chapters:[
+      ["Matter in Our Surroundings","हमारे आस-पास के पदार्थ"],
+      ["Is Matter Around Us Pure?","क्या हमारे आस-पास के पदार्थ शुद्ध हैं?"],
+      ["Atoms and Molecules","परमाणु एवं अणु"],
+      ["Structure of the Atom","परमाणु की संरचना"],
+      ["The Fundamental Unit of Life","जीवन की मौलिक इकाई"],
+      ["Tissues","ऊतक"],
+      ["Motion","गति"],
+      ["Force and Laws of Motion","बल तथा गति के नियम"],
+      ["Gravitation","गुरुत्वाकर्षण"],
+      ["Work and Energy","कार्य तथा ऊर्जा"],
+      ["Sound","ध्वनि"],
+      ["Improvement in Food Resources","खाद्य संसाधनों में सुधार"]
+     ]
+    },
+
+    socialscience:{
+     en:"Social Science",hi:"सामाजिक विज्ञान",
+     chapters:[
+      ["The French Revolution","फ्रांसीसी क्रांति"],
+      ["Socialism in Europe and the Russian Revolution","यूरोप में समाजवाद एवं रूसी क्रांति"],
+      ["Nazism and the Rise of Hitler","नाज़ीवाद और हिटलर का उदय"],
+      ["India – Size and Location","भारत – आकार एवं स्थिति"],
+      ["Physical Features of India","भारत के भौतिक लक्षण"],
+      ["Drainage","अपवाह"],
+      ["Climate","जलवायु"],
+      ["What is Democracy? Why Democracy?","लोकतंत्र क्या है? लोकतंत्र क्यों?"],
+      ["Constitutional Design","संवैधानिक डिजाइन"],
+      ["The Story of Village Palampur","पालमपुर गाँव की कहानी"],
+      ["People as Resource","लोग एक संसाधन के रूप में"]
+     ]
+    },
+
+    hindi:{
+     en:"Hindi",hi:"हिंदी",
+     chapters:[
+      ["Kshitij – Selected Prose","क्षितिज – गद्य खंड"],
+      ["Kshitij – Selected Poetry","क्षितिज – काव्य खंड"],
+      ["Kritika","कृतिका"],
+      ["Grammar and Writing","व्याकरण एवं लेखन"]
+     ]
+    },
+
+    english:{
+     en:"English",hi:"अंग्रेज़ी",
+     chapters:[
+      ["The Fun They Had","द फन दे हैड"],
+      ["The Sound of Music","द साउंड ऑफ म्यूजिक"],
+      ["The Little Girl","द लिटिल गर्ल"],
+      ["A Truly Beautiful Mind","ए ट्रूली ब्यूटीफुल माइंड"],
+      ["The Snake and the Mirror","द स्नेक एंड द मिरर"],
+      ["My Childhood","माई चाइल्डहुड"],
+      ["Reach for the Top","रीच फॉर द टॉप"],
+      ["Kathmandu","काठमांडू"],
+      ["If I Were You","इफ आई वर यू"]
+     ]
+    },
+
+    sanskrit:{
+     en:"Sanskrit",hi:"संस्कृत",
+     chapters:[
+      ["Avivekah Paramapadam Padam","अविवेकः परमापदां पदम्"],
+      ["Path 2","पाठ 2"],
+      ["Path 3","पाठ 3"],
+      ["Grammar","व्याकरण"],
+      ["Translation","अनुवाद"]
+     ]
+    }
+   }
   },
-  science:{
-   en:"Science",hi:"विज्ञान",
-   chapters:[
-    ["Matter in Our Surroundings","हमारे आस-पास के पदार्थ"],
-    ["Is Matter Around Us Pure?","क्या हमारे आस-पास के पदार्थ शुद्ध हैं"],
-    ["Atoms and Molecules","परमाणु एवं अणु"],
-    ["Structure of the Atom","परमाणु की संरचना"],
-    ["The Fundamental Unit of Life","जीवन की मौलिक इकाई"],
-    ["Tissues","ऊतक"],
-    ["Motion","गति"],
-    ["Force and Laws of Motion","बल तथा गति के नियम"],
-    ["Gravitation","गुरुत्वाकर्षण"],
-    ["Work and Energy","कार्य तथा ऊर्जा"],
-    ["Sound","ध्वनि"],
-    ["Improvement in Food Resources","खाद्य संसाधनों में सुधार"]
-   ]
+
+  "10":{
+   streams:["GENERAL"],
+   subjects:{
+
+    mathematics:{
+     en:"Mathematics",hi:"गणित",
+     chapters:[
+      ["Real Numbers","वास्तविक संख्याएँ"],
+      ["Polynomials","बहुपद"],
+      ["Pair of Linear Equations in Two Variables","दो चरों वाले रैखिक समीकरण युग्म"],
+      ["Quadratic Equations","द्विघात समीकरण"],
+      ["Arithmetic Progressions","समांतर श्रेढ़ियाँ"],
+      ["Triangles","त्रिभुज"],
+      ["Coordinate Geometry","निर्देशांक ज्यामिति"],
+      ["Introduction to Trigonometry","त्रिकोणमिति का परिचय"],
+      ["Some Applications of Trigonometry","त्रिकोणमिति के कुछ अनुप्रयोग"],
+      ["Circles","वृत्त"],
+      ["Areas Related to Circles","वृत्तों से संबंधित क्षेत्रफल"],
+      ["Surface Areas and Volumes","पृष्ठीय क्षेत्रफल और आयतन"],
+      ["Statistics","सांख्यिकी"],
+      ["Probability","प्रायिकता"]
+     ]
+    },
+
+    science:{
+     en:"Science",hi:"विज्ञान",
+     chapters:[
+      ["Chemical Reactions and Equations","रासायनिक अभिक्रियाएँ एवं समीकरण"],
+      ["Acids, Bases and Salts","अम्ल, क्षार एवं लवण"],
+      ["Metals and Non-metals","धातु एवं अधातु"],
+      ["Carbon and Its Compounds","कार्बन एवं उसके यौगिक"],
+      ["Life Processes","जैव प्रक्रम"],
+      ["Control and Coordination","नियंत्रण एवं समन्वय"],
+      ["How Do Organisms Reproduce?","जीव जनन कैसे करते हैं?"],
+      ["Heredity","आनुवंशिकता"],
+      ["Light – Reflection and Refraction","प्रकाश – परावर्तन तथा अपवर्तन"],
+      ["Human Eye and Colourful World","मानव नेत्र तथा रंगीन संसार"],
+      ["Electricity","विद्युत"],
+      ["Magnetic Effects of Electric Current","विद्युत धारा के चुंबकीय प्रभाव"],
+      ["Our Environment","हमारा पर्यावरण"]
+     ]
+    },
+
+    socialscience:{
+     en:"Social Science",hi:"सामाजिक विज्ञान",
+     chapters:[
+      ["The Rise of Nationalism in Europe","यूरोप में राष्ट्रवाद का उदय"],
+      ["Nationalism in India","भारत में राष्ट्रवाद"],
+      ["The Making of a Global World","भूमंडलीकृत विश्व का बनना"],
+      ["Resources and Development","संसाधन एवं विकास"],
+      ["Forest and Wildlife Resources","वन एवं वन्यजीव संसाधन"],
+      ["Water Resources","जल संसाधन"],
+      ["Agriculture","कृषि"],
+      ["Power Sharing","सत्ता की साझेदारी"],
+      ["Federalism","संघवाद"],
+      ["Gender, Religion and Caste","लैंगिकता, धर्म और जाति"],
+      ["Development","विकास"],
+      ["Sectors of the Indian Economy","भारतीय अर्थव्यवस्था के क्षेत्र"]
+     ]
+    },
+
+    hindi:{
+     en:"Hindi",hi:"हिंदी",
+     chapters:[
+      ["Kshitij – Prose","क्षितिज – गद्य"],
+      ["Kshitij – Poetry","क्षितिज – काव्य"],
+      ["Kritika","कृतिका"],
+      ["Grammar and Writing","व्याकरण एवं लेखन"]
+     ]
+    },
+
+    english:{
+     en:"English",hi:"अंग्रेज़ी",
+     chapters:[
+      ["A Letter to God","अ लेटर टू गॉड"],
+      ["Nelson Mandela – Long Walk to Freedom","नेल्सन मंडेला – लॉन्ग वॉक टू फ्रीडम"],
+      ["Two Stories About Flying","टू स्टोरीज अबाउट फ्लाइंग"],
+      ["From the Diary of Anne Frank","फ्रॉम द डायरी ऑफ ऐन फ्रैंक"],
+      ["Glimpses of India","ग्लिम्प्सेस ऑफ इंडिया"],
+      ["Mijbil the Otter","मिजबिल द ऑटर"],
+      ["Madam Rides the Bus","मैडम राइड्स द बस"],
+      ["The Sermon at Benares","द सेरमन एट बनारस"],
+      ["The Proposal","द प्रपोजल"]
+     ]
+    },
+
+    sanskrit:{
+     en:"Sanskrit",hi:"संस्कृत",
+     chapters:[
+      ["Selected Lessons","चयनित पाठ"],
+      ["Grammar","व्याकरण"],
+      ["Translation","अनुवाद"]
+     ]
+    }
+   }
   },
-  social_science:{
-   en:"Social Science",hi:"सामाजिक विज्ञान",
-   chapters:[
-    ["The French Revolution","फ्रांसीसी क्रांति"],
-    ["Socialism in Europe and the Russian Revolution","यूरोप में समाजवाद एवं रूसी क्रांति"],
-    ["India - Size and Location","भारत - आकार एवं स्थिति"],
-    ["Physical Features of India","भारत के भौतिक स्वरूप"],
-    ["What is Democracy? Why Democracy?","लोकतंत्र क्या? लोकतंत्र क्यों?"],
-    ["Constitutional Design","संवैधानिक डिजाइन"],
-    ["The Story of Village Palampur","पालमपुर गाँव की कहानी"],
-    ["People as Resource","लोग संसाधन के रूप में"]
-   ]
+
+  "11":{
+   streams:{
+    SCIENCE:{
+     mathematics:{
+      en:"Mathematics",hi:"गणित",
+      chapters:[
+       ["Sets","समुच्चय"],
+       ["Relations and Functions","संबंध एवं फलन"],
+       ["Trigonometric Functions","त्रिकोणमितीय फलन"],
+       ["Principle of Mathematical Induction","गणितीय आगमन का सिद्धांत"],
+       ["Complex Numbers and Quadratic Equations","सम्मिश्र संख्याएँ एवं द्विघात समीकरण"],
+       ["Linear Inequalities","रैखिक असमिकाएँ"],
+       ["Permutations and Combinations","क्रमचय एवं संचय"],
+       ["Binomial Theorem","द्विपद प्रमेय"],
+       ["Sequences and Series","अनुक्रम तथा श्रेणी"],
+       ["Straight Lines","सरल रेखाएँ"],
+       ["Conic Sections","शंकु परिच्छेद"],
+       ["Introduction to Three Dimensional Geometry","त्रिविमीय ज्यामिति का परिचय"],
+       ["Limits and Derivatives","सीमाएँ एवं अवकलज"],
+       ["Statistics","सांख्यिकी"],
+       ["Probability","प्रायिकता"]
+      ]
+     },
+
+     physics:{
+      en:"Physics",hi:"भौतिकी",
+      chapters:[
+       ["Units and Measurements","इकाइयाँ एवं मापन"],
+       ["Motion in a Straight Line","सरल रेखा में गति"],
+       ["Motion in a Plane","समतल में गति"],
+       ["Laws of Motion","गति के नियम"],
+       ["Work, Energy and Power","कार्य, ऊर्जा एवं शक्ति"],
+       ["System of Particles and Rotational Motion","कणों का निकाय तथा घूर्णी गति"],
+       ["Gravitation","गुरुत्वाकर्षण"],
+       ["Mechanical Properties of Solids","ठोसों के यांत्रिक गुण"],
+       ["Mechanical Properties of Fluids","द्रवों के यांत्रिक गुण"],
+       ["Thermal Properties of Matter","द्रव्य के तापीय गुण"],
+       ["Thermodynamics","ऊष्मागतिकी"],
+       ["Kinetic Theory","गतिज सिद्धांत"],
+       ["Oscillations","दोलन"],
+       ["Waves","तरंगें"]
+      ]
+     },
+
+     chemistry:{
+      en:"Chemistry",hi:"रसायन विज्ञान",
+      chapters:[
+       ["Some Basic Concepts of Chemistry","रसायन विज्ञान की कुछ मूल अवधारणाएँ"],
+       ["Structure of Atom","परमाणु की संरचना"],
+       ["Classification of Elements and Periodicity","तत्वों का वर्गीकरण एवं आवर्तिता"],
+       ["Chemical Bonding and Molecular Structure","रासायनिक आबंधन तथा आणविक संरचना"],
+       ["Thermodynamics","ऊष्मागतिकी"],
+       ["Equilibrium","साम्यावस्था"],
+       ["Redox Reactions","अपचयोपचय अभिक्रियाएँ"],
+       ["Organic Chemistry – Basic Principles","कार्बनिक रसायन – मूल सिद्धांत"],
+       ["Hydrocarbons","हाइड्रोकार्बन"]
+      ]
+     },
+
+     biology:{
+      en:"Biology",hi:"जीव विज्ञान",
+      chapters:[
+       ["The Living World","जीव जगत"],
+       ["Biological Classification","जैव वर्गीकरण"],
+       ["Plant Kingdom","पादप जगत"],
+       ["Animal Kingdom","प्राणी जगत"],
+       ["Morphology of Flowering Plants","पुष्पी पादपों की आकारिकी"],
+       ["Anatomy of Flowering Plants","पुष्पी पादपों का शरीर"],
+       ["Structural Organisation in Animals","प्राणियों में संरचनात्मक संगठन"],
+       ["Cell – The Unit of Life","कोशिका – जीवन की इकाई"],
+       ["Biomolecules","जैव अणु"],
+       ["Cell Cycle and Cell Division","कोशिका चक्र एवं कोशिका विभाजन"],
+       ["Photosynthesis in Plants","पौधों में प्रकाश संश्लेषण"],
+       ["Respiration in Plants","पौधों में श्वसन"],
+       ["Human Physiology","मानव शरीर क्रिया विज्ञान"]
+      ]
+     },
+
+     hindi:{
+      en:"Hindi",hi:"हिंदी",
+      chapters:[
+       ["Aroh – Prose","आरोह – गद्य"],
+       ["Aroh – Poetry","आरोह – काव्य"],
+       ["Vitan","वितान"],
+       ["Writing and Grammar","लेखन एवं व्याकरण"]
+      ]
+     },
+
+     english:{
+      en:"English",hi:"अंग्रेज़ी",
+      chapters:[
+       ["The Portrait of a Lady","द पोर्ट्रेट ऑफ अ लेडी"],
+       ["A Photograph","अ फोटोग्राफ"],
+       ["We're Not Afraid to Die","वी आर नॉट अफ्रेड टू डाई"],
+       ["Discovering Tut","डिस्कवरिंग टट"],
+       ["The Laburnum Top","द लैबर्नम टॉप"],
+       ["The Voice of the Rain","द वॉइस ऑफ द रेन"],
+       ["Childhood","चाइल्डहुड"],
+       ["The Adventure","द एडवेंचर"],
+       ["Silk Road","सिल्क रोड"]
+      ]
+     }
+    },
+
+    COMMERCE:{
+     accountancy:{
+      en:"Accountancy",hi:"लेखाशास्त्र",
+      chapters:[
+       ["Introduction to Accounting","लेखांकन का परिचय"],
+       ["Theory Base of Accounting","लेखांकन का सैद्धांतिक आधार"],
+       ["Recording of Transactions","लेन-देन का अभिलेखन"],
+       ["Bank Reconciliation Statement","बैंक समाधान विवरण"],
+       ["Trial Balance and Rectification","तलपट एवं अशुद्धियों का सुधार"],
+       ["Depreciation","मूल्यह्रास"],
+       ["Bills of Exchange","विनिमय विपत्र"],
+       ["Financial Statements","वित्तीय विवरण"]
+      ]
+     },
+
+     business:{
+      en:"Business Studies",hi:"व्यवसाय अध्ययन",
+      chapters:[
+       ["Nature and Purpose of Business","व्यवसाय की प्रकृति एवं उद्देश्य"],
+       ["Forms of Business Organisation","व्यवसाय संगठन के रूप"],
+       ["Private, Public and Global Enterprises","निजी, सार्वजनिक एवं वैश्विक उपक्रम"],
+       ["Business Services","व्यावसायिक सेवाएँ"],
+       ["Emerging Modes of Business","व्यवसाय के उभरते रूप"],
+       ["Social Responsibility of Business","व्यवसाय की सामाजिक जिम्मेदारी"],
+       ["Sources of Business Finance","व्यावसायिक वित्त के स्रोत"]
+      ]
+     },
+
+     economics:{
+      en:"Economics",hi:"अर्थशास्त्र",
+      chapters:[
+       ["Introduction to Economics","अर्थशास्त्र का परिचय"],
+       ["Theory of Consumer Behaviour","उपभोक्ता व्यवहार का सिद्धांत"],
+       ["Production and Costs","उत्पादन एवं लागत"],
+       ["Perfect Competition","पूर्ण प्रतियोगिता"],
+       ["Statistics for Economics","अर्थशास्त्र के लिए सांख्यिकी"],
+       ["Collection of Data","आँकड़ों का संग्रह"],
+       ["Presentation of Data","आँकड़ों का प्रस्तुतीकरण"]
+      ]
+     },
+
+     mathematics:{
+      en:"Mathematics",hi:"गणित",
+      chapters:[
+       ["Sets","समुच्चय"],
+       ["Relations and Functions","संबंध एवं फलन"],
+       ["Trigonometric Functions","त्रिकोणमितीय फलन"],
+       ["Complex Numbers","सम्मिश्र संख्याएँ"],
+       ["Permutations and Combinations","क्रमचय एवं संचय"],
+       ["Binomial Theorem","द्विपद प्रमेय"],
+       ["Sequences and Series","अनुक्रम तथा श्रेणी"],
+       ["Straight Lines","सरल रेखाएँ"],
+       ["Statistics","सांख्यिकी"],
+       ["Probability","प्रायिकता"]
+      ]
+     },
+
+     hindi:{
+      en:"Hindi",hi:"हिंदी",
+      chapters:[
+       ["Aroh – Prose","आरोह – गद्य"],
+       ["Aroh – Poetry","आरोह – काव्य"],
+       ["Vitan","वितान"],
+       ["Writing and Grammar","लेखन एवं व्याकरण"]
+      ]
+     },
+
+     english:{
+      en:"English",hi:"अंग्रेज़ी",
+      chapters:[
+       ["The Portrait of a Lady","द पोर्ट्रेट ऑफ अ लेडी"],
+       ["A Photograph","अ फोटोग्राफ"],
+       ["The Voice of the Rain","द वॉइस ऑफ द रेन"],
+       ["Childhood","चाइल्डहुड"],
+       ["The Adventure","द एडवेंचर"],
+       ["Silk Road","सिल्क रोड"]
+      ]
+     }
+    },
+
+    ARTS:{
+     history:{
+      en:"History",hi:"इतिहास",
+      chapters:[
+       ["Writing and City Life","लेखन कला और शहरी जीवन"],
+       ["An Empire Across Three Continents","तीन महाद्वीपों में फैला साम्राज्य"],
+       ["Nomadic Empires","खानाबदोश साम्राज्य"],
+       ["The Three Orders","तीन वर्ग"],
+       ["Changing Cultural Traditions","बदलती सांस्कृतिक परंपराएँ"],
+       ["Displacing Indigenous Peoples","मूल निवासियों का विस्थापन"]
+      ]
+     },
+
+     geography:{
+      en:"Geography",hi:"भूगोल",
+      chapters:[
+       ["Geography as a Discipline","एक विषय के रूप में भूगोल"],
+       ["The Earth","पृथ्वी"],
+       ["Landforms","स्थलरूप"],
+       ["Climate","जलवायु"],
+       ["Natural Vegetation","प्राकृतिक वनस्पति"],
+       ["India – Location","भारत – स्थिति"]
+      ]
+     },
+
+     politicalscience:{
+      en:"Political Science",hi:"राजनीति विज्ञान",
+      chapters:[
+       ["Constitution – Why and How?","संविधान – क्यों और कैसे?"],
+       ["Rights in the Indian Constitution","भारतीय संविधान में अधिकार"],
+       ["Election and Representation","चुनाव और प्रतिनिधित्व"],
+       ["Executive","कार्यपालिका"],
+       ["Legislature","विधायिका"],
+       ["Judiciary","न्यायपालिका"],
+       ["Federalism","संघवाद"]
+      ]
+     },
+
+     economics:{
+      en:"Economics",hi:"अर्थशास्त्र",
+      chapters:[
+       ["Introduction to Economics","अर्थशास्त्र का परिचय"],
+       ["Consumer Behaviour","उपभोक्ता व्यवहार"],
+       ["Production","उत्पादन"],
+       ["Cost","लागत"],
+       ["Statistics","सांख्यिकी"]
+      ]
+     },
+
+     sociology:{
+      en:"Sociology",hi:"समाजशास्त्र",
+      chapters:[
+       ["Sociology and Society","समाजशास्त्र एवं समाज"],
+       ["Terms, Concepts and their Use","पारिभाषिक शब्द, अवधारणाएँ एवं उनका प्रयोग"],
+       ["Understanding Social Institutions","सामाजिक संस्थाओं की समझ"],
+       ["Culture and Socialisation","संस्कृति एवं समाजीकरण"]
+      ]
+     },
+
+     psychology:{
+      en:"Psychology",hi:"मनोविज्ञान",
+      chapters:[
+       ["Introduction to Psychology","मनोविज्ञान का परिचय"],
+       ["Methods of Enquiry in Psychology","मनोविज्ञान में अन्वेषण की विधियाँ"],
+       ["Human Development","मानव विकास"],
+       ["Sensory, Attentional and Perceptual Processes","संवेदी, अवधानात्मक एवं प्रत्यक्षण प्रक्रियाएँ"],
+       ["Learning","अधिगम"],
+       ["Human Memory","मानव स्मृति"]
+      ]
+     },
+
+     hindi:{
+      en:"Hindi",hi:"हिंदी",
+      chapters:[
+       ["Aroh – Prose","आरोह – गद्य"],
+       ["Aroh – Poetry","आरोह – काव्य"],
+       ["Vitan","वितान"],
+       ["Writing and Grammar","लेखन एवं व्याकरण"]
+      ]
+     },
+
+     english:{
+      en:"English",hi:"अंग्रेज़ी",
+      chapters:[
+       ["The Portrait of a Lady","द पोर्ट्रेट ऑफ अ लेडी"],
+       ["A Photograph","अ फोटोग्राफ"],
+       ["The Voice of the Rain","द वॉइस ऑफ द रेन"],
+       ["Childhood","चाइल्डहुड"],
+       ["The Adventure","द एडवेंचर"],
+       ["Silk Road","सिल्क रोड"]
+      ]
+     }
+    }
+   }
   },
-  hindi:{
-   en:"Hindi",hi:"हिंदी",
-   chapters:[
-    ["दो बैलों की कथा","दो बैलों की कथा"],
-    ["ल्हासा की ओर","ल्हासा की ओर"],
-    ["उपभोक्तावाद की संस्कृति","उपभोक्तावाद की संस्कृति"],
-    ["साँवले सपनों की याद","साँवले सपनों की याद"],
-    ["प्रेमचंद के फटे जूते","प्रेमचंद के फटे जूते"]
-   ]
-  },
-  english:{
-   en:"English",hi:"अंग्रेज़ी",
-   chapters:[
-    ["The Fun They Had","The Fun They Had"],
-    ["The Sound of Music","The Sound of Music"],
-    ["The Little Girl","The Little Girl"],
-    ["A Truly Beautiful Mind","A Truly Beautiful Mind"],
-    ["The Snake and the Mirror","The Snake and the Mirror"]
-   ]
-  },
-  sanskrit:{
-   en:"Sanskrit",hi:"संस्कृत",
-   chapters:[
-    ["भारतीवसन्तगीतिः","भारतीवसन्तगीतिः"],
-    ["स्वर्णकाकः","स्वर्णकाकः"],
-    ["गोदोहनम्","गोदोहनम्"],
-    ["कल्पतरुः","कल्पतरुः"]
-   ]
+
+  "12":{
+   streams:{
+    SCIENCE:{
+     physics:{
+      en:"Physics",hi:"भौतिकी",
+      chapters:[
+       ["Electric Charges and Fields","वैद्युत आवेश तथा क्षेत्र"],
+       ["Electrostatic Potential and Capacitance","स्थिरवैद्युत विभव तथा धारिता"],
+       ["Current Electricity","विद्युत धारा"],
+       ["Moving Charges and Magnetism","गतिमान आवेश और चुंबकत्व"],
+       ["Magnetism and Matter","चुंबकत्व एवं द्रव्य"],
+       ["Electromagnetic Induction","वैद्युतचुंबकीय प्रेरण"],
+       ["Alternating Current","प्रत्यावर्ती धारा"],
+       ["Electromagnetic Waves","वैद्युतचुंबकीय तरंगें"],
+       ["Ray Optics and Optical Instruments","किरण प्रकाशिकी तथा प्रकाशिक यंत्र"],
+       ["Wave Optics","तरंग प्रकाशिकी"],
+       ["Dual Nature of Radiation and Matter","विकिरण तथा द्रव्य की द्वैत प्रकृति"],
+       ["Atoms","परमाणु"],
+       ["Nuclei","नाभिक"],
+       ["Semiconductor Electronics","अर्धचालक इलेक्ट्रॉनिकी"]
+      ]
+     },
+
+     chemistry:{
+      en:"Chemistry",hi:"रसायन विज्ञान",
+      chapters:[
+       ["Solutions","विलयन"],
+       ["Electrochemistry","वैद्युत रसायन"],
+       ["Chemical Kinetics","रासायनिक बलगतिकी"],
+       ["d and f Block Elements","d एवं f ब्लॉक के तत्व"],
+       ["Coordination Compounds","उपसहसंयोजन यौगिक"],
+       ["Haloalkanes and Haloarenes","हैलोऐल्केन तथा हैलोऐरीन"],
+       ["Alcohols, Phenols and Ethers","ऐल्कोहॉल, फीनॉल एवं ईथर"],
+       ["Aldehydes, Ketones and Carboxylic Acids","ऐल्डिहाइड, कीटोन एवं कार्बोक्सिलिक अम्ल"],
+       ["Amines","ऐमीन"],
+       ["Biomolecules","जैव अणु"]
+      ]
+     },
+
+     mathematics:{
+      en:"Mathematics",hi:"गणित",
+      chapters:[
+       ["Relations and Functions","संबंध एवं फलन"],
+       ["Inverse Trigonometric Functions","प्रतिलोम त्रिकोणमितीय फलन"],
+       ["Matrices","आव्यूह"],
+       ["Determinants","सारणिक"],
+       ["Continuity and Differentiability","सांतत्य तथा अवकलनीयता"],
+       ["Application of Derivatives","अवकलज के अनुप्रयोग"],
+       ["Integrals","समाकलन"],
+       ["Application of Integrals","समाकलनों के अनुप्रयोग"],
+       ["Differential Equations","अवकल समीकरण"],
+       ["Vector Algebra","सदिश बीजगणित"],
+       ["Three Dimensional Geometry","त्रिविमीय ज्यामिति"],
+       ["Linear Programming","रैखिक प्रोग्रामन"],
+       ["Probability","प्रायिकता"]
+      ]
+     },
+
+     biology:{
+      en:"Biology",hi:"जीव विज्ञान",
+      chapters:[
+       ["Sexual Reproduction in Flowering Plants","पुष्पी पादपों में लैंगिक जनन"],
+       ["Human Reproduction","मानव जनन"],
+       ["Reproductive Health","जनन स्वास्थ्य"],
+       ["Principles of Inheritance and Variation","वंशागति तथा विविधता के सिद्धांत"],
+       ["Molecular Basis of Inheritance","वंशागति का आणविक आधार"],
+       ["Evolution","विकास"],
+       ["Human Health and Disease","मानव स्वास्थ्य तथा रोग"],
+       ["Microbes in Human Welfare","मानव कल्याण में सूक्ष्मजीव"],
+       ["Biotechnology – Principles and Processes","जैव प्रौद्योगिकी – सिद्धांत एवं प्रक्रियाएँ"],
+       ["Biotechnology and its Applications","जैव प्रौद्योगिकी एवं उसके अनुप्रयोग"],
+       ["Organisms and Populations","जीव एवं समष्टियाँ"],
+       ["Ecosystem","पारितंत्र"],
+       ["Biodiversity and Conservation","जैव विविधता एवं संरक्षण"]
+      ]
+     },
+
+     hindi:{
+      en:"Hindi",hi:"हिंदी",
+      chapters:[
+       ["Aroh – Prose","आरोह – गद्य"],
+       ["Aroh – Poetry","आरोह – काव्य"],
+       ["Vitan","वितान"],
+       ["Writing and Grammar","लेखन एवं व्याकरण"]
+      ]
+     },
+
+     english:{
+      en:"English",hi:"अंग्रेज़ी",
+      chapters:[
+       ["The Last Lesson","द लास्ट लेसन"],
+       ["Lost Spring","लॉस्ट स्प्रिंग"],
+       ["Deep Water","डीप वाटर"],
+       ["The Rattrap","द रैट्रैप"],
+       ["Indigo","इंडिगो"],
+       ["Poets and Pancakes","पोएट्स एंड पैनकेक्स"],
+       ["Going Places","गोइंग प्लेसेस"],
+       ["My Mother at Sixty-Six","माई मदर ऐट सिक्स्टी-सिक्स"],
+       ["Keeping Quiet","कीपिंग क्वाइट"],
+       ["A Thing of Beauty","अ थिंग ऑफ ब्यूटी"]
+      ]
+     }
+    },
+
+    COMMERCE:{
+     accountancy:{
+      en:"Accountancy",hi:"लेखाशास्त्र",
+      chapters:[
+       ["Accounting for Partnership Firms","साझेदारी फर्मों का लेखांकन"],
+       ["Reconstitution of Partnership","साझेदारी का पुनर्गठन"],
+       ["Dissolution of Partnership Firm","साझेदारी फर्म का विघटन"],
+       ["Accounting for Companies","कंपनियों का लेखांकन"],
+       ["Analysis of Financial Statements","वित्तीय विवरणों का विश्लेषण"],
+       ["Cash Flow Statement","रोकड़ प्रवाह विवरण"]
+      ]
+     },
+
+     business:{
+      en:"Business Studies",hi:"व्यवसाय अध्ययन",
+      chapters:[
+       ["Nature and Significance of Management","प्रबंध की प्रकृति एवं महत्त्व"],
+       ["Principles of Management","प्रबंध के सिद्धांत"],
+       ["Business Environment","व्यावसायिक पर्यावरण"],
+       ["Planning","नियोजन"],
+       ["Organising","संगठन"],
+       ["Staffing","नियुक्तिकरण"],
+       ["Directing","निर्देशन"],
+       ["Controlling","नियंत्रण"],
+       ["Financial Management","वित्तीय प्रबंध"],
+       ["Marketing Management","विपणन प्रबंध"],
+       ["Consumer Protection","उपभोक्ता संरक्षण"]
+      ]
+     },
+
+     economics:{
+      en:"Economics",hi:"अर्थशास्त्र",
+      chapters:[
+       ["Introduction to Macroeconomics","समष्टि अर्थशास्त्र का परिचय"],
+       ["National Income Accounting","राष्ट्रीय आय लेखांकन"],
+       ["Money and Banking","मुद्रा एवं बैंकिंग"],
+       ["Determination of Income and Employment","आय एवं रोजगार का निर्धारण"],
+       ["Government Budget","सरकारी बजट"],
+       ["Balance of Payments","भुगतान संतुलन"],
+       ["Indian Economy on the Eve of Independence","स्वतंत्रता की पूर्व संध्या पर भारतीय अर्थव्यवस्था"],
+       ["Indian Economy 1950–1990","भारतीय अर्थव्यवस्था 1950–1990"]
+      ]
+     },
+
+     mathematics:{
+      en:"Mathematics",hi:"गणित",
+      chapters:[
+       ["Relations and Functions","संबंध एवं फलन"],
+       ["Matrices","आव्यूह"],
+       ["Determinants","सारणिक"],
+       ["Continuity and Differentiability","सांतत्य तथा अवकलनीयता"],
+       ["Integrals","समाकलन"],
+       ["Differential Equations","अवकल समीकरण"],
+       ["Vector Algebra","सदिश बीजगणित"],
+       ["Three Dimensional Geometry","त्रिविमीय ज्यामिति"],
+       ["Probability","प्रायिकता"]
+      ]
+     },
+
+     hindi:{
+      en:"Hindi",hi:"हिंदी",
+      chapters:[
+       ["Aroh – Prose","आरोह – गद्य"],
+       ["Aroh – Poetry","आरोह – काव्य"],
+       ["Vitan","वितान"],
+       ["Writing and Grammar","लेखन एवं व्याकरण"]
+      ]
+     },
+
+     english:{
+      en:"English",hi:"अंग्रेज़ी",
+      chapters:[
+       ["The Last Lesson","द लास्ट लेसन"],
+       ["Lost Spring","लॉस्ट स्प्रिंग"],
+       ["Deep Water","डीप वाटर"],
+       ["The Rattrap","द रैट्रैप"],
+       ["Indigo","इंडिगो"],
+       ["Going Places","गोइंग प्लेसेस"]
+      ]
+     }
+    },
+
+    ARTS:{
+     history:{
+      en:"History",hi:"इतिहास",
+      chapters:[
+       ["Bricks, Beads and Bones","ईंटें, मनके तथा अस्थियाँ"],
+       ["Kings, Farmers and Towns","राजा, किसान और नगर"],
+       ["Kinship, Caste and Class","बंधुत्व, जाति तथा वर्ग"],
+       ["Thinkers, Beliefs and Buildings","विचारक, विश्वास और इमारतें"],
+       ["Through the Eyes of Travellers","यात्रियों की नजर से"],
+       ["Bhakti-Sufi Traditions","भक्ति-सूफी परंपराएँ"],
+       ["An Imperial Capital – Vijayanagara","एक साम्राज्य की राजधानी – विजयनगर"],
+       ["Peasants, Zamindars and the State","किसान, जमींदार और राज्य"],
+       ["Colonialism and the Countryside","उपनिवेशवाद और देहात"],
+       ["Rebels and the Raj","विद्रोही और राज"]
+      ]
+     },
+
+     geography:{
+      en:"Geography",hi:"भूगोल",
+      chapters:[
+       ["Human Geography – Nature and Scope","मानव भूगोल – प्रकृति एवं क्षेत्र"],
+       ["Population","जनसंख्या"],
+       ["Human Development","मानव विकास"],
+       ["Primary Activities","प्राथमिक क्रियाएँ"],
+       ["Secondary Activities","द्वितीयक क्रियाएँ"],
+       ["Tertiary Activities","तृतीयक क्रियाएँ"],
+       ["Transport and Communication","परिवहन एवं संचार"],
+       ["International Trade","अंतरराष्ट्रीय व्यापार"],
+       ["Population Distribution in India","भारत में जनसंख्या वितरण"],
+       ["Human Settlements","मानव बस्तियाँ"]
+      ]
+     },
+
+     politicalscience:{
+      en:"Political Science",hi:"राजनीति विज्ञान",
+      chapters:[
+       ["The End of Bipolarity","द्विध्रुवीयता का अंत"],
+       ["Contemporary Centres of Power","समकालीन शक्ति केंद्र"],
+       ["Challenges of Nation-Building","राष्ट्र-निर्माण की चुनौतियाँ"],
+       ["Era of One-Party Dominance","एक-दलीय प्रभुत्व का दौर"],
+       ["Politics of Planned Development","नियोजित विकास की राजनीति"],
+       ["The Crisis of Democratic Order","लोकतांत्रिक व्यवस्था का संकट"],
+       ["Recent Developments in Indian Politics","भारतीय राजनीति में हाल के विकास"]
+      ]
+     },
+
+     economics:{
+      en:"Economics",hi:"अर्थशास्त्र",
+      chapters:[
+       ["National Income","राष्ट्रीय आय"],
+       ["Money and Banking","मुद्रा एवं बैंकिंग"],
+       ["Government Budget","सरकारी बजट"],
+       ["Balance of Payments","भुगतान संतुलन"],
+       ["Indian Economy","भारतीय अर्थव्यवस्था"]
+      ]
+     },
+
+     sociology:{
+      en:"Sociology",hi:"समाजशास्त्र",
+      chapters:[
+       ["Introducing Indian Society","भारतीय समाज का परिचय"],
+       ["Demographic Structure","जनसांख्यिकीय संरचना"],
+       ["Social Institutions","सामाजिक संस्थाएँ"],
+       ["Patterns of Social Inequality","सामाजिक असमानता के प्रतिरूप"],
+       ["Cultural Diversity","सांस्कृतिक विविधता"],
+       ["Change and Development in Rural Society","ग्रामीण समाज में परिवर्तन एवं विकास"],
+       ["Change and Development in Industrial Society","औद्योगिक समाज में परिवर्तन एवं विकास"]
+      ]
+     },
+
+     psychology:{
+      en:"Psychology",hi:"मनोविज्ञान",
+      chapters:[
+       ["Variations in Psychological Attributes","मनोवैज्ञानिक गुणों में विविधताएँ"],
+       ["Self and Personality","स्व एवं व्यक्तित्व"],
+       ["Meeting Life Challenges","जीवन की चुनौतियों का सामना"],
+       ["Psychological Disorders","मनोवैज्ञानिक विकार"],
+       ["Therapeutic Approaches","उपचारात्मक उपागम"],
+       ["Attitude and Social Cognition","अभिवृत्ति एवं सामाजिक संज्ञान"]
+      ]
+     },
+
+     hindi:{
+      en:"Hindi",hi:"हिंदी",
+      chapters:[
+       ["Aroh – Prose","आरोह – गद्य"],
+       ["Aroh – Poetry","आरोह – काव्य"],
+       ["Vitan","वितान"],
+       ["Writing and Grammar","लेखन एवं व्याकरण"]
+      ]
+     },
+
+     english:{
+      en:"English",hi:"अंग्रेज़ी",
+      chapters:[
+       ["The Last Lesson","द लास्ट लेसन"],
+       ["Lost Spring","लॉस्ट स्प्रिंग"],
+       ["Deep Water","डीप वाटर"],
+       ["The Rattrap","द रैट्रैप"],
+       ["Indigo","इंडिगो"],
+       ["Going Places","गोइंग प्लेसेस"]
+      ]
+     }
+    }
+   }
   }
  }
-},
-
-"10":{
- subjects:{
-  mathematics:{
-   en:"Mathematics",hi:"गणित",
-   chapters:[
-    ["Real Numbers","वास्तविक संख्याएँ"],
-    ["Polynomials","बहुपद"],
-    ["Pair of Linear Equations in Two Variables","दो चरों वाले रैखिक समीकरण युग्म"],
-    ["Quadratic Equations","द्विघात समीकरण"],
-    ["Arithmetic Progressions","समांतर श्रेढ़ियाँ"],
-    ["Triangles","त्रिभुज"],
-    ["Coordinate Geometry","निर्देशांक ज्यामिति"],
-    ["Introduction to Trigonometry","त्रिकोणमिति का परिचय"],
-    ["Some Applications of Trigonometry","त्रिकोणमिति के कुछ अनुप्रयोग"],
-    ["Circles","वृत्त"],
-    ["Areas Related to Circles","वृत्तों से संबंधित क्षेत्रफल"],
-    ["Surface Areas and Volumes","पृष्ठीय क्षेत्रफल और आयतन"],
-    ["Statistics","सांख्यिकी"],
-    ["Probability","प्रायिकता"]
-   ]
-  },
-  science:{
-   en:"Science",hi:"विज्ञान",
-   chapters:[
-    ["Chemical Reactions and Equations","रासायनिक अभिक्रियाएँ एवं समीकरण"],
-    ["Acids, Bases and Salts","अम्ल, क्षार एवं लवण"],
-    ["Metals and Non-metals","धातु एवं अधातु"],
-    ["Carbon and Its Compounds","कार्बन एवं उसके यौगिक"],
-    ["Life Processes","जैव प्रक्रम"],
-    ["Control and Coordination","नियंत्रण एवं समन्वय"],
-    ["How Do Organisms Reproduce?","जीव जनन कैसे करते हैं"],
-    ["Heredity","आनुवंशिकता"],
-    ["Light - Reflection and Refraction","प्रकाश - परावर्तन तथा अपवर्तन"],
-    ["Human Eye and Colourful World","मानव नेत्र तथा रंगीन संसार"],
-    ["Electricity","विद्युत"],
-    ["Magnetic Effects of Electric Current","विद्युत धारा के चुंबकीय प्रभाव"],
-    ["Our Environment","हमारा पर्यावरण"]
-   ]
-  },
-  social_science:{
-   en:"Social Science",hi:"सामाजिक विज्ञान",
-   chapters:[
-    ["The Rise of Nationalism in Europe","यूरोप में राष्ट्रवाद का उदय"],
-    ["Nationalism in India","भारत में राष्ट्रवाद"],
-    ["Resources and Development","संसाधन एवं विकास"],
-    ["Forest and Wildlife Resources","वन एवं वन्यजीव संसाधन"],
-    ["Power Sharing","सत्ता की साझेदारी"],
-    ["Federalism","संघवाद"],
-    ["Development","विकास"],
-    ["Sectors of the Indian Economy","भारतीय अर्थव्यवस्था के क्षेत्र"]
-   ]
-  },
-  hindi:{
-   en:"Hindi",hi:"हिंदी",
-   chapters:[
-    ["सूरदास","सूरदास"],
-    ["राम-लक्ष्मण-परशुराम संवाद","राम-लक्ष्मण-परशुराम संवाद"],
-    ["उत्साह और अट नहीं रही","उत्साह और अट नहीं रही"],
-    ["यह दंतुरित मुस्कान","यह दंतुरित मुस्कान"],
-    ["नेताजी का चश्मा","नेताजी का चश्मा"]
-   ]
-  },
-  english:{
-   en:"English",hi:"अंग्रेज़ी",
-   chapters:[
-    ["A Letter to God","A Letter to God"],
-    ["Nelson Mandela: Long Walk to Freedom","Nelson Mandela: Long Walk to Freedom"],
-    ["Two Stories about Flying","Two Stories about Flying"],
-    ["From the Diary of Anne Frank","From the Diary of Anne Frank"],
-    ["Glimpses of India","Glimpses of India"]
-   ]
-  },
-  sanskrit:{
-   en:"Sanskrit",hi:"संस्कृत",
-   chapters:[
-    ["शुचिपर्यावरणम्","शुचिपर्यावरणम्"],
-    ["बुद्धिर्बलवती सदा","बुद्धिर्बलवती सदा"],
-    ["व्यायामः सर्वदा पथ्यः","व्यायामः सर्वदा पथ्यः"],
-    ["जननी तुल्यवत्सला","जननी तुल्यवत्सला"]
-   ]
-  }
- }
-},
-
-"11":{
- streams:{
-  Science:{
-   subjects:{
-    physics:{en:"Physics",hi:"भौतिकी",chapters:[
-     ["Units and Measurements","मात्रक एवं मापन"],
-     ["Motion in a Straight Line","सरल रेखा में गति"],
-     ["Motion in a Plane","समतल में गति"],
-     ["Laws of Motion","गति के नियम"],
-     ["Work, Energy and Power","कार्य, ऊर्जा एवं शक्ति"],
-     ["System of Particles and Rotational Motion","कणों का निकाय एवं घूर्णी गति"],
-     ["Gravitation","गुरुत्वाकर्षण"],
-     ["Thermodynamics","ऊष्मागतिकी"],
-     ["Oscillations","दोलन"],
-     ["Waves","तरंगें"]
-    ]},
-    chemistry:{en:"Chemistry",hi:"रसायन विज्ञान",chapters:[
-     ["Some Basic Concepts of Chemistry","रसायन विज्ञान की कुछ मूल अवधारणाएँ"],
-     ["Structure of Atom","परमाणु की संरचना"],
-     ["Classification of Elements and Periodicity","तत्वों का वर्गीकरण एवं आवर्तिता"],
-     ["Chemical Bonding","रासायनिक आबंधन"],
-     ["Thermodynamics","ऊष्मागतिकी"],
-     ["Equilibrium","साम्यावस्था"],
-     ["Redox Reactions","अपचयोपचय अभिक्रियाएँ"],
-     ["Organic Chemistry","कार्बनिक रसायन"]
-    ]},
-    mathematics:{en:"Mathematics",hi:"गणित",chapters:[
-     ["Sets","समुच्चय"],
-     ["Relations and Functions","संबंध एवं फलन"],
-     ["Trigonometric Functions","त्रिकोणमितीय फलन"],
-     ["Complex Numbers","सम्मिश्र संख्याएँ"],
-     ["Linear Inequalities","रैखिक असमिकाएँ"],
-     ["Permutations and Combinations","क्रमचय एवं संचय"],
-     ["Binomial Theorem","द्विपद प्रमेय"],
-     ["Sequences and Series","अनुक्रम एवं श्रेणी"],
-     ["Straight Lines","सरल रेखाएँ"],
-     ["Conic Sections","शंकु परिच्छेद"],
-     ["Limits and Derivatives","सीमा एवं अवकलज"],
-     ["Statistics","सांख्यिकी"],
-     ["Probability","प्रायिकता"]
-    ]},
-    biology:{en:"Biology",hi:"जीव विज्ञान",chapters:[
-     ["The Living World","जीव जगत"],
-     ["Biological Classification","जैव वर्गीकरण"],
-     ["Plant Kingdom","पादप जगत"],
-     ["Animal Kingdom","प्राणी जगत"],
-     ["Morphology of Flowering Plants","पुष्पी पादपों की आकारिकी"],
-     ["Cell: The Unit of Life","कोशिका : जीवन की इकाई"],
-     ["Biomolecules","जैव अणु"],
-     ["Cell Cycle and Cell Division","कोशिका चक्र एवं कोशिका विभाजन"],
-     ["Photosynthesis","प्रकाश संश्लेषण"],
-     ["Respiration in Plants","पादपों में श्वसन"]
-    ]},
-    hindi:{en:"Hindi",hi:"हिंदी",chapters:[
-     ["नमक का दारोगा","नमक का दारोगा"],
-     ["मियाँ नसीरुद्दीन","मियाँ नसीरुद्दीन"],
-     ["अपू के साथ ढाई साल","अपू के साथ ढाई साल"],
-     ["विदाई-संभाषण","विदाई-संभाषण"]
-    ]},
-    english:{en:"English",hi:"अंग्रेज़ी",chapters:[
-     ["The Portrait of a Lady","The Portrait of a Lady"],
-     ["A Photograph","A Photograph"],
-     ["We're Not Afraid to Die","We're Not Afraid to Die"],
-     ["Discovering Tut","Discovering Tut"]
-    ]}
-   }
-  },
-
-  Commerce:{
-   subjects:{
-    accountancy:{en:"Accountancy",hi:"लेखाशास्त्र",chapters:[
-     ["Introduction to Accounting","लेखांकन का परिचय"],
-     ["Theory Base of Accounting","लेखांकन का सैद्धांतिक आधार"],
-     ["Recording of Transactions","लेन-देन का अभिलेखन"],
-     ["Bank Reconciliation Statement","बैंक समाधान विवरण"],
-     ["Trial Balance","तलपट"],
-     ["Depreciation","मूल्यह्रास"]
-    ]},
-    business:{en:"Business Studies",hi:"व्यवसाय अध्ययन",chapters:[
-     ["Nature and Purpose of Business","व्यवसाय की प्रकृति एवं उद्देश्य"],
-     ["Forms of Business Organisation","व्यवसाय संगठन के रूप"],
-     ["Private, Public and Global Enterprises","निजी, सार्वजनिक एवं वैश्विक उपक्रम"],
-     ["Business Services","व्यावसायिक सेवाएँ"],
-     ["Emerging Modes of Business","व्यवसाय के उभरते रूप"]
-    ]},
-    economics:{en:"Economics",hi:"अर्थशास्त्र",chapters:[
-     ["Introduction to Microeconomics","सूक्ष्म अर्थशास्त्र का परिचय"],
-     ["Consumer Behaviour","उपभोक्ता व्यवहार"],
-     ["Production and Costs","उत्पादन एवं लागत"],
-     ["Perfect Competition","पूर्ण प्रतियोगिता"],
-     ["Statistics for Economics","अर्थशास्त्र में सांख्यिकी"]
-    ]},
-    mathematics:{en:"Mathematics",hi:"गणित",chapters:[
-     ["Sets","समुच्चय"],
-     ["Relations and Functions","संबंध एवं फलन"],
-     ["Trigonometric Functions","त्रिकोणमितीय फलन"],
-     ["Permutations and Combinations","क्रमचय एवं संचय"],
-     ["Sequences and Series","अनुक्रम एवं श्रेणी"],
-     ["Limits and Derivatives","सीमा एवं अवकलज"]
-    ]},
-    hindi:{en:"Hindi",hi:"हिंदी",chapters:[]},
-    english:{en:"English",hi:"अंग्रेज़ी",chapters:[]}
-   }
-  },
-
-  Arts:{
-   subjects:{
-    history:{en:"History",hi:"इतिहास",chapters:[
-     ["Writing and City Life","लेखन एवं शहरी जीवन"],
-     ["An Empire Across Three Continents","तीन महाद्वीपों में फैला साम्राज्य"],
-     ["Nomadic Empires","खानाबदोश साम्राज्य"],
-     ["The Three Orders","तीन वर्ग"]
-    ]},
-    geography:{en:"Geography",hi:"भूगोल",chapters:[
-     ["Geography as a Discipline","भूगोल एक विषय के रूप में"],
-     ["The Earth","पृथ्वी"],
-     ["Landforms","स्थलरूप"],
-     ["Climate","जलवायु"]
-    ]},
-    political:{en:"Political Science",hi:"राजनीति विज्ञान",chapters:[
-     ["Constitution: Why and How?","संविधान: क्यों और कैसे?"],
-     ["Rights in the Indian Constitution","भारतीय संविधान में अधिकार"],
-     ["Election and Representation","चुनाव और प्रतिनिधित्व"],
-     ["Executive","कार्यपालिका"]
-    ]},
-    economics:{en:"Economics",hi:"अर्थशास्त्र",chapters:[
-     ["Introduction to Microeconomics","सूक्ष्म अर्थशास्त्र का परिचय"],
-     ["Consumer Behaviour","उपभोक्ता व्यवहार"],
-     ["Production and Costs","उत्पादन एवं लागत"],
-     ["Statistics for Economics","अर्थशास्त्र में सांख्यिकी"]
-    ]},
-    sociology:{en:"Sociology",hi:"समाजशास्त्र",chapters:[
-     ["Sociology and Society","समाजशास्त्र एवं समाज"],
-     ["Terms, Concepts and Their Use","पद, अवधारणाएँ एवं उनका उपयोग"],
-     ["Understanding Social Institutions","सामाजिक संस्थाओं को समझना"]
-    ]},
-    psychology:{en:"Psychology",hi:"मनोविज्ञान",chapters:[
-     ["What is Psychology?","मनोविज्ञान क्या है?"],
-     ["Methods of Enquiry in Psychology","मनोविज्ञान में अन्वेषण की विधियाँ"],
-     ["Human Development","मानव विकास"],
-     ["Sensory, Attentional and Perceptual Processes","संवेदी, ध्यानात्मक एवं प्रत्यक्षण प्रक्रियाएँ"]
-    ]},
-    hindi:{en:"Hindi",hi:"हिंदी",chapters:[]},
-    english:{en:"English",hi:"अंग्रेज़ी",chapters:[]}
-   }
-  }
- }
-},
-
-"12":{
- streams:{
-  Science:{
-   subjects:{
-    physics:{en:"Physics",hi:"भौतिकी",chapters:[
-     ["Electric Charges and Fields","वैद्युत आवेश तथा क्षेत्र"],
-     ["Electrostatic Potential and Capacitance","स्थिरवैद्युत विभव तथा धारिता"],
-     ["Current Electricity","विद्युत धारा"],
-     ["Moving Charges and Magnetism","गतिमान आवेश और चुंबकत्व"],
-     ["Magnetism and Matter","चुंबकत्व एवं पदार्थ"],
-     ["Electromagnetic Induction","विद्युतचुंबकीय प्रेरण"],
-     ["Alternating Current","प्रत्यावर्ती धारा"],
-     ["Electromagnetic Waves","विद्युतचुंबकीय तरंगें"],
-     ["Ray Optics","किरण प्रकाशिकी"],
-     ["Wave Optics","तरंग प्रकाशिकी"],
-     ["Dual Nature","विकिरण तथा पदार्थ की द्वैत प्रकृति"],
-     ["Atoms","परमाणु"],
-     ["Nuclei","नाभिक"],
-     ["Semiconductor Electronics","अर्धचालक इलेक्ट्रॉनिकी"]
-    ]},
-    chemistry:{en:"Chemistry",hi:"रसायन विज्ञान",chapters:[
-     ["Solutions","विलयन"],
-     ["Electrochemistry","वैद्युत रसायन"],
-     ["Chemical Kinetics","रासायनिक बलगतिकी"],
-     ["d and f Block Elements","d एवं f ब्लॉक तत्व"],
-     ["Coordination Compounds","उपसहसंयोजन यौगिक"],
-     ["Haloalkanes and Haloarenes","हैलोऐल्केन तथा हैलोऐरीन"],
-     ["Alcohols, Phenols and Ethers","ऐल्कोहॉल, फीनॉल एवं ईथर"],
-     ["Aldehydes, Ketones and Carboxylic Acids","ऐल्डिहाइड, कीटोन एवं कार्बोक्सिलिक अम्ल"],
-     ["Amines","अमीन"],
-     ["Biomolecules","जैव अणु"]
-    ]},
-    mathematics:{en:"Mathematics",hi:"गणित",chapters:[
-     ["Relations and Functions","संबंध एवं फलन"],
-     ["Inverse Trigonometric Functions","प्रतिलोम त्रिकोणमितीय फलन"],
-     ["Matrices","आव्यूह"],
-     ["Determinants","सारणिक"],
-     ["Continuity and Differentiability","सांतत्य एवं अवकलनीयता"],
-     ["Application of Derivatives","अवकलज के अनुप्रयोग"],
-     ["Integrals","समाकलन"],
-     ["Application of Integrals","समाकलनों के अनुप्रयोग"],
-     ["Differential Equations","अवकल समीकरण"],
-     ["Vector Algebra","सदिश बीजगणित"],
-     ["Three Dimensional Geometry","त्रिविमीय ज्यामिति"],
-     ["Linear Programming","रैखिक प्रोग्रामन"],
-     ["Probability","प्रायिकता"]
-    ]},
-    biology:{en:"Biology",hi:"जीव विज्ञान",chapters:[
-     ["Sexual Reproduction in Flowering Plants","पुष्पी पादपों में लैंगिक जनन"],
-     ["Human Reproduction","मानव जनन"],
-     ["Reproductive Health","जनन स्वास्थ्य"],
-     ["Principles of Inheritance and Variation","वंशागति एवं विविधता के सिद्धांत"],
-     ["Molecular Basis of Inheritance","वंशागति का आणविक आधार"],
-     ["Evolution","विकास"],
-     ["Human Health and Disease","मानव स्वास्थ्य एवं रोग"],
-     ["Biotechnology Principles and Processes","जैव प्रौद्योगिकी : सिद्धांत एवं प्रक्रम"],
-     ["Ecology","पारिस्थितिकी"]
-    ]},
-    hindi:{en:"Hindi",hi:"हिंदी",chapters:[]},
-    english:{en:"English",hi:"अंग्रेज़ी",chapters:[]}
-   }
-  },
-
-  Commerce:{
-   subjects:{
-    accountancy:{en:"Accountancy",hi:"लेखाशास्त्र",chapters:[
-     ["Accounting for Partnership Firms","साझेदारी फर्मों के लिए लेखांकन"],
-     ["Admission of a Partner","साझेदार का प्रवेश"],
-     ["Retirement and Death of a Partner","साझेदार की सेवानिवृत्ति एवं मृत्यु"],
-     ["Dissolution of Partnership Firm","साझेदारी फर्म का विघटन"],
-     ["Accounting for Share Capital","अंश पूंजी के लिए लेखांकन"],
-     ["Financial Statements of a Company","कंपनी के वित्तीय विवरण"]
-    ]},
-    business:{en:"Business Studies",hi:"व्यवसाय अध्ययन",chapters:[
-     ["Nature and Significance of Management","प्रबंध की प्रकृति एवं महत्त्व"],
-     ["Principles of Management","प्रबंध के सिद्धांत"],
-     ["Business Environment","व्यावसायिक पर्यावरण"],
-     ["Planning","नियोजन"],
-     ["Organising","संगठन"],
-     ["Staffing","नियुक्तिकरण"],
-     ["Directing","निर्देशन"],
-     ["Controlling","नियंत्रण"],
-     ["Financial Management","वित्तीय प्रबंध"],
-     ["Marketing","विपणन"]
-    ]},
-    economics:{en:"Economics",hi:"अर्थशास्त्र",chapters:[
-     ["National Income","राष्ट्रीय आय"],
-     ["Money and Banking","मुद्रा एवं बैंकिंग"],
-     ["Income and Employment","आय एवं रोजगार"],
-     ["Government Budget","सरकारी बजट"],
-     ["Balance of Payments","भुगतान संतुलन"],
-     ["Indian Economy","भारतीय अर्थव्यवस्था"]
-    ]},
-    mathematics:{en:"Mathematics",hi:"गणित",chapters:[
-     ["Relations and Functions","संबंध एवं फलन"],
-     ["Matrices","आव्यूह"],
-     ["Determinants","सारणिक"],
-     ["Continuity and Differentiability","सांतत्य एवं अवकलनीयता"],
-     ["Integrals","समाकलन"],
-     ["Vector Algebra","सदिश बीजगणित"],
-     ["Probability","प्रायिकता"]
-    ]},
-    hindi:{en:"Hindi",hi:"हिंदी",chapters:[]},
-    english:{en:"English",hi:"अंग्रेज़ी",chapters:[]}
-   }
-  },
-
-  Arts:{
-   subjects:{
-    history:{en:"History",hi:"इतिहास",chapters:[
-     ["Bricks, Beads and Bones","ईंटें, मनके तथा अस्थियाँ"],
-     ["Kings, Farmers and Towns","राजा, किसान और नगर"],
-     ["Kinship, Caste and Class","बंधुत्व, जाति तथा वर्ग"],
-     ["Thinkers, Beliefs and Buildings","विचारक, विश्वास एवं इमारतें"],
-     ["Through the Eyes of Travellers","यात्रियों की नजर से"]
-    ]},
-    geography:{en:"Geography",hi:"भूगोल",chapters:[
-     ["Human Geography","मानव भूगोल"],
-     ["Population","जनसंख्या"],
-     ["Human Activities","मानवीय क्रियाएँ"],
-     ["Transport and Communication","परिवहन एवं संचार"],
-     ["International Trade","अंतर्राष्ट्रीय व्यापार"]
-    ]},
-    political:{en:"Political Science",hi:"राजनीति विज्ञान",chapters:[
-     ["The End of Bipolarity","द्विध्रुवीयता का अंत"],
-     ["Contemporary Centres of Power","समकालीन सत्ता केंद्र"],
-     ["Challenges of Nation-Building","राष्ट्र निर्माण की चुनौतियाँ"],
-     ["Era of One-Party Dominance","एक-दलीय प्रभुत्व का दौर"],
-     ["Politics of Planned Development","नियोजित विकास की राजनीति"]
-    ]},
-    economics:{en:"Economics",hi:"अर्थशास्त्र",chapters:[
-     ["National Income","राष्ट्रीय आय"],
-     ["Money and Banking","मुद्रा एवं बैंकिंग"],
-     ["Government Budget","सरकारी बजट"],
-     ["Balance of Payments","भुगतान संतुलन"],
-     ["Indian Economy","भारतीय अर्थव्यवस्था"]
-    ]},
-    sociology:{en:"Sociology",hi:"समाजशास्त्र",chapters:[
-     ["Introducing Indian Society","भारतीय समाज का परिचय"],
-     ["The Demographic Structure of Indian Society","भारतीय समाज की जनांकिकीय संरचना"],
-     ["Social Institutions","सामाजिक संस्थाएँ"],
-     ["Patterns of Social Inequality","सामाजिक असमानता के प्रतिरूप"],
-     ["Social Change and Development","सामाजिक परिवर्तन एवं विकास"]
-    ]},
-    psychology:{en:"Psychology",hi:"मनोविज्ञान",chapters:[
-     ["Variations in Psychological Attributes","मनोवैज्ञानिक गुणों में विविधताएँ"],
-     ["Self and Personality","स्वयं एवं व्यक्तित्व"],
-     ["Meeting Life Challenges","जीवन की चुनौतियों का सामना"],
-     ["Psychological Disorders","मनोवैज्ञानिक विकार"],
-     ["Therapeutic Approaches","चिकित्सात्मक उपागम"]
-    ]},
-    hindi:{en:"Hindi",hi:"हिंदी",chapters:[]},
-    english:{en:"English",hi:"अंग्रेज़ी",chapters:[]}
-   }
-  }
- }
-}
-
-},
-
-/* Bihar Board fallback uses same core academic structure.
-   Backend receives Bihar Board and can tailor questions. */
-"Bihar Board":{}
 };
 
 
-/* =========================================================
-   HELPERS
-========================================================= */
+/* ============================================================
+   STATE
+============================================================ */
 
-const $=id=>document.getElementById(id);
+let currentUser=null;
+let studentProfile=null;
+let currentQuestions=[];
+let currentAnswers={};
+let currentMode="";
+let timerInterval=null;
+let remainingSeconds=600;
+let selectedRating=0;
+let lastResult=null;
+let lastPhotoData="";
+let chatPhotoData="";
+let practiceContext=null;
 
-function toast(msg){
- $("toast").textContent=msg;
- $("toast").classList.remove("hidden");
- setTimeout(()=>$("toast").classList.add("hidden"),3000);
+
+/* ============================================================
+   BASIC HELPERS
+============================================================ */
+
+function $(id){
+ return document.getElementById(id);
+}
+
+function showToast(message){
+ const t=$("toast");
+ t.textContent=message;
+ t.classList.remove("hidden");
+ setTimeout(()=>t.classList.add("hidden"),3000);
+}
+
+function setLoading(show,text="Loading..."){
+ $("loading").classList.toggle("hidden",!show);
+ if(show){
+  $("loading").querySelector("b").textContent=text;
+ }
+}
+
+function showError(message){
+ $("authError").textContent=message;
+ $("authError").classList.remove("hidden");
+ $("authSuccess").classList.add("hidden");
+}
+
+function showSuccess(message){
+ $("authSuccess").textContent=message;
+ $("authSuccess").classList.remove("hidden");
+ $("authError").classList.add("hidden");
+}
+
+function clearAuthMessages(){
+ $("authError").classList.add("hidden");
+ $("authSuccess").classList.add("hidden");
+}
+
+function normalizeStudentId(id){
+ return String(id||"")
+  .trim()
+  .toLowerCase()
+  .replace(/[^a-z0-9._-]/g,"");
 }
 
 function authEmail(id){
- return String(id||"").trim().toLowerCase()
- .replace(/[^a-z0-9._-]/g,"")+"@student.examos.local";
+ const raw=String(id||"").trim();
+
+ if(raw.includes("@")) return raw;
+
+ return normalizeStudentId(raw)+"@student.examos.local";
 }
 
-function uid(){
- return "req_"+Date.now()+"_"+Math.random().toString(36).slice(2,8);
+function escapeHtml(value){
+ return String(value??"")
+  .replaceAll("&","&amp;")
+  .replaceAll("<","&lt;")
+  .replaceAll(">","&gt;")
+  .replaceAll('"',"&quot;")
+  .replaceAll("'","&#039;");
 }
 
-function getClassConfig(){
- let c=curriculum[selectedBoard]?.[selectedClass];
 
- if(!c && selectedBoard==="Bihar Board"){
-   c=curriculum.CBSE[selectedClass];
+/* ============================================================
+   AUTH TABS
+============================================================ */
+
+function switchAuth(type){
+ clearAuthMessages();
+
+ const login=type==="login";
+
+ $("loginTab").classList.toggle("active",login);
+ $("registerTab").classList.toggle("active",!login);
+
+ $("loginForm").classList.toggle("hidden",!login);
+ $("registerForm").classList.toggle("hidden",login);
+}
+
+
+/* ============================================================
+   FIREBASE AUTH
+============================================================ */
+
+$("loginForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+
+ const id=$("loginId").value.trim();
+ const password=$("loginPassword").value;
+
+ if(!id||!password){
+  showError("Student ID/Email और password भरें।");
+  return;
  }
 
- return c||null;
+ $("loginBtn").disabled=true;
+ $("loginBtn").textContent="Logging in...";
+
+ try{
+  await auth.signInWithEmailAndPassword(authEmail(id),password);
+  showSuccess("Login successful.");
+ }catch(err){
+  console.error(err);
+
+  let msg="Login failed.";
+
+  if(err.code==="auth/user-not-found"){
+   msg="यह Student ID/Email registered नहीं है।";
+  }else if(err.code==="auth/wrong-password" ||
+           err.code==="auth/invalid-credential"){
+   msg="Student ID/Email या password गलत है।";
+  }else if(err.code==="auth/invalid-email"){
+   msg="Student ID/Email सही नहीं है।";
+  }else if(err.code==="auth/too-many-requests"){
+   msg="बहुत ज्यादा attempts हो गए। थोड़ी देर बाद कोशिश करें।";
+  }
+
+  showError(msg);
+ }
+
+ $("loginBtn").disabled=false;
+ $("loginBtn").textContent="Login";
+});
+
+
+$("registerForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+
+ const name=$("regName").value.trim();
+ const id=$("regId").value.trim();
+ const password=$("regPassword").value;
+
+ if(!name||!id||!password){
+  showError("सभी fields भरें।");
+  return;
+ }
+
+ if(password.length<6){
+  showError("Password कम से कम 6 characters का होना चाहिए।");
+  return;
+ }
+
+ $("registerBtn").disabled=true;
+ $("registerBtn").textContent="Creating Account...";
+
+ try{
+
+  const credential=
+   await auth.createUserWithEmailAndPassword(
+    authEmail(id),
+    password
+   );
+
+  const user=credential.user;
+
+  await db.collection("users").doc(user.uid).set({
+   uid:user.uid,
+   studentId:id,
+   name:name,
+   email:user.email,
+   createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+   profileComplete:false
+  },{merge:true});
+
+  showSuccess("Account बन गया। Profile setup शुरू हो रहा है...");
+
+ }catch(err){
+  console.error(err);
+
+  let msg="Account create नहीं हो पाया।";
+
+  if(err.code==="auth/email-already-in-use"){
+   msg="यह Student ID/Email पहले से registered है। Login करें।";
+  }else if(err.code==="auth/invalid-email"){
+   msg="Student ID/Email सही format में नहीं है।";
+  }else if(err.code==="auth/weak-password"){
+   msg="Password बहुत weak है।";
+  }
+
+  showError(msg);
+ }
+
+ $("registerBtn").disabled=false;
+ $("registerBtn").textContent="Create Account";
+});
+
+
+/* ============================================================
+   AUTH STATE
+============================================================ */
+
+auth.onAuthStateChanged(async user=>{
+ currentUser=user;
+
+ if(!user){
+  $("loading").classList.add("hidden");
+  $("authScreen").classList.remove("hidden");
+  $("profileScreen").classList.add("hidden");
+  $("mainApp").classList.add("hidden");
+  $("aiFab").classList.add("hidden");
+  return;
+ }
+
+ try{
+  const snap=await db.collection("users").doc(user.uid).get();
+
+  if(!snap.exists){
+   studentProfile={
+    uid:user.uid,
+    studentId:user.email,
+    name:user.email?.split("@")[0]||"Student",
+    profileComplete:false
+   };
+  }else{
+   studentProfile=snap.data();
+  }
+
+  $("authScreen").classList.add("hidden");
+
+  if(studentProfile.profileComplete){
+   await enterMainApp();
+  }else{
+   $("profileScreen").classList.remove("hidden");
+   $("mainApp").classList.add("hidden");
+
+   $("profileName").value=studentProfile.name||"";
+  }
+
+ }catch(err){
+  console.error(err);
+  showToast("Profile load नहीं हो पाया।");
+ }finally{
+  setLoading(false);
+ }
+});
+
+
+/* ============================================================
+   PROFILE SETUP
+============================================================ */
+
+function updateClassOptions(){
+ updateStreamOptions();
+ updateProfileSubjects();
+}
+
+function updateStreamOptions(){
+
+ const cls=$("classSelect").value;
+
+ if(cls==="11"||cls==="12"){
+  $("streamBox").classList.remove("hidden");
+ }else{
+  $("streamBox").classList.add("hidden");
+  $("streamSelect").value="";
+ }
+
+ updateProfileSubjects();
 }
 
 function getSubjects(){
- const c=getClassConfig();
- if(!c)return {};
 
- if(c.subjects)return c.subjects;
+ const cls=$("classSelect").value;
+ const stream=$("streamSelect").value;
 
- if(c.streams){
-   return c.streams[selectedStream]?.subjects||{};
+ if(!cls)return {};
+
+ const boardData=CURRICULUM.CBSE[cls];
+
+ if(!boardData)return {};
+
+ if(cls==="9"||cls==="10"){
+  return boardData.subjects||{};
  }
 
- return {};
+ return boardData.streams?.[stream]||{};
 }
 
-function getSubject(){
- return getSubjects()[selectedSubject]||null;
-}
-
-function chapterNames(){
- return getSubject()?.chapters||[];
-}
-
-function subjectLabel(){
- const s=getSubject();
- return s ? `${s.en} / ${s.hi}` : "";
-}
-
-
-/* =========================================================
-   LOGIN / REGISTER
-========================================================= */
-
-function renderAuth(mode="login"){
- $("app").innerHTML=`
- <div class="screen">
-  <div class="welcome">
-   <img class="logo" src="logopng.png" onerror="this.style.display='none'">
-   <h1>EXAMOS AI</h1>
-   <div class="subtitle">Smart Practice. Better Results. Learn with AI.</div>
-  </div>
-
-  <div class="card">
-   <div class="tabs">
-    <button id="loginTab" class="${mode==="login"?"active":""}"
-      onclick="renderAuth('login')">Login</button>
-    <button id="registerTab" class="${mode==="register"?"active":""}"
-      onclick="renderAuth('register')">Create Account</button>
-   </div>
-
-   <div class="field">
-    <label>Student ID / Email</label>
-    <input id="authId" placeholder="e.g. Vishal">
-   </div>
-
-   <div class="field">
-    <label>Password</label>
-    <input id="authPass" type="password" placeholder="Password">
-   </div>
-
-   <button class="btn" onclick="${mode==="login"?"loginUser()":"registerUser()"}">
-    ${mode==="login"?"Login":"Create Account"}
-   </button>
-
-   <p class="small" style="text-align:center;margin-top:18px">
-    Your student account is securely stored with Firebase.
-   </p>
-  </div>
- </div>`;
-}
-
-window.renderAuth=renderAuth;
-
-async function registerUser(){
- const id=$("authId").value.trim();
- const pass=$("authPass").value;
-
- if(!id||pass.length<6){
-  toast("Student ID और कम से कम 6 character password डालें।");
-  return;
- }
-
- try{
-  const cred=await createUserWithEmailAndPassword(auth,authEmail(id),pass);
-
-  await setDoc(doc(db,"users",cred.user.uid),{
-   studentId:id,
-   createdAt:Date.now()
-  },{merge:true});
-
-  toast("Account बन गया 🎉");
- }catch(e){
-  toast(e.message);
- }
-}
-
-async function loginUser(){
- const id=$("authId").value.trim();
- const pass=$("authPass").value;
-
- if(!id||!pass){
-  toast("Student ID और password डालें।");
-  return;
- }
-
- try{
-  await signInWithEmailAndPassword(auth,authEmail(id),pass);
- }catch(e){
-  toast(e.message);
- }
-}
-
-
-/* =========================================================
-   PROFILE SETUP
-========================================================= */
-
-function renderProfileSetup(){
- $("app").innerHTML=`
- <div class="screen">
-  <div class="topbar">
-   <h1>🎓 Your Profile</h1>
-  </div>
-
-  <div class="card">
-   <div class="field">
-    <label>Your Name</label>
-    <input id="profileName" placeholder="Enter your name">
-   </div>
-
-   <div class="field">
-    <label>Board</label>
-    <select id="board" onchange="profileBoardChanged()">
-     <option>CBSE</option>
-     <option>Bihar Board</option>
-    </select>
-   </div>
-
-   <div class="field">
-    <label>Class</label>
-    <select id="classSelect" onchange="profileClassChanged()">
-     <option value="9">Class 9</option>
-     <option value="10">Class 10</option>
-     <option value="11">Class 11</option>
-     <option value="12">Class 12</option>
-    </select>
-   </div>
-
-   <div id="streamBox" class="field hidden">
-    <label>Stream</label>
-    <select id="streamSelect" onchange="profileStreamChanged()">
-     <option value="Science">Science</option>
-     <option value="Commerce">Commerce</option>
-     <option value="Arts">Arts / Humanities</option>
-    </select>
-   </div>
-
-   <div class="field">
-    <label>Subject</label>
-    <select id="subjectSelect"></select>
-   </div>
-
-   <button class="btn" onclick="saveProfile()">Continue →</button>
-  </div>
- </div>`;
-
- profileBoardChanged();
- profileClassChanged();
-}
-
-window.profileBoardChanged=function(){
- selectedBoard=$("board").value;
- updateProfileSubjects();
-}
-
-window.profileClassChanged=function(){
- selectedClass=$("classSelect").value;
-
- const streamBox=$("streamBox");
- if(Number(selectedClass)>=11){
-  streamBox.classList.remove("hidden");
-  selectedStream=$("streamSelect").value;
- }else{
-  streamBox.classList.add("hidden");
-  selectedStream="";
- }
-
- updateProfileSubjects();
-}
-
-window.profileStreamChanged=function(){
- selectedStream=$("streamSelect").value;
- updateProfileSubjects();
+function getCurrentSubjects(){
+ return getSubjects();
 }
 
 function updateProfileSubjects(){
- const select=$("subjectSelect");
- if(!select)return;
+
+ const subjects=getSubjects();
+ const box=$("profileSubjectsBox");
+ const list=$("profileSubjects");
+
+ list.innerHTML="";
+
+ const keys=Object.keys(subjects);
+
+ if(!keys.length){
+  box.classList.add("hidden");
+  return;
+ }
+
+ box.classList.remove("hidden");
+
+ keys.forEach(key=>{
+  const s=subjects[key];
+
+  const chip=document.createElement("div");
+  chip.className="chip";
+  chip.textContent=`${s.en} / ${s.hi}`;
+  list.appendChild(chip);
+ });
+}
+
+async function saveProfile(){
+
+ const name=$("profileName").value.trim();
+ const board=$("boardSelect").value;
+ const cls=$("classSelect").value;
+ const stream=
+  (cls==="11"||cls==="12") ? $("streamSelect").value : "GENERAL";
+
+ if(!name||!board||!cls){
+  showToast("Name, Board और Class select करें।");
+  return;
+ }
+
+ if((cls==="11"||cls==="12")&&!stream){
+  showToast("Class 11/12 के लिए Stream select करें।");
+  return;
+ }
 
  const subjects=getSubjects();
 
- select.innerHTML=Object.entries(subjects).map(([id,s])=>
-  `<option value="${id}">${s.en} — ${s.hi}</option>`
- ).join("");
-
- selectedSubject=select.value;
-}
-
-
-/* =========================================================
-   SAVE PROFILE
-========================================================= */
-
-async function saveProfile(){
- const name=$("profileName").value.trim();
-
- selectedBoard=$("board").value;
- selectedClass=$("classSelect").value;
-
- if(Number(selectedClass)>=11)
-   selectedStream=$("streamSelect").value;
- else
-   selectedStream="";
-
- selectedSubject=$("subjectSelect").value;
-
- if(!name){
-  toast("अपना नाम डालें।");
+ if(!Object.keys(subjects).length){
+  showToast("इस class/stream के subjects अभी available नहीं हैं।");
   return;
  }
 
- profile={
-  name,
-  board:selectedBoard,
-  class:selectedClass,
-  stream:selectedStream,
-  subject:selectedSubject,
-  updatedAt:Date.now()
- };
-
- await setDoc(doc(db,"users",user.uid),profile,{merge:true});
-
- toast("Profile saved 🎉");
- renderHome();
-}
-
-
-/* =========================================================
-   HOME
-========================================================= */
-
-async function renderHome(){
- currentPage="home";
-
- const tests=await getTests();
-
- $("app").innerHTML=`
- <div class="screen">
-  <div class="topbar">
-   <div>
-    <div class="small">Welcome back 👋</div>
-    <h1>${escapeHTML(profile?.name||"Student")}</h1>
-   </div>
-   <button class="iconbtn" onclick="renderSettings()">⚙️</button>
-  </div>
-
-  <div class="card" style="background:linear-gradient(135deg,#6037e9,#813bf2);color:white">
-   <span class="badge" style="background:#ffffff25;color:white">
-    ${escapeHTML(profile?.board||"CBSE")}
-   </span>
-   <h2 style="margin-top:13px">${escapeHTML(subjectLabel())}</h2>
-   <div style="opacity:.85">
-    Class ${profile?.class||""}
-    ${profile?.stream?` • ${escapeHTML(profile.stream)}`:""}
-   </div>
-  </div>
-
-  <div class="stats">
-   <div class="stat"><b>${tests.length}</b><span>Tests</span></div>
-   <div class="stat"><b>${calcAverage(tests)}%</b><span>Avg Score</span></div>
-   <div class="stat"><b>${tests.reduce((a,x)=>a+(x.total||0),0)}</b><span>Questions</span></div>
-  </div>
-
-  <h2 style="margin:24px 2px 12px">Learn with AI</h2>
-
-  <div class="grid">
-   <button class="feature" onclick="renderTestSetup()">
-    <div class="emoji">📝</div>
-    <b>AI Diagnostic Test</b>
-    <span>Find weak topics automatically</span>
-   </button>
-
-   <button class="feature" onclick="renderPracticeSetup()">
-    <div class="emoji">🎯</div>
-    <b>Practice</b>
-    <span>Targeted questions by topic</span>
-   </button>
-
-   <button class="feature" onclick="renderAnalysis()">
-    <div class="emoji">📷</div>
-    <b>Solution Analysis</b>
-    <span>Upload handwritten solution</span>
-   </button>
-
-   <button class="feature" onclick="renderProgress()">
-    <div class="emoji">📊</div>
-    <b>My Progress</b>
-    <span>See your performance</span>
-   </button>
-  </div>
-
-  <div class="card" style="margin-top:16px">
-   <h2>📚 Current Learning</h2>
-   <div class="small">Board</div>
-   <b>${escapeHTML(profile?.board||"")}</b>
-   <div class="small" style="margin-top:8px">Class / Stream</div>
-   <b>Class ${escapeHTML(profile?.class||"")}
-    ${profile?.stream?" / "+escapeHTML(profile.stream):""}</b>
-   <div class="small" style="margin-top:8px">Subject</div>
-   <b>${escapeHTML(subjectLabel())}</b>
-  </div>
- </div>
-
- ${bottomNav("home")}`;
-
- addChatButton();
-}
-
-function calcAverage(tests){
- if(!tests.length)return 0;
- return Math.round(tests.reduce((a,x)=>a+(x.score||0),0)/tests.length);
-}
-
-
-/* =========================================================
-   TEST SETUP
-========================================================= */
-
-function renderTestSetup(){
- currentPage="testSetup";
-
- const chapters=chapterNames();
-
- $("app").innerHTML=`
- <div class="screen">
-  <div class="topbar">
-   <button class="iconbtn" onclick="renderHome()">←</button>
-   <h1>AI Test</h1>
-   <div></div>
-  </div>
-
-  <div class="card">
-   <div class="small">Selected Subject</div>
-   <h2>${escapeHTML(subjectLabel())}</h2>
-   <span class="badge">${escapeHTML(profile.board)} • Class ${profile.class}</span>
-   ${profile.stream?`<span class="badge">${escapeHTML(profile.stream)}</span>`:""}
-  </div>
-
-  <div class="card">
-   <div class="field">
-    <label>Chapter</label>
-    <select id="testChapter">
-     <option value="ALL">All Chapters</option>
-     ${chapters.map((c,i)=>
-       `<option value="${i}">${escapeHTML(c[0])} — ${escapeHTML(c[1])}</option>`
-     ).join("")}
-    </select>
-   </div>
-
-   <div class="field">
-    <label>Number of Questions</label>
-    <select id="testCount">
-     <option value="5">5 Questions</option>
-     <option value="10" selected>10 Questions</option>
-     <option value="15">15 Questions</option>
-     <option value="20">20 Questions</option>
-    </select>
-   </div>
-
-   <div class="field">
-    <label>Difficulty</label>
-    <select id="testDifficulty">
-     <option>Mixed</option>
-     <option>Easy</option>
-     <option>Medium</option>
-     <option>Hard</option>
-    </select>
-   </div>
-
-   <button id="startTestBtn" class="btn" onclick="startTest()">
-    🚀 Start AI Test
-   </button>
-  </div>
- </div>
-
- ${bottomNav("test")}`;
-}
-
-
-/* =========================================================
-   AI QUESTIONS
-========================================================= */
-
-async function aiQuestions(config,mode="generate_questions"){
-
- const controller=new AbortController();
- const timer=setTimeout(()=>controller.abort(),50000);
+ $("saveProfileBtn").disabled=true;
+ $("saveProfileBtn").textContent="Saving...";
 
  try{
-  const r=await fetch("/api/ai",{
-   method:"POST",
-   cache:"no-store",
-   signal:controller.signal,
-   headers:{"Content-Type":"application/json"},
-   body:JSON.stringify({
-    mode,
-    requestId:uid(),
-    board:profile.board,
-    class:profile.class,
-    stream:profile.stream||"",
-    subject:subjectLabel(),
-    ...config
-   })
-  });
 
-  const d=await r.json();
+  studentProfile={
+   ...studentProfile,
+   uid:currentUser.uid,
+   name,
+   board,
+   class:cls,
+   stream,
+   subjects:Object.keys(subjects),
+   profileComplete:true
+  };
 
-  if(!r.ok)throw new Error(d.error||"AI request failed");
+  await db.collection("users")
+   .doc(currentUser.uid)
+   .set(studentProfile,{merge:true});
 
-  if(!Array.isArray(d.questions)||!d.questions.length)
-   throw new Error("AI ने questions नहीं भेजे।");
+  await enterMainApp();
 
-  return d.questions;
-
- }finally{
-  clearTimeout(timer);
+ }catch(err){
+  console.error(err);
+  showToast("Profile save नहीं हो पाया।");
  }
+
+ $("saveProfileBtn").disabled=false;
+ $("saveProfileBtn").textContent="Continue to EXAMOS AI";
 }
 
 
-/* =========================================================
+async function enterMainApp(){
+
+ $("profileScreen").classList.add("hidden");
+ $("mainApp").classList.remove("hidden");
+ $("aiFab").classList.remove("hidden");
+
+ updateUserUI();
+
+ await loadStats();
+
+ showPage("homePage");
+}
+
+
+function updateUserUI(){
+
+ const name=studentProfile?.name||"Student";
+ const initial=name.charAt(0).toUpperCase();
+
+ $("helloName").textContent=`Welcome, ${name} 👋`;
+
+ $("helloContext").textContent=
+  `${studentProfile.board==="BIHAR"?"Bihar Board":
+     studentProfile.board==="CBSE"?"CBSE":"Other Board"} • Class ${studentProfile.class}`+
+  ((studentProfile.class==="11"||studentProfile.class==="12")
+   ?` • ${streamLabel(studentProfile.stream)}`
+   :"");
+
+ $("topContext").textContent=
+  `${studentProfile.board} • Class ${studentProfile.class}`;
+
+ $("topAvatar").textContent=initial;
+ $("profileAvatar").textContent=initial;
+
+ $("settingsName").textContent=name;
+ $("settingsId").textContent=studentProfile.studentId||currentUser?.email||"";
+
+ $("settingsBoard").textContent=
+  studentProfile.board==="BIHAR"?"Bihar Board":
+  studentProfile.board==="CBSE"?"CBSE":"Other Board";
+
+ $("settingsClass").textContent=`Class ${studentProfile.class}`;
+
+ $("settingsStream").textContent=
+  (studentProfile.class==="11"||studentProfile.class==="12")
+   ?streamLabel(studentProfile.stream)
+   :"Not applicable";
+
+ $("settingsSubjects").textContent=
+  (studentProfile.subjects||[]).length+" subjects";
+}
+
+function streamLabel(s){
+ if(s==="SCIENCE")return"Science";
+ if(s==="COMMERCE")return"Commerce";
+ if(s==="ARTS")return"Arts / Humanities";
+ return"";
+}
+
+
+/* ============================================================
+   PAGE NAVIGATION
+============================================================ */
+
+const pageIds=[
+ "homePage",
+ "testSetupPage",
+ "practiceSetupPage",
+ "conceptSetupPage",
+ "testPage",
+ "practicePage",
+ "resultPage",
+ "analysisPage",
+ "progressPage",
+ "feedbackPage",
+ "settingsPage"
+];
+
+function showPage(id){
+
+ pageIds.forEach(x=>{
+  const el=$(x);
+  if(el)el.classList.toggle("hidden",x!==id);
+ });
+
+ if(id==="homePage"){
+  updateNav(0);
+ }else if(id==="testSetupPage"||id==="testPage"){
+  updateNav(1);
+ }else if(id==="practiceSetupPage"||id==="practicePage"){
+  updateNav(2);
+ }else if(id==="progressPage"){
+  updateNav(3);
+ }else if(id==="settingsPage"){
+  updateNav(4);
+ }
+
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function updateNav(index){
+ document.querySelectorAll(".nav-btn")
+  .forEach((b,i)=>b.classList.toggle("active",i===index));
+}
+
+function openSettings(){
+ updateUserUI();
+ showPage("settingsPage");
+}
+
+function openProgress(){
+ showPage("progressPage");
+ renderProgress();
+}
+
+function openFeedback(){
+ showPage("feedbackPage");
+}
+
+function editProfile(){
+ $("profileScreen").classList.remove("hidden");
+ $("mainApp").classList.add("hidden");
+
+ $("profileName").value=studentProfile.name||"";
+ $("boardSelect").value=studentProfile.board||"";
+ $("classSelect").value=studentProfile.class||"";
+
+ updateClassOptions();
+
+ $("streamSelect").value=studentProfile.stream||"";
+ updateProfileSubjects();
+}
+
+
+/* ============================================================
+   SUBJECT / CHAPTER HELPERS
+============================================================ */
+
+function subjectData(subjectId){
+
+ const cls=studentProfile?.class;
+ const stream=studentProfile?.stream;
+
+ if(!cls)return null;
+
+ let classData=CURRICULUM.CBSE[cls];
+
+ if(!classData)return null;
+
+ if(cls==="9"||cls==="10"){
+  return classData.subjects?.[subjectId]||null;
+ }
+
+ return classData.streams?.[stream]?.[subjectId]||null;
+}
+
+function populateSubjectSelect(id){
+
+ const select=$(id);
+ select.innerHTML="";
+
+ const subjects=getCurrentSubjects();
+
+ Object.entries(subjects).forEach(([key,s])=>{
+  const opt=document.createElement("option");
+  opt.value=key;
+  opt.textContent=`${s.en} / ${s.hi}`;
+  select.appendChild(opt);
+ });
+}
+
+function fillChapterSelect(selectId,subjectId){
+
+ const select=$(selectId);
+ select.innerHTML="";
+
+ const data=subjectData(subjectId);
+
+ if(!data){
+  select.innerHTML='<option value="">Chapter not available</option>';
+  return;
+ }
+
+ const blank=document.createElement("option");
+ blank.value="";
+ blank.textContent="Select Chapter / अध्याय चुनें";
+ select.appendChild(blank);
+
+ (data.chapters||[]).forEach((c,i)=>{
+  const opt=document.createElement("option");
+  opt.value=String(i);
+  opt.textContent=`${i+1}. ${c[0]} / ${c[1]}`;
+  select.appendChild(opt);
+ });
+}
+
+function fillTopicSelect(selectId,subjectId,chapterIndex){
+
+ const select=$(selectId);
+ select.innerHTML="";
+
+ const data=subjectData(subjectId);
+ const chapter=data?.chapters?.[Number(chapterIndex)];
+
+ const topics=[
+  "Concept / अवधारणा",
+  "Definitions / परिभाषाएँ",
+  "Formulas / सूत्र",
+  "Examples / उदाहरण",
+  "Numerical Problems / संख्यात्मक प्रश्न",
+  "Important Questions / महत्वपूर्ण प्रश्न",
+  "Application / अनुप्रयोग"
+ ];
+
+ const blank=document.createElement("option");
+ blank.value="";
+ blank.textContent="All Topics / सभी टॉपिक";
+ select.appendChild(blank);
+
+ topics.forEach(t=>{
+  const opt=document.createElement("option");
+  opt.value=t;
+  opt.textContent=t;
+  select.appendChild(opt);
+ });
+}
+
+function chapterNames(subjectId,index){
+
+ const data=subjectData(subjectId);
+ const c=data?.chapters?.[Number(index)];
+
+ return c?{
+  en:c[0],
+  hi:c[1]
+ }:null;
+}
+
+
+/* ============================================================
+   TEST SETUP
+============================================================ */
+
+function openTestSetup(){
+
+ populateSubjectSelect("testSubject");
+ loadTestChapters();
+ showPage("testSetupPage");
+}
+
+function loadTestChapters(){
+
+ const subject=$("testSubject").value;
+
+ fillChapterSelect("testChapter",subject);
+ loadTestTopics();
+}
+
+function loadTestTopics(){
+
+ const subject=$("testSubject").value;
+ const chapter=$("testChapter").value;
+
+ fillTopicSelect("testTopic",subject,chapter);
+}
+
+
+/* ============================================================
+   PRACTICE SETUP
+============================================================ */
+
+function openPracticeSetup(){
+
+ populateSubjectSelect("practiceSubject");
+ loadPracticeChapters();
+ showPage("practiceSetupPage");
+}
+
+function loadPracticeChapters(){
+
+ const subject=$("practiceSubject").value;
+
+ fillChapterSelect("practiceChapter",subject);
+ loadPracticeTopics();
+}
+
+function loadPracticeTopics(){
+
+ const subject=$("practiceSubject").value;
+ const chapter=$("practiceChapter").value;
+
+ fillTopicSelect("practiceTopic",subject,chapter);
+}
+
+
+/* ============================================================
+   CONCEPT SETUP
+============================================================ */
+
+function openConceptSetup(){
+
+ populateSubjectSelect("conceptSubject");
+ loadConceptChapters();
+
+ $("conceptResult").innerHTML="";
+
+ showPage("conceptSetupPage");
+}
+
+function loadConceptChapters(){
+
+ const subject=$("conceptSubject").value;
+
+ fillChapterSelect("conceptChapter",subject);
+ loadConceptTopics();
+}
+
+function loadConceptTopics(){
+
+ const subject=$("conceptSubject").value;
+ const chapter=$("conceptChapter").value;
+
+ fillTopicSelect("conceptTopic",subject,chapter);
+}
+
+
+/* ============================================================
+   AI API HELPER
+============================================================ */
+
+async function callAI(body){
+
+ const response=await fetch("/api/ai",{
+  method:"POST",
+  headers:{
+   "Content-Type":"application/json",
+   "Cache-Control":"no-cache"
+  },
+  cache:"no-store",
+  body:JSON.stringify(body)
+ });
+
+ let data=null;
+
+ try{
+  data=await response.json();
+ }catch(e){
+  throw new Error("AI server ने valid response नहीं दिया।");
+ }
+
+ if(!response.ok){
+  throw new Error(data?.error||"AI request failed.");
+ }
+
+ return data;
+}
+
+function baseAIContext(){
+
+ return{
+  board:studentProfile?.board||"CBSE",
+  class:studentProfile?.class||"9",
+  stream:studentProfile?.stream||"GENERAL"
+ };
+}
+
+
+/* ============================================================
    START TEST
-========================================================= */
+============================================================ */
 
 async function startTest(){
 
- const btn=$("startTestBtn");
- if(btn)btn.disabled=true;
+ const subject=$("testSubject").value;
+ const chapterIndex=$("testChapter").value;
+ const topic=$("testTopic").value;
+ const count=Number($("testCount").value);
+ const difficulty=$("testDifficulty").value;
 
- try{
-  const chapters=chapterNames();
-  const ch=$("testChapter").value;
-
-  let chapter="All Chapters";
-  if(ch!=="ALL" && chapters[Number(ch)])
-    chapter=chapters[Number(ch)][0];
-
-  questions=[];
-  answers=[];
-  currentQuestion=0;
-
-  renderLoading("AI आपके लिए test तैयार कर रहा है...");
-
-  questions=await aiQuestions({
-   chapter,
-   count:Number($("testCount")?.value||10),
-   difficulty:$("testDifficulty")?.value||"Mixed",
-   previousQuestions:[]
-  });
-
-  testMode="test";
-  renderQuestion();
-
- }catch(e){
-  console.error(e);
-  toast(e.message||"Test generate नहीं हो पाया।");
-  renderTestSetup();
- }
-}
-
-
-/* =========================================================
-   QUESTION SCREEN
-========================================================= */
-
-function renderQuestion(){
-
- if(!questions.length){
-  toast("Questions नहीं मिले।");
-  return renderHome();
- }
-
- const q=questions[currentQuestion];
-
- $("app").innerHTML=`
- <div class="screen">
-  <div class="topbar">
-   <button class="iconbtn" onclick="renderHome()">✕</button>
-   <h1>${testMode==="practice"?"Practice":"AI Test"}</h1>
-   <span class="small">${currentQuestion+1}/${questions.length}</span>
-  </div>
-
-  <div class="progressbar">
-   <div style="width:${((currentQuestion+1)/questions.length)*100}%"></div>
-  </div>
-
-  <div class="card" style="margin-top:18px">
-   <div class="small">${escapeHTML(q.topic||"AI Generated")}</div>
-   <div class="question" style="margin-top:12px">
-    ${formatText(q.question||"")}
-   </div>
-  </div>
-
-  <div>
-   ${(q.options||[]).map((o,i)=>`
-    <button class="option ${answers[currentQuestion]===String.fromCharCode(65+i)?"selected":""}"
-      onclick="selectAnswer('${String.fromCharCode(65+i)}')">
-      <b>${String.fromCharCode(65+i)}.</b>
-      ${formatText(o)}
-    </button>
-   `).join("")}
-  </div>
-
-  <button class="btn" onclick="nextQuestion()">
-   ${currentQuestion===questions.length-1?"Finish":"Next →"}
-  </button>
- </div>`;
-}
-
-window.selectAnswer=function(a){
- answers[currentQuestion]=a;
- renderQuestion();
-};
-
-window.nextQuestion=function(){
- if(!answers[currentQuestion]){
-  toast("पहले answer select करें।");
+ if(!subject||chapterIndex===""){
+  showToast("Subject और Chapter select करें।");
   return;
  }
 
- if(currentQuestion<questions.length-1){
-  currentQuestion++;
-  renderQuestion();
- }else{
-  finishTest();
+ const data=subjectData(subject);
+ const chapter=data?.chapters?.[Number(chapterIndex)];
+
+ if(!chapter){
+  showToast("Chapter नहीं मिला।");
+  return;
  }
-};
 
+ const btn=$("startTestBtn");
 
-/* =========================================================
-   FINISH TEST
-========================================================= */
+ btn.disabled=true;
+ btn.textContent="🤖 AI questions बना रहा है...";
 
-async function finishTest(){
-
- let correct=0;
-
- questions.forEach((q,i)=>{
-  if(norm(answers[i])===norm(q.correctAnswer))correct++;
- });
-
- const score=Math.round(correct/questions.length*100);
-
- const result={
-  board:profile.board,
-  class:profile.class,
-  stream:profile.stream||"",
-  subject:profile.subject,
-  chapter:questions[0]?.chapter||"",
-  score,
-  correct,
-  total:questions.length,
-  date:Date.now(),
-  questions,
-  answers
- };
+ setLoading(true,"Generating AI Test...");
 
  try{
-  await addDoc(
-   collection(db,"users",user.uid,"profiles",profileKey(),"tests"),
-   result
+
+  const requestId=
+   "test_"+Date.now()+"_"+Math.random().toString(36).slice(2);
+
+  const result=await callAI({
+   mode:"generate_questions",
+   requestId,
+   ...baseAIContext(),
+   subject,
+   subjectNameEn:data.en,
+   subjectNameHi:data.hi,
+   chapter:chapter[0],
+   chapterHindi:chapter[1],
+   topic:topic||"All Topics",
+   difficulty,
+   count,
+   previousQuestions:[]
+  });
+
+  if(!Array.isArray(result.questions)||!result.questions.length){
+   throw new Error("AI ने questions नहीं भेजे।");
+  }
+
+  currentQuestions=result.questions.slice(0,count);
+  currentAnswers={};
+  currentMode="test";
+
+  $("testTitle").textContent=
+   `${data.en} • ${chapter[0]}`;
+
+  renderQuestions("testQuestions",currentQuestions);
+
+  remainingSeconds=Math.max(300,count*60);
+  startTimer();
+
+  showPage("testPage");
+
+ }catch(err){
+
+  console.error(err);
+
+  showToast(
+   err.message||
+   "AI Test load नहीं हो पाया।"
   );
- }catch(e){
-  console.error(e);
+
+ }finally{
+
+  setLoading(false);
+
+  btn.disabled=false;
+  btn.textContent="🤖 Generate AI Test";
  }
-
- renderResult(result);
-}
-
-function norm(x){
- return String(x||"").trim().toUpperCase().replace(/[^ABCD]/g,"").slice(0,1);
-}
-
-function renderResult(result){
-
- $("app").innerHTML=`
- <div class="screen">
-  <div class="topbar">
-   <div></div><h1>Result</h1><div></div>
-  </div>
-
-  <div class="card" style="text-align:center">
-   <div style="font-size:55px">🎉</div>
-   <h1 style="font-size:48px;margin:5px">${result.score}%</h1>
-   <p>${result.correct} correct out of ${result.total}</p>
-
-   <div class="answerbox">
-    <b>Board:</b> ${escapeHTML(result.board)}<br>
-    <b>Class:</b> ${escapeHTML(result.class)}
-    ${result.stream?`<br><b>Stream:</b> ${escapeHTML(result.stream)}`:""}<br>
-    <b>Subject:</b> ${escapeHTML(subjectLabel())}
-   </div>
-  </div>
-
-  <div class="card">
-   <h2>📌 Performance</h2>
-   <p>Correct: <b>${result.correct}</b></p>
-   <p>Wrong: <b>${result.total-result.correct}</b></p>
-   <p>Score: <b>${result.score}%</b></p>
-  </div>
-
-  <button class="btn" onclick="renderTestSetup()">🔄 Take Another Test</button>
-  <button class="btn secondary" onclick="renderHome()">🏠 Home</button>
- </div>
-
- ${bottomNav("home")}`;
 }
 
 
-/* =========================================================
+/* ============================================================
    PRACTICE
-========================================================= */
-
-function renderPracticeSetup(){
-
- const chapters=chapterNames();
-
- $("app").innerHTML=`
- <div class="screen">
-  <div class="topbar">
-   <button class="iconbtn" onclick="renderHome()">←</button>
-   <h1>Practice</h1><div></div>
-  </div>
-
-  <div class="card">
-   <h2>🎯 Targeted Practice</h2>
-   <p class="small">
-    Chapter और difficulty चुनो। AI उसी topic के नए questions बनाएगा।
-   </p>
-
-   <div class="field">
-    <label>Chapter</label>
-    <select id="practiceChapter">
-     ${chapters.map((c,i)=>
-      `<option value="${i}">${escapeHTML(c[0])} — ${escapeHTML(c[1])}</option>`
-     ).join("")}
-    </select>
-   </div>
-
-   <div class="field">
-    <label>Difficulty</label>
-    <select id="practiceDifficulty">
-     <option>Easy</option>
-     <option selected>Medium</option>
-     <option>Hard</option>
-    </select>
-   </div>
-
-   <div class="field">
-    <label>Questions</label>
-    <select id="practiceCount">
-     <option>5</option>
-     <option selected>10</option>
-     <option>15</option>
-    </select>
-   </div>
-
-   <button class="btn" onclick="startPractice()">🎯 Start Practice</button>
-  </div>
- </div>
-
- ${bottomNav("practice")}`;
-}
+============================================================ */
 
 async function startPractice(){
 
- const chapters=chapterNames();
- const idx=Number($("practiceChapter").value);
- const chapter=chapters[idx]?.[0]||"";
+ const subject=$("practiceSubject").value;
+ const chapterIndex=$("practiceChapter").value;
+ const topic=$("practiceTopic").value;
+ const difficulty=$("practiceDifficulty").value;
+ const count=Number($("practiceCount").value);
 
- renderLoading("AI practice questions बना रहा है...");
+ if(!subject||chapterIndex===""){
+  showToast("Subject और Chapter select करें।");
+  return;
+ }
+
+ const data=subjectData(subject);
+ const chapter=data?.chapters?.[Number(chapterIndex)];
+
+ if(!chapter){
+  showToast("Chapter नहीं मिला।");
+  return;
+ }
+
+ const btn=$("startPracticeBtn");
+
+ btn.disabled=true;
+ btn.textContent="🤖 Generating...";
+
+ setLoading(true,"Generating AI Practice...");
 
  try{
-  questions=await aiQuestions({
-   chapter,
-   topic:"",
-   count:Number($("practiceCount").value),
-   difficulty:$("practiceDifficulty").value,
+
+  const requestId=
+   "practice_"+Date.now()+"_"+Math.random().toString(36).slice(2);
+
+  const result=await callAI({
+   mode:"generate_practice",
+   requestId,
+   ...baseAIContext(),
+   subject,
+   subjectNameEn:data.en,
+   subjectNameHi:data.hi,
+   chapter:chapter[0],
+   chapterHindi:chapter[1],
+   topic:topic||"All Topics",
+   difficulty,
+   count,
    previousQuestions:[]
-  },"generate_practice");
+  });
 
-  answers=[];
-  currentQuestion=0;
-  testMode="practice";
+  if(!Array.isArray(result.questions)||!result.questions.length){
+   throw new Error("AI ने practice questions नहीं भेजे।");
+  }
 
-  renderQuestion();
+  currentQuestions=result.questions.slice(0,count);
+  currentAnswers={};
+  currentMode="practice";
 
- }catch(e){
-  toast(e.message);
-  renderPracticeSetup();
+  $("practiceTitle").textContent=
+   `${data.en} Practice`;
+
+  renderQuestions("practiceQuestions",currentQuestions);
+
+  showPage("practicePage");
+
+ }catch(err){
+
+  console.error(err);
+  showToast(err.message||"Practice load नहीं हुआ।");
+
+ }finally{
+
+  setLoading(false);
+  btn.disabled=false;
+  btn.textContent="🎯 Start AI Practice";
  }
 }
 
 
-/* =========================================================
-   CONCEPT
-========================================================= */
+/* ============================================================
+   QUESTION RENDERING
+============================================================ */
 
-async function showConcept(chapter,topic=""){
+function renderQuestions(containerId,questions){
 
- renderLoading("AI concept तैयार कर रहा है...");
+ const container=$(containerId);
+
+ container.innerHTML="";
+
+ questions.forEach((q,index)=>{
+
+  const card=document.createElement("div");
+  card.className="question-card";
+
+  const options=
+   Array.isArray(q.options)
+    ?q.options
+    :["A","B","C","D"].map(x=>`${x}`);
+
+  card.innerHTML=`
+   <div class="q-number">
+    Question ${index+1}
+   </div>
+
+   <div class="question">
+    ${escapeHtml(q.question||"Question")}
+   </div>
+
+   <div class="options"></div>
+  `;
+
+  const optionBox=card.querySelector(".options");
+
+  options.forEach((option,optIndex)=>{
+
+   const btn=document.createElement("button");
+   btn.className="answer";
+
+   const letter=
+    String.fromCharCode(65+optIndex);
+
+   btn.textContent=
+    `${letter}. ${option}`;
+
+   btn.onclick=()=>{
+
+    card.querySelectorAll(".answer")
+     .forEach(x=>x.classList.remove("selected"));
+
+    btn.classList.add("selected");
+
+    currentAnswers[index]=letter;
+   };
+
+   optionBox.appendChild(btn);
+  });
+
+  container.appendChild(card);
+ });
+}
+
+
+/* ============================================================
+   TIMER
+============================================================ */
+
+function startTimer(){
+
+ clearInterval(timerInterval);
+
+ updateTimer();
+
+ timerInterval=setInterval(()=>{
+
+  remainingSeconds--;
+
+  updateTimer();
+
+  if(remainingSeconds<=0){
+
+   clearInterval(timerInterval);
+
+   showToast("Time समाप्त हो गया। Test submit हो रहा है...");
+
+   if(currentMode==="test"){
+    submitTest();
+   }
+  }
+
+ },1000);
+}
+
+function updateTimer(){
+
+ const mins=
+  Math.floor(remainingSeconds/60)
+   .toString().padStart(2,"0");
+
+ const secs=
+  (remainingSeconds%60)
+   .toString().padStart(2,"0");
+
+ $("timerText").textContent=`${mins}:${secs}`;
+}
+
+function stopCurrentTest(){
+
+ clearInterval(timerInterval);
+ currentQuestions=[];
+ currentAnswers={};
+
+ showPage("homePage");
+}
+
+
+/* ============================================================
+   ANSWER NORMALIZATION
+============================================================ */
+
+function normalizeAnswer(v){
+
+ return String(v||"")
+  .trim()
+  .toUpperCase()
+  .replace(/[^ABCD]/g,"")
+  .slice(0,1);
+}
+
+
+/* ============================================================
+   SUBMIT TEST
+============================================================ */
+
+async function submitTest(){
+
+ if(!currentQuestions.length)return;
+
+ clearInterval(timerInterval);
+
+ const submitBtn=$("submitTestBtn");
+ submitBtn.disabled=true;
+ submitBtn.textContent="Checking...";
+
+ let correct=0;
+ const weak=[];
+
+ currentQuestions.forEach((q,i)=>{
+
+  const given=
+   normalizeAnswer(currentAnswers[i]);
+
+  const expected=
+   normalizeAnswer(q.correctAnswer);
+
+  if(given&&given===expected){
+   correct++;
+  }else{
+   if(q.topic){
+    weak.push(q.topic);
+   }
+  }
+ });
+
+ const percentage=
+  Math.round((correct/currentQuestions.length)*100);
+
+ lastResult={
+  mode:"test",
+  correct,
+  total:currentQuestions.length,
+  percentage,
+  weakTopics:[...new Set(weak)],
+  questions:currentQuestions,
+  answers:currentAnswers
+ };
+
+ await saveTestResult(lastResult);
+
+ renderResult(lastResult);
+
+ submitBtn.disabled=false;
+ submitBtn.textContent="Submit Test";
+
+ showPage("resultPage");
+}
+
+
+/* ============================================================
+   SUBMIT PRACTICE
+============================================================ */
+
+async function submitPractice(){
+
+ if(!currentQuestions.length)return;
+
+ const submitBtn=$("submitPracticeBtn");
+
+ submitBtn.disabled=true;
+ submitBtn.textContent="Checking...";
+
+ let correct=0;
+ const weak=[];
+
+ currentQuestions.forEach((q,i)=>{
+
+  const given=normalizeAnswer(currentAnswers[i]);
+  const expected=normalizeAnswer(q.correctAnswer);
+
+  if(given&&given===expected){
+   correct++;
+  }else if(q.topic){
+   weak.push(q.topic);
+  }
+ });
+
+ const percentage=
+  Math.round((correct/currentQuestions.length)*100);
+
+ lastResult={
+  mode:"practice",
+  correct,
+  total:currentQuestions.length,
+  percentage,
+  weakTopics:[...new Set(weak)],
+  questions:currentQuestions,
+  answers:currentAnswers
+ };
+
+ await savePracticeResult(lastResult);
+
+ renderResult(lastResult);
+
+ submitBtn.disabled=false;
+ submitBtn.textContent="Submit Practice";
+
+ showPage("resultPage");
+}
+
+
+/* ============================================================
+   RESULT
+============================================================ */
+
+function renderResult(result){
+
+ $("resultScore").textContent=
+  `${result.percentage}%`;
+
+ $("resultSummary").textContent=
+  `${result.correct} correct out of ${result.total}`;
+
+ const box=$("weakTopicsBox");
+
+ if(result.weakTopics?.length){
+
+  box.innerHTML=`
+   <div class="card">
+    <h3>⚠️ Topics to Practice</h3>
+    <div class="chip-row">
+     ${result.weakTopics.map(x=>
+      `<div class="chip">${escapeHtml(x)}</div>`
+     ).join("")}
+    </div>
+   </div>
+  `;
+
+ }else{
+
+  box.innerHTML=`
+   <div class="card">
+    <h3>🎉 Great Work!</h3>
+    <div class="muted">
+     इस test में कोई weak topic identify नहीं हुआ।
+    </div>
+   </div>
+  `;
+ }
+}
+
+function openPracticeFromResult(){
+
+ const weak=
+  lastResult?.weakTopics?.[0]||"";
+
+ openPracticeSetup();
+
+ if(weak){
+  showToast("अब weak topic की targeted practice करें।");
+ }
+}
+
+
+/* ============================================================
+   FIRESTORE RESULT STORAGE
+============================================================ */
+
+async function saveTestResult(result){
+
+ if(!currentUser)return;
 
  try{
 
-  const r=await fetch("/api/ai",{
-   method:"POST",
-   cache:"no-store",
-   headers:{"Content-Type":"application/json"},
-   body:JSON.stringify({
-    mode:"concept",
-    requestId:uid(),
-    board:profile.board,
-    class:profile.class,
-    stream:profile.stream||"",
-    subject:subjectLabel(),
-    chapter,
-    topic,
-    message:`${chapter} ${topic}`
-   })
+  await db.collection("users")
+   .doc(currentUser.uid)
+   .collection("tests")
+   .add({
+    mode:"test",
+    score:result.percentage,
+    correct:result.correct,
+    total:result.total,
+    weakTopics:result.weakTopics,
+    board:studentProfile.board,
+    class:studentProfile.class,
+    stream:studentProfile.stream||"",
+    createdAt:firebase.firestore.FieldValue.serverTimestamp()
+   });
+
+ }catch(err){
+  console.error("saveTestResult",err);
+ }
+}
+
+async function savePracticeResult(result){
+
+ if(!currentUser)return;
+
+ try{
+
+  await db.collection("users")
+   .doc(currentUser.uid)
+   .collection("practice")
+   .add({
+    mode:"practice",
+    score:result.percentage,
+    correct:result.correct,
+    total:result.total,
+    weakTopics:result.weakTopics,
+    board:studentProfile.board,
+    class:studentProfile.class,
+    stream:studentProfile.stream||"",
+    createdAt:firebase.firestore.FieldValue.serverTimestamp()
+   });
+
+ }catch(err){
+  console.error("savePracticeResult",err);
+ }
+}
+
+
+/* ============================================================
+   CONCEPT
+============================================================ */
+
+async function loadConcept(){
+
+ const subject=$("conceptSubject").value;
+ const chapterIndex=$("conceptChapter").value;
+ const topic=$("conceptTopic").value;
+
+ if(!subject||chapterIndex===""){
+  showToast("Subject और Chapter select करें।");
+  return;
+ }
+
+ const data=subjectData(subject);
+ const chapter=data?.chapters?.[Number(chapterIndex)];
+
+ if(!chapter)return;
+
+ $("conceptResult").innerHTML=`
+  <div class="card">
+   <div class="spinner"></div>
+   <h3>🤖 AI Concept तैयार हो रहा है...</h3>
+  </div>
+ `;
+
+ try{
+
+  const result=await callAI({
+   mode:"concept",
+   ...baseAIContext(),
+   subject,
+   subjectNameEn:data.en,
+   subjectNameHi:data.hi,
+   chapter:chapter[0],
+   chapterHindi:chapter[1],
+   topic:topic||"All Topics",
+   message:
+    `Teach ${chapter[0]} / ${chapter[1]} in simple student-friendly language.`
   });
 
-  const d=await r.json();
+  const answer=
+   result.answer||
+   result.concept||
+   result.text||
+   "Concept नहीं मिला।";
 
-  if(!r.ok)throw new Error(d.error||"Concept failed");
+  $("conceptResult").innerHTML=`
+   <div class="card">
+    <h3>
+     ${escapeHtml(chapter[0])}
+    </h3>
 
-  $("app").innerHTML=`
-   <div class="screen">
-    <div class="topbar">
-     <button class="iconbtn" onclick="renderHome()">←</button>
-     <h1>Concept</h1><div></div>
+    <div class="dual-name">
+     ${escapeHtml(chapter[1])}
     </div>
 
-    <div class="card">
-     <span class="badge">${escapeHTML(subjectLabel())}</span>
-     <h2 style="margin-top:12px">${escapeHTML(chapter)}</h2>
-     <div style="line-height:1.75">
-      ${formatText(d.answer||d.concept||"")}
-     </div>
+    <div style="margin-top:15px;line-height:1.7;white-space:pre-wrap">
+     ${escapeHtml(answer)}
     </div>
 
-    <button class="btn" onclick="startTopicPractice('${escapeAttr(chapter)}')">
+    <button class="primary-btn"
+            onclick="openPracticeSetup()">
      🎯 Practice This Topic
     </button>
    </div>
   `;
 
- }catch(e){
-  toast(e.message);
-  renderHome();
+ }catch(err){
+
+  console.error(err);
+
+  $("conceptResult").innerHTML=`
+   <div class="error">
+    ${escapeHtml(err.message||"AI concept load नहीं हुआ।")}
+   </div>
+  `;
  }
 }
 
-window.startTopicPractice=async function(chapter){
- renderLoading("Targeted questions तैयार हो रहे हैं...");
 
- try{
-  questions=await aiQuestions({
-   chapter,
-   topic:"",
-   count:5,
-   difficulty:"Medium",
-   previousQuestions:[]
-  },"generate_practice");
+/* ============================================================
+   SOLUTION PHOTO
+============================================================ */
 
-  answers=[];
-  currentQuestion=0;
-  testMode="practice";
-  renderQuestion();
+function openAnalysis(){
 
- }catch(e){
-  toast(e.message);
-  renderHome();
- }
-};
+ populateSubjectSelect("analysisSubject");
 
+ fillChapterSelect(
+  "analysisChapter",
+  $("analysisSubject").value
+ );
 
-/* =========================================================
-   SOLUTION PHOTO ANALYSIS
-========================================================= */
+ $("analysisSubject").onchange=()=>{
+  fillChapterSelect(
+   "analysisChapter",
+   $("analysisSubject").value
+  );
+ };
 
-function renderAnalysis(){
+ $("solutionPreview").classList.add("hidden");
+ $("solutionPreview").src="";
+ lastPhotoData="";
 
- $("app").innerHTML=`
- <div class="screen">
-  <div class="topbar">
-   <button class="iconbtn" onclick="renderHome()">←</button>
-   <h1>Solution Analysis</h1><div></div>
-  </div>
+ $("analysisResult").innerHTML="";
 
-  <div class="card">
-   <h2>📷 AI Handwritten Analysis</h2>
-   <p class="small">
-    अपनी handwritten solution की साफ photo upload करो।
-    AI calculation, formula और concept mistake पहचानने की कोशिश करेगा।
-   </p>
-
-   <label class="drop">
-    <div style="font-size:42px">📸</div>
-    <b>Camera / Gallery से photo चुनें</b>
-    <div class="small" style="margin-top:6px">Tap here</div>
-    <input id="solutionFile" type="file" accept="image/*"
-      capture="environment" onchange="analyzePhoto(event)">
-   </label>
-
-   <div id="analysisResult"></div>
-  </div>
- </div>
-
- ${bottomNav("analysis")}`;
+ showPage("analysisPage");
 }
 
-async function analyzePhoto(event){
+function previewSolution(event){
 
  const file=event.target.files?.[0];
+
  if(!file)return;
 
- $("analysisResult").innerHTML=
-  `<div class="loading"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-   <p style="text-align:center">AI photo पढ़ रहा है...</p>`;
+ const reader=new FileReader();
+
+ reader.onload=()=>{
+  lastPhotoData=reader.result;
+
+  $("solutionPreview").src=reader.result;
+  $("solutionPreview").classList.remove("hidden");
+ };
+
+ reader.readAsDataURL(file);
+}
+
+async function analyzeSolution(){
+
+ if(!lastPhotoData){
+  showToast("पहले solution की photo upload करें।");
+  return;
+ }
+
+ const subject=$("analysisSubject").value;
+ const chapterIndex=$("analysisChapter").value;
+
+ const data=subjectData(subject);
+
+ const chapter=
+  chapterIndex!==""
+   ?data?.chapters?.[Number(chapterIndex)]
+   :null;
+
+ const btn=$("analyzeBtn");
+
+ btn.disabled=true;
+ btn.textContent="🤖 AI पढ़ रहा है...";
+
+ setLoading(true,"Analyzing Solution...");
 
  try{
 
-  const base64=await fileToBase64(file);
-
-  const r=await fetch("/api/ai",{
-   method:"POST",
-   cache:"no-store",
-   headers:{"Content-Type":"application/json"},
-   body:JSON.stringify({
-    mode:"analyze_solution",
-    requestId:uid(),
-    board:profile.board,
-    class:profile.class,
-    stream:profile.stream||"",
-    subject:subjectLabel(),
-    imageBase64:base64
-   })
+  const result=await callAI({
+   mode:"analyze_solution",
+   ...baseAIContext(),
+   subject,
+   subjectNameEn:data?.en||"",
+   subjectNameHi:data?.hi||"",
+   chapter:chapter?.[0]||"",
+   chapterHindi:chapter?.[1]||"",
+   imageBase64:lastPhotoData
   });
 
-  const d=await r.json();
-
-  if(!r.ok)throw new Error(d.error||"Photo analysis failed");
-
-  lastAIAnswer=d.explanationHindi||"";
-
   $("analysisResult").innerHTML=`
-   <div class="answerbox">
-    <h3>${d.isCorrect?"✅ Solution Correct":"❌ Mistake Found"}</h3>
+   <div class="card">
 
-    <p><b>Question:</b><br>${formatText(d.question||"")}</p>
+    <h3>
+     ${result.isCorrect===true
+       ?"✅ Solution Correct"
+       :result.isCorrect===false
+       ?"❌ Solution Needs Correction"
+       :"🔎 Solution Analysis"}
+    </h3>
 
-    <p><b>Student Answer:</b><br>
-    ${formatText(d.studentFinalAnswer||"Not detected")}</p>
+    <div class="result-item">
+     <b>Question</b>
+     <div class="muted">
+      ${escapeHtml(result.question||"Not detected")}
+     </div>
+    </div>
 
-    <p><b>Mistake Type:</b><br>
-    ${escapeHTML(d.mistake||"No major mistake detected")}</p>
+    <div class="result-item">
+     <b>Student Answer</b>
+     <div class="muted">
+      ${escapeHtml(result.studentFinalAnswer||"Not detected")}
+     </div>
+    </div>
 
-    <p><b>Weak Topic:</b><br>
-    ${escapeHTML(d.weakTopic||"Not detected")}</p>
+    <div class="result-item">
+     <b>Mistake</b>
+     <div class="muted">
+      ${escapeHtml(result.mistake||"No major mistake detected")}
+     </div>
+    </div>
 
-    <p><b>Concept Check:</b><br>
-    ${formatText(d.conceptCheck||"")}</p>
+    <div class="result-item">
+     <b>Correct Method</b>
+     <div class="muted">
+      ${escapeHtml(result.correctMethod||"Not available")}
+     </div>
+    </div>
 
-    <p><b>Correct Method:</b><br>
-    ${formatText(d.correctMethod||"")}</p>
+    <div class="result-item">
+     <b>Correct Answer</b>
+     <div class="muted">
+      ${escapeHtml(result.correctAnswer||"Not available")}
+     </div>
+    </div>
 
-    <p><b>Explanation:</b><br>
-    ${formatText(d.explanationHindi||"")}</p>
+    <div class="result-item">
+     <b>Weak Topic</b>
+     <div class="muted">
+      ${escapeHtml(result.weakTopic||"Not detected")}
+     </div>
+    </div>
+
+    <div class="result-item">
+     <b>Concept Check</b>
+     <div class="muted">
+      ${escapeHtml(result.conceptCheck||"Not available")}
+     </div>
+    </div>
+
+    <div class="result-item">
+     <b>Explanation</b>
+     <div style="white-space:pre-wrap;line-height:1.6">
+      ${escapeHtml(result.explanationHindi||"")}
+     </div>
+    </div>
+
+    <button class="primary-btn"
+            onclick="openPracticeSetup()">
+     🎯 Practice This Topic
+    </button>
+
    </div>
-
-   <button class="btn" onclick="startTopicPractice('${escapeAttr(d.practiceTopic||d.weakTopic||"") }')">
-    🎯 Practice This Topic
-   </button>
-
-   <button class="btn secondary" onclick="speakText(${JSON.stringify(d.explanationHindi||"")})">
-    🔊 Explanation सुनें
-   </button>
   `;
 
- }catch(e){
-  console.error(e);
-  $("analysisResult").innerHTML="";
-  toast(e.message||"Photo analysis failed");
+ }catch(err){
+
+  console.error(err);
+
+  $("analysisResult").innerHTML=`
+   <div class="error">
+    ${escapeHtml(err.message||"Photo analysis failed.")}
+   </div>
+  `;
+
+ }finally{
+
+  setLoading(false);
+
+  btn.disabled=false;
+  btn.textContent="🤖 Analyze My Solution";
  }
 }
 
 
-/* =========================================================
+/* ============================================================
    CHATBOT
-========================================================= */
-
-function addChatButton(){
- if($("chatBtn"))return;
-
- const b=document.createElement("button");
- b.id="chatBtn";
- b.className="chat";
- b.innerHTML="🤖";
- b.onclick=openChat;
- document.body.appendChild(b);
-}
+============================================================ */
 
 function openChat(){
- $("chatModal").classList.remove("hidden");
- $("chatInput")?.focus();
+ $("chatScreen").classList.remove("hidden");
 }
 
 function closeChat(){
- $("chatModal").classList.add("hidden");
+ $("chatScreen").classList.add("hidden");
 }
 
-function closeChatOutside(e){
- if(e.target.id==="chatModal")closeChat();
-}
+function addChatMessage(text,type="ai"){
 
-window.openChat=openChat;
-window.closeChat=closeChat;
-window.closeChatOutside=closeChatOutside;
+ const box=$("chatMessages");
 
-function addMessage(text,type){
  const div=document.createElement("div");
- div.className="msg "+type;
- div.innerHTML=formatText(text);
- $("messages").appendChild(div);
- $("messages").scrollTop=$("messages").scrollHeight;
+
+ div.className=`msg ${type}`;
+
+ div.textContent=text;
+
+ box.appendChild(div);
+
+ box.scrollTop=box.scrollHeight;
 }
 
 async function sendChat(){
@@ -1742,374 +3725,460 @@ async function sendChat(){
  const input=$("chatInput");
  const message=input.value.trim();
 
- if(!message)return;
+ if(!message&&!chatPhotoData)return;
 
- input.value="";
- addMessage(message,"me");
+ if(message){
+  addChatMessage(message,"user");
+  input.value="";
+ }
 
- addMessage("सोच रहा हूँ...","ai");
- const loading=$("messages").lastElementChild;
+ if(chatPhotoData){
+  addChatMessage("📷 Photo attached","user");
+ }
+
+ const thinking=document.createElement("div");
+ thinking.className="msg ai";
+ thinking.textContent="🤖 सोच रहा हूँ...";
+ thinking.id="chatThinking";
+
+ $("chatMessages").appendChild(thinking);
 
  try{
 
-  const r=await fetch("/api/ai",{
-   method:"POST",
-   cache:"no-store",
-   headers:{"Content-Type":"application/json"},
-   body:JSON.stringify({
-    mode:"chat",
-    requestId:uid(),
-    board:profile?.board||"CBSE",
-    class:profile?.class||"10",
-    stream:profile?.stream||"",
-    subject:subjectLabel()||"General",
-    chapter:selectedChapter||"",
-    message
-   })
+  const result=await callAI({
+   mode:"chat",
+   ...baseAIContext(),
+   subject:
+    studentProfile?.subjects?.[0]||"general",
+   message,
+   imageBase64:chatPhotoData||"",
+   context:{
+    studentName:studentProfile?.name||"",
+    board:studentProfile?.board||"",
+    class:studentProfile?.class||"",
+    stream:studentProfile?.stream||""
+   }
   });
 
-  const d=await r.json();
+  thinking.remove();
 
-  if(!r.ok)throw new Error(d.error||"Chat failed");
-
-  loading.remove();
-
-  lastAIAnswer=d.answer||"";
-  addMessage(lastAIAnswer,"ai");
-
- }catch(e){
-  loading.remove();
-  addMessage("AI से response नहीं मिला: "+e.message,"ai");
- }
-}
-
-window.sendChat=sendChat;
-
-async function chatPhotoSelected(event){
-
- const file=event.target.files?.[0];
- if(!file)return;
-
- addMessage("📷 मैंने एक photo भेजी है। इसे समझकर बताओ।","me");
- addMessage("Photo पढ़ रहा हूँ...","ai");
-
- const loading=$("messages").lastElementChild;
-
- try{
-
-  const base64=await fileToBase64(file);
-
-  const r=await fetch("/api/ai",{
-   method:"POST",
-   cache:"no-store",
-   headers:{"Content-Type":"application/json"},
-   body:JSON.stringify({
-    mode:"chat",
-    requestId:uid(),
-    board:profile?.board||"CBSE",
-    class:profile?.class||"10",
-    stream:profile?.stream||"",
-    subject:subjectLabel()||"General",
-    message:"इस photo को ध्यान से पढ़ो। इसमें जो question/solution है उसे student-friendly Hindi में समझाओ और जहाँ गलती हो वहाँ बताओ।",
-    imageBase64:base64
-   })
-  });
-
-  const d=await r.json();
-
-  if(!r.ok)throw new Error(d.error||"Photo chat failed");
-
-  loading.remove();
-
-  lastAIAnswer=d.answer||"";
-  addMessage(lastAIAnswer,"ai");
-
- }catch(e){
-  loading.remove();
-  addMessage("Photo समझने में समस्या: "+e.message,"ai");
- }
-}
-
-window.chatPhotoSelected=chatPhotoSelected;
-
-
-/* =========================================================
-   VOICE
-========================================================= */
-
-window.startVoice=function(){
-
- const SpeechRecognition=
-  window.SpeechRecognition||window.webkitSpeechRecognition;
-
- if(!SpeechRecognition){
-  toast("इस browser में voice input support नहीं है। Chrome में try करें।");
-  return;
- }
-
- const rec=new SpeechRecognition();
- rec.lang="hi-IN";
- rec.interimResults=false;
- rec.maxAlternatives=1;
-
- toast("🎙️ बोलिए...");
-
- rec.onresult=e=>{
-  const text=e.results[0][0].transcript;
-  $("chatInput").value=text;
-  sendChat();
- };
-
- rec.onerror=e=>{
-  toast("Voice input: "+e.error);
- };
-
- rec.start();
-};
-
-window.speakText=function(text){
-
- if(!("speechSynthesis" in window)){
-  toast("इस browser में voice output available नहीं है।");
-  return;
- }
-
- speechSynthesis.cancel();
-
- const u=new SpeechSynthesisUtterance(text);
- u.lang="hi-IN";
- u.rate=.92;
- u.pitch=1;
-
- speechSynthesis.speak(u);
-};
-
-window.speakLastAnswer=function(){
- if(lastAIAnswer)speakText(lastAIAnswer);
- else toast("पहले AI से कुछ पूछें।");
-};
-
-
-/* =========================================================
-   PROGRESS
-========================================================= */
-
-async function getTests(){
-
- try{
-  const snap=await getDocs(
-   query(
-    collection(db,"users",user.uid,"profiles",profileKey(),"tests"),
-    orderBy("date","desc"),
-    limit(50)
-   )
+  addChatMessage(
+   result.answer||
+   "मुझे अभी इसका answer नहीं मिला।",
+   "ai"
   );
 
-  return snap.docs.map(d=>({id:d.id,...d.data()}));
+ }catch(err){
 
- }catch(e){
-  console.error(e);
-  return [];
+  thinking.remove();
+
+  addChatMessage(
+   "AI से answer नहीं मिल पाया: "+
+   (err.message||"Server error"),
+   "ai"
+  );
+
+ }finally{
+
+  chatPhotoData="";
  }
 }
 
-function profileKey(){
- return `${profile?.board||"CBSE"}_${profile?.class||"10"}_${profile?.stream||"none"}_${profile?.subject||"mathematics"}`
- .replace(/[^a-zA-Z0-9_-]/g,"_");
+
+/* ============================================================
+   CHAT PHOTO
+============================================================ */
+
+function chatPhotoSelected(event){
+
+ const file=event.target.files?.[0];
+
+ if(!file)return;
+
+ const reader=new FileReader();
+
+ reader.onload=()=>{
+  chatPhotoData=reader.result;
+
+  addChatMessage(
+   "📷 Photo ready है। अब अपना question लिखकर Send करें।",
+   "ai"
+  );
+ };
+
+ reader.readAsDataURL(file);
 }
+
+
+/* ============================================================
+   VOICE INPUT
+============================================================ */
+
+let recognition=null;
+
+function startVoiceInput(){
+
+ const SpeechRecognition=
+  window.SpeechRecognition||
+  window.webkitSpeechRecognition;
+
+ if(!SpeechRecognition){
+  showToast("इस browser में voice input supported नहीं है।");
+  return;
+ }
+
+ if(recognition){
+  try{
+   recognition.stop();
+  }catch(e){}
+ }
+
+ recognition=new SpeechRecognition();
+
+ recognition.lang="hi-IN";
+ recognition.interimResults=false;
+ recognition.maxAlternatives=1;
+
+ $("voiceBtn").textContent="🔴";
+
+ recognition.onresult=e=>{
+
+  const text=
+   e.results?.[0]?.[0]?.transcript||"";
+
+  $("chatInput").value=text;
+
+  showToast("Voice question मिल गया।");
+ };
+
+ recognition.onerror=e=>{
+  console.error(e);
+  showToast("Voice input नहीं मिल पाया।");
+ };
+
+ recognition.onend=()=>{
+  $("voiceBtn").textContent="🎙️";
+  recognition=null;
+ };
+
+ try{
+  recognition.start();
+ }catch(err){
+  console.error(err);
+  $("voiceBtn").textContent="🎙️";
+ }
+}
+
+
+/* ============================================================
+   AI SPEECH HELPER
+   API answer आने के बाद future use
+============================================================ */
+
+function speakAI(text){
+
+ if(!("speechSynthesis" in window)){
+  showToast("इस browser में voice reply supported नहीं है।");
+  return;
+ }
+
+ window.speechSynthesis.cancel();
+
+ const utterance=
+  new SpeechSynthesisUtterance(text);
+
+ utterance.lang="hi-IN";
+ utterance.rate=.95;
+ utterance.pitch=1;
+
+ window.speechSynthesis.speak(utterance);
+}
+
+
+/* ============================================================
+   PROGRESS
+============================================================ */
+
+async function loadStats(){
+
+ if(!currentUser)return;
+
+ try{
+
+  const tests=await db.collection("users")
+   .doc(currentUser.uid)
+   .collection("tests")
+   .get();
+
+  const practice=await db.collection("users")
+   .doc(currentUser.uid)
+   .collection("practice")
+   .get();
+
+  $("statTests").textContent=tests.size;
+  $("statPractice").textContent=practice.size;
+
+  let total=0;
+
+  tests.forEach(doc=>{
+   total+=Number(doc.data().score||0);
+  });
+
+  const avg=
+   tests.size
+    ?Math.round(total/tests.size)
+    :0;
+
+  $("statScore").textContent=`${avg}%`;
+
+ }catch(err){
+  console.error(err);
+ }
+}
+
 
 async function renderProgress(){
 
- const tests=await getTests();
+ const box=$("progressContent");
 
- $("app").innerHTML=`
- <div class="screen">
-  <div class="topbar">
-   <button class="iconbtn" onclick="renderHome()">←</button>
-   <h1>My Progress</h1><div></div>
-  </div>
-
+ box.innerHTML=`
   <div class="card">
-   <h2>📊 Your Performance</h2>
+   <div class="spinner"></div>
+   Loading progress...
+  </div>
+ `;
+
+ if(!currentUser)return;
+
+ try{
+
+  const tests=await db.collection("users")
+   .doc(currentUser.uid)
+   .collection("tests")
+   .orderBy("createdAt","desc")
+   .limit(20)
+   .get();
+
+  const practice=await db.collection("users")
+   .doc(currentUser.uid)
+   .collection("practice")
+   .orderBy("createdAt","desc")
+   .limit(20)
+   .get();
+
+  let html="";
+
+  html+=`
    <div class="stats">
-    <div class="stat"><b>${tests.length}</b><span>Tests</span></div>
-    <div class="stat"><b>${calcAverage(tests)}%</b><span>Average</span></div>
-    <div class="stat"><b>${Math.max(...tests.map(x=>x.score||0),0)}%</b><span>Best</span></div>
-   </div>
-  </div>
-
-  <div class="card">
-   <h2>Recent Tests</h2>
-   ${tests.length?tests.map(t=>`
-    <div class="option">
-     <b>${t.score||0}%</b>
-     <span class="small">
-      • ${t.correct||0}/${t.total||0}
-      • ${new Date(t.date).toLocaleDateString()}
-     </span>
+    <div class="stat">
+     <b>${tests.size}</b>
+     <span>Tests</span>
     </div>
-   `).join(""):`<p class="small">अभी कोई test नहीं दिया है।</p>`}
-  </div>
- </div>
-
- ${bottomNav("progress")}`;
-}
-
-
-/* =========================================================
-   SETTINGS
-========================================================= */
-
-function renderSettings(){
-
- $("app").innerHTML=`
- <div class="screen">
-  <div class="topbar">
-   <button class="iconbtn" onclick="renderHome()">←</button>
-   <h1>Settings</h1><div></div>
-  </div>
-
-  <div class="card">
-   <h2>👤 Profile</h2>
-   <p><b>Name:</b> ${escapeHTML(profile?.name||"")}</p>
-   <p><b>Board:</b> ${escapeHTML(profile?.board||"")}</p>
-   <p><b>Class:</b> ${escapeHTML(profile?.class||"")}</p>
-   <p><b>Stream:</b> ${escapeHTML(profile?.stream||"Not applicable")}</p>
-   <p><b>Subject:</b> ${escapeHTML(subjectLabel())}</p>
-  </div>
-
-  <button class="btn secondary" onclick="renderProfileSetup()">✏️ Change Profile</button>
-  <button class="btn red" onclick="logoutUser()">Logout</button>
- </div>`;
-}
-
-async function logoutUser(){
- await signOut(auth);
-}
-
-window.renderSettings=renderSettings;
-window.renderProfileSetup=renderProfileSetup;
-window.renderProgress=renderProgress;
-
-
-/* =========================================================
-   BOTTOM NAV
-========================================================= */
-
-function bottomNav(active){
-
- return `
- <div class="nav">
-  <button class="${active==="home"?"active":""}" onclick="renderHome()">
-   <i>🏠</i>Home
-  </button>
-
-  <button class="${active==="test"?"active":""}" onclick="renderTestSetup()">
-   <i>📝</i>Test
-  </button>
-
-  <button class="${active==="practice"?"active":""}" onclick="renderPracticeSetup()">
-   <i>🎯</i>Practice
-  </button>
-
-  <button class="${active==="progress"?"active":""}" onclick="renderProgress()">
-   <i>📊</i>Progress
-  </button>
- </div>`;
-}
-
-
-/* =========================================================
-   LOADING
-========================================================= */
-
-function renderLoading(text){
- $("app").innerHTML=`
- <div class="screen center">
-  <div class="card" style="width:100%;text-align:center">
-   <div style="font-size:50px">🤖</div>
-   <h2>${escapeHTML(text)}</h2>
-   <div class="loading">
-    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    <div class="stat">
+     <b>${practice.size}</b>
+     <span>Practice</span>
+    </div>
+    <div class="stat">
+     <b>${studentProfile?.class||"-"}</b>
+     <span>Class</span>
+    </div>
    </div>
-   <p class="small">थोड़ा समय लग सकता है...</p>
-  </div>
- </div>`;
+  `;
+
+  html+=`<div class="section-title">Recent Tests</div>`;
+
+  if(!tests.size){
+
+   html+=`
+    <div class="card">
+     <div class="muted">
+      अभी कोई test attempt नहीं किया गया।
+     </div>
+    </div>
+   `;
+
+  }else{
+
+   tests.forEach(doc=>{
+
+    const d=doc.data();
+
+    html+=`
+     <div class="card">
+      <div style="display:flex;justify-content:space-between">
+       <b>AI Diagnostic Test</b>
+       <b style="color:var(--primary)">
+        ${Number(d.score||0)}%
+       </b>
+      </div>
+
+      <div class="progress-bar">
+       <div class="progress-fill"
+            style="width:${Math.min(100,Number(d.score||0))}%">
+       </div>
+      </div>
+
+      <div class="muted" style="margin-top:8px">
+       ${Number(d.correct||0)} / ${Number(d.total||0)} correct
+      </div>
+     </div>
+    `;
+   });
+  }
+
+  html+=`<div class="section-title">Practice History</div>`;
+
+  if(!practice.size){
+
+   html+=`
+    <div class="card">
+     <div class="muted">
+      अभी कोई practice attempt नहीं किया गया।
+     </div>
+    </div>
+   `;
+
+  }else{
+
+   practice.forEach(doc=>{
+
+    const d=doc.data();
+
+    html+=`
+     <div class="card">
+      <div style="display:flex;justify-content:space-between">
+       <b>Practice</b>
+       <b style="color:var(--primary)">
+        ${Number(d.score||0)}%
+       </b>
+      </div>
+
+      <div class="muted" style="margin-top:7px">
+       ${Number(d.correct||0)} / ${Number(d.total||0)} correct
+      </div>
+     </div>
+    `;
+   });
+  }
+
+  box.innerHTML=html;
+
+ }catch(err){
+
+  console.error(err);
+
+  box.innerHTML=`
+   <div class="error">
+    Progress load नहीं हो पाया।
+   </div>
+  `;
+ }
 }
 
 
-/* =========================================================
-   UTILITIES
-========================================================= */
+/* ============================================================
+   FEEDBACK
+============================================================ */
 
-function fileToBase64(file){
- return new Promise((resolve,reject)=>{
-  const r=new FileReader();
-  r.onload=()=>resolve(r.result);
-  r.onerror=reject;
-  r.readAsDataURL(file);
- });
+function setRating(r){
+
+ selectedRating=r;
+
+ document.querySelectorAll(".star")
+  .forEach((x,i)=>{
+   x.classList.toggle("active",i<r);
+  });
 }
 
-function escapeHTML(v){
- return String(v??"")
- .replace(/&/g,"&amp;")
- .replace(/</g,"&lt;")
- .replace(/>/g,"&gt;")
- .replace(/"/g,"&quot;")
- .replace(/'/g,"&#039;");
-}
+async function submitFeedback(){
 
-function escapeAttr(v){
- return escapeHTML(v).replace(/`/g,"&#096;");
-}
+ if(!currentUser)return;
 
-function formatText(v){
- return escapeHTML(v)
- .replace(/\*\*(.*?)\*\*/g,"<b>$1</b>")
- .replace(/\n/g,"<br>");
-}
+ const text=$("feedbackText").value.trim();
 
+ if(!selectedRating){
+  showToast("पहले rating दें।");
+  return;
+ }
 
-/* =========================================================
-   FIREBASE AUTH STATE
-========================================================= */
-
-onAuthStateChanged(auth,async u=>{
-
- user=u;
-
- if(!u){
-  renderAuth("login");
+ if(!text){
+  showToast("Feedback लिखें।");
   return;
  }
 
  try{
 
-  const snap=await getDoc(doc(db,"users",u.uid));
+  await db.collection("users")
+   .doc(currentUser.uid)
+   .collection("feedback")
+   .add({
+    rating:selectedRating,
+    text,
+    createdAt:firebase.firestore.FieldValue.serverTimestamp()
+   });
 
-  if(snap.exists() && snap.data().name){
+  $("feedbackMessage").innerHTML=`
+   <div class="success">
+    धन्यवाद! आपका feedback save हो गया। ❤️
+   </div>
+  `;
 
-   profile=snap.data();
+  $("feedbackText").value="";
+  setRating(0);
 
-   selectedBoard=profile.board||"CBSE";
-   selectedClass=profile.class||"10";
-   selectedStream=profile.stream||"";
-   selectedSubject=profile.subject||"mathematics";
+ }catch(err){
 
-   renderHome();
+  console.error(err);
 
-  }else{
-   renderProfileSetup();
-  }
-
- }catch(e){
-  console.error(e);
-  toast("Profile load नहीं हो पाया।");
-  renderProfileSetup();
+  $("feedbackMessage").innerHTML=`
+   <div class="error">
+    Feedback save नहीं हो पाया।
+   </div>
+  `;
  }
-});
+}
+
+
+/* ============================================================
+   LOGOUT
+============================================================ */
+
+async function logout(){
+
+ try{
+
+  clearInterval(timerInterval);
+
+  await auth.signOut();
+
+  currentUser=null;
+  studentProfile=null;
+
+  $("mainApp").classList.add("hidden");
+  $("profileScreen").classList.add("hidden");
+  $("authScreen").classList.remove("hidden");
+
+  switchAuth("login");
+
+  $("loginId").value="";
+  $("loginPassword").value="";
+
+ }catch(err){
+
+  console.error(err);
+
+  showToast("Logout नहीं हो पाया।");
+ }
+}
+
+
+/* ============================================================
+   INITIAL UI
+============================================================ */
+
+$("loading").classList.add("hidden");
 
 </script>
+
 </body>
 </html>
